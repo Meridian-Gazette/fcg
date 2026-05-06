@@ -147,9 +147,9 @@
 
 <header class="masthead">
   <div class="brand">— Continental Intelligence Agency or What The Butler Saw —</div>
-<br>
+
   <div class="brand-mark">The Meridian Gazette</div>
-<br>
+
   <div class="meta-line">
     <span>FCG Infoservis &nbsp;  &nbsp; &nbsp;   &nbsp; &nbsp;  </span>
     <span id="current-date">xyz</span>
@@ -196,11 +196,21 @@ document.getElementById('current-date').innerText = new Date().toLocaleDateStrin
                     // Odstranění Jekyll front matter
                     const content = text.replace(/^---[\s\S]*?---\n*/, '');
                     const dateStr = file.name.split('-').slice(0,3).join('.');
+                    
+                    // Extrahování názvu z první h1/h2 v obsahu, nebo z názvu souboru
+                    let title = 'Untitled';
+                    const headingMatch = content.match(/^#+\s+(.+?)$/m);
+                    if (headingMatch) {
+                        title = headingMatch[1];
+                    } else {
+                        // Fallback: odvozeno z názvu souboru (bez data a .md)
+                        title = file.name.split('-').slice(3).join(' ').replace('.md', '');
+                    }
 
                     const article = document.createElement('article');
                     article.innerHTML = `
                         <div class="kicker">${dateStr}</div>
-                        <h1 class="post-title">TEST 001</h1>
+                        <h1 class="post-title">${title}</h1>
                         <div class="post-content">${content.replace(/\n/g, '<br>')}</div>
                         <div style="text-align: center; color: var(--gold); margin-top: 40px;">✦ &nbsp;&nbsp;&nbsp; ✦ &nbsp;&nbsp;&nbsp; ✦</div>
                     `;
