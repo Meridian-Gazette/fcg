@@ -6,7 +6,7 @@ from datetime import datetime
 client = anthropic.Anthropic(api_key=os.environ["CLAUDE_API_KEY"])
 
 # Tady definuj svůj prompt
-MY_PROMPT = "Write a short nanofiction! Any topic apart from love and relationships!"
+MY_PROMPT = "Write a short nanofiction! Any topic apart from love and relationships! (in English) "
 
 response = client.messages.create(
     model="claude-haiku-4-5-20251001",  # Aktualizované ID modelu
