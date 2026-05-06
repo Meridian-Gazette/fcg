@@ -199,9 +199,12 @@ document.getElementById('current-date').innerText = new Date().toLocaleDateStrin
                     
                     // Extrahování názvu z první h1/h2 v obsahu, nebo z názvu souboru
                     let title = 'Untitled';
+                    let processedContent = content;
                     const headingMatch = content.match(/^#+\s+(.+?)$/m);
                     if (headingMatch) {
                         title = headingMatch[1];
+                        // Odstranit nadpis z obsahu
+                        processedContent = content.replace(/^#+\s+.+?\n*/m, '');
                     } else {
                         // Fallback: odvozeno z názvu souboru (bez data a .md)
                         title = file.name.split('-').slice(3).join(' ').replace('.md', '');
@@ -211,7 +214,7 @@ document.getElementById('current-date').innerText = new Date().toLocaleDateStrin
                     article.innerHTML = `
                         <div class="kicker">${dateStr}</div>
                         <h1 class="post-title">${title}</h1>
-                        <div class="post-content">${content.replace(/\n/g, '<br>')}</div>
+                        <div class="post-content">${processedContent.replace(/\n/g, '<br>')}</div>
                         <div style="text-align: center; color: var(--gold); margin-top: 40px;">✦ &nbsp;&nbsp;&nbsp; ✦ &nbsp;&nbsp;&nbsp; ✦</div>
                     `;
                     feedElement.appendChild(article);
