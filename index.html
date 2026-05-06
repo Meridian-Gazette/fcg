@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>FCG INFOSERVIS Ultimate</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.6; background: #f4f4f9; }
+        article { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        .date { color: #888; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <h1>Můj Denní AI Feed</h1>
+    <div id="feed">Načítám příspěvky...</div>
+
+    <script>
+        // GitHub API pro načtení seznamu souborů ve složce _posts
+        // Změň 'jansulc44' a 'fcg' za své jméno a název repa, pokud jsou jiné
+        const user = 'jansulc44';
+        const repo = 'fcg';
+
+        async function loadFeed() {
+            try {
+                const response = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/_posts`);
+                const files = await response.json();
+                const feedElement = document.getElementById('feed');
+                feedElement.innerHTML = '';
+
+                // Seřadíme soubory od nejnovějšího (podle názvu)
+                files.reverse().forEach(async file => {
+                    if (file.name.endsWith('.md')) {
+                        const res = await fetch(file.download_url);
+                        const text = await res.text();
+                        
+                        // Odstranění "front matter" (toho mezi ---)
+                        const content = text.replace(/^---[\s\S]*?---\n*/, '');
+                        
+                        const article = document.createElement('article');
+                        article.innerHTML = `
+                            <div class="date">${file.name.replace('-post.md', '')}</div>
+                            <div>${content.replace(/\n/g, '<br>')}</div>
+                        `;
+                        feedElement.appendChild(article);
+                    }
+                });
+            } catch (e) {
+                document.getElementById('feed').innerText = 'Chyba při načítání feedu.';
+            }
+        }
+        loadFeed();
+    </script>
+</body>
+</html>
