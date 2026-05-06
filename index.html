@@ -171,6 +171,12 @@
     // Aktualizace dnešního data v hlavičce
     document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' }).toUpperCase();
 
+
+document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-GB', { month: 'long' ,  year: 'numeric'   });
+
+
+
+
     async function loadFeed() {
         try {
             const response = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/_posts`);
