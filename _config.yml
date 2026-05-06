@@ -1,12 +1,12 @@
 title: INFOSERVIS FCG Ultimate
 description: Geopolitical news and insights
-theme: minima # Tohle je základní hezká šablona
 remote_theme: jekyll/minima
 
-# Nastavení pro zobrazení příspěvků
-defaults:
-  - scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: "post"
+# Explicitní definice pluginů
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-remote-theme
+
+# Toto vynutí správné řazení
+incremental: false
