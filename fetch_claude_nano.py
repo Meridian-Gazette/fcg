@@ -9,7 +9,7 @@ client = anthropic.Anthropic(api_key=os.environ["CLAUDE_API_KEY"])
 with open("sys_instr_nano.txt", "r", encoding="utf-8") as f:
     system_instructions = f.read()
 
-with open("user_prompt_geo3.txt", "r", encoding="utf-8") as f:
+with open("user_prompt_nano.txt", "r", encoding="utf-8") as f:
     user_prompt = f.read()
 
 response = client.messages.create(
