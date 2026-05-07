@@ -5,13 +5,18 @@ from datetime import datetime
 # Načtení API klíče z prostředí GitHub Actions
 client = anthropic.Anthropic(api_key=os.environ["CLAUDE_API_KEY"])
 
-# Tady definuj svůj prompt
-MY_PROMPT = "Give me short (not more then 15 sentences) overview on politics - latest news. Only Europa and Russia region! (in English) "
+# Načtení systémových instrukcí a uživatelského promptu ze souborů
+with open("sys_instr_geo2.txt", "r", encoding="utf-8") as f:
+    system_instructions = f.read()
+
+with open("user_prompt_geo2.txt", "r", encoding="utf-8") as f:
+    user_prompt = f.read()
 
 response = client.messages.create(
     model="claude-haiku-4-5-20251001",  # Aktualizované ID modelu
     max_tokens=1024,
-    messages=[{"role": "user", "content": MY_PROMPT}]
+    system=system_instructions,
+    messages=[{"role": "user", "content": user_prompt}]
 )
 
 content = response.content[0].text
