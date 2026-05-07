@@ -22,7 +22,7 @@
 
   body {
     background: var(--paper);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0 0.06 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0.3'/%3E%3C/filter%3E%3Crect width='200' height='200' fill='%23f4ede1'/%3E%3Crect width='200' height='200' fill='%23f9f5ee' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
     color: var(--ink);
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 19px;
@@ -32,9 +32,9 @@
   /* Úprava hlavičky - nyní lícuje s feedem */
   .masthead {
     border-bottom: 3px double var(--ink);
-    padding: 28px 20px 18px; /* přidáno 20px paddingu po stranách */
+    padding: 28px 20px 18px;
     margin: 0 auto;
-    max-width: 760px; /* Sjednoceno s šířkou feedu */
+    max-width: 760px;
     text-align: center;
   }
 
@@ -66,7 +66,7 @@
     display: flex;
     justify-content: space-between;
     margin-top: 4px;
-    padding: 0; /* padding zrušen, protože masthead už má 20px */
+    padding: 0;
   }
 
   #feed {
@@ -123,6 +123,118 @@
     font-style: italic;
   }
 
+  /* Markdown-derived styles */
+  .post-content h2 {
+    font-size: 1.6em;
+    font-weight: 600;
+    margin-top: 30px;
+    margin-bottom: 16px;
+    color: var(--ink);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 10px;
+  }
+
+  .post-content h3 {
+    font-size: 1.3em;
+    font-weight: 600;
+    margin-top: 24px;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+
+  .post-content h4,
+  .post-content h5,
+  .post-content h6 {
+    font-size: 1.1em;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: var(--ink);
+  }
+
+  .post-content p {
+    margin-bottom: 16px;
+    line-height: 1.8;
+  }
+
+  .post-content strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .post-content em {
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
+  .post-content ul,
+  .post-content ol {
+    margin: 16px 0 16px 32px;
+    padding: 0;
+  }
+
+  .post-content li {
+    margin-bottom: 10px;
+    line-height: 1.8;
+  }
+
+  .post-content li strong {
+    color: var(--oxblood);
+    font-weight: 600;
+  }
+
+  .post-content blockquote {
+    border-left: 3px solid var(--oxblood);
+    padding: 16px 20px;
+    margin: 20px 0;
+    background-color: rgba(107, 31, 36, 0.05);
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
+  .post-content hr {
+    border: none;
+    height: 2px;
+    background: var(--rule);
+    margin: 40px 0;
+    position: relative;
+  }
+
+  .post-content hr::before {
+    content: "✦";
+    position: absolute;
+    left: 50%;
+    top: -12px;
+    transform: translateX(-50%);
+    background: var(--paper);
+    padding: 0 12px;
+    color: var(--gold);
+    font-size: 18px;
+  }
+
+  .post-content code {
+    background-color: var(--paper-deep);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+    color: var(--oxblood);
+  }
+
+  .post-content pre {
+    background-color: var(--paper-deep);
+    padding: 16px;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 16px 0;
+  }
+
+  .post-content pre code {
+    background: none;
+    padding: 0;
+    color: var(--ink);
+  }
+
   .footer {
     max-width: 760px;
     margin: 40px auto;
@@ -170,6 +282,80 @@
 
     document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-GB', { month: 'long' ,  year: 'numeric'   });
 
+    // Markdown to HTML conversion function
+    function markdownToHtml(markdown) {
+        let html = markdown;
+
+        // Remove horizontal rule underscores and convert to hr
+        html = html.replace(/_{5,}|\*{5,}|-{5,}/g, '<hr>');
+
+        // Headings (h2-h6)
+        html = html.replace(/^### (.+?)$/gm, '<h3>$1</h3>');
+        html = html.replace(/^## (.+?)$/gm, '<h2>$1</h2>');
+        html = html.replace(/^#### (.+?)$/gm, '<h4>$1</h4>');
+        html = html.replace(/^##### (.+?)$/gm, '<h5>$1</h5>');
+        html = html.replace(/^###### (.+?)$/gm, '<h6>$1</h6>');
+
+        // Escape HTML before processing
+        const tempDiv = document.createElement('div');
+
+        // Bold **text** and __text__
+        html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
+
+        // Italic *text* and _text_ (but not in bold)
+        html = html.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+        html = html.replace(/(?<!_)_(?!_)(.+?)(?<!_)_(?!_)/g, '<em>$1</em>');
+
+        // Blockquotes
+        html = html.replace(/^> (.+?)$/gm, '<blockquote>$1</blockquote>');
+        html = html.replace(/<\/blockquote>\n<blockquote>/g, '\n');
+
+        // Unordered lists
+        html = html.replace(/^\- (.+?)$/gm, '<li>$1</li>');
+        html = html.replace(/(<li>.*?<\/li>)/s, (match) => {
+            return '<ul>' + match + '</ul>';
+        });
+        html = html.replace(/<\/ul>\n<ul>/g, '');
+
+        // Ordered lists
+        html = html.replace(/^\d+\. (.+?)$/gm, '<li>$1</li>');
+
+        // Line breaks - convert multiple newlines to paragraphs
+        const lines = html.split('\n');
+        let result = [];
+        let currentBlock = [];
+
+        for (let line of lines) {
+            line = line.trim();
+            if (line === '') {
+                if (currentBlock.length > 0) {
+                    result.push(currentBlock.join('\n'));
+                    currentBlock = [];
+                }
+            } else if (line.match(/^<h[2-6]>|^<blockquote>|^<ul>|^<ol>|^<hr>|^<li>/)) {
+                if (currentBlock.length > 0) {
+                    result.push('<p>' + currentBlock.join(' ') + '</p>');
+                    currentBlock = [];
+                }
+                result.push(line);
+            } else {
+                currentBlock.push(line);
+            }
+        }
+        if (currentBlock.length > 0) {
+            result.push('<p>' + currentBlock.join(' ') + '</p>');
+        }
+
+        html = result.join('\n');
+
+        // Wrap orphan list items in ul/ol
+        html = html.replace(/(?<!<ul>)(?<!<ol>)\n?<li>(.+?)<\/li>/g, '<ul><li>$1</li></ul>');
+        html = html.replace(/<\/ul>\n<ul>/g, '');
+
+        return html;
+    }
+
     async function loadFeed() {
         try {
             const response = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/_posts`);
@@ -199,11 +385,14 @@
                         title = file.name.split('-').slice(3).join(' ').replace('.md', '');
                     }
 
+                    // Convert markdown to HTML
+                    const htmlContent = markdownToHtml(processedContent);
+
                     const article = document.createElement('article');
                     article.innerHTML = `
                         <div class="kicker">${dateStr}</div>
                         <h1 class="post-title">${title}</h1>
-                        <div class="post-content">${processedContent.replace(/\n/g, '<br>')}</div>
+                        <div class="post-content">${htmlContent}</div>
                         <div style="text-align: center; color: var(--gold); margin-top: 40px;">✦ &nbsp;&nbsp;&nbsp; ✦ &nbsp;&nbsp;&nbsp; ✦</div>
                     `;
                     feedElement.appendChild(article);
