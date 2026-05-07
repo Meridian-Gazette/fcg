@@ -19,3 +19,6 @@ He dreamed he was setting sail once more.
 The Deaf Man and the Piano
 He was born deaf, yet he loved music. He learned to play the piano by feeling the vibrations of the keys. He composed melodies by imagining the sounds they made. One day he received a hearing implant that allowed him to hear for the first time.
 He listened to his own music and wept with both joy and disappointment.
+
+====
+Technical note: use simply "Nanofiction" as a name of your answer.
