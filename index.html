@@ -173,7 +173,7 @@
 
     // Aktualizace dnešního data v hlavičce
 
-document.getElementById('current-date').innerText = new Date().toLocaleDateString('cs-CZ', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' });
+document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-GB', { month: 'long' ,  year: 'numeric'   });
 
 
 
@@ -195,7 +195,9 @@ document.getElementById('current-date').innerText = new Date().toLocaleDateStrin
                     
                     // Odstranění Jekyll front matter
                     const content = text.replace(/^---[\s\S]*?---\n*/, '');
-                    const dateStr = file.name.split('-').slice(0,3).join('.');
+                    const dateParts = file.name.split("-").slice(0,3);
+                    const dateObj = new Date(`${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`);
+                    const dateStr = dateObj.toLocaleDateString("cs-CZ", { weekday: "short", day: "numeric", month: "long", year: "numeric" });
                     
                     // Extrahování názvu z první h1/h2 v obsahu, nebo z názvu souboru
                     let title = 'Untitled';
