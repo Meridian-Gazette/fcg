@@ -16,6 +16,12 @@ response = client.messages.create(
     model="claude-opus-4-6",  # Aktualizované ID modelu
     max_tokens=8192,
     system=system_instructions,
+    tools=[
+        {
+            "type": "web_search_20250305",
+            "name": "web_search"
+        }
+    ],
     messages=[{"role": "user", "content": user_prompt}]
 )
 
