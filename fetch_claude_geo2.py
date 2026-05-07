@@ -13,7 +13,7 @@ with open("user_prompt_geo2.txt", "r", encoding="utf-8") as f:
     user_prompt = f.read()
 
 response = client.messages.create(
-    model="claude-opus-4-6",  # Aktualizované ID modelu
+    model="claude-sonnet-4-6",   
     max_tokens=8192,
     system=system_instructions,
     tools=[
