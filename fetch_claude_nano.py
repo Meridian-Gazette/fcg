@@ -9,7 +9,7 @@ client = anthropic.Anthropic(api_key=os.environ["CLAUDE_API_KEY"])
 MY_PROMPT = "Write a short nanofiction! Any topic apart from love and relationships! (in English) "
 
 response = client.messages.create(
-    model="claude-haiku-4-5-20251001",  # Aktualizované ID modelu
+    model="claude-opus-4-6",  # Aktualizované ID modelu
     max_tokens=1024,
     messages=[{"role": "user", "content": MY_PROMPT}]
 )
