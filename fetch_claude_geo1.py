@@ -25,7 +25,11 @@ response = client.messages.create(
     messages=[{"role": "user", "content": user_prompt}]
 )
 
-content = response.content[0].text
+# content = response.content[0].text
+content = "\n".join(
+    block.text for block in response.content if block.type == "text"
+)
+
 date_str = datetime.now().strftime("%Y-%m-%d")
 
 # Vytvoření složky pro příspěvky, pokud neexistuje
