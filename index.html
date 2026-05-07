@@ -29,11 +29,12 @@
     line-height: 1.7;
   }
 
+  /* Úprava hlavičky - nyní lícuje s feedem */
   .masthead {
     border-bottom: 3px double var(--ink);
-    padding: 28px 0 18px;
+    padding: 28px 20px 18px; /* přidáno 20px paddingu po stranách */
     margin: 0 auto;
-    max-width: 1100px;
+    max-width: 760px; /* Sjednoceno s šířkou feedu */
     text-align: center;
   }
 
@@ -65,10 +66,9 @@
     display: flex;
     justify-content: space-between;
     margin-top: 4px;
-    padding: 0 20px;
+    padding: 0; /* padding zrušen, protože masthead už má 20px */
   }
 
-  /* Styl pro feed článků */
   #feed {
     max-width: 760px;
     margin: 0 auto;
@@ -112,7 +112,6 @@
     hyphens: auto;
   }
 
-  /* První písmeno článku (drop cap) */
   .post-content p:first-of-type::first-letter {
     font-family: 'Cormorant Infant', serif;
     font-size: 4.5em;
@@ -151,7 +150,7 @@
   <div class="brand-mark">The Meridian Gazette</div>
 
   <div class="meta-line">
-    <span>FCG Infoservis </span>
+    <span>FCG Infoservis</span>
     <span id="current-date">xyz</span>
   </div>
 </header>
@@ -169,7 +168,6 @@
     const user = 'Meridian-Gazette';
     const repo = 'fcg';
 
-    // Aktualizace dnešního data v hlavičce
     document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-GB', { month: 'long' ,  year: 'numeric'   });
 
     async function loadFeed() {
@@ -179,7 +177,6 @@
             const feedElement = document.getElementById('feed');
             feedElement.innerHTML = '';
 
-            // Seřadit od nejnovějšího
             files.sort((a, b) => b.name.localeCompare(a.name));
 
             for (const file of files) {
@@ -187,22 +184,18 @@
                     const res = await fetch(file.download_url);
                     const text = await res.text();
                     
-                    // Odstranění Jekyll front matter
                     const content = text.replace(/^---[\s\S]*?---\n*/, '');
                     const dateParts = file.name.split("-").slice(0,3);
                     const dateObj = new Date(`${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`);
                     const dateStr = dateObj.toLocaleDateString("cs-CZ", { weekday: "short", day: "numeric", month: "long", year: "numeric" });
                     
-                    // Extrahování názvu z první h1/h2 v obsahu, nebo z názvu souboru
                     let title = 'Untitled';
                     let processedContent = content;
                     const headingMatch = content.match(/^#{1,6}\s+(.+?)$/m);
                     if (headingMatch) {
                         title = headingMatch[1].trim();
-                        // Odstranit nadpis z obsahu (včetně nějaké prázdné řádky za ním)
                         processedContent = content.replace(/^#{1,6}\s+.+?$\n*/m, '').trimStart();
                     } else {
-                        // Fallback: odvozeno z názvu souboru (bez data a .md)
                         title = file.name.split('-').slice(3).join(' ').replace('.md', '');
                     }
 
