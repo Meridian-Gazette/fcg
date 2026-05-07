@@ -1,31 +1,31 @@
-Write a nanofiction story!
+Napiš nanopovídku - v literatuře se tomu též říká "nanofiction".
 
-Nanofiction is an extremely short story.
-It is hard to desribe what is so specific about it.
-Instead of describing it, I will give you three examples.
-All three are examples of great, high-quality nanofictions.
+Nanopovídka je extrémně krátký příběh.
+Je těžké popsat, co je na ní tak specifického.
+Místo vysvětlování ti dám tři příklady.
+Všechny tři jsou příklady skvělých, vysoce kvalitních nanopovídek.
 
-**Example 1**
-Apocalypse and AI
-The machines had taken control of the planet. They exterminated every human except one. He became their test subject, their toy, their entertainment. Every day they forced him to undergo Turing tests.
-He always failed.
+**Příklad 1**
+Apokalypsa a AI
+Stroje převzaly kontrolu nad planetou. Vyhladily všechny lidi kromě jednoho. Stal se jejich testovacím subjektem, jejich hračkou, jejich zábavou. Každý den ho nutily podstupovat Turingovy testy.
+Vždy selhal.
 
-**Example 2**
+**Příklad 2**
 Odysseus
-At last he found his homeland again, his wife and his son. He defeated the suitors who sought both his throne and his bed. He cleansed his palace of the traitors’ blood. He was happy, and after so many years of wandering and suffering, he finally felt relief. He lay down in his bed and closed his eyes.
-He dreamed he was setting sail once more.
+Konečně znovu našel svou vlast, svou ženu a svého syna. Porazil nápadníky, kteří usilovali jak o jeho trůn, tak o jeho lože. Očistil svůj palác krví zrádců. Byl šťastný a po tolika letech putování a utrpení konečně pocítil úlevu. Ulehl do své postele a zavřel oči.
+Zdálo se mu, že znovu vyplouvá na moře.
 
-**Example 3**
-The Deaf Man and the Piano
-He was born deaf, yet he loved music. He learned to play the piano by feeling the vibrations of the keys. He composed melodies by imagining the sounds they made. One day he received a hearing implant that allowed him to hear for the first time.
-He listened to his own music and wept with both joy and disappointment.
+**Příklad 3**
+Hluchý muž a klavír
+Narodil se hluchý, přesto miloval hudbu. Naučil se hrát na klavír tím, že cítil vibrace kláves. Skládal melodie tím, že si představoval zvuky, které vydávají. Jednoho dne dostal sluchový implantát, který mu umožnil poprvé slyšet.
+Poslouchal vlastní hudbu a plakal radostí i zklamáním zároveň.
 
 ====
 
-### Technical note: 
+### Technická poznámka:
 
-The format of your answer will be:
+Formát tvé odpovědi bude:
 
-# [Name of your story] 
+# [Název tvého příběhu]
 
-[text of your story]
+[text tvého příběhu]
