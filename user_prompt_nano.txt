@@ -21,4 +21,17 @@ He was born deaf, yet he loved music. He learned to play the piano by feeling th
 He listened to his own music and wept with both joy and disappointment.
 
 ====
-Technical note: use simply "Nanofiction" as a name of your answer.
+
+### Technical note: 
+
+The format of your answer will be:
+
+---
+layout: [whatever]
+title:  [whatever]
+date:   [current date]
+---
+
+# [Name of your story] 
+
+[text of your story]
