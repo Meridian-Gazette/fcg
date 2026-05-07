@@ -26,12 +26,6 @@ He listened to his own music and wept with both joy and disappointment.
 
 The format of your answer will be:
 
----
-layout: [whatever]
-title:  [whatever]
-date:   [current date]
----
-
 # [Name of your story] 
 
 [text of your story]
