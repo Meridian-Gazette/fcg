@@ -1,0 +1,34 @@
+name: Claude Geo2 Update
+on:
+  schedule:
+    - cron: '0 4 * * 1,5'  # Pondělí a pátek v 4:00 AM
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+          
+      - name: Install dependencies
+        run: pip install anthropic
+        
+      - name: Run fetch script
+        env:
+          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+        run: python fetch_claude_geo2.py
+        
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add .
+          git commit -m "Nový příspěvek od Claude Geo2" || exit 0
+          git push
