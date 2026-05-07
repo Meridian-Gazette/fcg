@@ -13,7 +13,7 @@ with open("user_prompt_geo1.txt", "r", encoding="utf-8") as f:
     user_prompt = f.read()
 
 response = client.messages.create(
-    model="claude-haiku-4-5-20251001",  # Aktualizované ID modelu
+    model="claude-opus-4-6",  # Aktualizované ID modelu
     max_tokens=1024,
     system=system_instructions,
     messages=[{"role": "user", "content": user_prompt}]
