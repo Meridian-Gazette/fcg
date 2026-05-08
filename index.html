@@ -337,7 +337,7 @@
             line = line.trim();
             if (line === '') {
                 if (currentBlock.length > 0) {
-                    result.push(currentBlock.join('\n'));
+                    result.push('<p>' + currentBlock.join(' ') + '</p>');
                     currentBlock = [];
                 }
             } else if (line.match(/^<h[2-6]>|^<blockquote>|^<ul>|^<ol>|^<hr>|^<li>/)) {
