@@ -22,7 +22,7 @@
 
   body {
     background: var(--paper);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0.5'/%3E%3C/filter%3E%3Crect width='200' height='200' fill='%23f4ede1' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0.3'/%3E%3C/filter%3E%3Crect width='200' height='200' fill='%23f4ede1'/%3E%3Crect width='200' height='200' fill='%23f9f5ee' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
     color: var(--ink);
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 19px;
@@ -328,41 +328,30 @@
         // Ordered lists
         html = html.replace(/^\d+\. (.+?)$/gm, '<li>$1</li>');
 
-        // Line breaks - convert double+ newlines to paragraph breaks
-        // Split by 2+ consecutive newlines to detect paragraph breaks
-        const paragraphs = html.split(/\n\n+/);
+        // Line breaks - convert multiple newlines to paragraphs
+        const lines = html.split('\n');
         let result = [];
+        let currentBlock = [];
 
-        for (let paragraph of paragraphs) {
-            paragraph = paragraph.trim();
-            if (!paragraph) continue;
-
-            // Split paragraph into lines and process them
-            const lines = paragraph.split('\n');
-            let currentBlock = [];
-
-            for (let line of lines) {
-                line = line.trim();
-                if (!line) continue;
-
-                // Check if line is a block element (heading, hr, blockquote, list)
-                if (line.match(/^<h[2-6]>|^<blockquote>|^<ul>|^<ol>|^<hr>|^<li>/)) {
-                    // Flush current text block as paragraph
-                    if (currentBlock.length > 0) {
-                        result.push('<p>' + currentBlock.join(' ') + '</p>');
-                        currentBlock = [];
-                    }
-                    result.push(line);
-                } else {
-                    // Regular text line - add to current block
-                    currentBlock.push(line);
+        for (let line of lines) {
+            line = line.trim();
+            if (line === '') {
+                if (currentBlock.length > 0) {
+                    result.push(currentBlock.join('\n'));
+                    currentBlock = [];
                 }
+            } else if (line.match(/^<h[2-6]>|^<blockquote>|^<ul>|^<ol>|^<hr>|^<li>/)) {
+                if (currentBlock.length > 0) {
+                    result.push('<p>' + currentBlock.join(' ') + '</p>');
+                    currentBlock = [];
+                }
+                result.push(line);
+            } else {
+                currentBlock.push(line);
             }
-
-            // Flush any remaining text as paragraph
-            if (currentBlock.length > 0) {
-                result.push('<p>' + currentBlock.join(' ') + '</p>');
-            }
+        }
+        if (currentBlock.length > 0) {
+            result.push('<p>' + currentBlock.join(' ') + '</p>');
         }
 
         html = result.join('\n');
