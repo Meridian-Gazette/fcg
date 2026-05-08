@@ -328,30 +328,41 @@
         // Ordered lists
         html = html.replace(/^\d+\. (.+?)$/gm, '<li>$1</li>');
 
-        // Line breaks - convert multiple newlines to paragraphs
-        const lines = html.split('\n');
+        // Line breaks - convert multiple newlines to paragraph breaks
+        // Split by 2+ consecutive newlines to detect paragraph breaks
+        const paragraphs = html.split(/\n\n+/);
         let result = [];
-        let currentBlock = [];
 
-        for (let line of lines) {
-            line = line.trim();
-            if (line === '') {
-                if (currentBlock.length > 0) {
-                    result.push(currentBlock.join('\n'));
-                    currentBlock = [];
+        for (let paragraph of paragraphs) {
+            paragraph = paragraph.trim();
+            if (!paragraph) continue;
+
+            // Split paragraph into lines and process them
+            const lines = paragraph.split('\n');
+            let currentBlock = [];
+
+            for (let line of lines) {
+                line = line.trim();
+                if (!line) continue;
+
+                // Check if line is a block element (heading, hr, blockquote, list)
+                if (line.match(/^<h[2-6]>|^<blockquote>|^<ul>|^<ol>|^<hr>|^<li>/)) {
+                    // Flush current text block as paragraph
+                    if (currentBlock.length > 0) {
+                        result.push('<p>' + currentBlock.join(' ') + '</p>');
+                        currentBlock = [];
+                    }
+                    result.push(line);
+                } else {
+                    // Regular text line - add to current block
+                    currentBlock.push(line);
                 }
-            } else if (line.match(/^<h[2-6]>|^<blockquote>|^<ul>|^<ol>|^<hr>|^<li>/)) {
-                if (currentBlock.length > 0) {
-                    result.push('<p>' + currentBlock.join(' ') + '</p>');
-                    currentBlock = [];
-                }
-                result.push(line);
-            } else {
-                currentBlock.push(line);
             }
-        }
-        if (currentBlock.length > 0) {
-            result.push('<p>' + currentBlock.join(' ') + '</p>');
+
+            // Flush any remaining text as paragraph
+            if (currentBlock.length > 0) {
+                result.push('<p>' + currentBlock.join(' ') + '</p>');
+            }
         }
 
         html = result.join('\n');
