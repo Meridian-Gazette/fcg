@@ -112,7 +112,7 @@
     hyphens: auto;
   }
 
-  .post-content p:first-of-type::first-letter {
+  .post-content p.has-drop-cap::first-letter {
     font-family: 'Cormorant Infant', serif;
     font-size: 4.5em;
     float: left;
@@ -402,6 +402,16 @@
                         <div class="post-content">${htmlContent}</div>
                         <div style="text-align: center; color: var(--gold); margin-top: 40px;">✦ &nbsp;&nbsp;&nbsp; ✦ &nbsp;&nbsp;&nbsp; ✦</div>
                     `;
+
+                    // Drop cap only if first paragraph starts with a letter
+                    const firstP = article.querySelector('.post-content p');
+                    if (firstP) {
+                        const firstChar = firstP.textContent.trim().charAt(0);
+                        if (/\p{L}/u.test(firstChar)) {
+                            firstP.classList.add('has-drop-cap');
+                        }
+                    }
+
                     feedElement.appendChild(article);
                 }
             }
