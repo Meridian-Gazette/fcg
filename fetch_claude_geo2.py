@@ -13,12 +13,12 @@ with open("user_prompt_geo2.txt", "r", encoding="utf-8") as f:
     user_prompt = f.read()
 
 response = client.messages.create(
-    model="claude-sonnet-4-6",   
+    model="claude-opus-4-7",   
     max_tokens=8192,
     system=system_instructions,
     tools=[
         {
-            "type": "web_search_20250305",
+            "type": "web_search_20260209",
             "name": "web_search"
         }
     ],
