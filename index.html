@@ -117,6 +117,44 @@
     color: var(--gold);
   }
 
+  .preamble {
+    margin-left: 30%;
+    margin-bottom: 22px;
+    padding: 10px 14px;
+    border-right: 2px solid var(--gold);
+    text-align: right;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--gold);
+    opacity: 0.75;
+    letter-spacing: 0.01em;
+  }
+
+  .preamble::before {
+    content: "⟡";
+    display: block;
+    font-style: normal;
+    margin-bottom: 4px;
+    font-size: 10px;
+    opacity: 0.6;
+  }
+
+  .preamble p {
+    margin: 0 0 4px 0;
+  }
+
+  .preamble p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 600px) {
+    .preamble {
+      margin-left: 20%;
+    }
+  }
+
   h1.post-title {
     font-size: clamp(32px, 5vw, 48px);
     font-weight: 600;
@@ -423,10 +461,17 @@
 
                     let title = 'Untitled';
                     let processedContent = content;
+                    let preambleHtml = '';
                     const headingMatch = content.match(/^#{1,6}\s+(.+?)$/m);
                     if (headingMatch) {
                         title = headingMatch[1].trim();
-                        processedContent = content.replace(/^#{1,6}\s+.+?$\n*/m, '').trimStart();
+                        const headingIndex = content.indexOf(headingMatch[0]);
+                        const beforeHeading = content.substring(0, headingIndex).trim();
+                        if (beforeHeading) {
+                            const preambleLines = beforeHeading.split(/\n/).filter(l => l.trim()).map(l => `<p>${l.trim()}</p>`).join('');
+                            preambleHtml = `<div class="preamble">${preambleLines}</div>`;
+                        }
+                        processedContent = content.substring(headingIndex + headingMatch[0].length).replace(/^\n+/, '').trimStart();
                     } else {
                         title = file.name.split('-').slice(3).join(' ').replace('.md', '');
                     }
@@ -441,6 +486,7 @@
                     article.id = postId;
                     article.innerHTML = `
                         <div class="kicker" onclick="copyToClipboard('${postId}', this)" title="Klikni pro zkopírování odkazu">${dateStr}</div>
+                        ${preambleHtml}
                         <h1 class="post-title">${title}</h1>
                         <div class="post-content">${htmlContent}</div>
                         <div style="text-align: center; color: var(--gold); margin-top: 40px;">✦ &nbsp;&nbsp;&nbsp; ✦ &nbsp;&nbsp;&nbsp; ✦</div>
