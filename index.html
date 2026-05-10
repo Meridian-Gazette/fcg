@@ -81,18 +81,6 @@
     scroll-margin-top: 80px;
   }
 
-  .article-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 16px;
-    margin-bottom: 20px;
-  }
-
-  .article-meta {
-    flex: 1;
-  }
-
   .kicker {
     font-family: 'Inter', sans-serif;
     font-size: 12px;
@@ -104,6 +92,13 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    text-decoration: none;
+  }
+
+  .kicker:hover {
+    color: var(--gold);
   }
 
   .kicker::before {
@@ -111,31 +106,15 @@
     width: 32px;
     height: 1px;
     background: var(--oxblood);
+    transition: background 0.2s ease;
   }
 
-  .share-btn {
-    background: none;
-    border: 1px solid var(--oxblood);
-    color: var(--oxblood);
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: 8px 12px;
-    cursor: pointer;
-    border-radius: 2px;
-    transition: all 0.2s ease;
-    white-space: nowrap;
+  .kicker:hover::before {
+    background: var(--gold);
   }
 
-  .share-btn:hover {
-    background: var(--oxblood);
-    color: var(--paper);
-  }
-
-  .share-btn.copied {
-    background: var(--oxblood);
-    color: var(--paper);
+  .kicker.copied {
+    color: var(--gold);
   }
 
   h1.post-title {
@@ -291,16 +270,7 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  @media (max-width: 600px) {
-    .article-header {
-      flex-direction: column;
-    }
 
-    .share-btn {
-      width: 100%;
-      text-align: center;
-    }
-  }
 </style>
 </head>
 <body>
@@ -310,7 +280,7 @@
 
   <div class="brand-mark">The Meridian Gazette</div>
 
- 
+
 
   <div class="meta-line">
     <span>FCG Infoservis</span>
@@ -417,15 +387,15 @@
     }
 
     // Copy link to clipboard
-    function copyToClipboard(postId, btn) {
+    function copyToClipboard(postId, el) {
         const url = `${window.location.origin}${window.location.pathname}#${postId}`;
+        const originalText = el.innerText;
         navigator.clipboard.writeText(url).then(() => {
-            const originalText = btn.innerText;
-            btn.innerText = 'Zkopírováno!';
-            btn.classList.add('copied');
+            el.innerText = '✓ Zkopírováno';
+            el.classList.add('copied');
             setTimeout(() => {
-                btn.innerText = originalText;
-                btn.classList.remove('copied');
+                el.innerText = originalText;
+                el.classList.remove('copied');
             }, 2000);
         }).catch(() => {
             alert('Chyba při kopírování odkazu');
@@ -445,12 +415,12 @@
                 if (file.name.endsWith('.md')) {
                     const res = await fetch(file.download_url);
                     const text = await res.text();
-                    
+
                     const content = text.replace(/^---[\s\S]*?---\n*/, '');
                     const dateParts = file.name.split("-").slice(0,3);
                     const dateObj = new Date(`${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`);
                     const dateStr = dateObj.toLocaleDateString("cs-CZ", { weekday: "short", day: "numeric", month: "long", year: "numeric" });
-                    
+
                     let title = 'Untitled';
                     let processedContent = content;
                     const headingMatch = content.match(/^#{1,6}\s+(.+?)$/m);
@@ -470,12 +440,7 @@
                     const article = document.createElement('article');
                     article.id = postId;
                     article.innerHTML = `
-                        <div class="article-header">
-                            <div class="article-meta">
-                        <div class="kicker">${dateStr}</div>
-                            </div>
-                            <button class="share-btn" onclick="copyToClipboard('${postId}', this)">Sdílet</button>
-                        </div>
+                        <div class="kicker" onclick="copyToClipboard('${postId}', this)" title="Klikni pro zkopírování odkazu">${dateStr}</div>
                         <h1 class="post-title">${title}</h1>
                         <div class="post-content">${htmlContent}</div>
                         <div style="text-align: center; color: var(--gold); margin-top: 40px;">✦ &nbsp;&nbsp;&nbsp; ✦ &nbsp;&nbsp;&nbsp; ✦</div>
