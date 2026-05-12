@@ -1,7 +1,7 @@
 name: Claude Geo2 Update
 on:
   schedule:
-    - cron: '0 4 * * 1,5'  # Pondělí a pátek v 4:00 AM
+    - cron: '45 3 * * 3'   
   workflow_dispatch:
 
 jobs:
