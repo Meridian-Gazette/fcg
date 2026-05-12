@@ -1,7 +1,7 @@
 name: Claude Nano Update
 on:
   schedule:
-    - cron: '0 4 * * 2,4'  # Úterý a čtvrtek v 4:00 AM
+    - cron: '45 3 * * 5'  
   workflow_dispatch:
 
 jobs:
