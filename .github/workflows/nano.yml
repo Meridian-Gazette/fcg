@@ -31,4 +31,8 @@ jobs:
           git config --global user.email "action@github.com"
           git add .
           git commit -m "Nový příspěvek od Claude Nano" || exit 0
-          git push
+          for i in 1 2 3 4 5; do
+            git push && break
+            echo "Push selhal (pokus $i/5), čekám 15s..."
+            sleep 15
+          done
