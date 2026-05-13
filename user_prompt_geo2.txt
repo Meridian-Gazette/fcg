@@ -9,13 +9,16 @@ Pokud se stalo něco dalšího významného ve střední Evropě, můžeš to zm
 *Technické poznámky*
 - délka tvé odpovědi: maximálně 15 odstavců
 - formát tvé odpovědi bude:
-  # FCG Europe News
 
-  ## Francie
+  # FCG News
+
+  [do tohoto prostoru nikdy nic nevkládej]
+
+  ## 🇲🇫 Francie 
      [text o Francii]
 
-  ## Německo
-     [text o Francii]
+  ## 🇩🇪 Deutschland 
+     [text o Německu]
 
   atd.
 
