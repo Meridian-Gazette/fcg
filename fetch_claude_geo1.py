@@ -18,12 +18,13 @@ response = client.messages.create(
 ### model="claude-opus-4-6",   
     max_tokens=8192,
     system=system_instructions,
-    tools=[
-        {
-            "type": "web_search_20260209",
-            "name": "web_search"
-        }
-    ],
+# Pozor, nejedu-li na OPUSu, zakomentovat i "tools" parametr !    
+###    tools=[
+###        {
+###            "type": "web_search_20260209",
+###            "name": "web_search"
+###        }
+###    ],
     messages=[{"role": "user", "content": user_prompt}]
 )
 
