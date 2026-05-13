@@ -11,10 +11,12 @@ Pokud se stalo v globální politice ještě něco dalšího významného, můž
 - formát tvé odpovědi bude:
   # FCG World News
 
-  ## USA
+  [do tohoto prostoru nikdy nic nevkládej]
+
+  ## 🇺🇲 USA
      [text o USA]
 
-  ## Izrael
+  ## 🇮🇱 Izrael
      [text o Izraeli]
 
   atd.
