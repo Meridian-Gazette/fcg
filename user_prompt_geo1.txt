@@ -9,6 +9,7 @@ Pokud se stalo v globální politice ještě něco dalšího významného, můž
 *Technické poznámky*
 - délka tvé odpovědi: maximálně 15 odstavců
 - formát tvé odpovědi bude:
+
   # FCG World News
 
   [do tohoto prostoru nikdy nic nevkládej]
