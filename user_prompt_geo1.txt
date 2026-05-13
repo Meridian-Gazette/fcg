@@ -6,7 +6,7 @@ Zaměř se na USA, Izrael, Irán a Čínu.
 Pokud se stalo v globální politice ještě něco dalšího významného, můžeš to též zmínit.
 
 
-*Technické poznámky:*
+*Technické poznámky*
 - délka tvé odpovědi: maximálně 15 odstavců
 - formát tvé odpovědi bude:
   # FCG World News
@@ -21,10 +21,8 @@ Pokud se stalo v globální politice ještě něco dalšího významného, můž
 
 
 
-* Poznámky k používání jazyků/řečí:*
-
+*Poznámky k používání jazyků/řečí*
  - hlavní text musí být VŽDY JEN ČESKY 
-
  - čtenář tvé odpovědi však umí mnoho jazyků; proto když cituješ nějaké politiky, tak můžeš citovat v jejich rodné řeči ; všechny citáty, komentáře politiků, a speciální výrazy ponechávej v původních jazycích - 
 anglicky, německy, francouzsky, polsky, bulharsky, ukrajinsky, slovensky, rusky... ;
 neboj se - tvůj čtenář je polyglot ;)
