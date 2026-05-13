@@ -1,7 +1,8 @@
 name: Claude Nano Update
 on:
-  schedule:
-    - cron: '45 3 * * 5'  # Pátek v 3:45 AM (UTC)
+  # zakomentovavam toto - bude to behat pres cron-job.org
+  # schedule:
+  #   - cron: '45 3 * * 5'  # Pátek v 3:45 AM (UTC)
   workflow_dispatch:
 
 jobs:
