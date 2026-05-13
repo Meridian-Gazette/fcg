@@ -3,7 +3,20 @@ Udělej zpravodajský přehled, co se stalo za poslední cirka týden zajímavé
 Buď aktuální - zkontroluj si to proti aktuálnímu datu!
 
 Zaměř se na Francii, Německo, Českou republiku a Rusko.
+Pokud se stalo něco dalšího významného ve střední Evropě, můžeš to zmínit též.
 
-Jako název své odpovědi použij: "FCG News"
 
-Délka tvé odpovědi: maximálně 15 odstavců.
+Technické poznámky:
+- délka tvé odpovědi: maximálně 15 odstavců
+- formát tvé odpovědi bude:
+  # FCG Europe News
+
+  ## Francie
+     [text o Francii]
+
+  ## Německo
+     [text o Francii]
+
+  atd.
+
+

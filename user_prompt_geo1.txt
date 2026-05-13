@@ -3,7 +3,19 @@ Udělej zpravodajský přehled, co se stalo za poslední dobu zajímavého a dů
 Buď aktuální - zkontroluj si to proti aktuálnímu datu!
 
 Zaměř se na USA, Izrael, Irán a Čínu.
+Pokud se stalo v globální politice ještě něco dalšího významného, můžeš to též zmínit.
 
-Jako název své odpovědi použij: "FCG News"
 
-Délka tvé odpovědi: maximálně 15 odstavců.
+Technické poznámky:
+- délka tvé odpovědi: maximálně 15 odstavců
+- formát tvé odpovědi bude:
+  # FCG World News
+
+  ## USA
+     [text o USA]
+
+  ## Izrael
+     [text o Izraeli]
+
+  atd.
+
