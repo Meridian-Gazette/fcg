@@ -14,17 +14,17 @@ with open("user_prompt_geo1.txt", "r", encoding="utf-8") as f:
 
      
 response = client.messages.create(                
-    model="claude-haiku-4-5-20251001",   
-### model="claude-opus-4-6",   
+### model="claude-haiku-4-5-20251001",   
+    model="claude-opus-4-6",   
     max_tokens=8192,
     system=system_instructions,
-# Pozor, nejedu-li na OPUSu, zakomentovat i "tools" parametr !    
-###    tools=[
-###        {
-###            "type": "web_search_20260209",
-###            "name": "web_search"
-###        }
-###    ],
+### Pozor, nejedu-li na OPUSu, zakomentovat i "tools" parametr !    
+    tools=[
+            {
+            "type": "web_search_20260209",
+            "name": "web_search"
+            }
+          ],
     messages=[{"role": "user", "content": user_prompt}]
 )
 
