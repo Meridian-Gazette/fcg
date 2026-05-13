@@ -1,7 +1,8 @@
 name: Claude Geo2 Update
 on:
-  schedule:
-    - cron: '45 3 * * 3'   # Středa v 3:45 AM (UTC)
+  # zakomentovavam toto - bude to behat pres cron-job.org
+  # schedule:
+  #   - cron: '45 3 * * 3'   # Středa v 3:45 AM (UTC)
   workflow_dispatch:
 
 jobs:
