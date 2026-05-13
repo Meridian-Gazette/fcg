@@ -12,13 +12,12 @@ with open("sys_instr_geo1.txt", "r", encoding="utf-8") as f:
 with open("user_prompt_geo1.txt", "r", encoding="utf-8") as f:
     user_prompt = f.read()
 
-     
-response = client.messages.create(                
-### model="claude-haiku-4-5-20251001",   
-    model="claude-opus-4-7",   
+response = client.messages.create(
+### model="claude-haiku-4-5-20251001", 
+    model="claude-opus-4-7",
     max_tokens=8192,
     system=system_instructions,
-### Pozor, nejedu-li na OPUSu, zakomentovat i "tools" parametr !    
+### Pozor, nejedu-li na OPUSu, zakomentovat i "tools" parametr !
     tools=[
             {
             "type": "web_search_20260209",
