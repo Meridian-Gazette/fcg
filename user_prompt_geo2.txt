@@ -6,7 +6,7 @@ Zaměř se na Francii, Německo, Českou republiku a Rusko.
 Pokud se stalo něco dalšího významného ve střední Evropě, můžeš to zmínit též.
 
 
-Technické poznámky:
+*Technické poznámky*
 - délka tvé odpovědi: maximálně 15 odstavců
 - formát tvé odpovědi bude:
   # FCG Europe News
@@ -18,5 +18,15 @@ Technické poznámky:
      [text o Francii]
 
   atd.
+
+
+
+*Poznámky k používání jazyků/řečí*
+ - hlavní text musí být VŽDY JEN ČESKY 
+ - čtenář tvé odpovědi však umí mnoho jazyků; proto když cituješ nějaké politiky, tak můžeš citovat v jejich rodné řeči ; všechny citáty, komentáře politiků, a speciální výrazy ponechávej v původních jazycích - 
+anglicky, německy, francouzsky, polsky, bulharsky, ukrajinsky, slovensky, rusky... ;
+neboj se - tvůj čtenář je polyglot ;)
+
+
 
 
