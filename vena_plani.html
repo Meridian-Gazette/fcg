@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matematika pro gymnázia – řešení úloh 1–12</title>
+<style>
+  :root{
+    --modra:#1565c0; --modra-svetla:#e3f0fc; --zelena:#2e7d32; --zelena-svetla:#e7f5e8;
+    --oranzova:#e65100; --oranzova-svetla:#fff3e0; --fialova:#6a1b9a; --fialova-svetla:#f3e5f5;
+    --seda:#455a64; --seda-svetla:#eceff1; --ram:#cfd8dc;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:"Segoe UI",Roboto,Arial,sans-serif; line-height:1.65; color:#222;
+    max-width:920px; margin:0 auto; padding:24px; background:#fafbfc;
+  }
+  header.hlavni{
+    background:linear-gradient(135deg,#1565c0,#0d47a1); color:#fff;
+    padding:32px 28px; border-radius:14px; margin-bottom:28px; box-shadow:0 6px 18px rgba(0,0,0,.12);
+  }
+  header.hlavni h1{margin:0 0 6px; font-size:1.9rem;}
+  header.hlavni p{margin:4px 0; opacity:.95;}
+  .obsah{
+    background:#fff; border:1px solid var(--ram); border-radius:12px; padding:18px 24px; margin-bottom:30px;
+  }
+  .obsah h2{margin-top:0; font-size:1.15rem; color:var(--modra);}
+  .obsah ol{columns:2; column-gap:32px; margin:0; padding-left:20px;}
+  .obsah a{color:#1565c0; text-decoration:none;}
+  .obsah a:hover{text-decoration:underline;}
+  .uloha{
+    background:#fff; border:1px solid var(--ram); border-radius:12px; padding:26px 28px;
+    margin-bottom:30px; box-shadow:0 2px 8px rgba(0,0,0,.05); scroll-margin-top:14px;
+  }
+  .uloha h2{
+    color:#fff; background:var(--modra); margin:-26px -28px 20px; padding:14px 28px;
+    border-radius:11px 11px 0 0; font-size:1.3rem;
+  }
+  .badge{font-size:.8rem; background:rgba(255,255,255,.25); padding:2px 10px; border-radius:20px; margin-left:8px;}
+  .blok{border-radius:10px; padding:14px 18px; margin:16px 0;}
+  .zadani{background:var(--seda-svetla); border-left:5px solid var(--seda); font-style:italic;}
+  .kontext{background:var(--modra-svetla); border-left:5px solid var(--modra);}
+  .metoda{background:var(--oranzova-svetla); border-left:5px solid var(--oranzova);}
+  .postup{background:#fff;}
+  .vysledek{background:var(--zelena-svetla); border-left:5px solid var(--zelena); font-weight:600;}
+  .blok h3{margin:0 0 8px; font-size:1.05rem; display:flex; align-items:center; gap:8px;}
+  .zadani h3{color:var(--seda);} .kontext h3{color:var(--modra);}
+  .metoda h3{color:var(--oranzova);} .vysledek h3{color:var(--zelena);}
+  .vzorec{
+    display:block; background:#0f2027; color:#e0f2f1; font-family:"Consolas","Courier New",monospace;
+    padding:10px 16px; border-radius:8px; margin:12px 0; font-size:1.05rem; overflow-x:auto;
+  }
+  .vzorec.male{display:inline-block; padding:2px 8px; margin:0 2px; font-size:.98rem;}
+  .obrazek{text-align:center; margin:18px 0;}
+  .obrazek svg{max-width:100%; height:auto; background:#fff; border:1px solid var(--ram); border-radius:10px;}
+  .popisek{font-size:.85rem; color:#607d8b; margin-top:6px;}
+  table.kroky{border-collapse:collapse; width:100%; margin:10px 0;}
+  table.kroky td{border:1px solid var(--ram); padding:8px 12px; vertical-align:top;}
+  table.kroky td:first-child{width:42px; text-align:center; font-weight:700; color:var(--modra); background:var(--modra-svetla);}
+  .dukaz-krok{margin:10px 0; padding-left:14px; border-left:3px solid var(--fialova);}
+  sub{font-size:.72em;} sup{font-size:.72em;}
+  .pozn{font-size:.9rem; color:#546e7a; background:#fff8e1; border:1px dashed #ffca28; border-radius:8px; padding:8px 12px; margin:12px 0;}
+  footer{text-align:center; color:#90a4ae; font-size:.85rem; margin:30px 0;}
+  /* SVG popisky */
+  text{font-family:"Segoe UI",Arial,sans-serif;}
+  @media (max-width:680px){.obsah ol{columns:1;}}
+  @media print{body{background:#fff;} .uloha{break-inside:avoid; box-shadow:none;}}
+</style>
+</head>
+<body>
+
+<header class="hlavni">
+  <h1>📐 Matematika pro gymnázia – řešení 12 úloh</h1>
+  <p>Podrobné a srozumitelné vysvětlení každé úlohy „od nuly“ – s obrázky, vzorci a postupem krok za krokem.</p>
+  <p style="font-size:.9rem;opacity:.85;">Geometrie: Pythagorova a Eukleidovy věty, trojúhelníky, kosočtverce, kružnice, lichoběžníky.</p>
+</header>
+
+<nav class="obsah">
+  <h2>Obsah – přejdi rovnou na úlohu</h2>
+  <ol>
+    <li><a href="#u1">Důkaz Pythagorovy věty (graficky + Eukleidem)</a></li>
+    <li><a href="#u2">Důkaz Eukleidových vět</a></li>
+    <li><a href="#u3">Obsah trojúhelníku ze stran v poměru 5:6:7</a></li>
+    <li><a href="#u4">Druhá úhlopříčka kosočtverce</a></li>
+    <li><a href="#u5">Délka tětivy kružnice</a></li>
+    <li><a href="#u6">Rameno pravoúhlého lichoběžníku</a></li>
+    <li><a href="#u7">Pravoúhlý trojúhelník z výšky a úseku</a></li>
+    <li><a href="#u8">Vnější úhly trojúhelníku z oblouků</a></li>
+    <li><a href="#u9">Poloměr kružnice z tečen</a></li>
+    <li><a href="#u10">Obsah kosočtverce z poměru úhlopříček</a></li>
+    <li><a href="#u11">Důkaz poměru úhlopříček v lichoběžníku</a></li>
+    <li><a href="#u12">Důkaz, že úhlopříčky kosodélníku se půlí</a></li>
+  </ol>
+</nav>
+
+<!-- ============================ ÚLOHA 1 ============================ -->
+<section class="uloha" id="u1">
+  <h2>Úloha 1 <span class="badge">důkaz</span></h2>
+  <div class="blok zadani"><h3>📋 Zadání</h3>
+    Dokažte Pythagorovu větu <b>a)</b> graficky &nbsp; <b>b)</b> pomocí některé z Eukleidových vět.
+  </div>
+
+  <div class="blok kontext"><h3>💡 O co vlastně jde</h3>
+    <p>Pythagorova věta platí <b>jen pro pravoúhlý trojúhelník</b> (jeden úhel má přesně 90°).
+    Nejdelší strana leží naproti pravému úhlu a říkáme jí <b>přepona</b> (značíme&nbsp;<i>c</i>).
+    Zbylé dvě kratší strany se jmenují <b>odvěsny</b> (<i>a</i>,&nbsp;<i>b</i>).</p>
+    <p>Věta tvrdí jednoduchou věc: <b>když obsah čtverce nad přeponou</b> vyjde stejně velký jako
+    <b>součet obsahů čtverců nad oběma odvěsnami</b>. Zapsáno vzorcem:</p>
+    <span class="vzorec">a² + b² = c²</span>
+    <p>„Dokázat“ znamená vysvětlit, <i>proč</i> to platí vždy – ne to jen ověřit na číslech.</p>
+  </div>
+
+  <div class="blok metoda"><h3>📐 Metoda a) – grafický (obsahový) důkaz</h3>
+    <p>Použijeme trik s <b>velkým čtvercem o straně (a + b)</b>. Jeho obsah spočítáme dvěma způsoby
+    a výsledky musí být stejné. Budeme potřebovat jen dva školní vzorce:</p>
+    <ul>
+      <li>obsah čtverce o straně <i>s</i>: &nbsp;<span class="vzorec male">S = s²</span></li>
+      <li>obsah pravoúhlého trojúhelníku: &nbsp;<span class="vzorec male">S = ½ · a · b</span></li>
+    </ul>
+    <p>Do velkého čtverce vložíme <b>4 stejné</b> kopie našeho trojúhelníku tak, že uprostřed
+    zbude menší, „nakloněný“ čtverec, jehož strana je právě přepona <i>c</i>.</p>
+
+    <div class="obrazek">
+      <svg viewBox="0 0 240 240" width="300">
+        <!-- velky ctverec -->
+        <rect x="20" y="20" width="200" height="200" fill="#fff" stroke="#455a64" stroke-width="2"/>
+        <!-- ctyri trojuhelniky -->
+        <polygon points="20,20 100,20 20,140" fill="#e3f0fc" stroke="#1565c0" stroke-width="1.5"/>
+        <polygon points="220,20 100,20 220,100" fill="#e3f0fc" stroke="#1565c0" stroke-width="1.5"/>
+        <polygon points="220,220 220,100 140,220" fill="#e3f0fc" stroke="#1565c0" stroke-width="1.5"/>
+        <polygon points="20,220 140,220 20,140" fill="#e3f0fc" stroke="#1565c0" stroke-width="1.5"/>
+        <!-- vnitrni ctverec c -->
+        <polygon points="100,20 220,100 140,220 20,140" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <!-- popisky -->
+        <text x="58" y="15" font-size="13" fill="#1565c0">a</text>
+        <text x="6" y="84" font-size="13" fill="#1565c0">b</text>
+        <text x="156" y="64" font-size="14" fill="#e65100" font-weight="bold">c</text>
+        <text x="120" y="124" font-size="12" fill="#bf6000" text-anchor="middle">obsah&nbsp;c²</text>
+      </svg>
+      <div class="popisek">Velký čtverec o straně (a+b) = 4 trojúhelníky + nakloněný čtverec o straně c.</div>
+    </div>
+
+    <p><b>1. způsob</b> – obsah velkého čtverce jako strana na druhou:</p>
+    <span class="vzorec">S = (a + b)² = a² + 2ab + b²</span>
+    <p><b>2. způsob</b> – obsah jako součet 4 trojúhelníků a vnitřního čtverce:</p>
+    <span class="vzorec">S = 4 · (½ · a · b) + c² = 2ab + c²</span>
+    <p>Oba výrazy popisují tentýž obsah, proto je dáme do rovnosti a zjednodušíme:</p>
+    <table class="kroky">
+      <tr><td>1</td><td><span class="vzorec male">a² + 2ab + b² = 2ab + c²</span></td></tr>
+      <tr><td>2</td><td>od obou stran odečteme <span class="vzorec male">2ab</span></td></tr>
+      <tr><td>3</td><td><span class="vzorec male">a² + b² = c²</span> &nbsp; ✔ hotovo</td></tr>
+    </table>
+  </div>
+
+  <div class="blok metoda"><h3>📐 Metoda b) – důkaz pomocí Eukleidovy věty o odvěsně</h3>
+    <p>Spustíme z vrcholu pravého úhlu <b>výšku</b> na přeponu. Ta rozdělí přeponu na dva kousky
+    (úseky), které značíme <i>c<sub>a</sub></i> a <i>c<sub>b</sub></i> – jsou to tzv. <b>pravoúhlé průměty</b> odvěsen.
+    Eukleidova věta o odvěsně říká:</p>
+    <span class="vzorec">a² = c · c<sub>a</sub>&nbsp;&nbsp;&nbsp;&nbsp;b² = c · c<sub>b</sub></span>
+    <p>(Tuto větu samotnou dokazujeme v Úloze 2 – teď ji použijeme jako hotový nástroj.)</p>
+    <table class="kroky">
+      <tr><td>1</td><td>obě věty sečteme: <span class="vzorec male">a² + b² = c·c<sub>a</sub> + c·c<sub>b</sub></span></td></tr>
+      <tr><td>2</td><td>vytkneme <i>c</i>: <span class="vzorec male">a² + b² = c·(c<sub>a</sub> + c<sub>b</sub>)</span></td></tr>
+      <tr><td>3</td><td>oba úseky dohromady tvoří celou přeponu: <span class="vzorec male">c<sub>a</sub> + c<sub>b</sub> = c</span></td></tr>
+      <tr><td>4</td><td>dosadíme: <span class="vzorec male">a² + b² = c · c = c²</span> &nbsp; ✔ hotovo</td></tr>
+    </table>
+  </div>
+
+  <div class="blok vysledek"><h3>✅ Závěr</h3>
+    Oběma cestami jsme nezávisle ukázali, že pro pravoúhlý trojúhelník vždy platí
+    <span class="vzorec male">a² + b² = c²</span>. Tím je Pythagorova věta dokázána.
+  </div>
+</section>
+
+<!-- ============================ ÚLOHA 2 ============================ -->
+<section class="uloha" id="u2">
+  <h2>Úloha 2 <span class="badge">důkaz</span></h2>
+  <div class="blok zadani"><h3>📋 Zadání</h3>Dokažte Eukleidovy věty.</div>
+
+  <div class="blok kontext"><h3>💡 O co jde</h3>
+    <p>Máme pravoúhlý trojúhelník <i>ABC</i> s pravým úhlem u vrcholu <i>C</i>. Z tohoto vrcholu
+    spustíme kolmo dolů na přeponu <b>výšku <i>v</i></b> a místo, kam dopadne, označíme <i>P</i> (pata výšky).
+    Výška rozdělí přeponu <i>c</i> na dva úseky:</p>
+    <ul>
+      <li><i>c<sub>a</sub></i> – úsek u vrcholu <i>B</i> (průmět odvěsny <i>a</i>),</li>
+      <li><i>c<sub>b</sub></i> – úsek u vrcholu <i>A</i> (průmět odvěsny <i>b</i>).</li>
+    </ul>
+    <p>Existují <b>dvě</b> Eukleidovy věty:</p>
+    <span class="vzorec">Věta o výšce:&nbsp; v² = c<sub>a</sub> · c<sub>b</sub></span>
+    <span class="vzorec">Věta o odvěsně:&nbsp; a² = c · c<sub>a</sub>&nbsp;&nbsp;a&nbsp;&nbsp;b² = c · c<sub>b</sub></span>
+
+    <div class="obrazek">
+      <svg viewBox="0 0 360 180" width="420">
+        <polygon points="30,150 330,150 90,30" fill="#e3f0fc" stroke="#1565c0" stroke-width="2"/>
+        <line x1="90" y1="30" x2="90" y2="150" stroke="#e65100" stroke-width="2"/>
+        <!-- pravy uhel u C -->
+        <path d="M 90,42 L 102,46 L 98,34" fill="none" stroke="#1565c0" stroke-width="1.4"/>
+        <!-- pravy uhel u P -->
+        <rect x="78" y="138" width="12" height="12" fill="none" stroke="#e65100" stroke-width="1.2"/>
+        <!-- vrcholy -->
+        <text x="20" y="166" font-size="13" font-weight="bold">A</text>
+        <text x="332" y="166" font-size="13" font-weight="bold">B</text>
+        <text x="84" y="24" font-size="13" font-weight="bold">C</text>
+        <text x="84" y="166" font-size="13" font-weight="bold">P</text>
+        <!-- strany -->
+        <text x="50" y="92" font-size="13" fill="#1565c0">b</text>
+        <text x="215" y="86" font-size="13" fill="#1565c0">a</text>
+        <text x="96" y="100" font-size="13" fill="#e65100">v</text>
+        <text x="55" y="166" font-size="12" fill="#6a1b9a">c_b</text>
+        <text x="205" y="166" font-size="12" fill="#6a1b9a">c_a</text>
+      </svg>
+      <div class="popisek">Výška z pravého úhlu <i>C</i> rozdělí trojúhelník na dva menší.</div>
+    </div>
+  </div>
+
+  <div class="blok metoda"><h3>📐 Hlavní myšlenka: podobnost trojúhelníků</h3>
+    <p>Když spustíme výšku, vzniknou <b>dva menší pravoúhlé trojúhelníky</b>:
+    <i>ACP</i> a <i>CBP</i>. Klíčové pozorování: <b>oba jsou podobné</b> původnímu trojúhelníku <i>ABC</i>
+    (mají stejné úhly). Připomeňme dvě pravidla:</p>
+    <ul>
+      <li><b>Věta uu (úhel-úhel):</b> mají-li dva trojúhelníky shodné dva úhly, jsou podobné.</li>
+      <li><b>U podobných trojúhelníků</b> jsou poměry odpovídajících si stran stejné.</li>
+    </ul>
+    <p>Proč mají stejné úhly? Označme úhel u <i>A</i> jako <i>α</i> a u <i>B</i> jako <i>β</i>.
+    V pravoúhlém trojúhelníku platí <span class="vzorec male">α + β = 90°</span>. Každý z malých
+    trojúhelníků má pravý úhel u <i>P</i> a sdílí jeden z úhlů <i>α</i> nebo <i>β</i> – třetí úhel pak
+    vyjde stejně. Proto: &nbsp;<span class="vzorec male">ABC ~ ACP ~ CBP</span>.</p>
+  </div>
+
+  <div class="blok postup"><h3>✏️ Důkaz věty o odvěsně</h3>
+    <div class="dukaz-krok"><b>Trojúhelník CBP ~ ABC</b> (oba pravoúhlé, sdílejí úhel <i>β</i> u vrcholu&nbsp;<i>B</i>).
+    Porovnáme odpovídající strany – přepona ku odvěsně:
+    <span class="vzorec">a / c = c<sub>a</sub> / a &nbsp;&nbsp;⟹&nbsp;&nbsp; a² = c · c<sub>a</sub> ✔</span></div>
+    <div class="dukaz-krok"><b>Trojúhelník ACP ~ ABC</b> (oba pravoúhlé, sdílejí úhel <i>α</i> u vrcholu&nbsp;<i>A</i>):
+    <span class="vzorec">b / c = c<sub>b</sub> / b &nbsp;&nbsp;⟹&nbsp;&nbsp; b² = c · c<sub>b</sub> ✔</span></div>
+  </div>
+
+  <div class="blok postup"><h3>✏️ Důkaz věty o výšce</h3>
+    <div class="dukaz-krok">Oba malé trojúhelníky jsou podobné i navzájem: <b>ACP ~ CBP</b>.
+    V trojúhelníku <i>ACP</i> je výška <i>v</i> tou odvěsnou, která v <i>CBP</i> odpovídá úseku <i>c<sub>a</sub></i>;
+    naopak úsek <i>c<sub>b</sub></i> odpovídá výšce <i>v</i>. Z poměru odpovídajících stran:
+    <span class="vzorec">v / c<sub>a</sub> = c<sub>b</sub> / v &nbsp;&nbsp;⟹&nbsp;&nbsp; v² = c<sub>a</sub> · c<sub>b</sub> ✔</span></div>
+  </div>
+
+  <div class="blok vysledek"><h3>✅ Závěr</h3>
+    Z podobnosti trojúhelníků plynou všechny tři vztahy:
+    <span class="vzorec male">a² = c·c<sub>a</sub></span>,
+    <span class="vzorec male">b² = c·c<sub>b</sub></span>,
+    <span class="vzorec male">v² = c<sub>a</sub>·c<sub>b</sub></span>. Eukleidovy věty jsou dokázány.
+  </div>
+</section>
+
+<!-- ============================ ÚLOHA 3 ============================ -->
+<section class="uloha" id="u3">
+  <h2>Úloha 3 <span class="badge">výpočet</span></h2>
+  <div class="blok zadani"><h3>📋 Zadání</h3>
+    Strany trojúhelníku jsou v poměru 5 : 6 : 7. Určete obsah, víte-li, že obvod je 36 cm.</div>
+
+  <div class="blok kontext"><h3>💡 O co jde</h3>
+    <p>Neznáme přímo délky stran, jen jejich <b>poměr</b> – tedy „kolikrát je která větší“.
+    Poměr 5 : 6 : 7 znamená, že strany jsou jako 5 dílků, 6 dílků a 7 dílků téhož „dílku“.
+    Když zjistíme, kolik měří jeden dílek, dopočítáme strany a pak obsah.</p>
+  </div>
+
+  <div class="blok metoda"><h3>📐 Co budeme potřebovat</h3>
+    <p><b>1) Trik s dílkem:</b> strany označíme <span class="vzorec male">5k, 6k, 7k</span>, kde <i>k</i>
+    je délka jednoho dílku. Obvod je jejich součet.</p>
+    <p><b>2) Heronův vzorec</b> – počítá obsah trojúhelníku, když známe všechny tři strany
+    (nepotřebujeme výšku ani úhly). Nejprve spočítáme <b>poloviční obvod <i>s</i></b>:</p>
+    <span class="vzorec">s = (a + b + c) / 2</span>
+    <span class="vzorec">S = √( s · (s − a) · (s − b) · (s − c) )</span>
+  </div>
+
+  <div class="blok postup"><h3>✏️ Postup řešení</h3>
+    <table class="kroky">
+      <tr><td>1</td><td>Obvod = součet stran: <span class="vzorec male">5k + 6k + 7k = 18k = 36</span></td></tr>
+      <tr><td>2</td><td>Jeden dílek: <span class="vzorec male">k = 36 / 18 = 2 cm</span></td></tr>
+      <tr><td>3</td><td>Strany: <span class="vzorec male">a = 10 cm, &nbsp; b = 12 cm, &nbsp; c = 14 cm</span></td></tr>
+      <tr><td>4</td><td>Poloviční obvod: <span class="vzorec male">s = 36 / 2 = 18 cm</span></td></tr>
+      <tr><td>5</td><td>Dosadíme do Herona:<br>
+        <span class="vzorec male">S = √(18 · (18−10) · (18−12) · (18−14))</span><br>
+        <span class="vzorec male">S = √(18 · 8 · 6 · 4) = √3456 = 24√6</span></td></tr>
+      <tr><td>6</td><td>Číselně: <span class="vzorec male">S ≈ 58,79 cm²</span></td></tr>
+    </table>
+  </div>
+
+  <div class="blok vysledek"><h3>✅ Výsledek</h3>
+    Obsah trojúhelníku je <b>S = 24√6 cm² ≈ 58,8 cm²</b>.
+  </div>
+</section>
+
+<!-- ============================ ÚLOHA 4 ============================ -->
+<section class="uloha" id="u4">
+  <h2>Úloha 4 <span class="badge">výpočet</span></h2>
+  <div class="blok zadani"><h3>📋 Zadání</h3>
+    V kosočtverci je délka jedné úhlopříčky 2 cm a obsah je 12 cm². Určete délku druhé úhlopříčky.</div>
+
+  <div class="blok kontext"><h3>💡 O co jde</h3>
+    <p><b>Kosočtverec</b> je „nakloněný čtverec“ – má všechny čtyři strany stejně dlouhé, ale úhly
+    nemusí být pravé. Jeho dvě <b>úhlopříčky</b> (spojnice protilehlých vrcholů) se protínají uprostřed
+    a jsou na sebe kolmé. Známe jednu z nich a obsah, hledáme druhou.</p>
+    <div class="obrazek">
+      <svg viewBox="0 0 220 180" width="240">
+        <polygon points="40,90 110,30 180,90 110,150" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2"/>
+        <line x1="40" y1="90" x2="180" y2="90" stroke="#1565c0" stroke-width="1.6" stroke-dasharray="5 3"/>
+        <line x1="110" y1="30" x2="110" y2="150" stroke="#e65100" stroke-width="1.6" stroke-dasharray="5 3"/>
+        <rect x="110" y="78" width="12" height="12" fill="none" stroke="#455a64" stroke-width="1"/>
+        <text x="148" y="84" font-size="12" fill="#1565c0">úhlopříčka d₁</text>
+        <text x="116" y="48" font-size="12" fill="#e65100">úhlopříčka d₂</text>
+      </svg>
+      <div class="popisek">Schéma (není v měřítku) – úhlopříčky se půlí a jsou kolmé.</div>
+    </div>
+  </div>
+
+  <div class="blok metoda"><h3>📐 Vzorec, který použijeme</h3>
+    <p>Obsah kosočtverce se z úhlopříček počítá takto:</p>
+    <span class="vzorec">S = ½ · d₁ · d₂</span>
+    <p>(Polovina součinu úhlopříček – stejný vzorec platí pro každý čtyřúhelník s kolmými úhlopříčkami.)
+    Ze vzorce si vyjádříme hledanou <i>d₂</i>.</p>
+  </div>
+
+  <div class="blok postup"><h3>✏️ Postup řešení</h3>
+    <table class="kroky">
+      <tr><td>1</td><td>Dosadíme známé hodnoty: <span class="vzorec male">12 = ½ · 2 · d₂</span></td></tr>
+      <tr><td>2</td><td>Pravá strana: <span class="vzorec male">½ · 2 = 1</span>, tedy <span class="vzorec male">12 = 1 · d₂</span></td></tr>
+      <tr><td>3</td><td>Odtud: <span class="vzorec male">d₂ = 12 cm</span></td></tr>
+    </table>
+  </div>
+
+  <div class="blok vysledek"><h3>✅ Výsledek</h3>
+    Druhá úhlopříčka má délku <b>d₂ = 12 cm</b>. (Kosočtverec je hodně „placatý“ – to je v pořádku.)
+  </div>
+</section>
+
+<!-- ============================ ÚLOHA 5 ============================ -->
+<section class="uloha" id="u5">
+  <h2>Úloha 5 <span class="badge">výpočet</span></h2>
+  <div class="blok zadani"><h3>📋 Zadání</h3>
+    Vzdálenost tětivy od středu kružnice <i>k(S; 10 cm)</i> je 3 cm. Určete její délku.</div>
+
+  <div class="blok kontext"><h3>💡 O co jde</h3>
+    <p><b>Tětiva</b> je úsečka, která spojuje dva body na kružnici (jako struna na luku).
+    Zápis <i>k(S; 10 cm)</i> znamená kružnici se středem <i>S</i> a <b>poloměrem r = 10 cm</b>.
+    „Vzdálenost tětivy od středu“ se vždy měří <b>kolmo</b> – je to nejkratší vzdálenost, tady 3 cm.</p>
+    <div class="obrazek">
+      <svg viewBox="0 0 240 200" width="280">
+        <circle cx="120" cy="90" r="80" fill="#e3f0fc" stroke="#1565c0" stroke-width="2"/>
+        <circle cx="120" cy="90" r="2.5" fill="#1565c0"/>
+        <line x1="43.7" y1="114" x2="196.3" y2="114" stroke="#e65100" stroke-width="2.5"/>
+        <line x1="120" y1="90" x2="120" y2="114" stroke="#6a1b9a" stroke-width="2"/>
+        <line x1="120" y1="90" x2="196.3" y2="114" stroke="#2e7d32" stroke-width="2"/>
+        <rect x="108" y="102" width="12" height="12" fill="none" stroke="#6a1b9a" stroke-width="1"/>
+        <text x="108" y="86" font-size="13" font-weight="bold">S</text>
+        <text x="126" y="108" font-size="12" fill="#6a1b9a">3</text>
+        <text x="158" y="98" font-size="12" fill="#2e7d32">r=10</text>
+        <text x="150" y="132" font-size="12" fill="#e65100">tětiva</text>
+      </svg>
+      <div class="popisek">Poloměr, kolmá vzdálenost a polovina tětivy tvoří pravoúhlý trojúhelník.</div>
+    </div>
+  </div>
+
+  <div class="blok metoda"><h3>📐 Metoda – Pythagorova věta</h3>
+    <p>Kolmice ze středu na tětivu ji <b>rozpůlí</b>. Vznikne pravoúhlý trojúhelník, kde:</p>
+    <ul>
+      <li><b>přepona</b> = poloměr <i>r</i> = 10 cm (od středu k bodu na kružnici),</li>
+      <li>jedna <b>odvěsna</b> = vzdálenost od středu = 3 cm,</li>
+      <li>druhá <b>odvěsna</b> = <b>polovina tětivy</b> (to hledáme).</li>
+    </ul>
+    <span class="vzorec">(½ tětivy)² + 3² = 10²</span>
+  </div>
+
+  <div class="blok postup"><h3>✏️ Postup řešení</h3>
+    <table class="kroky">
+      <tr><td>1</td><td>Označme polovinu tětivy <i>x</i>: <span class="vzorec male">x² + 3² = 10²</span></td></tr>
+      <tr><td>2</td><td><span class="vzorec male">x² = 100 − 9 = 91</span></td></tr>
+      <tr><td>3</td><td><span class="vzorec male">x = √91 ≈ 9,54 cm</span></td></tr>
+      <tr><td>4</td><td>Celá tětiva je dvojnásobek: <span class="vzorec male">2x = 2√91 ≈ 19,08 cm</span></td></tr>
+    </table>
+  </div>
+
+  <div class="blok vysledek"><h3>✅ Výsledek</h3>
+    Délka tětivy je <b>2√91 cm ≈ 19,1 cm</b>.
+  </div>
+</section>
+
+<!-- ============================ ÚLOHA 6 ============================ -->
+<section class="uloha" id="u6">
+  <h2>Úloha 6 <span class="badge">výpočet</span></h2>
+  <div class="blok zadani"><h3>📋 Zadání</h3>
+    Obsah kolmého (pravoúhlého) lichoběžníku o základnách 7 cm a 4 cm je 22 cm². Určete délku nekolmého ramene.</div>
+
+  <div class="blok kontext"><h3>💡 O co jde</h3>
+    <p><b>Lichoběžník</b> má dvě rovnoběžné strany – <b>základny</b> (tady 7 cm a 4 cm) – a dvě
+    <b>ramena</b>. U <b>pravoúhlého</b> lichoběžníku je jedno rameno kolmé k základnám, takže je
+    zároveň <b>výškou <i>v</i></b>. Druhé rameno je šikmé („nekolmé“) a to máme najít.</p>
+    <div class="obrazek">
+      <svg viewBox="0 0 290 180" width="320">
+        <polygon points="30,140 240,140 150,20 30,20" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <rect x="30" y="128" width="12" height="12" fill="none" stroke="#455a64" stroke-width="1"/>
+        <rect x="30" y="20" width="12" height="12" fill="none" stroke="#455a64" stroke-width="1"/>
+        <!-- pomocna kolmice z C dolu -->
+        <line x1="150" y1="20" x2="150" y2="140" stroke="#1565c0" stroke-width="1.2" stroke-dasharray="4 3"/>
+        <text x="120" y="158" font-size="13" fill="#455a64">7 cm (a)</text>
+        <text x="74" y="14" font-size="13" fill="#455a64">4 cm (b)</text>
+        <text x="6" y="84" font-size="13" fill="#1565c0">v</text>
+        <text x="196" y="80" font-size="13" fill="#e65100" font-weight="bold">?</text>
+        <text x="158" y="100" font-size="11" fill="#1565c0">v</text>
+        <text x="178" y="158" font-size="11" fill="#1565c0">3</text>
+      </svg>
+      <div class="popisek">Šikmé rameno je přeponou pravoúhlého trojúhelníku s odvěsnami <i>v</i> a (7−4).</div>
+    </div>
+  </div>
+
+  <div class="blok metoda"><h3>📐 Postup ve dvou krocích</h3>
+    <p><b>Krok A – najdeme výšku</b> z obsahu lichoběžníku. Vzorec:</p>
+    <span class="vzorec">S = ½ · (a + b) · v</span>
+    <p><b>Krok B – najdeme šikmé rameno</b> pomocí Pythagorovy věty. Když si „uřízneme“ pravoúhlý
+    trojúhelníček u šikmého ramene, jeho odvěsny jsou:</p>
+    <ul>
+      <li>svislá = výška <i>v</i>,</li>
+      <li>vodorovná = <b>rozdíl základen</b> = 7 − 4 = 3 cm,</li>
+      <li>přepona = hledané šikmé rameno.</li>
+    </ul>
+  </div>
+
+  <div class="blok postup"><h3>✏️ Postup řešení</h3>
+    <table class="kroky">
+      <tr><td>1</td><td>Z obsahu: <span class="vzorec male">22 = ½ · (7 + 4) · v = ½ · 11 · v = 5,5 · v</span></td></tr>
+      <tr><td>2</td><td>Výška: <span class="vzorec male">v = 22 / 5,5 = 4 cm</span></td></tr>
+      <tr><td>3</td><td>Rozdíl základen: <span class="vzorec male">7 − 4 = 3 cm</span></td></tr>
+      <tr><td>4</td><td>Pythagoras: <span class="vzorec male">rameno² = 4² + 3² = 16 + 9 = 25</span></td></tr>
+      <tr><td>5</td><td><span class="vzorec male">rameno = √25 = 5 cm</span></td></tr>
+    </table>
+  </div>
+
+  <div class="blok vysledek"><h3>✅ Výsledek</h3>
+    Nekolmé (šikmé) rameno měří <b>5 cm</b>. &nbsp;(Mimochodem, jde o známý trojúhelník 3-4-5.)
+  </div>
+</section>
+
+<!-- ============================ ÚLOHA 7 ============================ -->
+<section class="uloha" id="u7">
+  <h2>Úloha 7 <span class="badge">výpočet</span></h2>
+  <div class="blok zadani"><h3>📋 Zadání</h3>
+    V pravoúhlém trojúhelníku <i>ABC</i> s přeponou <i>c</i> dopočítejte strany a úhly,
+    je-li dáno <i>v</i> = 9 cm a <i>c<sub>b</sub></i> = 3 cm.</div>
+
+  <div class="blok kontext"><h3>💡 O co jde</h3>
+    <p>Pravý úhel je u vrcholu <i>C</i>, přepona <i>c</i> leží naproti. Spustíme z <i>C</i> výšku <i>v</i> na přeponu.
+    <b>Známe výšku <i>v</i> = 9 cm</b> a <b>úsek <i>c<sub>b</sub></i> = 3 cm</b> (to je kousek přepony u vrcholu&nbsp;<i>A</i>,
+    tedy průmět odvěsny <i>b</i>). Pomocí Eukleidových vět z Úlohy 2 dopočítáme vše ostatní.</p>
+    <div class="obrazek">
+      <svg viewBox="0 0 360 180" width="420">
+        <polygon points="30,150 330,150 60,60 " fill="#e3f0fc" stroke="#1565c0" stroke-width="2"/>
+        <line x1="60" y1="60" x2="60" y2="150" stroke="#e65100" stroke-width="2"/>
+        <rect x="48" y="138" width="12" height="12" fill="none" stroke="#e65100" stroke-width="1.2"/>
+        <path d="M 60,72 L 72,76 L 68,64" fill="none" stroke="#1565c0" stroke-width="1.4"/>
+        <text x="20" y="166" font-size="13" font-weight="bold">A</text>
+        <text x="332" y="166" font-size="13" font-weight="bold">B</text>
+        <text x="52" y="54" font-size="13" font-weight="bold">C</text>
+        <text x="56" y="166" font-size="12" font-weight="bold">P</text>
+        <text x="40" y="110" font-size="12" fill="#1565c0">b</text>
+        <text x="200" y="100" font-size="12" fill="#1565c0">a</text>
+        <text x="66" y="115" font-size="12" fill="#e65100">v=9</text>
+        <text x="38" y="166" font-size="11" fill="#6a1b9a">c_b=3</text>
+        <text x="180" y="166" font-size="11" fill="#6a1b9a">c_a</text>
+      </svg>
+      <div class="popisek">Z výšky a jednoho úseku dopočítáme druhý úsek a pak strany.</div>
+    </div>
+  </div>
+
+  <div class="blok metoda"><h3>📐 Nástroje (Eukleidovy věty + goniometrie)</h3>
+    <span class="vzorec">věta o výšce:&nbsp; v² = c<sub>a</sub> · c<sub>b</sub></span>
+    <span class="vzorec">věta o odvěsně:&nbsp; a² = c · c<sub>a</sub>,&nbsp;&nbsp; b² = c · c<sub>b</sub></span>
+    <span class="vzorec">přepona:&nbsp; c = c<sub>a</sub> + c<sub>b</sub></span>
+    <p>Úhly dopočítáme <b>tangentou</b> (poměr protilehlé a přilehlé odvěsny):
+    <span class="vzorec male">tg α = a / b</span>.</p>
+  </div>
+
+  <div class="blok postup"><h3>✏️ Postup řešení</h3>
+    <table class="kroky">
+      <tr><td>1</td><td>Druhý úsek z věty o výšce: <span class="vzorec male">9² = c<sub>a</sub> · 3 ⟹ c<sub>a</sub> = 81 / 3 = 27 cm</span></td></tr>
+      <tr><td>2</td><td>Přepona: <span class="vzorec male">c = 27 + 3 = 30 cm</span></td></tr>
+      <tr><td>3</td><td>Odvěsna <i>b</i>: <span class="vzorec male">b² = 30 · 3 = 90 ⟹ b = √90 = 3√10 ≈ 9,49 cm</span></td></tr>
+      <tr><td>4</td><td>Odvěsna <i>a</i>: <span class="vzorec male">a² = 30 · 27 = 810 ⟹ a = √810 = 9√10 ≈ 28,46 cm</span></td></tr>
+      <tr><td>5</td><td>Kontrola Pythagorem: <span class="vzorec male">90 + 810 = 900 = 30²</span> ✔</td></tr>
+      <tr><td>6</td><td>Úhel α: <span class="vzorec male">tg α = a / b = 28,46 / 9,49 = 3 ⟹ α ≈ 71,57°</span> (≈ 71°34′)</td></tr>
+      <tr><td>7</td><td>Úhel β: <span class="vzorec male">β = 90° − α ≈ 18,43°</span> (≈ 18°26′)</td></tr>
+      <tr><td>8</td><td>Úhel γ: <span class="vzorec male">γ = 90°</span> (pravý úhel u C)</td></tr>
+    </table>
+  </div>
+
+  <div class="blok vysledek"><h3>✅ Výsledek</h3>
+    Strany: <b>a = 9√10 ≈ 28,46 cm</b>, &nbsp;<b>b = 3√10 ≈ 9,49 cm</b>, &nbsp;<b>c = 30 cm</b>.<br>
+    Úhly: <b>α ≈ 71,57°</b>, &nbsp;<b>β ≈ 18,43°</b>, &nbsp;<b>γ = 90°</b>.
+  </div>
+</section>
+
+<!-- ============================ ÚLOHA 8 ============================ -->
+<section class="uloha" id="u8">
+  <h2>Úloha 8 <span class="badge">výpočet</span></h2>
+  <div class="blok zadani"><h3>📋 Zadání</h3>
+    Vrcholy trojúhelníku vepsaného do kružnice rozdělí kružnici na oblouky, jejichž délky jsou v poměru 3 : 7 : 5.
+    Určete <b>vnější</b> úhly trojúhelníku.</div>
+
+  <div class="blok kontext"><h3>💡 O co jde</h3>
+    <p>Tři vrcholy ležící na kružnici ji rozdělí na tři <b>oblouky</b> (zakřivené kousky). Jejich délky
+    jsou v poměru 3 : 7 : 5. Celá kružnice odpovídá <b>360°</b>. Nejprve zjistíme, kolik stupňů má každý
+    oblouk, pak vnitřní úhly trojúhelníku a nakonec úhly <b>vnější</b>.</p>
+    <div class="obrazek">
+      <svg viewBox="0 0 240 220" width="280">
+        <circle cx="120" cy="100" r="80" fill="#fff" stroke="#1565c0" stroke-width="2"/>
+        <polygon points="120,20 196.1,75.3 50.7,140" fill="#e3f0fc" stroke="#6a1b9a" stroke-width="2"/>
+        <circle cx="120" cy="20" r="3" fill="#6a1b9a"/>
+        <circle cx="196.1" cy="75.3" r="3" fill="#6a1b9a"/>
+        <circle cx="50.7" cy="140" r="3" fill="#6a1b9a"/>
+        <text x="113" y="15" font-size="12" font-weight="bold">A</text>
+        <text x="202" y="74" font-size="12" font-weight="bold">B</text>
+        <text x="32" y="146" font-size="12" font-weight="bold">C</text>
+        <!-- vnitrni uhly -->
+        <text x="116" y="40" font-size="11" fill="#2e7d32">84°</text>
+        <text x="168" y="80" font-size="11" fill="#2e7d32">60°</text>
+        <text x="64" y="128" font-size="11" fill="#2e7d32">36°</text>
+        <!-- oblouky -->
+        <text x="175" y="40" font-size="11" fill="#e65100">72°</text>
+        <text x="120" y="200" font-size="11" fill="#e65100">168°</text>
+        <text x="44" y="80" font-size="11" fill="#e65100">120°</text>
+      </svg>
+      <div class="popisek">Obvodový úhel je <b>polovina</b> oblouku, který „vidí“ naproti sobě.</div>
+    </div>
+  </div>
+
+  <div class="blok metoda"><h3>📐 Pravidla, která použijeme</h3>
+    <p><b>1) Rozdělení 360° podle poměru</b> – stejný „dílkový“ trik jako u Úlohy 3.</p>
+    <p><b>2) Věta o obvodovém úhlu:</b> vnitřní úhel trojúhelníku u nějakého vrcholu je
+    <b>polovina oblouku</b>, který leží naproti (oblouk mezi zbylými dvěma vrcholy).</p>
+    <span class="vzorec">vnitřní úhel = ½ · (protější oblouk)</span>
+    <p><b>3) Vnější úhel</b> je doplněk vnitřního do přímého úhlu:</p>
+    <span class="vzorec">vnější úhel = 180° − vnitřní úhel</span>
+  </div>
+
+  <div class="blok postup"><h3>✏️ Postup řešení</h3>
+    <table class="kroky">
+      <tr><td>1</td><td>Počet dílků: <span class="vzorec male">3 + 7 + 5 = 15</span>, jeden dílek <span class="vzorec male">360° / 15 = 24°</span></td></tr>
+      <tr><td>2</td><td>Oblouky: <span class="vzorec male">3·24=72°, &nbsp; 7·24=168°, &nbsp; 5·24=120°</span></td></tr>
+      <tr><td>3</td><td>Vnitřní úhly (poloviny oblouků): <span class="vzorec male">36°, &nbsp; 84°, &nbsp; 60°</span></td></tr>
+      <tr><td>4</td><td>Kontrola součtu: <span class="vzorec male">36 + 84 + 60 = 180°</span> ✔</td></tr>
+      <tr><td>5</td><td>Vnější úhly (180° − vnitřní):<br>
+        <span class="vzorec male">180−36 = 144°, &nbsp; 180−84 = 96°, &nbsp; 180−60 = 120°</span></td></tr>
+      <tr><td>6</td><td>Kontrola: vnější úhly dají <span class="vzorec male">144+96+120 = 360°</span> ✔</td></tr>
+    </table>
+  </div>
+
+  <div class="blok vysledek"><h3>✅ Výsledek</h3>
+    Vnější úhly trojúhelníku jsou <b>144°, &nbsp;96°&nbsp; a&nbsp; 120°</b>
+    (odpovídají vnitřním úhlům 36°, 84° a 60°).
+  </div>
+</section>
+
+<!-- ============================ ÚLOHA 9 ============================ -->
+<section class="uloha" id="u9">
+  <h2>Úloha 9 <span class="badge">výpočet</span></h2>
+  <div class="blok zadani"><h3>📋 Zadání</h3>
+    Ke kružnici <i>k</i> se středem <i>S</i> vedeme z vnějšího bodu <i>M</i> tečny. Délka tečen je 8 cm
+    a <i>|MS|</i> = 12 cm. Určete poloměr kružnice.</div>
+
+  <div class="blok kontext"><h3>💡 O co jde</h3>
+    <p><b>Tečna</b> je přímka, která se kružnice jen „dotkne“ v jediném bodě <i>T</i> (bod dotyku).
+    Z bodu <i>M</i> mimo kružnici lze vést dvě tečny. „Délka tečny“ je vzdálenost od <i>M</i> k bodu
+    dotyku, tj. <i>|MT|</i> = 8 cm. Vzdálenost ke středu je <i>|MS|</i> = 12 cm.</p>
+    <div class="obrazek">
+      <svg viewBox="0 0 300 200" width="340">
+        <circle cx="180" cy="90" r="60" fill="#e3f0fc" stroke="#1565c0" stroke-width="2"/>
+        <circle cx="180" cy="90" r="2.5" fill="#1565c0"/>
+        <circle cx="20" cy="90" r="3" fill="#6a1b9a"/>
+        <!-- tecne body (priblizne) -->
+        <line x1="20" y1="90" x2="124" y2="38" stroke="#e65100" stroke-width="2"/>
+        <line x1="20" y1="90" x2="124" y2="142" stroke="#e65100" stroke-width="2"/>
+        <line x1="180" y1="90" x2="124" y2="38" stroke="#2e7d32" stroke-width="2"/>
+        <line x1="180" y1="90" x2="124" y2="142" stroke="#2e7d32" stroke-width="2"/>
+        <line x1="20" y1="90" x2="180" y2="90" stroke="#455a64" stroke-width="1.4" stroke-dasharray="5 4"/>
+        <rect x="113" y="40" width="11" height="11" fill="none" stroke="#2e7d32" stroke-width="1.1" transform="rotate(-26 124 38)"/>
+        <text x="8" y="86" font-size="13" font-weight="bold">M</text>
+        <text x="184" y="86" font-size="13" font-weight="bold">S</text>
+        <text x="128" y="34" font-size="12" font-weight="bold">T</text>
+        <text x="60" y="52" font-size="12" fill="#e65100">8</text>
+        <text x="150" y="56" font-size="12" fill="#2e7d32">r</text>
+        <text x="92" y="104" font-size="12" fill="#455a64">12</text>
+      </svg>
+      <div class="popisek">Poloměr je <b>kolmý</b> k tečně v bodě dotyku → pravoúhlý trojúhelník MTS.</div>
+    </div>
+  </div>
+
+  <div class="blok metoda"><h3>📐 Klíčové pravidlo + Pythagoras</h3>
+    <p>Důležitá vlastnost: <b>poloměr je vždy kolmý k tečně</b> v bodě dotyku. Trojúhelník <i>MTS</i> je
+    proto pravoúhlý s pravým úhlem u <i>T</i>. Platí:</p>
+    <ul>
+      <li>přepona = <i>|MS|</i> = 12 cm (proti pravému úhlu),</li>
+      <li>odvěsna = tečna <i>|MT|</i> = 8 cm,</li>
+      <li>odvěsna = poloměr <i>r</i> = <i>|ST|</i> (hledáme).</li>
+    </ul>
+    <span class="vzorec">r² + 8² = 12²</span>
+  </div>
+
+  <div class="blok postup"><h3>✏️ Postup řešení</h3>
+    <table class="kroky">
+      <tr><td>1</td><td><span class="vzorec male">r² + 8² = 12²</span></td></tr>
+      <tr><td>2</td><td><span class="vzorec male">r² = 144 − 64 = 80</span></td></tr>
+      <tr><td>3</td><td><span class="vzorec male">r = √80 = 4√5 ≈ 8,94 cm</span></td></tr>
+    </table>
+  </div>
+
+  <div class="blok vysledek"><h3>✅ Výsledek</h3>
+    Poloměr kružnice je <b>r = 4√5 cm ≈ 8,94 cm</b>.
+  </div>
+</section>
+
+<!-- ============================ ÚLOHA 10 ============================ -->
+<section class="uloha" id="u10">
+  <h2>Úloha 10 <span class="badge">výpočet</span></h2>
+  <div class="blok zadani"><h3>📋 Zadání</h3>
+    Určete obsah kosočtverce, jsou-li délky úhlopříček v poměru 1 : 2 a strana má délku 4 cm.</div>
+
+  <div class="blok kontext"><h3>💡 O co jde</h3>
+    <p>Opět kosočtverec (čtyři stejné strany, kolmé úhlopříčky, které se navzájem půlí). Tentokrát neznáme
+    úhlopříčky přímo, jen jejich poměr 1 : 2, a navíc známe stranu 4 cm. Nejdřív najdeme úhlopříčky,
+    pak obsah.</p>
+    <div class="obrazek">
+      <svg viewBox="0 0 220 200" width="240">
+        <polygon points="70,90 110,10 150,90 110,170" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2"/>
+        <line x1="70" y1="90" x2="150" y2="90" stroke="#1565c0" stroke-width="1.6" stroke-dasharray="5 3"/>
+        <line x1="110" y1="10" x2="110" y2="170" stroke="#e65100" stroke-width="1.6" stroke-dasharray="5 3"/>
+        <rect x="110" y="78" width="12" height="12" fill="none" stroke="#455a64" stroke-width="1"/>
+        <text x="124" y="86" font-size="12" fill="#1565c0">d₁ (=x)</text>
+        <text x="116" y="30" font-size="12" fill="#e65100">d₂ (=2x)</text>
+        <text x="78" y="46" font-size="12" fill="#6a1b9a">a=4</text>
+      </svg>
+      <div class="popisek">Polovinami úhlopříček a stranou vznikne pravoúhlý trojúhelník.</div>
+    </div>
+  </div>
+
+  <div class="blok metoda"><h3>📐 Metoda</h3>
+    <p>Úhlopříčky se v kosočtverci <b>kolmo půlí</b>. Pravoúhlý trojúhelníček, který tím vznikne, má
+    odvěsny rovné <b>polovinám úhlopříček</b> a přeponu rovnou <b>straně</b>. Označíme:</p>
+    <span class="vzorec">d₁ = x,&nbsp;&nbsp; d₂ = 2x &nbsp;&nbsp;(poměr 1:2)</span>
+    <p>Poloviny: <span class="vzorec male">x/2</span> a <span class="vzorec male">x</span>. Pythagoras se stranou:</p>
+    <span class="vzorec">(x/2)² + x² = 4²</span>
+    <p>Obsah pak: <span class="vzorec male">S = ½ · d₁ · d₂</span>.</p>
+  </div>
+
+  <div class="blok postup"><h3>✏️ Postup řešení</h3>
+    <table class="kroky">
+      <tr><td>1</td><td><span class="vzorec male">(x/2)² + x² = 16</span></td></tr>
+      <tr><td>2</td><td><span class="vzorec male">x²/4 + x² = 16 ⟹ (5/4)·x² = 16</span></td></tr>
+      <tr><td>3</td><td><span class="vzorec male">x² = 64/5 = 12,8</span></td></tr>
+      <tr><td>4</td><td>Obsah chytře: <span class="vzorec male">S = ½ · d₁ · d₂ = ½ · x · 2x = x²</span></td></tr>
+      <tr><td>5</td><td>Tedy <span class="vzorec male">S = x² = 12,8 cm²</span></td></tr>
+    </table>
+    <div class="pozn">Tip: protože <i>d₂ = 2·d₁</i>, vyšlo nám hezky <i>S = ½·x·2x = x²</i> – nemuseli jsme ani počítat
+    odmocninu z <i>x</i>. Pro zajímavost: <i>x = √12,8 ≈ 3,58 cm</i>, tedy <i>d₁ ≈ 3,58 cm</i> a <i>d₂ ≈ 7,16 cm</i>.</div>
+  </div>
+
+  <div class="blok vysledek"><h3>✅ Výsledek</h3>
+    Obsah kosočtverce je <b>S = 12,8 cm²</b> (přesně 64/5 cm²).
+  </div>
+</section>
+
+<!-- ============================ ÚLOHA 11 ============================ -->
+<section class="uloha" id="u11">
+  <h2>Úloha 11 <span class="badge">důkaz</span></h2>
+  <div class="blok zadani"><h3>📋 Zadání</h3>
+    V rovnoramenném lichoběžníku <i>ABCD</i> (<i>AB ∥ CD</i>) je <i>S</i> průsečík úhlopříček.
+    Dokažte, že <span class="vzorec male">|BS| / |DS| = |AB| / |CD|</span>.</div>
+
+  <div class="blok kontext"><h3>💡 O co jde</h3>
+    <p>Lichoběžník <i>ABCD</i> má rovnoběžné základny <i>AB</i> a <i>CD</i>. Úhlopříčky <i>AC</i> a <i>BD</i>
+    se protnou v bodě <i>S</i>. Máme dokázat, že bod <i>S</i> dělí úhlopříčky ve stejném poměru, v jakém
+    jsou dlouhé základny. „Dokázat“ = obecně zdůvodnit, ne změřit.</p>
+    <div class="obrazek">
+      <svg viewBox="0 0 290 180" width="330">
+        <polygon points="30,150 254,150 198,38 86,38" fill="#e3f0fc" stroke="#1565c0" stroke-width="2"/>
+        <line x1="30" y1="150" x2="198" y2="38" stroke="#6a1b9a" stroke-width="1.6"/>
+        <line x1="254" y1="150" x2="86" y2="38" stroke="#e65100" stroke-width="1.6"/>
+        <circle cx="142" cy="75" r="3" fill="#000"/>
+        <text x="20" y="166" font-size="13" font-weight="bold">A</text>
+        <text x="256" y="166" font-size="13" font-weight="bold">B</text>
+        <text x="200" y="34" font-size="13" font-weight="bold">C</text>
+        <text x="74" y="34" font-size="13" font-weight="bold">D</text>
+        <text x="146" y="72" font-size="12" font-weight="bold">S</text>
+        <text x="135" y="166" font-size="12" fill="#1565c0">AB</text>
+        <text x="132" y="30" font-size="12" fill="#1565c0">CD</text>
+      </svg>
+      <div class="popisek">Trojúhelníky <i>ABS</i> a <i>CDS</i> jsou podobné „překlopené přes vrchol“&nbsp;<i>S</i>.</div>
+    </div>
+  </div>
+
+  <div class="blok metoda"><h3>📐 Nástroj: podobnost trojúhelníků (věta uu)</h3>
+    <p>Použijeme dvě pravidla o úhlech:</p>
+    <ul>
+      <li><b>Vrcholové úhly</b> (proti sobě při křížení dvou přímek) jsou shodné.</li>
+      <li><b>Střídavé úhly</b> u rovnoběžek <i>AB ∥ CD</i> proťatých příčkou jsou shodné.</li>
+    </ul>
+    <p>Když dva trojúhelníky mají dva páry shodných úhlů, jsou <b>podobné</b> (věta uu) a jejich
+    odpovídající strany mají stejný poměr.</p>
+  </div>
+
+  <div class="blok postup"><h3>✏️ Důkaz krok za krokem</h3>
+    <div class="dukaz-krok"><b>1.</b> Úhly <span class="vzorec male">∢ASB = ∢CSD</span> – jsou to vrcholové úhly v bodě <i>S</i>.</div>
+    <div class="dukaz-krok"><b>2.</b> Úhly <span class="vzorec male">∢BAS = ∢DCS</span> – střídavé úhly u rovnoběžek
+      <i>AB ∥ CD</i> proťatých úhlopříčkou <i>AC</i>.</div>
+    <div class="dukaz-krok"><b>3.</b> Tím má trojúhelník <i>ABS</i> dva úhly shodné s trojúhelníkem <i>CDS</i>,
+      proto podle věty uu: <span class="vzorec male">△ABS ~ △CDS</span>.</div>
+    <div class="dukaz-krok"><b>4.</b> U podobných trojúhelníků jsou poměry odpovídajících stran stejné.
+      Strana <i>AB</i> odpovídá <i>CD</i>, strana <i>BS</i> odpovídá <i>DS</i>:
+      <span class="vzorec">|AB| / |CD| = |BS| / |DS|</span></div>
+    <div class="dukaz-krok"><b>5.</b> Po přehození stran rovnosti dostáváme přesně tvrzení:
+      <span class="vzorec">|BS| / |DS| = |AB| / |CD| &nbsp; ✔</span></div>
+  </div>
+
+  <div class="blok vysledek"><h3>✅ Závěr</h3>
+    Z podobnosti △ABS ~ △CDS plyne, že průsečík úhlopříček dělí úhlopříčky v poměru základen:
+    <b>|BS| / |DS| = |AB| / |CD|</b>.
+    <div class="pozn">Poznámka: tato vlastnost platí dokonce v <i>každém</i> lichoběžníku – „rovnoramennost“
+    jsme v důkazu vůbec nepotřebovali, stačila rovnoběžnost základen.</div>
+  </div>
+</section>
+
+<!-- ============================ ÚLOHA 12 ============================ -->
+<section class="uloha" id="u12">
+  <h2>Úloha 12 <span class="badge">důkaz</span></h2>
+  <div class="blok zadani"><h3>📋 Zadání</h3>
+    Dokažte, že se úhlopříčky v kosodélníku vzájemně půlí.</div>
+
+  <div class="blok kontext"><h3>💡 O co jde</h3>
+    <p><b>Kosodélník</b> je rovnoběžník – čtyřúhelník, u kterého jsou <b>protější strany rovnoběžné</b>
+    (a tím pádem i stejně dlouhé). Má kosé (nepravé) úhly a sousední strany různě dlouhé.
+    „Úhlopříčky se vzájemně půlí“ znamená, že se protínají přesně ve svých středech – průsečík <i>S</i>
+    rozdělí každou úhlopříčku na dvě stejné poloviny:
+    <span class="vzorec male">|AS| = |CS|</span> a <span class="vzorec male">|BS| = |DS|</span>.</p>
+    <div class="obrazek">
+      <svg viewBox="0 0 300 170" width="340">
+        <polygon points="30,130 206,130 272,42 96,42" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+        <line x1="30" y1="130" x2="272" y2="42" stroke="#1565c0" stroke-width="1.6"/>
+        <line x1="206" y1="130" x2="96" y2="42" stroke="#6a1b9a" stroke-width="1.6"/>
+        <circle cx="151" cy="86" r="3" fill="#000"/>
+        <text x="20" y="146" font-size="13" font-weight="bold">A</text>
+        <text x="208" y="146" font-size="13" font-weight="bold">B</text>
+        <text x="274" y="38" font-size="13" font-weight="bold">C</text>
+        <text x="84" y="38" font-size="13" font-weight="bold">D</text>
+        <text x="155" y="84" font-size="12" font-weight="bold">S</text>
+      </svg>
+      <div class="popisek">Dokážeme shodnost trojúhelníků <i>ABS</i> a <i>CDS</i>.</div>
+    </div>
+  </div>
+
+  <div class="blok metoda"><h3>📐 Nástroj: shodnost trojúhelníků (věta usu)</h3>
+    <p>Tentokrát potřebujeme <b>shodnost</b> (stejně velké trojúhelníky), ne jen podobnost. Použijeme:</p>
+    <ul>
+      <li><b>Protější strany rovnoběžníku jsou shodné</b>: <span class="vzorec male">|AB| = |CD|</span>.</li>
+      <li><b>Střídavé úhly</b> u rovnoběžek <i>AB ∥ CD</i>.</li>
+      <li><b>Věta usu</b> (úhel-strana-úhel): shodují-li se strana a oba úhly k ní přilehlé, jsou trojúhelníky shodné.</li>
+    </ul>
+  </div>
+
+  <div class="blok postup"><h3>✏️ Důkaz krok za krokem</h3>
+    <p>Porovnáme trojúhelníky <b>ABS</b> a <b>CDS</b>:</p>
+    <div class="dukaz-krok"><b>1.</b> <span class="vzorec male">|AB| = |CD|</span> – protější strany rovnoběžníku jsou stejně dlouhé.</div>
+    <div class="dukaz-krok"><b>2.</b> <span class="vzorec male">∢BAS = ∢DCS</span> – střídavé úhly u rovnoběžek
+      <i>AB ∥ CD</i> proťatých úhlopříčkou <i>AC</i>.</div>
+    <div class="dukaz-krok"><b>3.</b> <span class="vzorec male">∢ABS = ∢CDS</span> – střídavé úhly u rovnoběžek
+      <i>AB ∥ CD</i> proťatých úhlopříčkou <i>BD</i>.</div>
+    <div class="dukaz-krok"><b>4.</b> Máme shodnou stranu <i>AB</i> = <i>CD</i> a oba k ní přilehlé úhly shodné,
+      tedy podle věty usu: <span class="vzorec male">△ABS ≅ △CDS</span> (shodné).</div>
+    <div class="dukaz-krok"><b>5.</b> Ve shodných trojúhelnících jsou odpovídající strany stejně dlouhé, proto:
+      <span class="vzorec">|AS| = |CS| &nbsp;&nbsp;a&nbsp;&nbsp; |BS| = |DS| &nbsp; ✔</span></div>
+  </div>
+
+  <div class="blok vysledek"><h3>✅ Závěr</h3>
+    Průsečík <i>S</i> dělí obě úhlopříčky na shodné poloviny, takže <b>úhlopříčky kosodélníku
+    (rovnoběžníku) se vzájemně půlí</b>.
+  </div>
+</section>
+
+<footer>
+  Vypracováno jako studijní materiál – geometrie pro gymnázia. Otevři v prohlížeči, lze i vytisknout (Ctrl&nbsp;+&nbsp;P).
+</footer>
+
+</body>
+</html>
