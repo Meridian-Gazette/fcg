@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ble ble</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap');
+
+  :root{
+    --ink:#1c1a17; --ink-soft:#4a463f; --paper:#faf7f0; --paper-2:#f1ece0;
+    --accent:#b4541f; --accent-2:#2f6f5e; --line:#ddd4c2;
+    --formula-bg:#2b2723; --formula-fg:#f5efe2; --pos:#2f6f5e; --neg:#b4541f;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:'Atkinson Hyperlegible',system-ui,sans-serif;font-size:18px;line-height:1.7;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:3.5rem 1.5rem 6rem;}
+
+  .doc-head{margin-bottom:2.5rem;}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:.6rem;}
+  h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(2.1rem,5.5vw,3rem);
+    line-height:1.05;letter-spacing:-.015em;margin:0 0 .4em;}
+  .sub{color:var(--ink-soft);font-size:1.05rem;margin:0;}
+
+  /* index */
+  .toc{background:var(--paper-2);border-radius:14px;padding:1.2rem 1.4rem;margin:2rem 0 3rem;}
+  .toc h4{margin:0 0 .7rem;font-family:'Atkinson Hyperlegible';font-size:.8rem;
+    text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);}
+  .toc ol{margin:0;padding-left:1.2rem;}
+  .toc li{margin-bottom:.35rem;}
+  .toc a{color:var(--accent);text-decoration:none;}
+  .toc a:hover{text-decoration:underline;}
+
+  /* example block */
+  .ex{margin:0 0 4rem;scroll-margin-top:1rem;}
+  .ex-num{display:inline-flex;align-items:center;gap:.6rem;
+    font-family:'JetBrains Mono',monospace;font-size:.8rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:.8rem;}
+  .ex-num .dot{width:30px;height:30px;border-radius:50%;background:var(--accent);
+    color:var(--paper);display:flex;align-items:center;justify-content:center;
+    font-size:1rem;font-weight:700;}
+  h2{font-family:'Fraunces',serif;font-weight:600;font-size:1.75rem;line-height:1.15;margin:.2rem 0 1rem;}
+  h3{font-family:'Atkinson Hyperlegible';font-weight:700;font-size:1.02rem;
+    text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin:1.8rem 0 .6rem;}
+  h4.part{font-family:'Fraunces',serif;font-weight:600;font-size:1.3rem;color:var(--accent-2);
+    margin:2rem 0 .6rem;}
+  p{margin:0 0 1.05rem;color:var(--ink-soft);}
+  p strong,li strong{color:var(--ink);font-weight:700;}
+  em{font-style:italic;}
+
+  .zadani{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent-2);
+    border-radius:0 12px 12px 0;padding:1rem 1.3rem;margin:0 0 1.6rem;
+    box-shadow:0 6px 22px -16px rgba(0,0,0,.5);}
+  .zadani .lbl{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--accent-2);display:block;margin-bottom:.35rem;}
+  .zadani p{margin:0 0 .5rem;color:var(--ink);}
+  .zadani p:last-child{margin-bottom:0;}
+
+  .formula{background:var(--formula-bg);color:var(--formula-fg);
+    font-family:'JetBrains Mono',monospace;font-size:1.15rem;font-weight:700;
+    padding:1rem 1.3rem;border-radius:10px;margin:1rem 0;letter-spacing:.01em;
+    box-shadow:0 8px 24px -14px rgba(0,0,0,.45);overflow-x:auto;}
+  .formula sub,.formula sup{font-size:.7em;}
+  .formula.result{background:var(--accent);display:inline-flex;align-items:center;gap:.55rem;
+    font-size:1.25rem;}
+  .formula.result::before{content:"➡";opacity:.85;}
+  .formula.result.green{background:var(--accent-2);}
+
+  ul.terms{padding-left:0;list-style:none;margin:0 0 1.1rem;}
+  ul.terms li{position:relative;padding-left:1.5rem;margin-bottom:.6rem;color:var(--ink-soft);}
+  ul.terms li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;
+    border-radius:2px;background:var(--accent-2);}
+
+  .tip{background:var(--paper-2);border-left:4px solid var(--accent);border-radius:0 8px 8px 0;
+    padding:.85rem 1.2rem;margin:1.1rem 0;font-size:.95rem;}
+  .tip b{color:var(--accent);}
+
+  table{width:100%;border-collapse:collapse;margin:.9rem 0 1.4rem;font-size:.95rem;
+    background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 4px 18px -15px rgba(0,0,0,.5);}
+  thead th{background:var(--ink);color:var(--paper);text-align:left;font-weight:700;
+    padding:.65rem .95rem;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;}
+  tbody td{padding:.7rem .95rem;border-top:1px solid var(--line);color:var(--ink-soft);}
+  tbody td:first-child{font-weight:700;color:var(--ink);}
+  .pos{color:var(--pos);font-weight:700;}
+  .neg{color:var(--neg);font-weight:700;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  .conclusion{font-family:'Fraunces',serif;font-size:1.15rem;color:var(--ink);margin:1.3rem 0 .5rem;}
+
+  hr.sep{border:none;border-top:2px solid var(--line);margin:0;}
+  .foot{margin-top:3rem;padding-top:1.5rem;border-top:2px solid var(--line);
+    font-size:.85rem;color:var(--ink-soft);font-family:'JetBrains Mono',monospace;letter-spacing:.03em;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="doc-head">
+    
+    <h2>fyzika véna</h2>
+    
+  </div>
+
+  <nav class="toc">
+     
+    <ol>
+      <li><a href="#ex1">Stlačení plynu — změna vnitřní energie</a></li>
+      <li><a href="#ex2">Olověná střela — ohřátí při nárazu</a></li>
+      <li><a href="#ex3">Teploměr ve vodě — kalorimetrická rovnice</a></li>
+      <li><a href="#ex4">Plyn koná práci a přijímá teplo</a></li>
+      <li><a href="#ex5">Náraz dvou kovových těles</a></li>
+      <li><a href="#ex6">Hliníkové těleso ve vodě — kalorimetrická rovnice</a></li>
+      <li><a href="#ex7">Plyn zvedá píst v izolované nádobě</a></li>
+      <li><a href="#ex8">Střela prorážející dřevěnou desku</a></li>
+    </ol>
+  </nav>
+
+  <section class="ex" id="ex1">
+    <div class="ex-num"><span class="dot">1</span> První termodynamický zákon</div>
+    <h2>Stlačení plynu</h2>
+
+    <div class="zadani">
+      <span class="lbl">Zadání</span>
+      <p>Stlačením plynu vykonáme práci 10 J. Plyn předá chladnějšímu tělesu teplo 16 J.</p>
+      <p><strong>Úkoly:</strong> a) Určete změnu vnitřní energie plynu (ΔU). b) Jak se změní teplota plynu?</p>
+    </div>
+
+    <h3>Co se v příkladu děje?</h3>
+    <p>Představ si plyn uzavřený v nádobě s pístem. Dějí se dvě věci:</p>
+    <ul class="terms">
+      <li><strong>Stlačujeme plyn</strong> → tlačíme na píst, takže plynu energii <em>dodáváme</em>. Práce 10 J jde do plynu.</li>
+      <li><strong>Plyn odevzdá teplo 16 J</strong> chladnějšímu tělesu → energie z plynu <em>odchází pryč</em>.</li>
+    </ul>
+    <p>Klíč k pochopení je hlídat si znaménka — jestli energie do plynu přitéká (+), nebo z něj odtéká (−).</p>
+
+    <h4 class="part">a) Změna vnitřní energie ΔU</h4>
+    <h3>Použitý vzorec — první termodynamický zákon</h3>
+    <div class="formula">ΔU = Q + W</div>
+    <ul class="terms">
+      <li><strong>ΔU</strong> = změna vnitřní energie plynu (to hledáme)</li>
+      <li><strong>Q</strong> = teplo, které plyn přijme</li>
+      <li><strong>W</strong> = práce vykonaná na plynu (vnějšími silami)</li>
+    </ul>
+
+    <h3>Určení znamének</h3>
+    <table>
+      <thead><tr><th>Veličina</th><th>Co se děje</th><th>Znaménko</th><th>Hodnota</th></tr></thead>
+      <tbody>
+        <tr><td>W (práce)</td><td>plyn stlačujeme → energii dodáváme</td><td class="pos">+</td><td class="pos">+10 J</td></tr>
+        <tr><td>Q (teplo)</td><td>plyn teplo odevzdá (ztrácí ho)</td><td class="neg">−</td><td class="neg">−16 J</td></tr>
+      </tbody>
+    </table>
+    <div class="tip">💡 <b>Pomůcka:</b> co plyn dostává, je kladné (+). Co ztrácí, je záporné (−).</div>
+
+    <h3>Dosazení</h3>
+    <div class="formula">ΔU = Q + W = (−16 J) + (+10 J) = −6 J</div>
+    <div class="formula result">ΔU = −6 J</div>
+    <p class="conclusion">Vnitřní energie plynu se zmenšila o 6 J.</p>
+    <p>(Proč klesla? Plyn odevzdal víc energie ve formě tepla — 16 J — než kolik mu jí dodala stlačovací práce — 10 J. Bilance je ztrátová.)</p>
+
+    <h4 class="part">b) Jak se změní teplota plynu?</h4>
+    <p>Vnitřní energie plynu přímo souvisí s jeho teplotou — je jí úměrná:</p>
+    <div class="formula">U ~ T</div>
+    <p>Jednoduše: víc vnitřní energie = vyšší teplota, méně vnitřní energie = nižší teplota. Protože nám vnitřní energie klesla (ΔU = −6 J je záporné):</p>
+    <div class="formula result green">Teplota plynu se sníží — plyn se ochladí.</div>
+
+    <h3>Shrnutí</h3>
+    <table>
+      <thead><tr><th>Úkol</th><th>Výsledek</th></tr></thead>
+      <tbody>
+        <tr><td>a) Změna vnitřní energie</td><td>ΔU = −6 J (energie klesla o 6 J)</td></tr>
+        <tr><td>b) Teplota</td><td>klesne — plyn se ochladí</td></tr>
+      </tbody>
+    </table>
+  </section>
+  <hr class="sep">
+
+  <section class="ex" id="ex2">
+    <div class="ex-num"><span class="dot">2</span> Přeměna energie</div>
+    <h2>Olověná střela — ohřátí při nárazu</h2>
+
+    <div class="zadani">
+      <span class="lbl">Zadání</span>
+      <p>Olověná střela letící rychlostí 720 km/h narazí do překážky a zastaví se. Na zvýšení její vnitřní energie se spotřebuje 55 % kinetické energie.</p>
+      <p><strong>Úkoly:</strong> Určete, jak se změní její teplota (Δt).</p>
+    </div>
+
+    <h3>Co se v příkladu děje?</h3>
+    <p>Letící střela má pohybovou (kinetickou) energii. Když narazí a zastaví se, energie nezmizí — přemění se. Část (55 %) se přemění na vnitřní energii střely, takže se střela zahřeje. Úkolem je spočítat, o kolik stupňů.</p>
+
+    <h3>Co potřebujeme předem</h3>
+    <ul class="terms">
+      <li><strong>Měrná tepelná kapacita olova</strong> (vyhledaná hodnota): c = 129 J/(kg·K) — kolik tepla je třeba dodat 1 kg olova, aby se ohřálo o 1 K.</li>
+      <li><strong>Převod rychlosti</strong> do základních jednotek: v = 720 km/h = 720 ÷ 3,6 = 200 m/s.</li>
+    </ul>
+
+    <h3>Použité vzorce</h3>
+    <div class="formula">E<sub>k</sub> = ½ · m · v²　　(kinetická energie)</div>
+    <div class="formula">Q = m · c · Δt　　(teplo k ohřátí tělesa)</div>
+    <p>Zadání říká, že 55 % kinetické energie se přemění na vnitřní energii, a ta způsobí ohřátí (ΔU = Q):</p>
+    <div class="formula">m · c · Δt = 0,55 · ½ · m · v²</div>
+
+    <h3>Trik: hmotnost se vykrátí 🎯</h3>
+    <p>Hmotnost <strong>m</strong> je na obou stranách rovnice — vykrátí se. Hmotnost střely vůbec nepotřebujeme znát! Po vyjádření Δt:</p>
+    <div class="formula">Δt = (0,55 · v²) ÷ (2 · c)</div>
+
+    <h3>Dosazení hodnot</h3>
+    <div class="formula">Δt = (0,55 · 200²) ÷ (2 · 129)</div>
+    <table>
+      <thead><tr><th>Krok</th><th>Výpočet</th><th>Výsledek</th></tr></thead>
+      <tbody>
+        <tr><td>Spočítáme v²</td><td class="mono">200 · 200</td><td class="mono">40 000</td></tr>
+        <tr><td>Čitatel</td><td class="mono">0,55 · 40 000</td><td class="mono">22 000</td></tr>
+        <tr><td>Jmenovatel</td><td class="mono">2 · 129</td><td class="mono">258</td></tr>
+        <tr><td>Podíl</td><td class="mono">22 000 ÷ 258</td><td class="mono">≈ 85,3</td></tr>
+      </tbody>
+    </table>
+    <div class="formula result">Δt ≈ 85,3 °C</div>
+
+    <h3>Shrnutí</h3>
+    <table>
+      <thead><tr><th>Veličina</th><th>Hodnota</th></tr></thead>
+      <tbody>
+        <tr><td>Rychlost střely</td><td>200 m/s</td></tr>
+        <tr><td>Měrná tep. kapacita olova</td><td>129 J/(kg·K)</td></tr>
+        <tr><td>Zvýšení teploty Δt</td><td>≈ 85 °C</td></tr>
+      </tbody>
+    </table>
+    <p>Teplota střely se zvýší přibližně o 85 °C. Hmotnost jsme přitom vůbec nepotřebovali — vykrátila se.</p>
+  </section>
+  <hr class="sep">
+
+  <section class="ex" id="ex3">
+    <div class="ex-num"><span class="dot">3</span> Kalorimetrická rovnice</div>
+    <h2>Teploměr ve vodě</h2>
+
+    <div class="zadani">
+      <span class="lbl">Zadání</span>
+      <p>Do vody o objemu 150 ml vložíme teploměr o tepelné kapacitě 8 J/K. Teplota teploměru před ponořením byla 20 °C. Teplota teploměru a vody po dosažení rovnováhy byla 60 °C.</p>
+      <p><strong>Úkoly:</strong> Jaká byla počáteční teplota vody před měřením?</p>
+    </div>
+
+    <h3>Co se v příkladu děje?</h3>
+    <p>Studený teploměr (20 °C) vložíme do teplejší vody. Teploměr se ohřeje a voda se trochu ochladí, nakonec mají stejnou teplotu — 60 °C. Teploměr „ukradne" vodě trochu tepla na vlastní ohřátí, takže voda původně musela být teplejší než 60 °C. Tu původní teplotu hledáme.</p>
+
+    <h3>Co potřebujeme předem</h3>
+    <ul class="terms">
+      <li><strong>Měrná tepelná kapacita vody:</strong> c = 4180 J/(kg·K)</li>
+      <li><strong>Hmotnost vody:</strong> 150 ml ≈ 150 g, tedy m = 0,15 kg (1 ml vody ≈ 1 g)</li>
+      <li><strong>Tepelná kapacita teploměru:</strong> C = 8 J/K</li>
+    </ul>
+
+    <h3>Hlavní myšlenka: teplo se neztrácí</h3>
+    <p>Kolik tepla voda odevzdá, přesně tolik teploměr přijme:</p>
+    <div class="formula">Q<sub>voda</sub> = Q<sub>teploměr</sub></div>
+
+    <h3>Použité vzorce</h3>
+    <div class="formula">Q<sub>teploměr</sub> = C · (t<sub>r</sub> − t<sub>t</sub>)</div>
+    <div class="formula">Q<sub>voda</sub> = m · c · (t<sub>v</sub> − t<sub>r</sub>)</div>
+    <ul class="terms">
+      <li><strong>t<sub>r</sub></strong> = rovnovážná teplota (60 °C)</li>
+      <li><strong>t<sub>t</sub></strong> = počáteční teplota teploměru (20 °C)</li>
+      <li><strong>t<sub>v</sub></strong> = hledaná počáteční teplota vody</li>
+    </ul>
+
+    <h3>Sestavení rovnice</h3>
+    <div class="formula">m · c · (t<sub>v</sub> − t<sub>r</sub>) = C · (t<sub>r</sub> − t<sub>t</sub>)</div>
+    <p>Vyjádříme hledanou teplotu vody:</p>
+    <div class="formula">t<sub>v</sub> = t<sub>r</sub> + [ C · (t<sub>r</sub> − t<sub>t</sub>) ] ÷ (m · c)</div>
+
+    <h3>Dosazení hodnot</h3>
+    <div class="formula">t<sub>v</sub> = 60 + [ 8 · (60 − 20) ] ÷ (0,15 · 4180)</div>
+    <table>
+      <thead><tr><th>Krok</th><th>Výpočet</th><th>Výsledek</th></tr></thead>
+      <tbody>
+        <tr><td>Teplo přijaté teploměrem</td><td class="mono">8 · 40</td><td class="mono">320 J</td></tr>
+        <tr><td>Jmenovatel</td><td class="mono">0,15 · 4180</td><td class="mono">627</td></tr>
+        <tr><td>Přírůstek teploty</td><td class="mono">320 ÷ 627</td><td class="mono">≈ 0,51 °C</td></tr>
+        <tr><td>Počáteční teplota vody</td><td class="mono">60 + 0,51</td><td class="mono">≈ 60,5 °C</td></tr>
+      </tbody>
+    </table>
+    <div class="formula result">t<sub>v</sub> ≈ 60,5 °C</div>
+
+    <h3>Shrnutí</h3>
+    <table>
+      <thead><tr><th>Veličina</th><th>Hodnota</th></tr></thead>
+      <tbody>
+        <tr><td>Hmotnost vody</td><td>0,15 kg</td></tr>
+        <tr><td>Měrná tep. kapacita vody</td><td>4180 J/(kg·K)</td></tr>
+        <tr><td>Teplo odebrané vodě teploměrem</td><td>320 J</td></tr>
+        <tr><td>Počáteční teplota vody</td><td>≈ 60,5 °C</td></tr>
+      </tbody>
+    </table>
+    <p>Voda měla před měřením teplotu asi 60,5 °C — jen o půl stupně víc než 60 °C, protože malý teploměr pohltí jen málo tepla a vodu ochladí nepatrně. (Proto dobrý teploměr měří přesně. 😊)</p>
+  </section>
+  <hr class="sep">
+
+  <section class="ex" id="ex4">
+    <div class="ex-num"><span class="dot">4</span> První termodynamický zákon</div>
+    <h2>Plyn koná práci a přijímá teplo</h2>
+
+    <div class="zadani">
+      <span class="lbl">Zadání</span>
+      <p>Plyn vykonal práci 6 J a zároveň přijal teplo 4 J.</p>
+      <p><strong>Úkoly:</strong> a) Určete změnu vnitřní energie plynu (ΔU). b) Určete změnu teploty plynu.</p>
+    </div>
+
+    <h3>Co se v příkladu děje?</h3>
+    <p>Plyn <strong>sám vykonal práci</strong> (6 J) — tlačí na píst a posouvá ho ven, takže vydává svou energii. Zároveň ale <strong>přijal teplo</strong> (4 J), tedy energii naopak dostal. Otázka je, jak dopadne jeho vnitřní energie.</p>
+
+    <h4 class="part">a) Změna vnitřní energie ΔU</h4>
+    <h3>Použitý vzorec — první termodynamický zákon</h3>
+    <div class="formula">ΔU = Q − W</div>
+    <ul class="terms">
+      <li><strong>ΔU</strong> = změna vnitřní energie plynu (to hledáme). Kladná = energie přibyla, záporná = ubyla.</li>
+      <li><strong>Q</strong> = teplo, které plyn přijal. Když teplo přijímá, je Q kladné (+).</li>
+      <li><strong>W</strong> = práce, kterou plyn vykonal (odevzdal okolí). Když koná práci, je W kladné (+).</li>
+    </ul>
+    <div class="tip">💡 <b>Pozor na tvar vzorce:</b> tady je mínus před W — práci, kterou plyn vykoná, ze své energie ztrácí (vydá ji ven).</div>
+
+    <h3>Určení hodnot</h3>
+    <table>
+      <thead><tr><th>Veličina</th><th>Co se děje</th><th>Hodnota</th></tr></thead>
+      <tbody>
+        <tr><td>Q (teplo)</td><td>plyn teplo přijal</td><td class="pos">+4 J</td></tr>
+        <tr><td>W (práce)</td><td>plyn práci vykonal</td><td class="pos">+6 J</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Dosazení</h3>
+    <div class="formula">ΔU = Q − W = 4 J − 6 J = −2 J</div>
+    <div class="formula result">ΔU = −2 J</div>
+    <p class="conclusion">Vnitřní energie plynu se zmenšila o 2 J.</p>
+    <p>(Proč klesla? Plyn vydal na práci 6 J, ale ve formě tepla dostal zpátky jen 4 J. Chybějící 2 J si vzal ze své vlastní vnitřní energie.)</p>
+
+    <h4 class="part">b) Změna teploty plynu</h4>
+    <p>Vnitřní energie je úměrná teplotě:</p>
+    <div class="formula">U ~ T</div>
+    <ul class="terms">
+      <li><strong>U</strong> = vnitřní energie plynu</li>
+      <li><strong>T</strong> = termodynamická teplota plynu</li>
+    </ul>
+    <p>Protože vnitřní energie klesla (ΔU = −2 J je záporné):</p>
+    <div class="formula result green">Teplota plynu klesla — plyn se ochladil.</div>
+
+    <h3>Shrnutí</h3>
+    <table>
+      <thead><tr><th>Úkol</th><th>Výsledek</th></tr></thead>
+      <tbody>
+        <tr><td>a) Změna vnitřní energie</td><td>ΔU = −2 J (energie klesla o 2 J)</td></tr>
+        <tr><td>b) Teplota</td><td>klesla — plyn se ochladil</td></tr>
+      </tbody>
+    </table>
+  </section>
+  <hr class="sep">
+
+  <section class="ex" id="ex5">
+    <div class="ex-num"><span class="dot">5</span> Přeměna mechanické energie na teplo</div>
+    <h2>Náraz dvou kovových těles</h2>
+
+    <div class="zadani">
+      <span class="lbl">Zadání</span>
+      <p>Máme dvě stejná kovová tělesa o měrné tepelné kapacitě 240 J/(kg·K). Jedno těleso padá z výšky 11 m na druhé stojící těleso. Srážka je dokonale nepružná a veškerá mechanická energie se přemění na teplo, které si tělesa rozdělí rovným dílem.</p>
+      <p><strong>Úkoly:</strong> Jak se změní teplota (Δt) těchto těles?</p>
+    </div>
+
+    <h3>Co se v příkladu děje?</h3>
+    <p>Jedno těleso padá z výšky 11 m a dopadne na druhé. Při pádu má polohovou (potenciální) energii. Po nárazu se obě tělesa „slepí" (dokonale nepružná srážka) a všechna energie se přemění na teplo. To si obě tělesa rozdělí napůl, takže se obě stejně ohřejí. Hledáme, o kolik stupňů.</p>
+
+    <h3>Co potřebujeme předem</h3>
+    <ul class="terms">
+      <li><strong>Měrná tepelná kapacita kovu:</strong> c = 240 J/(kg·K)</li>
+      <li><strong>Tíhové zrychlení:</strong> g = 9,81 m/s²</li>
+      <li><strong>Výška pádu:</strong> h = 11 m</li>
+    </ul>
+
+    <h3>Použité vzorce</h3>
+    <div class="formula">E<sub>p</sub> = m · g · h　　(polohová energie)</div>
+    <ul class="terms">
+      <li><strong>E<sub>p</sub></strong> = polohová energie tělesa nahoře</li>
+      <li><strong>m</strong> = hmotnost padajícího tělesa, <strong>g</strong> = tíhové zrychlení, <strong>h</strong> = výška pádu</li>
+    </ul>
+    <div class="formula">Q = m · c · Δt　　(teplo k ohřátí tělesa)</div>
+
+    <h3>Sestavení rovnice</h3>
+    <p>Veškerá polohová energie se přemění na teplo, ale rozdělí se mezi dvě tělesa. Každé dostane polovinu:</p>
+    <div class="formula">Q<sub>jedno těleso</sub> = E<sub>p</sub> ÷ 2</div>
+    <p>Dosadíme konkrétní vzorce:</p>
+    <div class="formula">m · c · Δt = (m · g · h) ÷ 2</div>
+
+    <h3>Trik: hmotnost se vykrátí 🎯</h3>
+    <p>Hmotnost <strong>m</strong> je na obou stranách (a obě tělesa jsou stejná), takže ji vykrátíme. Po vyjádření Δt:</p>
+    <div class="formula">Δt = (g · h) ÷ (2 · c)</div>
+
+    <h3>Dosazení hodnot</h3>
+    <div class="formula">Δt = (9,81 · 11) ÷ (2 · 240)</div>
+    <table>
+      <thead><tr><th>Krok</th><th>Výpočet</th><th>Výsledek</th></tr></thead>
+      <tbody>
+        <tr><td>Čitatel</td><td class="mono">9,81 · 11</td><td class="mono">107,91</td></tr>
+        <tr><td>Jmenovatel</td><td class="mono">2 · 240</td><td class="mono">480</td></tr>
+        <tr><td>Podíl</td><td class="mono">107,91 ÷ 480</td><td class="mono">≈ 0,22</td></tr>
+      </tbody>
+    </table>
+    <div class="formula result">Δt ≈ 0,22 °C</div>
+
+    <h3>Shrnutí</h3>
+    <table>
+      <thead><tr><th>Veličina</th><th>Hodnota</th></tr></thead>
+      <tbody>
+        <tr><td>Výška pádu</td><td>11 m</td></tr>
+        <tr><td>Měrná tep. kapacita</td><td>240 J/(kg·K)</td></tr>
+        <tr><td>Změna teploty každého tělesa</td><td>≈ 0,22 °C</td></tr>
+      </tbody>
+    </table>
+    <p>Obě tělesa se ohřejí přibližně o 0,22 °C (každé stejně — teplo si rozdělila napůl a mají stejnou hmotnost). Hmotnost jsme nepotřebovali, vykrátila se.</p>
+    <div class="tip">📌 <b>Poznámka:</b> S g = 10 m/s² (zaokrouhlená hodnota) by vyšlo Δt ≈ 0,23 °C — skoro stejně.</div>
+  </section>
+  <hr class="sep">
+
+  <section class="ex" id="ex6">
+    <div class="ex-num"><span class="dot">6</span> Kalorimetrická rovnice</div>
+    <h2>Hliníkové těleso ve vodě</h2>
+
+    <div class="zadani">
+      <span class="lbl">Zadání</span>
+      <p>V kalorimetru je voda o objemu 600 ml. Vložíme do něj hliníkové těleso o hmotnosti 58 g a počáteční teplotě 91 °C. Výsledná teplota soustavy po ustálení je 18,6 °C.</p>
+      <p><strong>Úkoly:</strong> Zjistěte společnou počáteční teplotu vody a kalorimetru (tepelnou kapacitu kalorimetru zanedbejte).</p>
+    </div>
+
+    <h3>Hlavní myšlenka</h3>
+    <p>Horký hliník (91 °C) dáme do chladnější vody. Hliník se ochlazuje a <em>odevzdává</em> teplo, voda se ohřívá a teplo <em>přijímá</em>. Platí kalorimetrické pravidlo: teplo, které hliník odevzdá, se rovná teplu, které voda přijme. Z té rovnice dopočítáme počáteční teplotu vody.</p>
+
+    <h3>Co potřebujeme předem</h3>
+    <ul class="terms">
+      <li><strong>Měrná tep. kapacita vody:</strong> c<sub>v</sub> = 4180 J/(kg·K)</li>
+      <li><strong>Měrná tep. kapacita hliníku:</strong> c<sub>h</sub> = 896 J/(kg·K)</li>
+      <li><strong>Hustota vody:</strong> ρ = 1000 kg/m³ (1 g/ml), takže 600 ml = 600 g = 0,6 kg</li>
+    </ul>
+
+    <h3>Použité vzorce</h3>
+    <div class="formula">m = ρ · V　　(hmotnost z objemu)</div>
+    <ul class="terms">
+      <li><strong>m</strong> = hmotnost (kg), <strong>ρ</strong> = hustota látky, <strong>V</strong> = objem</li>
+    </ul>
+    <div class="formula">Q = m · c · Δt　　(kalorimetrický vztah)</div>
+    <ul class="terms">
+      <li><strong>Q</strong> = teplo (J), <strong>m</strong> = hmotnost, <strong>c</strong> = měrná tep. kapacita, <strong>Δt</strong> = změna teploty</li>
+    </ul>
+    <h3>Kalorimetrická rovnice — srdce příkladu</h3>
+    <div class="formula">Q<sub>odevzdané hliníkem</sub> = Q<sub>přijaté vodou</sub></div>
+    <div class="formula">m<sub>h</sub> · c<sub>h</sub> · (t<sub>h</sub> − t) = m<sub>v</sub> · c<sub>v</sub> · (t − t<sub>v</sub>)</div>
+    <ul class="terms">
+      <li>vlevo: teplo z hliníku — ochladí se z t<sub>h</sub> (91 °C) na společnou teplotu t (18,6 °C)</li>
+      <li>vpravo: teplo do vody — ohřeje se z hledané t<sub>v</sub> na společnou teplotu t</li>
+    </ul>
+    <div class="tip">💡 <b>Pozor na pořadí v závorkách:</b> vždy „od vyšší teploty odečítám nižší", aby teplo vyšlo kladně.</div>
+
+    <h3>Postup s dosazením</h3>
+    <table>
+      <thead><tr><th>Krok</th><th>Výpočet</th><th>Výsledek</th></tr></thead>
+      <tbody>
+        <tr><td>Hmotnost vody</td><td class="mono">1000 · 0,0006</td><td class="mono">0,6 kg</td></tr>
+        <tr><td>Ochlazení hliníku</td><td class="mono">91 − 18,6</td><td class="mono">72,4 °C</td></tr>
+        <tr><td>Teplo z hliníku Q<sub>h</sub></td><td class="mono">0,058 · 896 · 72,4</td><td class="mono">≈ 3762 J</td></tr>
+        <tr><td>Ohřátí vody (t − t<sub>v</sub>)</td><td class="mono">3762 ÷ (0,6 · 4180)</td><td class="mono">≈ 1,5 °C</td></tr>
+        <tr><td>Počáteční teplota vody</td><td class="mono">18,6 − 1,5</td><td class="mono">≈ 17,1 °C</td></tr>
+      </tbody>
+    </table>
+    <div class="formula result">t<sub>v</sub> ≈ 17,1 °C</div>
+    <p class="conclusion">Společná počáteční teplota vody a kalorimetru byla přibližně 17,1 °C.</p>
+    <div class="tip">💡 <b>Kontrola selským rozumem:</b> hliníku bylo málo (58 g) a navíc „nepojme" tolik tepla jako voda. Voda je těžká (0,6 kg) a výborný zásobník tepla — proto horký hliník vodu ohřál jen o malý kousek (1,5 °C). Sedí to. 🙂</div>
+  </section>
+  <hr class="sep">
+
+  <section class="ex" id="ex7">
+    <div class="ex-num"><span class="dot">7</span> Práce plynu · 1. termodynamický zákon</div>
+    <h2>Plyn zvedá píst v izolované nádobě</h2>
+
+    <div class="zadani">
+      <span class="lbl">Zadání</span>
+      <p>Stlačený plyn v uzavřené, tepelně izolované nádobě působí na píst o hmotnosti 4700 g směrem vzhůru a vyzvedne ho do výšky 30 cm.</p>
+      <p><strong>Úkoly:</strong> Určete práci vykonanou plynem (W) a změnu vnitřní energie plynu (ΔU).</p>
+    </div>
+
+    <h3>Hlavní myšlenka</h3>
+    <p>Plyn tlačí na píst a zvedne ho nahoru — aby zvedl těžký píst proti gravitaci, musí vykonat práci, přesně takovou, jaká je potřeba na zvednutí pístu o 30 cm. A teď ta chytřejší část: nádoba je <strong>tepelně izolovaná</strong>, takže do plynu nepřiteklo žádné teplo zvenku (Q = 0). Přesto plyn práci vykonal — energii vzal sám ze sebe, ze své vnitřní energie. Proto vnitřní energie klesne přesně o tolik, kolik vydal jako práci.</p>
+
+    <h3>Co potřebujeme předem</h3>
+    <ul class="terms">
+      <li>hmotnost pístu m = 4700 g = 4,7 kg</li>
+      <li>výška zvednutí h = 30 cm = 0,3 m</li>
+      <li>tíhové zrychlení g ≈ 9,81 m/s²</li>
+      <li>izolovaná nádoba → s okolím žádná výměna tepla (Q = 0)</li>
+    </ul>
+
+    <h3>Použité vzorce</h3>
+    <div class="formula">W = m · g · h　　(práce při zvedání pístu)</div>
+    <ul class="terms">
+      <li><strong>W</strong> = práce plynu (J), <strong>m</strong> = hmotnost pístu, <strong>g</strong> = tíhové zrychlení, <strong>h</strong> = výška</li>
+    </ul>
+    <div class="formula">ΔU = Q − W　　(první termodynamický zákon)</div>
+    <ul class="terms">
+      <li><strong>ΔU</strong> = změna vnitřní energie plynu, <strong>Q</strong> = teplo dodané zvenku, <strong>W</strong> = práce plynu</li>
+    </ul>
+    <p>Protože je nádoba izolovaná, je Q = 0 a vzorec se zjednoduší:</p>
+    <div class="formula">ΔU = − W</div>
+
+    <h3>Postup s dosazením</h3>
+    <div class="formula">W = 4,7 · 9,81 · 0,3 ≈ 13,8 J</div>
+    <div class="formula">ΔU = − W = − 13,8 J</div>
+    <div class="formula result">W ≈ 13,8 J</div>
+    <div class="formula result">ΔU ≈ −13,8 J</div>
+    <p class="conclusion">Plyn vykonal práci ≈ 13,8 J a jeho vnitřní energie o stejnou hodnotu klesla.</p>
+    <div class="tip">💡 <b>Jak chápat to mínus:</b> mínus u ΔU znamená „ubylo". Plyn neměl žádný přísun tepla zvenčí, takže veškerou energii na zvednutí pístu vzal sám ze sebe — jako když utratíš peníze z peněženky, aniž by ti někdo přidal. Plyn se přitom mírně ochladí.</div>
+  </section>
+  <hr class="sep">
+
+  <section class="ex" id="ex8">
+    <div class="ex-num"><span class="dot">8</span> Přeměna energie · práce síly</div>
+    <h2>Střela prorážející dřevěnou desku</h2>
+
+    <div class="zadani">
+      <span class="lbl">Zadání</span>
+      <p>Střela o hmotnosti 20 g narazí rychlostí 360 m/s do pevné dřevěné desky o šířce 4 cm, proletí jí a po vyletění má rychlost 100 m/s.</p>
+      <p><strong>Úkoly:</strong> a) Úbytek kinetické energie střely (ΔE<sub>k</sub>). b) Průměrná odporová síla (F). c) Celková změna vnitřní energie (ΔU) a jak se projevila navenek.</p>
+    </div>
+
+    <h3>Hlavní myšlenka</h3>
+    <p>Střela letí rychle, má hodně pohybové energie. Když prorazí desku, zpomalí — část energie se „spotřebuje". Deska se bránila odporovou silou a střela ji musela překonávat. Tato ztracená pohybová energie se přemění na teplo: střela i dřevo se zahřejí. Energie se neztratila, jen změnila podobu.</p>
+
+    <h3>Co potřebujeme předem</h3>
+    <ul class="terms">
+      <li>hmotnost střely m = 20 g = 0,02 kg</li>
+      <li>rychlost před deskou v<sub>1</sub> = 360 m/s, za deskou v<sub>2</sub> = 100 m/s</li>
+      <li>tloušťka desky d = 4 cm = 0,04 m</li>
+    </ul>
+
+    <h3>Použité vzorce</h3>
+    <div class="formula">E<sub>k</sub> = ½ · m · v²　　(kinetická energie)</div>
+    <div class="formula">ΔE<sub>k</sub> = ½ · m · (v<sub>1</sub>² − v<sub>2</sub>²)</div>
+    <ul class="terms">
+      <li><strong>E<sub>k</sub></strong> = pohybová energie (J), <strong>m</strong> = hmotnost, <strong>v</strong> = rychlost</li>
+    </ul>
+    <div class="formula">W = F · d　　(práce síly na dráze)</div>
+    <ul class="terms">
+      <li><strong>F</strong> = síla (N), <strong>d</strong> = dráha. Odporová síla sebrala střele přesně úbytek její energie, takže ΔE<sub>k</sub> = F · d.</li>
+    </ul>
+    <div class="formula">ΔU = ΔE<sub>k</sub>　　(zákon zachování energie)</div>
+    <p>O kolik klesla pohybová energie, o tolik vzroste vnitřní energie (teplo) střely a desky.</p>
+
+    <h4 class="part">a) Úbytek kinetické energie</h4>
+    <div class="formula">ΔE<sub>k</sub> = ½ · 0,02 · (360² − 100²)</div>
+    <table>
+      <thead><tr><th>Krok</th><th>Výpočet</th><th>Výsledek</th></tr></thead>
+      <tbody>
+        <tr><td>360²</td><td class="mono">360 · 360</td><td class="mono">129 600</td></tr>
+        <tr><td>100²</td><td class="mono">100 · 100</td><td class="mono">10 000</td></tr>
+        <tr><td>Rozdíl</td><td class="mono">129 600 − 10 000</td><td class="mono">119 600</td></tr>
+        <tr><td>ΔE<sub>k</sub></td><td class="mono">0,5 · 0,02 · 119 600</td><td class="mono">1196 J</td></tr>
+      </tbody>
+    </table>
+    <div class="formula result">ΔE<sub>k</sub> = 1196 J</div>
+
+    <h4 class="part">b) Průměrná odporová síla</h4>
+    <p>Z rovnice ΔE<sub>k</sub> = F · d vyjádříme F:</p>
+    <div class="formula">F = ΔE<sub>k</sub> ÷ d = 1196 ÷ 0,04 = 29 900 N</div>
+    <div class="formula result">F ≈ 29 900 N　(≈ 30 kN)</div>
+
+    <h4 class="part">c) Změna vnitřní energie</h4>
+    <p>Veškerá ztracená pohybová energie se přeměnila na teplo:</p>
+    <div class="formula result green">ΔU = +1196 J</div>
+    <p>Vnitřní energie střely a desky vzrostla o 1196 J — projevila se jako <strong>teplo</strong>. Zahřála se střela i dřevo v místě průstřelu (otvor může být ohořelý, střela horká). Energie se neztratila, jen se z pohybové přeměnila na tepelnou.</p>
+
+    <h3>Shrnutí</h3>
+    <table>
+      <thead><tr><th>Úkol</th><th>Výsledek</th></tr></thead>
+      <tbody>
+        <tr><td>a) Úbytek kinetické energie</td><td>ΔE<sub>k</sub> = 1196 J</td></tr>
+        <tr><td>b) Průměrná odporová síla</td><td>F ≈ 29 900 N (≈ 30 kN)</td></tr>
+        <tr><td>c) Změna vnitřní energie</td><td>ΔU = +1196 J (teplo)</td></tr>
+      </tbody>
+    </table>
+    <div class="tip">💡 <b>Kontrola selským rozumem:</b> síla skoro 30 000 N je obrovská (jako tíha tří aut na malé plošce), ale působí jen na 4 cm dráhy a po setinu vteřiny — proto střelu tak prudce zbrzdí. Mínus se tu neobjevilo, protože vnitřní energie (teplo) logicky přibyla. 🙂</div>
+  </section>
+
+  <div class="foot">Opus 8 xHigh Thinking</div>
+
+</div>
+</body>
+</html>
