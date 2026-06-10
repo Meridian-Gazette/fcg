@@ -4,27 +4,42 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>test1 — nanofikce (testovací stránka)</title>
+<title>testovací stránka</title>
 <style>
-/* Jediný styl na stránce: tmavý buttonek bez nápisu, který po tapnutí
-   odhalí jméno modelu (viz .model-reveal v build_test1.py). */
-.model-reveal summary {
-  list-style: none;          /* schovat výchozí trojúhelníček <details> */
-  cursor: pointer;
+/* Jediný styl na stránce: tmavý button bez nápisu pod příspěvkem.
+   Po tapnutí se PŘÍMO V NĚM zobrazí jméno modelu (bílá kurzíva) a po
+   několika sekundách zase zmizí (viz skript dole). */
+.model-reveal {
   display: inline-block;
-  width: 30px;
-  height: 16px;
+  min-width: 90px;           /* prázdný klidový stav; s textem se roztáhne */
+  height: 32px;
+  padding: 0 14px;
   background: #222;
-  border-radius: 4px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+  font-style: italic;
+  font-size: 15px;
 }
-.model-reveal summary::-webkit-details-marker { display: none; }
 </style>
 </head>
 <body>
-<h1>test1 — testovací nanofikce</h1>
-<p>Izolovaná testovací stránka (bez designu). Porovnání, jak různé Claude modely zvládají nanofikci.</p>
-<p>Naposledy vygenerováno: 2026-06-10 09:43</p>
+<h1> </h1>
+
+<p>Naposledy vygenerováno: 2026-06-10 10:00</p>
 <hr>
+<article id="2026-06-10-1000-post-test1">
+  <p><small>10. 6. 2026 10:00</small></p>
+  <h1>Pět minut po startu</h1>
+<p>Pět minut po startu si Sanjay všiml, že druhý pilot pláče. Ne nahlas — jen mu po tváři tekly slzy, zatímco rukama dělal všechno správně. Klapky, rádio, hlášení věži. Hlas pevný jako vždycky.</p>
+<p>Sanjay se zadíval na obzor. Bombaj se ztrácela pod mraky, vlevo vykukoval kus pobřeží, na pravém křídle se třpytilo ranní slunce. Tři sta dvanáct lidí za jejich zády snídalo nebo spalo nebo se dívalo na film o psovi, který se vrací domů.</p>
+<p>Měl se zeptat. Věděl, že se má zeptat. Měl předpisy, měl výcvik, měl deset tisíc hodin nalétaných přesně pro tohle.</p>
+<p>Místo toho natáhl ruku a stáhl plynové páky.</p>
+  <button class="model-reveal" data-model="claude-opus-4-7" aria-label="Zobrazit model"></button>
+</article>
+<hr>
+
 <article id="2026-06-10-0943-post-test1">
   <p><small>10. 6. 2026 09:43</small></p>
   <h1>Tři tisíce metrů pod hladinou</h1>
@@ -32,10 +47,7 @@
 <p>Posádka to ještě nevěděla. Spali, nebo předstírali, že spí, schoulení v chladu, který lezl ocelí dovnitř jako něco živého. Volkov měl klíč od skříňky s morfiem a měl rozkazy, které si napsal sám, před třiceti lety, když byl ještě poručík a věřil, že velet znamená rozhodovat o sobě.</p>
 <p>Vytáhl tužku. Do lodního deníku napsal čas, hloubku, stav posádky. Pak škrtl slovo „posádka&rdquo; a napsal „muži&rdquo;. Pak škrtl „muži&rdquo; a nenapsal nic.</p>
 <p>Zavřel deník, vstal a šel je vzbudit. Měli právo těch šest hodin prožít vzhůru.</p>
-  <details class="model-reveal">
-    <summary title="" aria-label="Zobrazit model"></summary>
-    <p><small>model: <strong>claude-opus-4-7</strong></small></p>
-  </details>
+  <button class="model-reveal" data-model="claude-opus-4-7" aria-label="Zobrazit model"></button>
 </article>
 <hr>
 
@@ -44,11 +56,20 @@
   <h1>Mravenec číslo 4 471</h1>
 <p>Mravenec číslo 4 471 nesl zrnko písku stejně jako včera, předevčírem a po celých sto třináct dní svého života. Cesta vedla od severního vchodu k jižní komoře, tři sta čtyřicet kroků, vlevo obejít kořen, vpravo přes plochý kámen. Tisíckrát. Desettisíckrát. Dnes se uprostřed cesty zastavil. Pustil zrnko. Pohnul tykadly do prázdna a poprvé v životě pomyslel: <em>proč?</em></p>
 <p>Pak zvedl zrnko a šel dál, protože mravenci nemají slova, kterými by si na takovou otázku odpověděli.</p>
-  <details class="model-reveal">
-    <summary title="" aria-label="Zobrazit model"></summary>
-    <p><small>model: <strong>claude-opus-4-7</strong></small></p>
-  </details>
+  <button class="model-reveal" data-model="claude-opus-4-7" aria-label="Zobrazit model"></button>
 </article>
 <hr>
+<script>
+// Tap na tmavý button = ukázat jméno modelu přímo v něm; po pár sekundách
+// text zase zmizí. Opakovaný tap jen resetuje odpočet.
+document.querySelectorAll('.model-reveal').forEach(function (btn) {
+  var timer = null;
+  btn.addEventListener('click', function () {
+    btn.textContent = btn.dataset.model;
+    clearTimeout(timer);
+    timer = setTimeout(function () { btn.textContent = ''; }, 4000);
+  });
+});
+</script>
 </body>
 </html>
