@@ -9,14 +9,16 @@
 
 .model-reveal {
   display: inline-block;
-  min-width: 90px;   /* prázdný klidový stav; s textem se roztáhne */
-  height: 32px;
-  padding: 0 14px;
+  min-width: 90px;     /* prázdný klidový stav; s textem se roztáhne */
+  min-height: 32px;    /* místo pevné height – box se může svisle roztáhnout */
+  padding: 8px 14px;   /* svislý prostor nahoře/dole, ať text nedýchá */
+  line-height: 1.5;    /* rozestup řádků při zalomení na dva řádky */
+  box-sizing: border-box;
   background: #7c71b1;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  color: #fff;  
+  color: #fff;
   font-family: "Courier New", Courier, monospace;
   font-size: 15px;
 }
