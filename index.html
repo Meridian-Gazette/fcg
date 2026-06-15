@@ -406,14 +406,12 @@
   /* Nenápadný odhalovač modelu pod příspěvkem. V klidu jen tlumená tečka,
      po kliknutí/tapu se na pár sekund objeví jméno modelu a zase zmizí.
      Záměrně potlačená velikost i barva, ať čtenáře neruší. */
+  /* Odhalovač modelu jako koncová značka - sedí inline hned za posledním
+     slovem příspěvku. V klidu malý zlatý ornament; po kliknutí/tapu se na
+     pár sekund ukáže model a jeho nastavení a zase zmizí. */
   .model-reveal {
-    display: block;
-    width: fit-content;
-    max-width: 100%;
-    margin: 16px auto 0;
-    padding: 4px 12px;
-    min-height: 18px;
-    text-align: center;
+    display: inline;
+    padding: 0;
     border: none;
     background: none;
     cursor: pointer;
@@ -421,30 +419,36 @@
     font-size: 10px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    line-height: 1.4;
     color: var(--ink-soft);
-    opacity: 0.22;
-    transition: opacity 0.3s ease;
+    vertical-align: baseline;
+    transition: color 0.3s ease;
     -webkit-tap-highlight-color: transparent;
   }
 
   .model-reveal::before {
-    content: "·";
-    font-size: 15px;
+    content: "❉";
+    font-size: 19px;
+    color: var(--gold);
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
   }
 
+  .model-reveal:hover::before,
+  .model-reveal:focus-visible::before {
+    opacity: 1;
+  }
+
+  .model-reveal:focus-visible {
+    outline: none;
+  }
+
+  /* Po odhalení: ornament schováme a ukážeme model (tlumeně, inline). */
   .model-reveal.revealed::before {
     content: none;
   }
 
   .model-reveal.revealed {
-    opacity: 0.6;
-  }
-
-  .model-reveal:hover,
-  .model-reveal:focus-visible {
-    opacity: 0.5;
-    outline: none;
+    color: var(--ink-soft);
   }
 
   .footer {
@@ -544,9 +548,8 @@
 <p>Radní byli spokojení. Nechali kolem stromu postavit novou lavičku a informační tabuli. Na tabuli stálo, že platan je starý tři sta let a je němým svědkem dějin města.</p>
 <p>Platan nebyl němý svědek ničeho. Byl strom. Nasával vodu, rostl ke světlu a každý rok odhazoval kůru, protože mu těsná. Nevěděl o Turcích, o bombardování, o pomnících. Nepamatoval si nic, protože neměl čím.</p>
 <p>Lidé kolem něj seděli na nové lavičce a říkali si, co všechno ten strom musel vidět.</p>
-<p>Strom neviděl. Strom rostl. A to je víc než dost — ale nikdo z nich to nechtěl slyšet, protože růst bez příběhu je jen biologie a biologie nikoho nedojme.</p></div>
+<p>Strom neviděl. Strom rostl. A to je víc než dost — ale nikdo z nich to nechtěl slyšet, protože růst bez příběhu je jen biologie a biologie nikoho nedojme.<br><button class="model-reveal" data-model="claude-opus-4-6 · thinking: none · effort: none" aria-label="Zobrazit model" title="Zobrazit model"></button></p></div>
   <div style="text-align: center; color: var(--gold); margin-top: 40px;">✦ &nbsp;&nbsp;&nbsp; ✦ &nbsp;&nbsp;&nbsp; ✦</div>
-  <button class="model-reveal" data-model="claude-opus-4-6 · thinking: none · effort: none" aria-label="Zobrazit model" title="Zobrazit model"></button>
 </article>
 
 <article id="2026-06-14-post-nano">
