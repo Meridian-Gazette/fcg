@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>misc — The Meridian Gazette</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Infant:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4ede1;
+    --paper-deep: #ebe1cf;
+    --ink: #1a1410;
+    --ink-soft: #4a3f33;
+    --oxblood: #6b1f24;
+    --gold: #a87b3a;
+    --rule: rgba(26, 20, 16, 0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0.3'/%3E%3C/filter%3E%3Crect width='200' height='200' fill='%23f4ede1'/%3E%3Crect width='200' height='200' fill='%23f9f5ee' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 21px;
+    line-height: 1.7;
+  }
+
+  .masthead {
+    border-bottom: 3px double var(--ink);
+    padding: 28px 20px 18px;
+    margin: 0 auto;
+    max-width: 760px;
+    text-align: center;
+  }
+
+  .brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--oxblood);
+  }
+
+  .brand-mark {
+    font-family: 'Cormorant Infant', serif;
+    font-style: italic;
+    font-size: 60px;
+    font-weight: 500;
+    line-height: 1;
+    margin: 6px 0 28px;
+    color: var(--ink);
+    display: inline-block;
+    text-decoration: none;
+    transition: color 0.25s ease;
+  }
+
+  .brand-mark:hover { color: var(--gold); }
+
+  .meta-line {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+  }
+
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  .section-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--oxblood);
+    text-align: center;
+    margin-bottom: 6px;
+  }
+
+  .lede {
+    text-align: center;
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 18px;
+    margin-bottom: 30px;
+  }
+
+  ul.files { list-style: none; }
+
+  li.file {
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 4px;
+  }
+  li.file:first-child { border-top: 1px solid var(--rule); }
+
+  a.row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  a.row:hover .name { color: var(--oxblood); text-decoration: underline; }
+
+  .thumb {
+    width: 54px;
+    height: 54px;
+    flex: 0 0 54px;
+    border: 1px solid var(--rule);
+    background: var(--paper-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .file-meta { flex: 1 1 auto; min-width: 0; }
+  .name {
+    font-size: 22px;
+    font-weight: 600;
+    word-break: break-word;
+    transition: color 0.2s ease;
+  }
+  .sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+
+  .state {
+    text-align: center;
+    color: var(--ink-soft);
+    font-style: italic;
+    padding: 40px 10px;
+  }
+  .state code {
+    font-family: 'Inter', monospace;
+    font-style: normal;
+    font-size: 14px;
+    background: var(--paper-deep);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .summary {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: center;
+    margin-top: 28px;
+  }
+
+  footer {
+    border-top: 3px double var(--ink);
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+  }
+  footer a { color: var(--oxblood); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="brand">—&nbsp;Sdílené přílohy &amp; rozličnosti&nbsp;—</div>
+  <a class="brand-mark" href="../">The Meridian Gazette</a>
+  <div class="meta-line">
+    <span>misc / sdílené soubory</span>
+    <span id="count">…</span>
+  </div>
+</header>
+
+<main>
+  <div class="section-title">Obsah složky misc</div>
+  <p class="lede">Veřejně dostupné soubory odložené na webu Gazette. Seznam se načítá živě.</p>
+
+  <ul class="files" id="list"></ul>
+  <div class="state" id="state">Načítám obsah složky…</div>
+  <div class="summary" id="summary"></div>
+</main>
+
+<footer>
+  <a href="../">← zpět na hlavní stránku</a>
+</footer>
+
+<script>
+  // Repo, do kterého CI publikuje misc/ (viz .github/workflows/deploy.yml).
+  // Listing se tahá z GitHub API; odkazy na soubory jsou ale RELATIVNÍ,
+  // takže klik otevře soubor přímo na téhle doméně (HTML se vyrenderuje).
+  const API = 'https://api.github.com/repos/Meridian-Gazette/fcg/contents/misc?ref=main';
+  const SELF = 'most.html'; // tenhle soubor ve výpisu nechceme
+
+  const listEl = document.getElementById('list');
+  const stateEl = document.getElementById('state');
+  const summaryEl = document.getElementById('summary');
+  const countEl = document.getElementById('count');
+
+  const IMG_EXT = ['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp', 'avif', 'bmp', 'ico'];
+
+  const esc = (s) => s.replace(/[&<>"']/g, (c) => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+  ));
+
+  function fmtSize(bytes) {
+    if (bytes == null) return '';
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' kB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  function ext(name) {
+    const i = name.lastIndexOf('.');
+    return i > -1 ? name.slice(i + 1).toLowerCase() : '';
+  }
+
+  function render(items) {
+    // Adresáře první, pak abecedně.
+    items.sort((a, b) => {
+      if (a.type !== b.type) return a.type === 'dir' ? -1 : 1;
+      return a.name.localeCompare(b.name, 'cs');
+    });
+
+    let totalBytes = 0;
+    const frag = document.createDocumentFragment();
+
+    for (const it of items) {
+      const isDir = it.type === 'dir';
+      const e = ext(it.name);
+      const isImg = !isDir && IMG_EXT.includes(e);
+      if (!isDir) totalBytes += it.size || 0;
+
+      const li = document.createElement('li');
+      li.className = 'file';
+
+      const a = document.createElement('a');
+      a.className = 'row';
+      a.href = encodeURIComponent(it.name) + (isDir ? '/' : ''); // relativní vůči misc/
+
+      const thumb = document.createElement('div');
+      thumb.className = 'thumb';
+      if (isImg) {
+        const img = document.createElement('img');
+        img.loading = 'lazy';
+        img.alt = '';
+        img.src = encodeURIComponent(it.name);
+        thumb.appendChild(img);
+      } else {
+        thumb.textContent = isDir ? '/' : (e || 'file');
+      }
+
+      const meta = document.createElement('div');
+      meta.className = 'file-meta';
+      const sub = isDir ? 'složka' : [e.toUpperCase(), fmtSize(it.size)].filter(Boolean).join(' · ');
+      meta.innerHTML = '<div class="name">' + esc(it.name) + '</div>' +
+                       '<div class="sub">' + esc(sub) + '</div>';
+
+      a.appendChild(thumb);
+      a.appendChild(meta);
+      li.appendChild(a);
+      frag.appendChild(li);
+    }
+
+    listEl.appendChild(frag);
+    stateEl.style.display = 'none';
+
+    const n = items.length;
+    countEl.textContent = n + (n === 1 ? ' položka' : (n >= 2 && n <= 4 ? ' položky' : ' položek'));
+    summaryEl.textContent = n
+      ? n + ' souborů · ' + fmtSize(totalBytes) + ' celkem'
+      : '';
+  }
+
+  fetch(API, { headers: { Accept: 'application/vnd.github+json' } })
+    .then((r) => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then((data) => {
+      if (!Array.isArray(data)) throw new Error('Neočekávaná odpověď API');
+      const items = data.filter((it) => it.name !== SELF && !it.name.startsWith('.'));
+      if (!items.length) {
+        stateEl.textContent = 'Složka je zatím prázdná.';
+        countEl.textContent = '0 položek';
+        return;
+      }
+      render(items);
+    })
+    .catch((err) => {
+      stateEl.innerHTML = 'Výpis se nepodařilo načíst (' + esc(err.message) + ').<br>' +
+        'GitHub API má bez přihlášení limit 60 dotazů/h — zkus to za chvíli, ' +
+        'nebo otevři soubory přímo přes <code>/misc/&lt;jméno&gt;</code>.';
+      countEl.textContent = '—';
+    });
+</script>
+</body>
+</html>
