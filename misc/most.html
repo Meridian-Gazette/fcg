@@ -139,7 +139,7 @@
     background: #c0c0c0; padding: 2px 5px; margin-bottom: 2px;
   }
   .pane-body {
-    background: #fff; height: 252px; overflow: auto;
+    background: #fff; height: clamp(340px, 66vh, 580px); overflow: auto;
     padding: 2px;
   }
 
@@ -193,6 +193,22 @@
     background: #c0c0c0;
     box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #ffffff,
                 inset -2px -2px #808080, inset 2px 2px #dfdfdf;
+  }
+
+  /* ---- úzké displeje (mobil): levý strom co nejužší, pravý panel dostane prostor ---- */
+  @media (max-width: 560px) {
+    body { padding: 12px 4px; }
+    .pane.left { width: 108px; flex: 0 0 108px; }
+    /* zmáčknutější odsazení stromu, ať se vejde víc popisku */
+    .tree ul { margin-left: 3px; padding-left: 7px; }
+    /* vlevo neukazuj vodorovný posuvník — delší názvy se prostě ořežou */
+    .pane.left .pane-body { overflow-x: hidden; }
+    /* víc svislého místa na výšku mobilu */
+    .pane-body { height: clamp(380px, 74vh, 720px); }
+  }
+
+  @media (max-width: 380px) {
+    .pane.left { width: 96px; flex: 0 0 96px; }
   }
 </style>
 </head>
@@ -357,7 +373,7 @@
                 <li>
                   <div class="node"><span class="tg"></span><svg class="ic"><use href="#ic-computer"></use></svg><span class="lbl">LABPC33</span></div>
                   <ul>
-                    <li><div class="node"><span class="tg-space"></span><svg class="ic"><use href="#ic-floppy"></use></svg><span class="lbl">3&frac12; Floppy (A:)</span></div></li>
+                    <li><div class="node"><span class="tg-space"></span><svg class="ic"><use href="#ic-floppy"></use></svg><span class="lbl">3 1/2 Floppy (A:)</span></div></li>
                     <li>
                       <div class="node sel"><span class="tg"></span><svg class="ic"><use href="#ic-drive"></use></svg><span class="lbl">(C:)</span></div>
                       <ul>
