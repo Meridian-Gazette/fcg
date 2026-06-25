@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Analýza: Michal Novák - Kvantová hrozba pro bitcoin</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { color: #111; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        h2 { color: #2c3e50; margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        h3 { color: #7f8c8d; margin-top: 20px; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+        .timestamp { font-weight: bold; color: #2980b9; }
+        .evidence { font-style: italic; color: #555; display: block; margin-top: 4px; }
+        .section-summary { font-weight: bold; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <h1>Analýza rozhovoru</h1>
+    <p><strong>Video:</strong> <a href="https://www.youtube.com/watch?v=S4Uq0oMeZQw">https://www.youtube.com/watch?v=S4Uq0oMeZQw</a></p>
+    <p><strong>Název:</strong> Michal Novák - Kvantová hrozba pro bitcoin</p>
+
+    <h2>SEGMENT 0: 00:00–05:00</h2>
+    <p class="section-summary"><strong>Shrnutí (1 věta):</strong> Přednáška představuje výzkum rizik, která pro kryptografii Bitcoinu představuje blížící se vývoj kvantových počítačů a jejich logických kubitů podle odhadů předních vědců.</p>
+    
+    <h3>Detailní body:</h3>
+    <ul>
+        <li><span class="timestamp">[00:00:27]</span> <strong>Studie Chain Code Labs a stažení doporučení investic</strong> — V květnu 2025 vyšla technická studie od Chain Code Labs zaměřená na kvantovou hrozbu. Na jejím základě změnil Christopher Wood z investiční banky Jefferies své doporučení alokovat 10 % kapitálu do Bitcoinu, protože se obává dopadu kvantových počítačů.
+            <span class="evidence">evidence: [00:00:27] "v květnu roku 2025 vyšla tady ta studie od Chain Code Labs která se vlastně zabývá kvantovou hrozbou pro Bitcoin..."</span>
+        </li>
+        <li><span class="timestamp">[00:01:28]</span> <strong>Princip fungování kvantových počítačů</strong> — Kvantové počítače pracují s takzvanými kubity v superpozici (jednička i nula zároveň). Spojením chybových fyzických kubitů vznikají stabilnější logické kubity. Tyto stroje fungují na odlišných principech než klasické počítače, což je činí extrémně efektivními pouze na specifické úlohy.
+            <span class="evidence">evidence: [00:01:28] "standardní počítače pracujou s takzvanýma bitama to znamená jedničky a nuly a vlastně kvantový počítač pracuje s nějakým cubitem..."</span>
+        </li>
+        <li><span class="timestamp">[00:03:37]</span> <strong>Časový odhad příchodu hrozby (Qday)</strong> — Podle zprávy Quantum Threat Timeline Report 2025 od Global Risk Institute odhaduje 32 předních specialistů pravděpodobnost příchodu kvantového počítače schopného prolomit kryptografii v horizontu 5 let na 5 až 15 %, v horizontu 10 let se průměrný odhad zvyšuje na přibližně 40 %.
+            <span class="evidence">evidence: [00:03:37] "Global Risk Institute kterj každej rok vydává Quantum Thread Timeline Report to znamená oni se konkrétně za rok 2025 ptali 32..."</span>
+        </li>
+    </ul>
+
+    <h3>Kontroverzní / neočekávané teze v tomto segmentu:</h3>
+    <ul>
+        <li><span class="timestamp">[00:04:46]</span> <strong>Snižování počtu kubitů nutných k prolomení</strong> — S každým rokem se ukazuje, že díky neustálému vylepšování algoritmů vědci snižují počet kubitů, které budou reálně potřeba k prolomení kryptografie.
+            <span class="evidence">evidence: [00:04:46] "s každým rokem ten počet Cubitů kterjej je potřebnej na to abysme prolomili současnou kryptografii se snižuje..."</span>
+        </li>
+    </ul>
+
+    <h2>SEGMENT 1: 04:30–09:30</h2>
+    <p class="section-summary"><strong>Shrnutí (1 věta):</strong> Segment vysvětluje principy odvození klíčů v Bitcoinu a popisuje, jak Shorův algoritmus ohrožuje starší a specifické typy bitcoinových adres se zveřejněnými veřejnými klíči.</p>
+    
+    <h3>Detailní body:</h3>
+    <ul>
+        <li><span class="timestamp">[00:05:39]</span> <strong>Průlomový obvod společnosti Google</strong> — V prosinci 2024 představil Google svůj čip, který poprvé demonstroval, že s rostoucím množstvím kubitů klesá chybovost výpočtů. Tento zlom výrazně posunul odhady na prolomení RSA z roku 2040 na rok 2033.
+            <span class="evidence">evidence: [00:05:39] "prosinec roku 2024 kdy Google představil svůj čipow kterej vlastně poprvý dokázal to že s větším množstvím kubitů klesá chybovost..."</span>
+        </li>
+        <li><span class="timestamp">[00:06:18]</span> <strong>Jednocestnost generování klíčů a adres</strong> — V Bitcoinu se z privátního klíče matematicky počítá veřejný klíč a z něj se tvoří hash. Tento proces je pro klasické počítače jednosměrný; z hashe nelze odvodit veřejný klíč a z veřejného klíče nelze získat privátní klíč.
+            <span class="evidence">evidence: [00:06:18] "vy můžete matematicky z toho privátního klíče spočítat veřejnej klíč to je jednoduchá matematická operace a ještě navíc si můžete ten veřejnej..."</span>
+        </li>
+        <li><span class="timestamp">[00:07:17]</span> <strong>Shorův algoritmus a zranitelnost klíčů</strong> — Shorův algoritmus z roku 1994 dokáže na kvantovém počítači relativně rychle dopočítat privátní klíč z klíče veřejného. Hashovací funkce zůstávají bezpečné, ale veřejné klíče jsou vůči tomuto algoritmu zranitelné.
+            <span class="evidence">evidence: [00:07:17] "americký matematik Peter Shore vymyslel takzvaný Shore of algoritmus... pokud mu dodáte veřejný klíč tak on umí dopočítat ten privátní..."</span>
+        </li>
+        <li><span class="timestamp">[00:08:21]</span> <strong>Zranitelné typy bitcoinových adres</strong> — Nejstarší adresy (Pay to Public Key) a překvapivě i ty nejnovější (Pay to Taproot začínající na BC1P) obsahují přímo veřejný klíč vystavený v blockchainu, což je činí okamžitě zranitelnými vůči kvantovému útoku. Na těchto typech adres v současnosti leží přibližně 1,9 milionu bitcoinů.
+            <span class="evidence">evidence: [00:08:21] "ty nejstarší Pay to PUPY a ty nejnovější bohužel Pay to Taprut adresy... tam tou adresou je přímo ten veřejnej klíč..."</span>
+        </li>
+    </ul>
+
+    <h3>Kontroverzní / neočekávané teze v tomto segmentu:</h3>
+    <ul>
+        <li><span class="timestamp">[00:08:36]</span> <strong>Zranitelnost nejnovějších Taproot adres</strong> — Neočekávaným technologickým faktem je, že nejnovější Taproot adresy (BC1P) vykazují z hlediska kvantových počítačů stejnou zranitelnost jako nejstarší adresy z počátků Bitcoinu, protože přímo odhalují veřejný klíč.
+            <span class="evidence">evidence: [00:08:36] "ty nejstarší Pay to PUPY a ty nejnovější bohužel Pay to Taprut adresy... tam tou adresou je přímo ten veřejnej klíč..."</span>
+        </li>
+    </ul>
+
+    <h2>SEGMENT 2: 09:00–14:00</h2>
+    <p class="section-summary"><strong>Shrnutí (1 věta):</strong> Vícenásobné používání adres (address reuse) rozšiřuje ohrožení na třetinu všech bitcoinů a nová studie společnosti Google ukazuje dramatické zrychlení možného útoku na pouhé minuty.</p>
+    
+    <h3>Detailní body:</h3>
+    <ul>
+        <li><span class="timestamp">[00:09:39]</span> <strong>Opakované používání adres (Address Reuse)</strong> — Uživatelé a burzy často používají stejnou adresu vícekrát. Jakmile se z jakékoli adresy (i původně zahashované) odešlou prostředky, veřejný klíč se navždy odhalí v blockchainu, čímž adresa ztrácí kvantovou ochranu.
+            <span class="evidence">evidence: [00:09:39] "vy jakmile odešlete z jakýkoliv adresy bitcoiny... tak v tu chvíli kdy je odešlete tak zveřejníte ten veřejnej klíč..."</span>
+        </li>
+        <li><span class="timestamp">[00:10:39]</span> <strong>Celkový objem ohrožených bitcoinů (Long-range útok)</strong> — Kvůli nevhodným typům adres a opakovanému používání adres má cca 33 % (téměř 7 milionů) všech bitcoinů odhalený veřejný klíč. Útočník má u těchto statických adres neomezený čas na prolomení privátního klíče (tzv. long-range útok).
+            <span class="evidence">evidence: [00:10:39] "plus mínus 33 % 1/3 bitcoinů necelých 7 milionů má zveřejněnej veřejnej klíč... tady tomu ohrožení se říká takzvaný long range útok..."</span>
+        </li>
+        <li><span class="timestamp">[00:11:34]</span> <strong>Současná preventivní doporučení pro držitele</strong> — Běžní uživatelé se mohou chránit tak, že budou využívat výhradně zahashované adresy (začínající na 1, 3 nebo BC1Q) a pro každou příchozí transakci vygenerují v peněžence novou adresu.
+            <span class="evidence">evidence: [00:11:34] "jsou dvě doporučení první používejte adresy s hashem... a pokud pro každou transakci používáte novou adresu..."</span>
+        </li>
+        <li><span class="timestamp">[00:12:12]</span> <strong>Průlomová studie Google z března 2026</strong> — V březnu 2026 vydal Google studii, ve které díky optimalizaci Shorova algoritmu snížil nároky na prolomení bitcoinové kryptografie na pouhých 1200 logických kubitů, což představuje dvacetinásobné zefektivnění útoku oproti minulým předpokladům.
+            <span class="evidence">evidence: [00:12:12] "březen 2026... Google vydal paper... řekli že jim stačí pouhých v uvozovkách pouhých 12 logických cubitů [pozn. mluvčí myslí 1200] aby vlastně prolomili tu kryptografii..."</span>
+        </li>
+    </ul>
+
+    <h3>Kontroverzní / neočekávané teze v tomto segmentu:</h3>
+    <ul>
+        <li><span class="timestamp">[00:13:14]</span> <strong>Utajování konkrétního algoritmu Googlem</strong> — Google publikoval matematický důkaz (zero-knowledge proof) funkčnosti svého optimalizovaného postupu, ale samotný obvod a kód z bezpečnostních důvodů nezveřejnil.
+            <span class="evidence">evidence: [00:13:14] "oni vlastně vydali takzvanej zero knowledge proof... matematicky dokazuje že ten jejich obvod je funkční aniž by ten obvod nasdíleli..."</span>
+        </li>
+    </ul>
+
+    <h2>SEGMENT 3: 13:30–18:30</h2>
+    <p class="section-summary"><strong>Shrnutí (1 věta):</strong> Nové optimalizace zkracují čas kvantového výpočtu na minuty, což ohrožuje transakce čekající v mempoolu, přičemž standardní postkvantová řešení od NIST by drasticky snížila propustnost sítě.</p>
+    
+    <h3>Detailní body:</h3>
+    <ul>
+        <li><span class="timestamp">[00:13:46]</span> <strong>Zkrácení doby útoku na 9 minut (Short-range útok)</strong> — S dostatečným výkonem by prolomení klíče trvalo pouhých 18 minut, přičemž polovinu lze předpočítat, takže čistý čas útoku klesá na 9 minut. To ohrožuje transakce čekající v mempoolu na zapsání do blockchainu. Útočník by mohl transakci odchytit, spočítat privátní klíč a nahradit ji vlastní transakcí.
+            <span class="evidence">evidence: [00:13:46] "to prolomení by trvalo pouho pouhých 9t minut což je extrémně rychlý... v tu chvíli kdykoliv vy odešlete Bitcoin tak by útočník mohl... tu transakci nahradit..."</span>
+        </li>
+        <li><span class="timestamp">[00:16:04]</span> <strong>Návrh vylepšení BIP 360</strong> — Technické vylepšení BIP 360 řeší zabezpečení Taproot adres tím, že odstraňuje přímé vystavení veřejného klíče a dává jim stejnou ochranu hashováním, jakou mají segvitové adresy. Řeší však pouze long-range útoky, nikoli útoky v mempoolu.
+            <span class="evidence">evidence: [00:16:04] "BIP 360 ve stručnosti řeší jenom jednu věc to znamená z těch taprutovejch adres... odstraňuje tu cestu kde je vidět ten veřejnej klíč..."</span>
+        </li>
+        <li><span class="timestamp">[00:16:59]</span> <strong>Problém s implementací standardů NIST</strong> — Americká organizace NIST standardizovala postkvantové algoritmy (např. ML-DSA, SLH-DSA). Tyto podpisy jsou však datově tak obrovské, že by propustnost bitcoinové sítě kvůli nedostatku místa v bloku klesla na méně než 10 % současného stavu (ze 6,5 transakcí/s na cca 0,5 transakcí/s).
+            <span class="evidence">evidence: [00:16:59] "propustnost tý sítě by razantně klesla na nějakejch 10 % a míň... ty algoritmy nejsou optimalizovaný pro blockchain..."</span>
+        </li>
+    </ul>
+
+    <h3>Kontroverzní / neočekávané teze v tomto segmentu:</h3>
+    <ul>
+        <li><span class="timestamp">[00:15:25]</span> <strong>Výzva Googlu k okamžité migraci blockchainů</strong> — Google ve své vědecké práci explicitně varoval, že všechny blockchainové sítě musí zahájit okamžitou migraci na postkvantovou kryptografii a nečekat na další vývoj.
+            <span class="evidence">evidence: [00:15:25] "Google v tady tom paperu říká všechny blockchainy by měly ihned začít migrovat... není čas čekat..."</span>
+        </li>
+    </ul>
+
+    <h2>SEGMENT 4: 18:00–23:00</h2>
+    <p class="section-summary"><strong>Shrnutí (1 věta):</strong> Výzkumníci se snaží navrhnout úspornější postkvantové algoritmy s omezeným podpisovým rozpočtem, avšak tato řešení přinášejí kritická omezení pro funkčnost sítě a navazujících vrstev.</p>
+    
+    <h3>Detailní body:</h3>
+    <ul>
+        <li><span class="timestamp">[00:18:44]</span> <strong>Optimalizace podpisů Jonasem Nickem</strong> — Jonas Nick z Blockstreamu vyvíjí hashovací algoritmy (Shrinks/Shrimps) přizpůsobené pro blockchain. Zavedením pojmu "signature budget" (podpisový rozpočet) umožňuje drasticky zmenšit velikost podpisu za cenu omezení, kolikrát lze jeden klíč použít k podpisu (např. pouze 10krát).
+            <span class="evidence">evidence: [00:18:44] "Jonas Nick ze společnosti Blockstream... signature budget u těch zrovna hashovacích kvantových rezistentních podpisů nám říká kolikrát můžu jedním klíčem nějakou zprávu podepsat..."</span>
+        </li>
+        <li><span class="timestamp">[00:20:17]</span> <strong>Koncept Compact Path a Fallback Path</strong> — Uživatelské peněženky by nabízely kompaktní cestu s malými podpisy (ale limitem např. 10 podpisů). Pokud by uživatel počítadlo podpisů ztratil (např. při obnově seedu), musel by použít záložní cestu ("fallback path"), kde jsou podpisy datově obrovské, ale počet použití je neomezený.
+            <span class="evidence">evidence: [00:20:17] "vy byste měli jeden veřin jeden klíč a mohli byste si vybrat... jestli budete používat takzvanou compact puf nebo fallback paf..."</span>
+        </li>
+        <li><span class="timestamp">[00:21:49]</span> <strong>Kritická technologická omezení postkvantových podpisů</strong> — Zavedení těchto algoritmů degraduje síť na stavový protokol. Způsobí to nefunkčnost Lightning Network (kde dochází k milionům podpisů), znemožní agregaci podpisů (MuSig, Frost), znefunkční watch-only peněženky, tiché platby (silent payments) a extrémně zpomalí synchronizaci i validaci uzlů (node).
+            <span class="evidence">evidence: [00:21:49] "stává se z toho stavový protokol... lightning Network kde se vlastně ten stav toho platebního kanálu podepisuje tisíckrát milionkrát... nebude fungovat..."</span>
+        </li>
+    </ul>
+
+    <h3>Kontroverzní / neočekávané teze v tomto segmentu:</h3>
+    <p><em>V tomto segmentu nebyly identifikovány žádné kontroverzní či neočekávané teze mimo technologická fakta.</em></p>
+
+    <h2>SEGMENT 5: 22:30–27:30</h2>
+    <p class="section-summary"><strong>Shrnutí (1 věta):</strong> Přechod na silnější kryptografii je u kvantových počítačů nelineární problém a hrozba se může objevit skokově, přičemž státní i komerční sféra již na postkvantové standardy masivně migrují.</p>
+    
+    <h3>Detailní body:</h3>
+    <ul>
+        <li><span class="timestamp">[00:23:35]</span> <strong>Nelineární hrozba rozvoje ("Efekt útesu")</strong> — Na rozdíl od klasických počítačů, kde je přechod z 32-bitové na 256-bitovou eliptickou křivku exponenciálně složitější (10 na 34), u kvantového počítače je to (např. u architektury Google) pouze sedmkrát těžší (přechod z 200 na 1400 kubitů). Vývoj proto nebude plynulý žebřík, ale skokový útes (dlouho nic a pak náhlé prolomení).
+            <span class="evidence">evidence: [00:23:35] "na kvantovým počítači... je to v případě třeba Googlu jenom sedmkrát těžší... postup v kvantových počítačích nebude něco jako žebřík... bude to spíš něco jako útes..."</span>
+        </li>
+        <li><span class="timestamp">[00:26:53]</span> <strong>Povinná vládní migrace v USA a ve světě</strong> — Americký NIST vydal závazné nařízení: od roku 2030 nesmí vládní instituce používat algoritmy odolné vůči kvantovým počítačům u nových systémů a od roku 2035 platí absolutní zákaz staré kryptografie. Podobné plány implementuje Spojené království, Čína či Austrálie.
+            <span class="evidence">evidence: [00:26:53] "Nistu... vydala nařízení že všechny státní nebo vládní instituce v Americe od roku 2030 ty nový nesmí používat algoritmy který nejsou jakoby odolný..."</span>
+        </li>
+        <li><span class="timestamp">[00:28:13]</span> <strong>Masivní adopce v soukromém sektoru</strong> — Komerční sféra nečeká; Cloudflare hlásí, že 62 % internetového provozu přes jejich síť je již kvantově rezistentní. Apple integroval postkvantovou kryptografii do iMessage (iOS/macOS), Signal ji zavedl v roce 2023 a je implementována v produktech Google Cloud, AWS či Windows 11.
+            <span class="evidence">evidence: [00:28:13] "62% provozu který teče přes Cloudfir je kvantově rezistentní... apple do iOSu nebo MacOS nejnovějších má zavedenou postkvantovou kryptografii imessage..."</span>
+        </li>
+    </ul>
+
+    <h3>Kontroverzní / neočekávané teze v tomto segmentu:</h3>
+    <ul>
+        <li><span class="timestamp">[00:25:08]</span> <strong>Přirovnání k atomové bombě</strong> — Vědec Scott Aaronson přirovnává vývoj ke vzniku jaderné zbraně za druhé světové války. Klíčové a těžké bylo zvládnout samotnou řetězovou reakci, nikoli postavit malou či velkou bombu. Jakmile se vyřeší fyzikální limity kubitů, nárůst výkonu bude okamžitý.
+            <span class="evidence">evidence: [00:25:08] "Scott arrowsen to přirovnává k tomu kdybyste se na začátku druhé světové války ptali... tam nebyl problém udělat malou jadernou bombu tam byl problém udělat tu jadernou reakci..."</span>
+        </li>
+    </ul>
+
+    <h2>SEGMENT 6: 27:00–32:00</h2>
+    <p class="section-summary"><strong>Shrnutí (1 věta):</strong> Zatímco konkurenční blockchainy jako Ethereum aktivně plánují kvantovou rezistenci do roku 2029, Bitcoin čelí riziku rigidity a problému s miliony zranitelných mincí, které uživatelé neaktivují.</p>
+    
+    <h3>Detailní body:</h3>
+    <ul>
+        <li><span class="timestamp">[00:29:50]</span> <strong>Stav příprav u konkurenčních blockchainů</strong> — Ethereum vykazuje složitější architekturu pro opravu, ale na roadmapě (pq-ethereum.org) aktivně pracuje dedikovaný tým s rozpočtem 20 milionů dolarů s cílem dosáhnout kvantové rezistence do roku 2029. Solana výzkum provádí (zaznamenala nárůst velikosti podpisů a propad propustnosti o 90 %), a síť od Circle (USDC) bude kvantově rezistentní přímo při spuštění.
+            <span class="evidence">evidence: [00:29:50] "Ethereum... mají ustanovený tým mají na to budget myslím že 20 milionů dolarů a jejich cílem je aby Ethereum do roku 2029 bylo kvantově rezistentní..."</span>
+        </li>
+        <li><span class="timestamp">[00:31:34]</span> <strong>Problém s opuštěnými mincemi</strong> — I po nasazení postkvantových adres v Bitcoinu zůstane značné množství mincí na starých zranitelných adresách (např. mince Satoshiho Nakamota, které se nepohnuly 17 let). Odhaduje se, že na zranitelných adresách natrvalo zůstanou 2 až 3 miliony bitcoinů, které bude možné kvantově ukrást.
+            <span class="evidence">evidence: [00:31:34] "očekává se že prostě za 10 15 20 let tedy budeme mít kvantový počítač a pořád nám tady zůstanou 2 3 miliony bitcoinů na zranitelných adresách..."</span>
+        </li>
+    </ul>
+
+    <h3>Kontroverzní / neočekávané teze v tomto segmentu:</h3>
+    <ul>
+        <li><span class="timestamp">[00:29:36]</span> <strong>Riziko, že Bitcoin zůstane poslední zranitelný</strong> — Mluvčí varuje před převládajícím popíráním hrozby (denial) v bitcoinové komunitě, kvůli kterému hrozí, že Bitcoin bude z celé globální infrastruktury a finančního světa poslední, kdo kvantovou ochranu nenasadí.
+            <span class="evidence">evidence: [00:29:36] "pak se taky může stát že Bitcoin bude ten poslední kterj ještě ty kvantový rezistentní podpisy nebude mít nasazený..."</span>
+        </li>
+    </ul>
+
+    <h2>SEGMENT 7: 31:30–36:30</h2>
+    <p class="section-summary"><strong>Shrnutí (1 věta):</strong> Bitcoinová komunita bude v budoucnu nucena volit mezi destruktivním zmrazením neaktivních mincí a reputační katastrofou v podobě jejich masového vykradení.</p>
+    
+    <h3>Detailní body:</h3>
+    <ul>
+        <li><span class="timestamp">[00:33:20]</span> <strong>Dopady scénáře zmrazení zranitelných adres</strong> — Pokud komunita rozhodne zranitelné bitcoiny (včetně Satoshiho) preventivně zmrazit, poruší tím základní vlastnosti Bitcoinu: nekonfiskovatelnost a fixní monetární politiku (zbylo by jen 18-19 milionů mincí). Vzniklý nebezpečný precedens by mohl vést k požadavkům na zmrazování mincí bez KYC nebo spojených s terorismem.
+            <span class="evidence">evidence: [00:33:20] "problém když to zmrazíme no protože my vlastně porušíme nějakou základní vlastnost Bitcoinů... my uděláme precedens že bitcoinová komunita může říct tady ty bitcoiny se nám nelíběj..."</span>
+        </li>
+        <li><span class="timestamp">[00:34:09]</span> <strong>Dopady scénáře nezmrazení (ponechání útočníkům)</strong> — Pokud se adresy nezmrazí, kvantoví útočníci mince (cca 2–3 miliony) dříve či později ukradnou a vrhnou na trh. Mediální a tržní interpretace takové události zničí reputaci Bitcoinu jako "nejbezpečnějšího aktiva na světě", protože veřejnost nebude zajímat technické vysvětlení typů adres.
+            <span class="evidence">evidence: [00:34:09] "až to nějakej útočník prostě sebere tak budeme mít v médiích plno článků plno nadpisů Bitcoin údajně nejbezpečnější aktivum na světě bylo ukradeno..."</span>
+        </li>
+    </ul>
+
+    <h3>Kontroverzní / neočekávané teze v tomto segmentu:</h3>
+    <ul>
+        <li><span class="timestamp">[00:35:31]</span> <strong>Neexistence bezchybného řešení</strong> — Mluvčí konstatuje, že Bitcoin má pro řešení starých zranitelných mincí pouze dvě výše uvedené možnosti a ani jedna z nich není pro systém dobrá.
+            <span class="evidence">evidence: [00:35:31] "já na tady to nemám správnou odpověď jediní co vím že obě dvě možnosti a podle mě to jsou jediný možnosti... nejsou úplně dobrý..."</span>
+        </li>
+    </ul>
+
+    <h2>SEGMENT 8: 36:00–41:00</h2>
+    <p class="section-summary"><strong>Shrnutí (1 věta):</strong> Mluvčí vyvrací mýtus, že tradiční bankovní sektor je vůči kvantové hrozbě zranitelnější než Bitcoin, a na konkrétním příkladu dokazuje pokročilou migraci bankovních standardů.</p>
+    
+    <h3>Detailní body:</h3>
+    <ul>
+        <li><span class="timestamp">[00:36:30]</span> <strong>Vyvrácení argumentu "banky jsou na tom hůř"</strong> — Názor, že kvantovou hrozbu u Bitcoinu netřeba řešit, protože banky dopadnou hůře, je mylný. Mluvčí ukazuje na příkladu české Banky Creditas, která již dnes díky Cloudflare využívá postkvantový algoritmus ML-KEM-768 standardizovaný NIST pro šifrování relací v internetovém bankovnictví (např. v prohlížeči Chrome).
+            <span class="evidence">evidence: [00:36:30] "dals jsem si tady příklad Creditas... to vlastně znamená že Creditas už má dneska nasazenou postkvantovou kryptografii..."</span>
+        </li>
+        <li><span class="timestamp">[00:37:13]</span> <strong>Srovnání dostupnosti a životnosti klíčů</strong> — V Bitcoinu jsou veřejné klíče trvale zapsané v blockchainu a mají nekonečnou životnost. U bankovního TLS připojení musí útočník provést aktivní útok "Man in the middle", zachytit komunikaci a navíc se tam šifrovací klíče mění s každou relací.
+            <span class="evidence">evidence: [00:37:13] "u bitcoinu každej si ho přečte na blockchainu kde získám ten klíč kterj se používá po připojení do banky no ten jen tak neseženu musím udělat takzvanej man in the middle..."</span>
+        </li>
+        <li><span class="timestamp">[00:38:39]</span> <strong>Rozdíly v rychlosti nasazení a dopadu chyb</strong> — Banky implementují NIST standardy centrálně bez dopadu na uživatele (stačí aktualizace prohlížeče). Bitcoin vyžaduje složitý soft-fork a aktivní kooperaci uživatelů při přesunu mincí. V případě prolomení mohou banky transakce stornovat nebo ověřit telefonicky, v Bitcoinu je ztráta privátního klíče nevratná.
+            <span class="evidence">evidence: [00:38:39] "u bank nemusíte udělat nic aktualizujete si Chrome máte vyřešeno... když to někdo ukradne tak na Bitcoinu ty peníze nevrátíte když to banky řeknou: 'Dobrý stornujeme...'"</span>
+        </li>
+    </ul>
+
+    <h3>Kontroverzní / neočekávané teze v tomto segmentu:</h3>
+    <ul>
+        <li><span class="timestamp">[00:39:56]</span> <strong>Reálné ohrožení kritické infrastruktury mimo finance</strong> — Skutečné riziko kvantových počítačů v tradičním světě netkví v bankách, ale v systémech, které nelze snadno aktualizovat na dálku – například staré řídicí systémy v elektrárnách nebo satelity na oběžné dráze.
+            <span class="evidence">evidence: [00:39:56] "budou mít problémy různé staré systémy který například říděj nevím v elektrárnách... i například já nevím satelity na oběžné dráze..."</span>
+        </li>
+    </ul>
+
+    <h2>SEGMENT 9: 40:30–46:31</h2>
+    <p class="section-summary"><strong>Shrnutí (1 věta):</strong> V závěrečné diskuzi a bloku otázek mluvčí apeluje na okamžité zahájení prací na kvantové rezistenci Bitcoinu, jelikož přechod bude trvat přibližně 7 let, a rozebírá dílčí technické dotazy z publika.</p>
+    
+    <h3>Detailní body:</h3>
+    <ul>
+        <li><span class="timestamp">[00:41:10]</span> <strong>Délka přechodu Bitcoinu na postkvantovou kryptografii</strong> — Studie Chain Code Labs odhaduje, že kompletní proces vývoje, nasazení a migrace uživatelů na postkvantovou kryptografii zabere přibližně 7 let. Proto je nutné začít pracovat na komunitním konsenzu okamžitě.
+            <span class="evidence">evidence: [00:41:10] "Chain Code Labs odhaduje že kompletní přechod na postkvantovou kryptografii bude trvat nejakejch 7m let..."</span>
+        </li>
+        <li><span class="timestamp">[00:42:21]</span> <strong>Možnost omezování utrácení mincí (Throttling)</strong> — Jako jedna z variant ochrany neaktivních zranitelných adres (např. Satoshiho) se nabízí omezení objemu utracených mincí v jednom bloku (throttling). Útočník by tak nemohl dumpingově prodat všechny mince naráz.
+            <span class="evidence">evidence: [00:42:21] "ty bitcoiny který by zůstaly na těch zranitelnejch adresách by se nějakým způsobem trotlovaly omezely to znamená řekli bysme v každým bloku smí bejt utraceno pouze pět..."</span>
+        </li>
+        <li><span class="timestamp">[00:44:35]</span> <strong>Okamžitá proveditelnost BIP 360 a zvětšení bloků</strong> — K nasazení BIP 360 stačí komunitní konsenzus a lze jej implementovat hned jako přípravnou fázi. Pro kompenzaci větších postkvantových podpisů bude v budoucnu pravděpodobně nutné otevřít otázku zvětšení velikosti bitcoinových bloků (např. na dvojnásobek).
+            <span class="evidence">evidence: [00:44:35] "BIP 360... nasadíme BIP 360... mohli bysme to nasadit už relativně ihned... pomohlo by propustnosti zvětšení bloků pro větší podpisy ano pomohlo..."</span>
+        </li>
+    </ul>
+
+    <h3>Kontroverzní / neočekávané teze v tomto segmentu:</h3>
+    <ul>
+        <li><span class="timestamp">[00:43:36]</span> <strong>Paradox centralizace u Solany</strong> — V diskuzi mluvčí uvádí, že centralizovanější vývoj (např. u Solany) jim sice umožní nasadit postkvantové algoritmy dříve, ale pojí se s rizikem, že kvůli absenci hluboké diskuze zvolí nesprávný nebo neoptimální algoritmus. Vleklé spory v Bitcoinové komunitě naopak pomáhají vyfiltrovat nejbezpečnější řešení.
+            <span class="evidence">evidence: [00:43:36] "ta výhoda tý Solany je v tom že jak jsou oni centralizovaní tak určitě to nasaděj dřív ale ta nevýhoda... je v tom že oni můžou vybrat špatnej algoritmus..."</span>
+        </li>
+    </ul>
+
+    <h2>KONSOLIDOVANÉ SHRNUTÍ</h2>
+    <ul>
+        <li><strong>Teze A (Kvantová zranitelnost adres)</strong> — primární čas: 08:21; Specifické typy bitcoinových adres (nejstarší a nejnovější Taproot) a adresy vystavené opakovaným používáním odhalují veřejný klíč přímo v blockchainu. Shorův algoritmus běžící na kvantovém počítači dokáže z tohoto klíče dopočítat privátní klíč a mince odcizit. reference: [00:08:21], [00:09:39], [00:10:39]</li>
+        <li><strong>Teze B (Zkrácení času útoku na mempool)</strong> — primární čas: 12:12; Nová optimalizace od společnosti Google ukazuje, že k prolomení stačí méně logických kubitů (1200) a samotný útok na zachycenou transakci v mempoolu by mohl trvat pouze 9 minut, což ohrožuje i bezpečné zahashované adresy při pokusu o odeslání platby. reference: [00:12:12], [00:13:46]</li>
+        <li><strong>Teze C (Degradace sítě postkvantovými podpisy)</strong> — primární čas: 16:59; Standardní postkvantové algoritmy jsou datově příliš velké a neoptimalizované pro blockchainy. Jejich prosté nasazení by snížilo propustnost Bitcoinu pod 10 % a zničilo funkčnost vrstev jako Lightning Network. reference: [00:16:59], [00:21:49]</li>
+        <li><strong>Teze D (Dilema neaktivních mincí)</strong> — primární čas: 31:34; Po přechodu na postkvantový standard zůstanou v síti miliony historických neaktivních mincí (včetně mincí zakladatele). Komunita bude muset volit mezi jejich zmrazením (porušení nekonfiskovatelnosti) a nezmrazením (reputační krach po jejich vykradení). reference: [00:31:34], [00:33:20], [00:34:09]</li>
+        <li><strong>Teze E (Migrace okolního světa)</strong> — primární čas: 26:53; Státní instituce (předpis NIST USA do roku 2035) i komerční internetoví giganti (Cloudflare, Apple, Signal) již dnes masivně migrují na postkvantové standardy, což vyvrací mýtus o větší zranitelnosti klasických bank. reference: [00:26:53], [00:28:13], [00:36:30]</li>
+    </ul>
+
+</body>
+</html>
