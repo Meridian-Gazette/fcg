@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="misc/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QQQ · Nano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&family=Cormorant+Infant:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+  /* Stejná paleta a písma jako hlavní stránka (index.template.html),
+     ale záměrně holá kompozice: datetime, text, ikonka s tajenkou. */
+  :root {
+    --paper: #f4ede1;
+    --ink: #1a1410;
+    --ink-soft: #4a3f33;
+    --oxblood: #6b1f24;
+    --gold: #a87b3a;
+    --rule: rgba(26, 20, 16, 0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0.3'/%3E%3C/filter%3E%3Crect width='200' height='200' fill='%23f4ede1'/%3E%3Crect width='200' height='200' fill='%23f9f5ee' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 21px;
+    line-height: 1.7;
+  }
+
+  .masthead {
+    border-bottom: 3px double var(--ink);
+    padding: 28px 20px 18px;
+    margin: 0 auto;
+    max-width: 760px;
+    text-align: center;
+  }
+
+  .brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--oxblood);
+  }
+
+  .brand-mark {
+    font-family: 'Cormorant Infant', serif;
+    font-style: italic;
+    font-size: 60px;
+    font-weight: 500;
+    line-height: 1;
+    margin: 6px 0 18px;
+    color: var(--ink);
+    display: inline-block;
+    text-decoration: none;
+    transition: color 0.25s ease;
+  }
+
+  .brand-mark:hover { color: var(--gold); }
+
+  .tagline {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+
+  #feed {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 10px 20px 60px;
+  }
+
+  article {
+    padding: 44px 4px 34px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .kicker {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--oxblood);
+    margin-bottom: 18px;
+  }
+
+  .post-content p { margin: 0 0 1em; }
+  .post-content p:last-child { margin-bottom: 0; }
+  .post-content em { font-style: italic; }
+  .post-content h1, .post-content h2, .post-content h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 0 0 0.6em;
+  }
+
+  .empty {
+    text-align: center;
+    color: var(--ink-soft);
+    font-style: italic;
+    padding: 60px 0;
+  }
+
+  /* Ikonka pod příspěvkem. V klidu zlatý ornament; po kliknutí se na pár
+     sekund ukáže model a jeho nastavení a zase zmizí - stejný mechanismus
+     jako na hlavní stránce (data-model atribut). */
+  .reveal-row { margin-top: 22px; }
+
+  .model-reveal {
+    display: inline-block;
+    text-align: left;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    vertical-align: baseline;
+    transition: color 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-hyphens: none;
+    hyphens: none;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .model-reveal::before {
+    content: "❉";
+    font-size: 19px;
+    color: var(--gold);
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+
+  .model-reveal:hover::before,
+  .model-reveal:focus-visible::before {
+    opacity: 1;
+  }
+
+  .model-reveal:focus-visible { outline: none; }
+
+  .model-reveal.revealed::before { content: none; }
+  .model-reveal.revealed { color: var(--ink-soft); }
+
+  .footer {
+    max-width: 760px;
+    margin: 40px auto;
+    padding: 30px 20px;
+    border-top: 3px double var(--ink);
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .footer a { color: inherit; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="brand">FCG Infoservis</div>
+  <a class="brand-mark" href="qqq.html">qqq</a>
+  <div class="tagline">Nano · Kdo to napsal?</div>
+</header>
+
+<main id="feed">
+<article id="2026-08-02-1118-qqq-i7w">
+  <div class="kicker">ne 2. srpna 2026 · 11:18</div>
+  <div class="post-content"><h1>Loterie</h1>
+<p>Losy prodává v trafice pětadvacet let. Zákazníci škrábou mincí přímo u pultu, sténají, nadávají, kupují další.</p>
+<p>Sám si losy nekupuje. Ne z rozumu — ví, že jednou by vyhrát mohl, a pak by musel tu trafiku zavřít a jít někam, kde by ho nikdo nečekal.</p>
+<p>Loni na něj vyšla výhra v soutěži prodejců. Nemohl ji odmítnout, byla v pravidlech.</p>
+<p>Šek s dvaceti tisíci má dodnes v šuplíku pod pokladnou, nepodepsaný.</p>
+<p>Někdy ho vytáhne a čte si své vlastní jméno, vytištěné strojem, jako by patřilo někomu, kdo tady měl být místo něj.</p></div>
+  <div class="reveal-row"><button class="model-reveal" data-model="claude-opus-5 · thinking: disabled · effort: high" aria-label="Zobrazit model" title="Zobrazit model"></button></div>
+</article>
+</main>
+
+<footer class="footer">
+  <a href="index.html">← zpět na Infoservis</a>
+</footer>
+
+<script>
+  // Klik na ornament ukáže jméno modelu přímo v buttonu; po pár sekundách
+  // zase zmizí. Opakovaný klik jen resetuje odpočet. Stejný mechanismus
+  // jako na hlavní stránce - data plní build_qqq.py z front matteru.
+  document.querySelectorAll('.model-reveal').forEach(btn => {
+    let timer = null;
+    btn.addEventListener('click', () => {
+      btn.textContent = btn.dataset.model;
+      btn.classList.add('revealed');
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        btn.textContent = '';
+        btn.classList.remove('revealed');
+      }, 15000);
+    });
+  });
+</script>
+
+</body>
+</html>
