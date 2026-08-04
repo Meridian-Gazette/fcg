@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Turingův test — protokol rozhovoru</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f5f0e6;
+    --ink: #221e19;
+    --oxblood: #6b1f1f;
+    --rule: #c9bfa8;
+    --muted: #6e6250;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { background: var(--paper); }
+  body {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 20px;
+    line-height: 1.55;
+    color: var(--ink);
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 6rem;
+  }
+  header { margin-bottom: 3.5rem; }
+  .kicker {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--oxblood);
+    margin-bottom: 1.2rem;
+  }
+  h1 {
+    font-size: 2.6rem;
+    font-weight: 500;
+    line-height: 1.1;
+    margin-bottom: 0.8rem;
+  }
+  .subtitle {
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--muted);
+  }
+  .meta {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-top: 1.4rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* transcript structure */
+  .turn { position: relative; margin-bottom: 3rem; }
+  .speaker {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--oxblood);
+    margin-bottom: 0.9rem;
+  }
+  .speaker::after {
+    content: "";
+    display: inline-block;
+    width: 3.5rem;
+    height: 1px;
+    background: var(--oxblood);
+    vertical-align: middle;
+    margin-left: 0.8rem;
+    opacity: 0.5;
+  }
+  .question p {
+    font-style: italic;
+    font-size: 1.3rem;
+    line-height: 1.5;
+  }
+  .answer p { margin-bottom: 1.1rem; }
+  .answer h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--oxblood);
+    margin: 2.2rem 0 0.9rem;
+  }
+  .answer ol.body-list { margin: 0 0 1.1rem 1.4rem; }
+  .answer ol.body-list li { margin-bottom: 0.8rem; }
+  em { font-style: italic; }
+  strong { font-weight: 600; }
+
+  /* footnote references */
+  sup.fn {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.62em;
+    color: var(--oxblood);
+  }
+  sup.fn a { color: inherit; text-decoration: none; }
+  sup.fn a:hover { text-decoration: underline; }
+
+  /* sources */
+  .sources {
+    margin-top: 4rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--rule);
+  }
+  .sources h2 {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.1rem;
+    font-weight: 500;
+  }
+  .sources ol {
+    list-style: none;
+    counter-reset: src;
+    font-size: 0.95rem;
+  }
+  .sources li {
+    counter-increment: src;
+    margin-bottom: 0.55rem;
+    padding-left: 2rem;
+    position: relative;
+    line-height: 1.4;
+  }
+  .sources li::before {
+    content: counter(src);
+    position: absolute;
+    left: 0;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    color: var(--oxblood);
+    top: 0.25em;
+  }
+  .sources a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .sources a:hover { border-color: var(--oxblood); color: var(--oxblood); }
+
+  footer {
+    margin-top: 3.5rem;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  @media (max-width: 480px) {
+    body { font-size: 18px; padding-top: 2.5rem; }
+    h1 { font-size: 2rem; }
+  }
+  @media print {
+    body { max-width: none; padding: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">Protokol rozhovoru · ke čtení pomalému</div>
+  <h1>Turingův test, 2026</h1>
+  <p class="subtitle">O tom, jak stroj prošel hrou na imitaci — a proč tím test přestal měřit to, co měl.</p>
+  <p class="meta">rozhovor s Claude (Anthropic) · 4. srpna 2026</p>
+</header>
+
+<section class="turn question">
+  <div class="speaker">Otázka</div>
+  <p>Zdar. Turingův test — jaká je situace? Které modely by dnes prošly tímto testem? Je k&nbsp;tomu nějaká dokumentace? Umí dnešní modely tímto testem projít? Je o&nbsp;tomto mezi researchers shoda?</p>
+</section>
+
+<section class="turn answer">
+  <div class="speaker">Claude</div>
+
+  <p>Zdar. Stav je celkem jasně zdokumentovaný — klíčová je studie Camerona Jonese a Bena Bergena z&nbsp;UC San Diego.</p>
+
+  <h2>Co se stalo</h2>
+  <p>Jejich práce <em>Large Language Models Pass the Turing Test</em> (arXiv, březen 2025) je prvním empirickým důkazem, že umělý systém prošel standardním tříúčastnickým Turingovým testem<sup class="fn"><a href="#src1">1</a></sup> — tedy původní Turingovou konfigurací: interrogátor mluví současně s&nbsp;člověkem a strojem a musí určit, kdo je kdo. Studie následně prošla peer review a vyšla v&nbsp;PNAS (květen 2026),<sup class="fn"><a href="#src2">2</a></sup> takže dnes existuje i „oficiální" publikovaná verze, nejen preprint.</p>
+
+  <h2>Čísla</h2>
+  <p>GPT-4.5 s&nbsp;persona promptem byl označen za člověka v&nbsp;73&nbsp;% případů — tedy signifikantně častěji než skuteční lidští účastníci.<sup class="fn"><a href="#src3">3</a></sup> LLaMa-3.1-405B se stejným promptem dosáhla 56&nbsp;% (statisticky nerozlišitelná od lidí), zatímco baseline modely ELIZA a GPT-4o skončily hluboko pod náhodou (23&nbsp;% a 21&nbsp;%).<sup class="fn"><a href="#src1">1</a></sup></p>
+  <p>Kritický detail: <strong>persona prompt byl nutnou podmínkou.</strong> Bez explicitních instrukcí spadl GPT-4.5 na 36&nbsp;% a LLaMa na 38&nbsp;% — modely umí působit lidsky, ale samy od sebe nepřijdou na to, co to obnáší; potřebují, aby jim to člověk řekl.<sup class="fn"><a href="#src4">4</a></sup> Persona byla typu „mladý člověk znalý internetové kultury" — tedy introvertní, používající slang, dělající překlepy. Nikoli „buď chytrý", ale „buď obyčejný".</p>
+
+  <h2>Dokumentace</h2>
+  <p>ArXiv preprint: <a href="https://arxiv.org/abs/2503.23674" style="color:var(--oxblood)">arxiv.org/abs/2503.23674</a>. Publikace v&nbsp;PNAS (2026), plus starší práce téže dvojice: <em>Does GPT-4 Pass the Turing Test?</em> (2023, dvouúčastnická varianta — tam GPT-4 ještě neprošel). Kritická literatura: Restrepo Echavarría v&nbsp;<em>Minds and Machines</em> (2025) tvrdil opak — že „žádná minimálně seriózní implementace testu nebyla provedena" a že hypotézu o&nbsp;průchodu ChatGPT-4 lze bezpečně zamítnout<sup class="fn"><a href="#src5">5</a></sup> — a existuje arXiv paper, který zase kriticky rozebírá jeho.</p>
+
+  <h2>Shoda mezi researchers?</h2>
+  <p>Rozdělme to na dvě otázky, protože právě tady se to láme:</p>
+  <ol class="body-list">
+    <li><em>Prošly modely testem v&nbsp;Turingově operacionálním smyslu?</em> Tady je shoda poměrně vysoká — metodologie Jones/Bergen je považována za rigorózní (randomizovaná, kontrolovaná, tříúčastnická, s&nbsp;baseline modely). Námitky existují: krátká délka konverzace (5&nbsp;minut), netrénovaní soudci, a paradox, že podle logiky testu by stroj neměl člověka „překonat" — 73&nbsp;% je vlastně anomálie, která ukazuje spíš na selhání lidských heuristik.<sup class="fn"><a href="#src6">6</a></sup></li>
+    <li><em>Znamená to, že jsou inteligentní?</em> Tady shoda není a sami autoři to odmítají. Výsledek je indikací imitace lidské inteligence, ne inteligence samotné.<sup class="fn"><a href="#src7">7</a></sup> Melanie Mitchell v&nbsp;<em>Science</em> píše, že Turingův test je méně testem inteligence a více testem lidských předpokladů.<sup class="fn"><a href="#src8">8</a></sup> Jones sám to formuluje ostře: „Turingův test je pro modely hra o&nbsp;lhaní — a ukazuje se, že v&nbsp;tom jsou opravdu dobré."<sup class="fn"><a href="#src4">4</a></sup></li>
+  </ol>
+  <p>Filozoficky vzato se tu stala zajímavá inverze: test neprošel proto, že by stroj dosáhl myšlení, ale proto, že se ukázalo, že <em>rozpoznatelnost lidství</em> je performativní záležitost — soudci se neptali na logiku ani znalosti, ale hledali afekt, chybovost, slang. Model prošel tím, že hrál sociální roli, ne tím, že myslel. Searlova čínská komora tak zůstává nedotčená — jen se přesunula z&nbsp;otázky sémantiky do otázky habitusu. Většina oboru proto test tiše odložila jako historický artefakt: milník padl, ale nikdo už si nemyslí, že měřil to, co Turing doufal.</p>
+  <p>Prakticky nejzávažnější důsledek: Bergen upozorňuje, že nerozlišitelnost má vážné důsledky — boti přesvědčující lidi ke sdílení citlivých údajů, volbě strany, koupi produktu.<sup class="fn"><a href="#src4">4</a></sup> Test už není o&nbsp;AGI, ale o&nbsp;„counterfeit people" a důvěře v&nbsp;online prostor.</p>
+</section>
+
+<section class="sources">
+  <h2>Prameny</h2>
+  <ol>
+    <li id="src1">Jones, C. &amp; Bergen, B.: <em>Large Language Models Pass the Turing Test.</em> <a href="https://arxiv.org/abs/2503.23674">arXiv:2503.23674</a> (březen 2025)</li>
+    <li id="src2">Rosso, C.: <em>AI Officially Passes the Turing Test, Landmark Study Shows.</em> <a href="https://www.psychologytoday.com/us/blog/the-future-brain/202605/ai-officially-passes-the-turing-test-landmark-study-shows">Psychology Today</a> (květen 2026)</li>
+    <li id="src3">Neuroscience News: <em>Advanced AI Passes the Turing Test for the First Time.</em> <a href="https://neurosciencenews.com/ai-passes-turing-test-30733/">neurosciencenews.com</a> (květen 2026)</li>
+    <li id="src4">UC San Diego Today: <em>AI Can Seem More Human Than Real Humans in a Classic Turing Test.</em> <a href="https://today.ucsd.edu/story/ai-can-seem-more-human-than-real-humans-in-a-classic-turing-test-study-finds">today.ucsd.edu</a> (květen 2026)</li>
+    <li id="src5">Kritická analýza tezí Restrepo Echavarríi (<em>Minds and Machines</em>, 2025): <a href="https://arxiv.org/pdf/2503.06551">arXiv:2503.06551</a></li>
+    <li id="src6"><em>The Turing Test Is More Relevant Than Ever.</em> <a href="https://arxiv.org/html/2505.02558v1">arXiv:2505.02558</a> (2025)</li>
+    <li id="src7">The Conversation: <em>ChatGPT just passed the Turing test. But that doesn't mean AI is now as smart as humans.</em> <a href="https://theconversation.com/chatgpt-just-passed-the-turing-test-but-that-doesnt-mean-ai-is-now-as-smart-as-humans-253946">theconversation.com</a> (duben 2026)</li>
+    <li id="src8">Mitchell, M. — komentář v&nbsp;<em>Science</em>, cit. dle <a href="https://theoutpost.ai/news-story/the-turing-test-challenged-gpt-4-s-performance-sparks-debate-on-ai-intelligence-14033/">theoutpost.ai</a> (2025)</li>
+  </ol>
+</section>
+
+<footer>protokol · srpen MMXXVI</footer>
+
+</body>
+</html>
