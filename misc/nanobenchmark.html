@@ -5,11 +5,14 @@
 <title>Nanofikce – benchmark hodnocení AI</title>
 <style>
   :root { --bd:#d8d8d8; }
-  body { font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif; margin:32px auto; max-width:1200px; color:#1a1a1a; }
+  body { font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif; margin:0 auto; max-width:1280px;
+         padding:32px 48px 48px; box-sizing:border-box; color:#1a1a1a; }
   h1 { font-size:22px; margin:0 0 4px; }
   h2 { font-size:16px; margin:36px 0 8px; }
   p.sub { color:#666; font-size:13px; margin:0 0 24px; }
   table { border-collapse:collapse; font-size:13px; width:100%; }
+  #t-data { table-layout:fixed; }
+  #t-data th.name { width:185px; }
   th,td { border:1px solid var(--bd); padding:5px 8px; text-align:center; }
   th { background:#f2f2f2; font-weight:600; font-size:11px; line-height:1.25; }
   td.name, th.name { text-align:left; white-space:nowrap; font-weight:600; }
@@ -18,6 +21,12 @@
   td.txt { text-align:left; font-weight:400; font-size:12px; }
   ul { font-size:13px; line-height:1.6; }
   .na { color:#aaa; }
+  h2.zavery-h { font-size:20px; margin:48px 0 12px; }
+  .zavery { background:#f5f8fd; border:1px solid #c6d5ea; border-left:6px solid #2b5fad;
+            border-radius:6px; padding:18px 26px; }
+  .zavery ul { font-size:15px; line-height:1.7; margin:0; padding-left:22px; }
+  .zavery li { margin:10px 0; }
+  .zavery li b { color:#1f4d94; }
 </style>
 </head>
 <body>
@@ -35,7 +44,8 @@
 <p class="sub">1,00 = identické pořadí · 0 = žádný vztah · negativní = obrácené pořadí</p>
 <table id="t-corr"></table>
 
-<h2>Závěry</h2>
+<h2 class="zavery-h">Závěry</h2>
+<div class="zavery">
 <ul>
   <li><b>Nejsilnější shoda:</b> Fable 5 High ↔ Opus 4.6 (0,85), Opus ↔ GPT-5.6 (0,83), Fable ↔ GPT-5.6 (0,81). Tři nejsilnější modely tvoří konsenzuální jádro.</li>
   <li>GLM-5.2 se k tomu jádru drží slušně (0,67–0,73).</li>
@@ -43,6 +53,7 @@
   <li><b>Mistral hodnotí obráceně</b> – korelace negativní se všemi (–0,41 s Fable, –0,37 s GPT). Nešumí náhodně; systematicky dává nejvyšší známky textům, které ostatní řadí nejníž (Poslední aktualizace 10, Archivář 10, Produkt 10).</li>
   <li>Vlastní hodnocení (sloupec „michal dio“) koreluje se všemi jen slabě (0,01–0,24) – ale je celočíselné a svázané do skupin, což korelaci srazí.</li>
 </ul>
+</div>
 
 <script>
 const models = ["michal dio – claude – kdovíjaký model","claude Fable 5 High","Gemini Pro Extended",
