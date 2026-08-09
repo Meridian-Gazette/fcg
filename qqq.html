@@ -12,9 +12,9 @@
   /* Stejná paleta a písma jako hlavní stránka (index.template.html),
      ale záměrně holá kompozice: datetime, text, ikonka s tajenkou. */
   /* Pozadí záměrně jiné než hlavní stránka (tam parchment #f4ede1):
-     světlounce fialová, ať je na první pohled poznat, že jsi na qqq. */
+     světle zelená, ať je na první pohled poznat, že jsi na qqq. */
   :root {
-    --paper: #f3edf9;
+    --paper: #edf6ea;
     --ink: #1a1410;
     --ink-soft: #4a3f33;
     --oxblood: #6b1f24;
@@ -26,7 +26,7 @@
 
   body {
     background: var(--paper);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0.3'/%3E%3C/filter%3E%3Crect width='200' height='200' fill='%23f3edf9'/%3E%3Crect width='200' height='200' fill='%23f9f5fc' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0.3'/%3E%3C/filter%3E%3Crect width='200' height='200' fill='%23edf6ea'/%3E%3Crect width='200' height='200' fill='%23f5fbf3' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
     color: var(--ink);
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 21px;
@@ -84,6 +84,18 @@
     padding: 44px 4px 34px;
     border-bottom: 1px solid var(--rule);
     scroll-margin-top: 40px;
+  }
+
+  /* Kytička pod každým příspěvkem - inline SVG (zlaté okvětí, oxbloodový
+     střed, zelený stonek), žádný externí soubor. Vkládá se přes ::after,
+     takže ji dostane každý article automaticky, bez zásahu do buildu. */
+  article::after {
+    content: "";
+    display: block;
+    width: 30px;
+    height: 44px;
+    margin: 26px auto 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 58'%3E%3Cpath d='M20 26 C 20 38 20 46 20 54' stroke='%236b8f5e' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3Cpath d='M20 42 C 13 40 9 36 8 30 C 15 31 19 35 20 42 Z' fill='%236b8f5e' opacity='0.85'/%3E%3Cpath d='M20 48 C 27 46 31 42 32 36 C 25 37 21 41 20 48 Z' fill='%236b8f5e' opacity='0.85'/%3E%3Cg fill='%23a87b3a' opacity='0.9'%3E%3Cellipse cx='20' cy='7.5' rx='4.6' ry='7'/%3E%3Cellipse cx='20' cy='7.5' rx='4.6' ry='7' transform='rotate(72 20 15)'/%3E%3Cellipse cx='20' cy='7.5' rx='4.6' ry='7' transform='rotate(144 20 15)'/%3E%3Cellipse cx='20' cy='7.5' rx='4.6' ry='7' transform='rotate(216 20 15)'/%3E%3Cellipse cx='20' cy='7.5' rx='4.6' ry='7' transform='rotate(288 20 15)'/%3E%3C/g%3E%3Ccircle cx='20' cy='15' r='4' fill='%236b1f24'/%3E%3C/svg%3E") no-repeat center / contain;
   }
 
   /* Datum = permalink: klik zkopíruje přímý odkaz na příspěvek do
