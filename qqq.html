@@ -197,40 +197,55 @@
 
 <header class="masthead">
   <div class="brand"> &nbsp;   </div>
-  <svg class="logo" viewBox="0 0 380 134" role="img"
+  <svg class="logo" viewBox="0 0 380 160" role="img"
        aria-label="QQQ - soutěž modelů: Opus 4.6, Opus 5, Fable 5, GLM 4.6">
+    <!-- Čtyřsměrný střet: jména kandidátů nalétávají z rohů na oxbloodových
+         vlajkách, uprostřed zubatý zlatý výbuch s VS, kolem blesky a
+         rychlostní čáry. -->
     <g font-family="Inter, sans-serif">
-      <g transform="rotate(-9 58 66)">
-        <rect x="19" y="13" width="78" height="106" rx="7"
-              fill="#fdfbf7" stroke="#a87b3a" stroke-width="1.5"/>
-        <text x="28" y="34" font-size="15" fill="#a87b3a">?</text>
-        <text x="58" y="71" text-anchor="middle" font-size="12.5"
-              font-weight="600" fill="#6b1f24" letter-spacing="0.5">OPUS 4.6</text>
-        <text x="88" y="110" font-size="15" fill="#a87b3a" text-anchor="end">?</text>
+      <!-- rychlostní čáry za vlajkami -->
+      <g stroke="#4a3f33" stroke-width="1.6" opacity="0.45" stroke-linecap="round">
+        <line x1="4"   y1="14"  x2="52"  y2="24"/>
+        <line x1="10"  y1="30"  x2="44"  y2="36"/>
+        <line x1="376" y1="14"  x2="328" y2="24"/>
+        <line x1="370" y1="30"  x2="336" y2="36"/>
+        <line x1="4"   y1="146" x2="52"  y2="136"/>
+        <line x1="10"  y1="130" x2="44"  y2="124"/>
+        <line x1="376" y1="146" x2="328" y2="136"/>
+        <line x1="370" y1="130" x2="336" y2="124"/>
       </g>
-      <g transform="rotate(-3 146 66)">
-        <rect x="107" y="13" width="78" height="106" rx="7"
-              fill="#fdfbf7" stroke="#a87b3a" stroke-width="1.5"/>
-        <text x="116" y="34" font-size="15" fill="#a87b3a">?</text>
-        <text x="146" y="71" text-anchor="middle" font-size="12.5"
-              font-weight="600" fill="#6b1f24" letter-spacing="0.5">OPUS 5</text>
-        <text x="176" y="110" font-size="15" fill="#a87b3a" text-anchor="end">?</text>
+      <!-- výbuch: oxbloodový podklad pootočený, zlatý přes něj, uvnitř VS -->
+      <polygon fill="#6b1f24" transform="rotate(14 190 80)"
+               points="196.4,34.4 199.4,57.9 218.3,43.8 209.2,65.6 232.7,62.8 213.8,77.1 235.6,86.4 212.1,89.4 226.2,108.3 204.4,99.2 207.2,122.7 192.9,103.8 183.6,125.6 180.6,102.1 161.7,116.2 170.8,94.4 147.3,97.2 166.2,82.9 144.4,73.6 167.9,70.6 153.8,51.7 175.6,60.8 172.8,37.3 187.1,56.2"/>
+      <polygon fill="#a87b3a" stroke="#1a1410" stroke-width="1.5" stroke-linejoin="round"
+               points="190.0,22.0 197.8,51.0 219.0,29.8 211.2,58.8 240.2,51.0 219.0,72.2 248.0,80.0 219.0,87.8 240.2,109.0 211.2,101.2 219.0,130.2 197.8,109.0 190.0,138.0 182.2,109.0 161.0,130.2 168.8,101.2 139.8,109.0 161.0,87.8 132.0,80.0 161.0,72.2 139.8,51.0 168.8,58.8 161.0,29.8 182.2,51.0"/>
+      <text x="190" y="92" text-anchor="middle" font-size="34" font-weight="800"
+            fill="#1a1410" letter-spacing="1" transform="rotate(-6 190 80)">VS</text>
+      <!-- blesky mezi vlajkami a výbuchem -->
+      <g fill="none" stroke="#a87b3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M124 46 l14 8 -8 3 15 10"/>
+        <path d="M256 46 l-14 8 8 3 -15 10"/>
+        <path d="M124 114 l14 -8 -8 -3 15 -10"/>
+        <path d="M256 114 l-14 -8 8 -3 -15 -10"/>
       </g>
-      <g transform="rotate(3 234 66)">
-        <rect x="195" y="13" width="78" height="106" rx="7"
-              fill="#fdfbf7" stroke="#a87b3a" stroke-width="1.5"/>
-        <text x="204" y="34" font-size="15" fill="#a87b3a">?</text>
-        <text x="234" y="71" text-anchor="middle" font-size="12.5"
-              font-weight="600" fill="#6b1f24" letter-spacing="0.5">FABLE 5</text>
-        <text x="264" y="110" font-size="15" fill="#a87b3a" text-anchor="end">?</text>
-      </g>
-      <g transform="rotate(9 322 66)">
-        <rect x="283" y="13" width="78" height="106" rx="7"
-              fill="#fdfbf7" stroke="#a87b3a" stroke-width="1.5"/>
-        <text x="292" y="34" font-size="15" fill="#a87b3a">?</text>
-        <text x="322" y="71" text-anchor="middle" font-size="12.5"
-              font-weight="600" fill="#6b1f24" letter-spacing="0.5">GLM 4.6</text>
-        <text x="352" y="110" font-size="15" fill="#a87b3a" text-anchor="end">?</text>
+      <!-- vlajky se jmény kandidátů -->
+      <g font-size="13.5" font-weight="700" letter-spacing="1" fill="#fdfbf7">
+        <g transform="rotate(-10 66 32)">
+          <rect x="7" y="17" width="118" height="30" rx="4" fill="#6b1f24"/>
+          <text x="66" y="37" text-anchor="middle">OPUS 4.6</text>
+        </g>
+        <g transform="rotate(10 314 32)">
+          <rect x="255" y="17" width="118" height="30" rx="4" fill="#6b1f24"/>
+          <text x="314" y="37" text-anchor="middle">OPUS 5</text>
+        </g>
+        <g transform="rotate(10 66 128)">
+          <rect x="7" y="113" width="118" height="30" rx="4" fill="#6b1f24"/>
+          <text x="66" y="133" text-anchor="middle">FABLE 5</text>
+        </g>
+        <g transform="rotate(-10 314 128)">
+          <rect x="255" y="113" width="118" height="30" rx="4" fill="#6b1f24"/>
+          <text x="314" y="133" text-anchor="middle">GLM 4.6</text>
+        </g>
       </g>
     </g>
   </svg>
