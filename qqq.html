@@ -197,54 +197,90 @@
 
 <header class="masthead">
   <div class="brand"> &nbsp;   </div>
-  <svg class="logo" viewBox="0 0 380 160" role="img"
+  <svg class="logo" viewBox="0 0 380 170" role="img"
        aria-label="QQQ - soutěž modelů: Opus 4.6, Opus 5, Fable 5, GLM 4.6">
-    <!-- Čtyřsměrný střet: jména kandidátů nalétávají z rohů na oxbloodových
-         vlajkách, uprostřed zubatý zlatý výbuch s VS, kolem blesky a
-         rychlostní čáry. -->
+    <!-- Komiksová exploze: rázová vlna, trojvrstvý výbuch s bílým zábleskem
+         a VS, roztrhané vlajky se jmény kandidátů nalétávající z rohů,
+         blesky, jiskry, úlomky a radiální rychlostní čáry. -->
     <g font-family="Inter, sans-serif">
-      <!-- rychlostní čáry za vlajkami -->
-      <g stroke="#4a3f33" stroke-width="1.6" opacity="0.45" stroke-linecap="round">
-        <line x1="4"   y1="14"  x2="52"  y2="24"/>
-        <line x1="10"  y1="30"  x2="44"  y2="36"/>
-        <line x1="376" y1="14"  x2="328" y2="24"/>
-        <line x1="370" y1="30"  x2="336" y2="36"/>
-        <line x1="4"   y1="146" x2="52"  y2="136"/>
-        <line x1="10"  y1="130" x2="44"  y2="124"/>
-        <line x1="376" y1="146" x2="328" y2="136"/>
-        <line x1="370" y1="130" x2="336" y2="124"/>
+      <!-- radiální rychlostní čáry od výbuchu -->
+      <g stroke="#4a3f33" stroke-width="1.5" opacity="0.4" stroke-linecap="round">
+        <line x1="267" y1="97" x2="300" y2="103"/>
+        <line x1="251" y1="119" x2="268" y2="129"/>
+        <line x1="217" y1="136" x2="229" y2="157"/>
+        <line x1="163" y1="136" x2="147" y2="165"/>
+        <line x1="129" y1="119" x2="112" y2="129"/>
+        <line x1="113" y1="97" x2="91" y2="101"/>
+        <line x1="113" y1="67" x2="68" y2="59"/>
+        <line x1="129" y1="45" x2="112" y2="35"/>
+        <line x1="163" y1="28" x2="151" y2="7"/>
+        <line x1="217" y1="28" x2="230" y2="3"/>
+        <line x1="251" y1="45" x2="268" y2="35"/>
+        <line x1="267" y1="67" x2="312" y2="59"/>
       </g>
-      <!-- výbuch: oxbloodový podklad pootočený, zlatý přes něj, uvnitř VS -->
-      <polygon fill="#6b1f24" transform="rotate(14 190 80)"
-               points="196.4,34.4 199.4,57.9 218.3,43.8 209.2,65.6 232.7,62.8 213.8,77.1 235.6,86.4 212.1,89.4 226.2,108.3 204.4,99.2 207.2,122.7 192.9,103.8 183.6,125.6 180.6,102.1 161.7,116.2 170.8,94.4 147.3,97.2 166.2,82.9 144.4,73.6 167.9,70.6 153.8,51.7 175.6,60.8 172.8,37.3 187.1,56.2"/>
-      <polygon fill="#a87b3a" stroke="#1a1410" stroke-width="1.5" stroke-linejoin="round"
-               points="190.0,22.0 197.8,51.0 219.0,29.8 211.2,58.8 240.2,51.0 219.0,72.2 248.0,80.0 219.0,87.8 240.2,109.0 211.2,101.2 219.0,130.2 197.8,109.0 190.0,138.0 182.2,109.0 161.0,130.2 168.8,101.2 139.8,109.0 161.0,87.8 132.0,80.0 161.0,72.2 139.8,51.0 168.8,58.8 161.0,29.8 182.2,51.0"/>
-      <text x="190" y="92" text-anchor="middle" font-size="34" font-weight="800"
-            fill="#1a1410" letter-spacing="1" transform="rotate(-6 190 80)">VS</text>
-      <!-- blesky mezi vlajkami a výbuchem -->
-      <g fill="none" stroke="#a87b3a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
-        <path d="M124 46 l14 8 -8 3 15 10"/>
-        <path d="M256 46 l-14 8 8 3 -15 10"/>
-        <path d="M124 114 l14 -8 -8 -3 15 -10"/>
-        <path d="M256 114 l-14 -8 8 -3 -15 -10"/>
+      <!-- rázová vlna -->
+      <circle cx="190" cy="82" r="74" fill="none" stroke="#6b1f24"
+              stroke-width="2.5" stroke-dasharray="7 11" opacity="0.55"/>
+      <!-- výbuch: zlatý s inkoustovým obrysem, oxbloodový pootočený, bílý záblesk -->
+      <polygon fill="#a87b3a" stroke="#1a1410" stroke-width="1.6" stroke-linejoin="round"
+               points="190.0,12.0 198.6,47.0 222.5,20.0 213.9,55.1 247.6,42.2 223.7,69.2 259.5,73.6 225.7,86.3 255.5,106.8 219.6,102.5 236.4,134.4 206.7,113.9 206.8,150.0 190.0,118.0 173.2,150.0 173.3,113.9 143.6,134.4 160.4,102.5 124.5,106.8 154.3,86.3 120.5,73.6 156.3,69.2 132.4,42.2 166.1,55.1 157.5,20.0 181.4,47.0"/>
+      <polygon fill="#6b1f24" opacity="0.92"
+               points="204.5,27.9 204.6,58.1 231.4,44.3 215.2,69.8 245.2,72.7 217.8,85.3 241.5,104.0 211.6,99.8 221.4,128.4 198.5,108.7 191.3,138.0 182.8,109.0 160.9,129.8 169.3,100.8 139.6,106.5 162.4,86.6 134.4,75.4 164.3,71.0 146.8,46.3 174.3,58.8 172.9,28.7 189.3,54.0"/>
+      <polygon fill="#fdfbf7"
+               points="190.0,52.0 195.7,68.1 211.2,60.8 203.9,76.3 220.0,82.0 203.9,87.7 211.2,103.2 195.7,95.9 190.0,112.0 184.3,95.9 168.8,103.2 176.1,87.7 160.0,82.0 176.1,76.3 168.8,60.8 184.3,68.1"/>
+      <text x="190" y="94" text-anchor="middle" font-size="33" font-weight="800"
+            fill="#1a1410" letter-spacing="0" transform="rotate(-8 190 82)">VS</text>
+      <!-- blesky -->
+      <g fill="none" stroke="#a87b3a" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M116 40 l17 9 -10 4 19 12"/>
+        <path d="M264 40 l-17 9 10 4 -19 12"/>
+        <path d="M116 124 l17 -9 -10 -4 19 -12"/>
+        <path d="M264 124 l-17 -9 10 -4 -19 -12"/>
       </g>
-      <!-- vlajky se jmény kandidátů -->
+      <!-- jiskry a úlomky -->
+      <g fill="#a87b3a">
+        <path d="M104 82 l5 -7 2 8 8 2 -8 3 -2 8 -5 -7 -9 0 z" opacity="0.9"/>
+        <path d="M276 84 l-5 -7 -2 8 -8 2 8 3 2 8 5 -7 9 0 z" opacity="0.9"/>
+        <circle cx="150" cy="18" r="2.6"/>
+        <circle cx="234" cy="150" r="2.6"/>
+        <circle cx="292" cy="26" r="2.2"/>
+        <circle cx="88" cy="142" r="2.2"/>
+      </g>
+      <g fill="#6b1f24">
+        <polygon points="122,16 130,20 123,25"/>
+        <polygon points="258,148 250,144 257,139"/>
+        <polygon points="300,120 308,122 302,128"/>
+        <polygon points="80,44 72,42 78,36"/>
+      </g>
+      <!-- roztrhané vlajky se jmény: stín + vlajka s vidlicovými konci -->
       <g font-size="13.5" font-weight="700" letter-spacing="1" fill="#fdfbf7">
-        <g transform="rotate(-10 66 32)">
-          <rect x="7" y="17" width="118" height="30" rx="4" fill="#6b1f24"/>
-          <text x="66" y="37" text-anchor="middle">OPUS 4.6</text>
+        <g transform="rotate(-18 66 32)">
+          <polygon points="9,19 119,15 111,23 121,31 111,39 119,49 9,45 17,37 7,31 17,25"
+                   fill="#1a1410" opacity="0.28" transform="translate(4 5)"/>
+          <polygon points="9,19 119,15 111,23 121,31 111,39 119,49 9,45 17,37 7,31 17,25"
+                   fill="#6b1f24"/>
+          <text x="64" y="37" text-anchor="middle">OPUS 4.6</text>
         </g>
-        <g transform="rotate(10 314 32)">
-          <rect x="255" y="17" width="118" height="30" rx="4" fill="#6b1f24"/>
-          <text x="314" y="37" text-anchor="middle">OPUS 5</text>
+        <g transform="rotate(16 314 30)">
+          <polygon points="261,15 371,19 363,25 373,31 363,37 371,49 261,45 269,37 259,31 269,23"
+                   fill="#1a1410" opacity="0.28" transform="translate(4 5)"/>
+          <polygon points="261,15 371,19 363,25 373,31 363,37 371,49 261,45 269,37 259,31 269,23"
+                   fill="#6b1f24"/>
+          <text x="316" y="37" text-anchor="middle">OPUS 5</text>
         </g>
-        <g transform="rotate(10 66 128)">
-          <rect x="7" y="113" width="118" height="30" rx="4" fill="#6b1f24"/>
-          <text x="66" y="133" text-anchor="middle">FABLE 5</text>
+        <g transform="rotate(15 66 138)">
+          <polygon points="9,121 119,117 111,125 121,133 111,141 119,151 9,147 17,139 7,133 17,127"
+                   fill="#1a1410" opacity="0.28" transform="translate(4 5)"/>
+          <polygon points="9,121 119,117 111,125 121,133 111,141 119,151 9,147 17,139 7,133 17,127"
+                   fill="#6b1f24"/>
+          <text x="64" y="139" text-anchor="middle">FABLE 5</text>
         </g>
-        <g transform="rotate(-10 314 128)">
-          <rect x="255" y="113" width="118" height="30" rx="4" fill="#6b1f24"/>
-          <text x="314" y="133" text-anchor="middle">GLM 4.6</text>
+        <g transform="rotate(-14 314 136)">
+          <polygon points="261,117 371,121 363,127 373,133 363,139 371,151 261,147 269,139 259,133 269,125"
+                   fill="#1a1410" opacity="0.28" transform="translate(4 5)"/>
+          <polygon points="261,117 371,121 363,127 373,133 363,139 371,151 261,147 269,139 259,133 269,125"
+                   fill="#6b1f24"/>
+          <text x="316" y="139" text-anchor="middle">GLM 4.6</text>
         </g>
       </g>
     </g>
