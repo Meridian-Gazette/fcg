@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Poslové výjimek</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#F4F6FA; --surface:#FFFFFF; --surface2:#EDF1F7;
+    --ink:#1C2738; --muted:#5A6678; --line:#D9E0EB; --line-soft:#E6EBF3;
+    --accent:#2451C8; --accent-soft:#E3E9FB;
+    --c056:#A66A0E; --c056-bg:#FAF1DF; --c056-line:#E4CFA0;
+    --c029:#0E7B66; --c029-bg:#E2F3EC; --c029-line:#A9D8C8;
+    --p028:#6247C4; --p028-bg:#ECE8FA; --p028-line:#C9BEF0;
+    --a022:#B03566; --a022-bg:#F9E7EF; --a022-line:#EBB8CD;
+    --code-bg:#EBF0F7; --money:#0E7B66; --warn-bg:#FAF1DF; --warn-line:#E4CFA0;
+    --shadow:0 1px 2px rgba(28,39,56,.05),0 8px 24px rgba(28,39,56,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0D1420; --surface:#151F2E; --surface2:#1B2637;
+      --ink:#E5EBF4; --muted:#98A5BA; --line:#2B3850; --line-soft:#223048;
+      --accent:#8AACFF; --accent-soft:#20304E;
+      --c056:#E3AC55; --c056-bg:#33290F; --c056-line:#5C4A1E;
+      --c029:#4FC6A9; --c029-bg:#0F2E27; --c029-line:#1F5347;
+      --p028:#AC98F2; --p028-bg:#241E42; --p028-line:#3F3670;
+      --a022:#E886AD; --a022-bg:#371828; --a022-line:#5F2C44;
+      --code-bg:#1C2941; --money:#4FC6A9; --warn-bg:#33290F; --warn-line:#5C4A1E;
+      --shadow:0 1px 2px rgba(0,0,0,.35),0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0D1420; --surface:#151F2E; --surface2:#1B2637;
+    --ink:#E5EBF4; --muted:#98A5BA; --line:#2B3850; --line-soft:#223048;
+    --accent:#8AACFF; --accent-soft:#20304E;
+    --c056:#E3AC55; --c056-bg:#33290F; --c056-line:#5C4A1E;
+    --c029:#4FC6A9; --c029-bg:#0F2E27; --c029-line:#1F5347;
+    --p028:#AC98F2; --p028-bg:#241E42; --p028-line:#3F3670;
+    --a022:#E886AD; --a022-bg:#371828; --a022-line:#5F2C44;
+    --code-bg:#1C2941; --money:#4FC6A9; --warn-bg:#33290F; --warn-line:#5C4A1E;
+    --shadow:0 1px 2px rgba(0,0,0,.35),0 8px 24px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Source Serif 4",Georgia,"Times New Roman",serif;
+    font-size:17px; line-height:1.65;
+  }
+  .wrap{max-width:1060px; margin:0 auto; padding:0 24px 96px}
+  .prose{max-width:68ch}
+  h1,h2,h3,h4{font-family:"Bricolage Grotesque","Segoe UI",Arial,sans-serif; line-height:1.15; text-wrap:balance; margin:0}
+  p{margin:0 0 1em}
+  a{color:var(--accent)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  code,.mono{font-family:"IBM Plex Mono",Consolas,monospace}
+  code{background:var(--code-bg); border-radius:4px; padding:.08em .35em; font-size:.86em}
+  strong{font-weight:600}
+
+  /* ---------- hero ---------- */
+  header.hero{padding:72px 0 44px; border-bottom:1px solid var(--line)}
+  .eyebrow{font-family:"IBM Plex Mono",Consolas,monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 14px}
+  .hero h1{font-size:clamp(38px,6vw,62px); font-weight:700}
+  .hero .sub{font-size:20px; color:var(--muted); max-width:62ch; margin-top:16px}
+  .chips{display:flex; flex-wrap:wrap; gap:10px; margin-top:28px}
+  .chip{font-family:"IBM Plex Mono",Consolas,monospace; font-size:13px; font-weight:600; padding:6px 12px; border-radius:999px; border:1px solid; text-decoration:none}
+  .chip.m056{color:var(--c056); background:var(--c056-bg); border-color:var(--c056-line)}
+  .chip.m029{color:var(--c029); background:var(--c029-bg); border-color:var(--c029-line)}
+  .chip.m028{color:var(--p028); background:var(--p028-bg); border-color:var(--p028-line)}
+  .chip.m022{color:var(--a022); background:var(--a022-bg); border-color:var(--a022-line)}
+
+  /* ---------- sections ---------- */
+  section{padding-top:56px}
+  .kap-head{display:flex; flex-direction:column; gap:10px; margin-bottom:22px}
+  .kap-head h2{font-size:clamp(26px,3.6vw,38px); font-weight:700}
+  .kap-head .msgname{font-family:"IBM Plex Mono",Consolas,monospace; font-size:15px; font-weight:600}
+  h3{font-size:21px; font-weight:600; margin:34px 0 12px}
+  h4{font-size:17px; font-weight:600; margin:24px 0 8px}
+  .tint056 h2, .msgname.t056{color:var(--c056)}
+  .tint029 h2, .msgname.t029{color:var(--c029)}
+  .tint028 h2, .msgname.t028{color:var(--p028)}
+  .tint022 h2, .msgname.t022{color:var(--a022)}
+
+  /* ---------- passport card ---------- */
+  .passport{background:var(--surface); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); padding:20px 24px; margin:26px 0 30px}
+  .passport .ptitle{font-family:"IBM Plex Mono",Consolas,monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:14px}
+  .passport dl{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px 22px; margin:0}
+  .passport dt{font-family:"IBM Plex Mono",Consolas,monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:3px}
+  .passport dd{margin:0; font-size:15px; line-height:1.45}
+
+  /* ---------- callouts ---------- */
+  .box{border:1px solid var(--line); border-radius:12px; padding:18px 22px; margin:22px 0; background:var(--surface)}
+  .box .btitle{font-family:"Bricolage Grotesque","Segoe UI",Arial,sans-serif; font-weight:600; font-size:15px; margin-bottom:8px; display:flex; align-items:center; gap:8px}
+  .box p:last-child, .box ul:last-child{margin-bottom:0}
+  .box.confuse{background:var(--warn-bg); border-color:var(--warn-line)}
+  .box.confuse .btitle{color:var(--c056)}
+  .box.golden{background:var(--accent-soft); border-color:var(--accent)}
+  .box.golden .btitle{color:var(--accent)}
+  .box.unsure{border-style:dashed}
+  .box.unsure .btitle{color:var(--a022)}
+  ul{padding-left:1.3em; margin:0 0 1em}
+  li{margin-bottom:.45em}
+  li::marker{color:var(--muted)}
+
+  /* ---------- flow (chat mezi bankami) ---------- */
+  .flow{background:var(--surface); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); margin:26px 0; overflow:hidden}
+  .flow .ftitle{padding:14px 20px; border-bottom:1px solid var(--line-soft); font-family:"Bricolage Grotesque","Segoe UI",Arial,sans-serif; font-weight:600; font-size:16px}
+  .flow .lanes{display:flex; justify-content:space-between; gap:12px; padding:12px 20px 0; font-family:"IBM Plex Mono",Consolas,monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+  .flow .body{display:flex; flex-direction:column; gap:14px; padding:16px 20px 22px}
+  .msg{max-width:72%; border-radius:12px; padding:12px 16px; border:1px solid var(--line); background:var(--surface2); font-size:15px; line-height:1.5}
+  .msg .tag{display:inline-block; font-family:"IBM Plex Mono",Consolas,monospace; font-size:12px; font-weight:600; padding:2px 8px; border-radius:6px; border:1px solid; margin-bottom:6px}
+  .msg .dir{font-family:"IBM Plex Mono",Consolas,monospace; font-size:11px; color:var(--muted); display:block; margin-bottom:4px}
+  .msg.a{align-self:flex-start; border-bottom-left-radius:4px}
+  .msg.b{align-self:flex-end; border-bottom-right-radius:4px}
+  .msg.k056{background:var(--c056-bg); border-color:var(--c056-line)} .msg.k056 .tag{color:var(--c056); border-color:var(--c056-line); background:var(--surface)}
+  .msg.k029{background:var(--c029-bg); border-color:var(--c029-line)} .msg.k029 .tag{color:var(--c029); border-color:var(--c029-line); background:var(--surface)}
+  .msg.k028{background:var(--p028-bg); border-color:var(--p028-line)} .msg.k028 .tag{color:var(--p028); border-color:var(--p028-line); background:var(--surface)}
+  .msg.k022{background:var(--a022-bg); border-color:var(--a022-line)} .msg.k022 .tag{color:var(--a022); border-color:var(--a022-line); background:var(--surface)}
+  .msg.pay .tag{color:var(--money); border-color:var(--c029-line); background:var(--surface)}
+  .msg.pay{background:var(--c029-bg); border-color:var(--c029-line)}
+  .fnote{align-self:center; text-align:center; font-size:14px; color:var(--muted); font-style:italic; max-width:80%}
+  .fnote .badge{display:inline-block; font-style:normal; font-family:"IBM Plex Mono",Consolas,monospace; font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; padding:2px 10px; border-radius:999px; margin-right:6px}
+  .badge.money{color:var(--money); border:1px solid var(--c029-line); background:var(--c029-bg)}
+  .badge.nomoney{color:var(--muted); border:1px solid var(--line); background:var(--surface2)}
+
+  /* ---------- tables ---------- */
+  .tablewrap{overflow-x:auto; margin:26px 0; border:1px solid var(--line); border-radius:14px; background:var(--surface); box-shadow:var(--shadow)}
+  table{border-collapse:collapse; width:100%; font-size:14.5px; min-width:840px}
+  th,td{text-align:left; padding:12px 16px; border-bottom:1px solid var(--line-soft); vertical-align:top; line-height:1.45}
+  th{font-family:"IBM Plex Mono",Consolas,monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); background:var(--surface2); font-weight:600}
+  tr:last-child td{border-bottom:none}
+  td .mono{font-size:13px; font-weight:600}
+  td .mono.t056{color:var(--c056)} td .mono.t029{color:var(--c029)} td .mono.t028{color:var(--p028)} td .mono.t022{color:var(--a022)}
+
+  /* ---------- TOC ---------- */
+  nav.toc{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; margin:34px 0 6px}
+  nav.toc a{display:block; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:14px 16px; text-decoration:none; color:var(--ink); box-shadow:var(--shadow)}
+  nav.toc a:hover{border-color:var(--accent)}
+  nav.toc .n{font-family:"IBM Plex Mono",Consolas,monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; display:block; margin-bottom:4px}
+  nav.toc .t{font-family:"Bricolage Grotesque","Segoe UI",Arial,sans-serif; font-weight:600; font-size:15px}
+  nav.toc a.l056 .n{color:var(--c056)} nav.toc a.l029 .n{color:var(--c029)} nav.toc a.l028 .n{color:var(--p028)} nav.toc a.l022 .n{color:var(--a022)} nav.toc a.lx .n{color:var(--accent)}
+
+  .anatomy{display:flex; flex-wrap:wrap; gap:10px; align-items:stretch; margin:18px 0 8px; font-family:"IBM Plex Mono",Consolas,monospace}
+  .anatomy .part{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:10px 14px; min-width:120px}
+  .anatomy .part b{display:block; font-size:16px; color:var(--accent)}
+  .anatomy .part span{font-size:11.5px; color:var(--muted); font-family:"Source Serif 4",Georgia,serif}
+
+  .aps{border-left:3px solid var(--accent); padding:4px 0 4px 18px; margin:22px 0}
+  .aps .btitle{font-family:"IBM Plex Mono",Consolas,monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:6px}
+  .aps p:last-child{margin-bottom:0}
+
+  footer{margin-top:70px; padding-top:24px; border-top:1px solid var(--line); color:var(--muted); font-size:14px}
+  @media (max-width:640px){ .msg{max-width:92%} body{font-size:16px} }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="eyebrow"> SEPA · ISO 20022</p>
+  <h1>Příběh: Poslové výjimek</h1>
+  <p class="sub">Čtyři zprávy, které nikdy nevezou peníze — a přesto rozhodují o tom, jestli se peníze vrátí.
+  Příběh <span class="mono">camt.056</span>, <span class="mono">camt.029</span>, <span class="mono">pacs.028</span>
+  a jednoho vetřelce jménem <span class="mono">acmt.022</span>.</p>
+  <div class="chips">
+    <a class="chip m056" href="#camt056">camt.056.001.08</a>
+    <a class="chip m029" href="#camt029">camt.029.001.09</a>
+    <a class="chip m028" href="#pacs028">pacs.028.001.03</a>
+    <a class="chip m022" href="#acmt022">acmt.022.001.02</a>
+  </div>
+</header>
+
+<section id="prolog">
+  <div class="kap-head">
+    <p class="eyebrow">Prolog</p>
+    <h2>Svět, kde tyhle zprávy žijí</h2>
+  </div>
+  <div class="prose">
+    <p>Šťastný svět plateb je nudný: klient pošle <code>pain.001</code>, banka z něj vyrobí mezibankovní
+    <code>pacs.008</code>, clearing (v našem případě EBA STEP2) ji doručí bance příjemce, ta připíše peníze.
+    Konec příběhu. Jenže platby se občas pokazí — pošlou se dvakrát, na špatný IBAN, podvodně, připíšou se pozdě,
+    nebo si příjemce stěžuje, že nedorazily vůbec. A přesně tady začíná svět <strong>R-transakcí a šetření</strong>
+    (exception handling &amp; inquiries), ve kterém všechny čtyři naše zprávy bydlí.</p>
+    <p>Tři z nich (<span class="mono">camt.056</span>, <span class="mono">camt.029</span>, <span class="mono">pacs.028</span>)
+    tvoří sehranou partu ze SCT rulebooku — <em>žádost, odpověď a urgence</em>. Čtvrtá
+    (<span class="mono">acmt.022</span>) je přivandrovalec z úplně jiné domény, o to zajímavější příběh má.</p>
+
+    <h3>Anatomie jména</h3>
+    <p>Než začneme vyprávět, rozeberme si jmenovku. Každé ISO 20022 jméno má čtyři části:</p>
+  </div>
+  <div class="anatomy">
+    <div class="part"><b>camt</b><span>business area — Cash Management (výpisy, šetření, cancellation). Další: <b>pacs</b> = Payments Clearing &amp; Settlement (mezibankovní), <b>pain</b> = Payment Initiation (klient→banka), <b>acmt</b> = Account Management.</span></div>
+    <div class="part"><b>056</b><span>číslo zprávy v rámci oblasti</span></div>
+    <div class="part"><b>001</b><span>varianta (téměř vždy 001)</span></div>
+    <div class="part"><b>08</b><span>verze schématu — a na verzích v SEPA <em>záleží</em>, jak uvidíme u camt.029</span></div>
+  </div>
+  <div class="prose">
+    <p>Už z prefixu poznáte patro, na kterém se zpráva pohybuje: <strong>pacs</strong> je z definice mezibankovní
+    (FI-to-FI, tedy „B2B" mezi bankami), <strong>pain</strong> je klientské, <strong>camt</strong> obojživelník
+    (má klientské i mezibankovní členy) a <strong>acmt</strong> se plateb vůbec netýká — spravuje účty a identifikace.</p>
+  </div>
+
+  <div class="box golden prose">
+    <div class="btitle">Zlaté pravidlo celé kapitoly</div>
+    <p>Ze všech zpráv v tomhle vyprávění <strong>ani jedna nehýbe penězi</strong>. Nejsou to bookovací zprávy.
+    Jediná zpráva, která peníze skutečně vrací, je <code>pacs.004</code> (Payment Return) — a ta v našem kvartetu není.
+    Kdykoli se ztratíte, položte si otázku: <em>„Teče tady někde kredit?"</em> Pokud ano, hledáte pacs.004 (nebo pacs.008),
+    ne camt/pacs.028/acmt. Přesně tohle zdůrazňuje i naše produktová spec (SepaBulk_Specification, kap. 4.1.2.5).</p>
+  </div>
+
+  <div class="box prose" style="border-color:var(--c029-line); background:var(--c029-bg)">
+    <div class="btitle" style="color:var(--c029)">Revize proti webu · 19. 8. 2026</div>
+    <p>Celé vyprávění prošlo ověřením proti aktuálním zdrojům EPC a CSM. Výsledek: <strong>verze zpráv z vašeho
+    projektu jsou přesně ty platné</strong> — <a href="https://www.europeanpaymentscouncil.eu/sites/default/files/kb/file/2024-11/EPC115-06%20SCT%20Inter-PSP%20IG%202025%20V1.0.pdf">SCT Inter-PSP Implementation Guidelines 2025 (EPC115-06)</a>,
+    v platnosti od 5. 10. 2025, pracují s <code>camt.056.001.08</code>, <code>camt.029.001.09</code> a
+    <code>pacs.028.001.03</code>. Lhůty a kódy (DUPL/TECH 10 BD, FRAD 13 měsíců, odpověď na recall 15 BD,
+    RFRO s AC03/AM09/CUST do 13 měsíců, odpověď na inquiry 10 BD) potvrzuje
+    <a href="https://www.europeanpaymentscouncil.eu/sites/default/files/kb/file/2025-04/EPC131-17%20v3.1%20Clarification%20Paper%20SCT%20and%20SCT%20Inst%20scheme%20rulebooks.pdf">Clarification Paper EPC131-17 v3.1 (duben 2025)</a>.
+    Rulebooky 2025 vstoupily v platnost výjimečně už 5. října 2025 (kvůli nařízení o instantních platbách, IPR);
+    z novinek stojí za zmínku hybridní formát adres (unstructured adresy budou zakázané od 22. 11. 2026)
+    a spuštění schématu <strong>Verification of Payee</strong>. Největší změna téhle revize je ale jinde:
+    <strong>záhada acmt.022 je vyřešena</strong> — viz kapitola 4, je z ní úplně nový příběh.</p>
+  </div>
+
+  <div class="prose">
+    <h3>Obsazení</h3>
+    <p>V příbězích vystupují stále titíž herci: <strong>Originator</strong> (příkazce, klient),
+    <strong>Originator PSP</strong> (banka příkazce — v našich scénářích „Banka A"),
+    <strong>CSM</strong> (clearing, EBA STEP2 — tichý pošťák uprostřed),
+    <strong>Beneficiary PSP</strong> („Banka B") a <strong>Beneficiary</strong> (příjemce).
+    Diagramy kreslím jako konverzaci mezi Bankou A (vlevo) a Bankou B (vpravo); CSM mezi nimi jen přeposílá.</p>
+  </div>
+
+  <nav class="toc">
+    <a class="l056" href="#camt056"><span class="n">Kapitola 1</span><span class="t">camt.056 — Prosba o vrácení</span></a>
+    <a class="l029" href="#camt029"><span class="n">Kapitola 2</span><span class="t">camt.029 — Rozsudek bez peněz</span></a>
+    <a class="l028" href="#pacs028"><span class="n">Kapitola 3</span><span class="t">pacs.028 — Zdvořilá urgence</span></a>
+    <a class="l022" href="#acmt022"><span class="n">Kapitola 4</span><span class="t">acmt.022 — Služba CAI (vyřešeno)</span></a>
+    <a class="lx" href="#srovnani"><span class="n">Epilog</span><span class="t">Rodinná fotka a tahák</span></a>
+  </nav>
+</section>
+
+<!-- ==================== CAMT.056 ==================== -->
+<section id="camt056" class="tint056">
+  <div class="kap-head">
+    <p class="eyebrow">Kapitola 1</p>
+    <h2>Prosba o vrácení peněz, které už odešly</h2>
+    <p class="msgname t056">camt.056.001.08 · FIToFIPaymentCancellationRequest</p>
+  </div>
+
+  <div class="passport">
+    <div class="ptitle">Pas zprávy</div>
+    <dl>
+      <dt>Kdo → komu</dt><dd>Banka → banka (FI-to-FI), přes CSM. Klientská obdoba je <code>camt.055</code>.</dd>
+      <dt>Otázka, nebo odpověď?</dt><dd>Otázka. Vždy otevírá případ (Case).</dd>
+      <dt>Nese peníze?</dt><dd><strong>Ne.</strong> Jen prosí, aby se peníze vrátily.</dd>
+      <dt>MT předchůdce</dt><dd>MT 192 / MT 292 (Request for Cancellation)</dd>
+      <dt>Odpovědi</dt><dd>Kladná = <code>pacs.004</code> s kódem FOCR (peníze!), záporná = <code>camt.029.001.09</code>.</dd>
+      <dt>APS workflow</dt><dd>Outward SCT Recall Request (TT 24600x/24603x), Inward SCT Recall Request (TT 11600x)</dd>
+    </dl>
+  </div>
+
+  <div class="prose">
+    <h3>Příběh</h3>
+    <p>Představte si, že banka odešle platbu — a <em>pak</em> zjistí, že neměla. Platební systémy jsou navržené tak,
+    aby odeslanou a vypořádanou platbu <strong>nešlo vzít zpět</strong>. Peníze už jsou právně na účtu příjemce.
+    Jediné, co banka příkazce může, je <strong>poprosit</strong>. A přesně to je <span class="mono">camt.056</span>:
+    formalizovaná, strukturovaná prosba „vraťte nám prosím tuhle platbu", v SEPA slangu <strong>Recall</strong>.</p>
+    <p>Klíčové slovo je <em>prosba</em>. Banka příjemce může vyhovět, ale nemusí — často ani nesmí bez souhlasu svého
+    klienta, protože peníze už patří jemu. Proto camt.056 nikdy nic nebookuje: je to dopis, ne převod.</p>
+
+    <h3>Primární úkol: Recall v SEPA SCT</h3>
+    <p>SCT rulebook dovoluje bance příkazce (Originator PSP) poslat Recall jen ze tří „silných" důvodů,
+    které jdou za bankou, ne za klientem:</p>
+    <ul>
+      <li><code>DUPL</code> — duplicitní odeslání (typicky dvakrát puštěný soubor). Lhůta: <strong>10 bankovních dnů</strong> od vypořádání.</li>
+      <li><code>TECH</code> — technický problém, který vyrobil chybnou platbu. Lhůta: <strong>10 bankovních dnů</strong>.</li>
+      <li><code>FRAD</code> — podvodně pořízená platba. Lhůta: <strong>13 měsíců</strong>.</li>
+    </ul>
+    <p>Banka B musí zareagovat do <strong>15 bankovních dnů</strong>: buď vrátí peníze přes
+    <code>pacs.004</code> s return kódem <code>FOCR</code> (<em>Following Cancellation Request</em>),
+    nebo odmítne přes <code>camt.029</code>. Pikantní detail: vrácená částka <strong>může být nižší</strong> než
+    originál — banka příjemce si smí strhnout poplatek za práci.</p>
+
+    <h3>Sekundární úkoly</h3>
+    <ul>
+      <li><strong>Request for Recall by the Originator (RFRO).</strong> Když chybu neudělala banka, ale <em>klient</em>
+      (překlep v IBAN, špatná částka, prostě si to rozmyslel), jede se stejnou zprávou camt.056, ale s „měkkými" důvody
+      <code>AC03</code> (chybný účet), <code>AM09</code> (chybná částka) či <code>CUST</code> (žádost příkazce), lhůta 13 měsíců.
+      Tady je souhlas příjemce prakticky vždy nutný — je to čistá diplomacie. (Spec kap. 4.1.2.6.)</li>
+      <li><strong>SDD Cancellation.</strong> V inkasním schématu (SEPA Direct Debit) slouží camt.056 k odvolání
+      odeslaných inkas (<code>pacs.003</code>) <em>před vypořádáním</em> — tam je to opravdové „storno", ne prosba,
+      protože peníze ještě netekly. Stejná zpráva, jiný charakter. (Spec kap. 4.2.2.)</li>
+      <li><strong>RTGS světy.</strong> V TARGET2/T2 a v CBPR+ (SWIFT cross-border) se stejná verze camt.056.001.08 používá
+      k žádosti o cancellation; před vypořádáním může platbu skutečně zastavit. SEPA STEP2 dávky ale settlují tak rychle,
+      že v praxi jde téměř vždy o recall po vypořádání.</li>
+    </ul>
+
+    <h3>Klient–klient, nebo B2B?</h3>
+    <p>Čistě <strong>mezibankovní (B2B)</strong>. Klient nikdy camt.056 neposílá — klient volá do banky, píše
+    do internetového bankovnictví, případně formálně posílá <code>camt.055</code> (CustomerPaymentCancellationRequest).
+    Teprve banka jeho prosbu přeloží do mezibankovní camt.056. V APS vzniká Outward SCT Recall Request
+    <strong>ručně přes Manual Capture</strong> nad úspěšně zpracovanou outward platbou v archivní frontě —
+    transakční typy <code>24600x</code> (na žádost klienta) a <code>24603x</code> (z iniciativy banky). (Spec kap. 4.1.4.1.4.)</p>
+  </div>
+
+  <div class="box confuse prose">
+    <div class="btitle">S čím se plete</div>
+    <ul>
+      <li><strong>S <code>pacs.004</code> (Return).</strong> Nejčastější zmatek. Return = peníze se skutečně vracejí
+      (a u inward returnů ho iniciuje banka <em>příjemce</em> sama, např. AC04 účet zrušen). Camt.056 = teprve žádost,
+      aby k returnu došlo. Recall bez pacs.004 nevrátil ani cent.</li>
+      <li><strong>S <code>camt.055</code>.</strong> Stejný obsah, jiné patro: camt.055 je klient→banka, camt.056 banka→banka.</li>
+      <li><strong>S <code>pacs.007</code> (Reversal).</strong> Reversal je „vrácení iniciované tím, kdo peníze dostal/inkasoval"
+      (u SDD věřitelem) — opačná strana stolu než recall.</li>
+      <li><strong>S <code>camt.027</code>/<code>camt.087</code> (Inquiry).</strong> Inquiry se ptá a žádá opravu
+      (nedošla platba? špatné valuta datum?), recall chce platbu <em>zrušit a vrátit</em>. Jiný záměr, jiný případ.</li>
+    </ul>
+  </div>
+
+  <div class="flow">
+    <div class="ftitle">Scénář 1 · Dvakrát puštěný soubor (DUPL) — šťastný konec</div>
+    <div class="lanes"><span>Banka A · Originator PSP</span><span>Banka B · Beneficiary PSP</span></div>
+    <div class="body">
+      <div class="msg a pay"><span class="dir">den D · A → CSM → B</span><span class="tag">pacs.008</span>
+        Platba 25 000 € odchází. Bohužel — stejný soubor se omylem distribuoval dvakrát, takže odešla <em>dvě</em> stejná pacs.008.</div>
+      <div class="fnote">Den D+1: reconciliace v Bance A najde duplicitu. Peníze už jsou u příjemce.</div>
+      <div class="msg a k056"><span class="dir">D+1 · A → CSM → B</span><span class="tag">camt.056 · DUPL</span>
+        „Transakci <code>OrgnlTxId=…7712</code> jsme poslali duplicitně. Prosíme o vrácení." Otevírá se Case, žádné peníze netečou.</div>
+      <div class="fnote">Banka B ověří, že druhý kredit je skutečně duplicitní, a smí ho vzít z účtu příjemce i bez jeho souhlasu.</div>
+      <div class="msg b pay"><span class="dir">D+3 · B → CSM → A</span><span class="tag">pacs.004 · FOCR</span>
+        Vrací 24 950 € — původní částka minus 50 € poplatek banky B za zpracování recallu. <strong>Tohle je jediná bookovací zpráva scénáře.</strong></div>
+      <div class="fnote"><span class="badge money">peníze tečou</span> až tady, v pacs.004. Case uzavřen, klient banky A dostane 24 950 €.</div>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="ftitle">Scénář 2 · Klientův překlep (RFRO) — příjemce řekne ne</div>
+    <div class="lanes"><span>Banka A · Originator PSP</span><span>Banka B · Beneficiary PSP</span></div>
+    <div class="body">
+      <div class="msg a pay"><span class="dir">den D · A → B</span><span class="tag">pacs.008</span>
+        Klient poslal 8 000 € — jenže na IBAN bývalého dodavatele. Platba je validní, dojde a zabookuje se.</div>
+      <div class="fnote">D+6: klient si chyby všimne a prosí banku o pomoc. Není to chyba banky → jede se RFRO.</div>
+      <div class="msg a k056"><span class="dir">D+6 · A → B</span><span class="tag">camt.056 · CUST</span>
+        „Příkazce žádá o vrácení, poslal omylem." Banka B <em>musí</em> zeptat svého klienta — peníze jsou právně jeho.</div>
+      <div class="msg b k029"><span class="dir">D+14 · B → A</span><span class="tag">camt.029.001.09 · CUST</span>
+        Příjemce vrácení odmítl. Odpověď nese kód odmítnutí — a tím mezibankovní hra končí.</div>
+      <div class="fnote"><span class="badge nomoney">žádné peníze</span> Klientovi banky A zbývá občanskoprávní cesta. Banka svou povinnost splnila.</div>
+    </div>
+  </div>
+
+  <div class="aps prose">
+    <div class="btitle">Pohled z APS · inward strana</div>
+    <p>Když camt.056 naopak <em>přijde</em> (recall na naši inward platbu), APS ji načte jako
+    <strong>Inward SCT Recall Request</strong> — batch <code>11600</code>, transakce <code>11600x</code> — a čeká se na
+    rozhodnutí: operátor buď akceptuje (systém generuje <strong>Outward SCT Return FOCR</strong>, tedy pacs.004),
+    nebo odmítne (<strong>Outward SCT Negative Answer</strong>, tedy camt.029). Recall lze v APS vygenerovat
+    i po uplynutí revocation lhůty — systém jen operátora varuje a chce potvrzení. (Spec kap. 4.1.4.2.5, 4.1.4.1.4.)</p>
+  </div>
+</section>
+
+<!-- ==================== CAMT.029 ==================== -->
+<section id="camt029" class="tint029">
+  <div class="kap-head">
+    <p class="eyebrow">Kapitola 2</p>
+    <h2>Rozsudek, který nikdy nenese peníze</h2>
+    <p class="msgname t029">camt.029.001.09 · ResolutionOfInvestigation</p>
+  </div>
+
+  <div class="passport">
+    <div class="ptitle">Pas zprávy</div>
+    <dl>
+      <dt>Kdo → komu</dt><dd>Banka → banka (v SEPA); obecně i banka → klient jako odpověď na camt.055.</dd>
+      <dt>Otázka, nebo odpověď?</dt><dd>Vždy odpověď. Nikdy neotevírá případ, vždy nějaký uzavírá (RslvdCase).</dd>
+      <dt>Nese peníze?</dt><dd><strong>Ne.</strong> Ani když je odpověď kladná.</dd>
+      <dt>MT předchůdce</dt><dd>MT 196 / MT 296 (Answers)</dd>
+      <dt>Na co odpovídá</dt><dd>Na <code>camt.056</code> (jen záporně!), na <code>camt.027</code> a <code>camt.087</code> (kladně i záporně).</dd>
+      <dt>APS workflow</dt><dd>Inward SCT Negative Answer, Outward SCT Negative Answer, Inward/Outward SCT Resolution of Investigation</dd>
+    </dl>
+  </div>
+
+  <div class="prose">
+    <h3>Příběh</h3>
+    <p>Každé šetření potřebuje tečku. <span class="mono">camt.029</span> je ta tečka — „Resolution of Investigation",
+    rozsudek nad případem. Přijde, odkáže se na Case původní žádosti (<code>RslvdCase/Id</code>) a řekne verdikt:
+    vyhovujeme / nevyhovujeme / už se stalo. Je to nejuniverzálnější odpovědní zpráva celé exception domény —
+    a právě ta univerzálnost je zdrojem všech zmatků kolem ní.</p>
+
+    <h3>Primární úkol: záporná odpověď na Recall</h3>
+    <p>V SEPA SCT je hlavní role camt.029.001.09 nevděčná: <strong>nosí špatné zprávy</strong>. Když banka příjemce
+    recall (camt.056) odmítne, pošle camt.029 se statusem <code>RJCR</code> (Rejected Cancellation Request)
+    a důvodem. Ty důvody stojí za zapamatování, protože je uvidíte ve frontách:</p>
+    <ul>
+      <li><code>CUST</code> — příjemce odmítl vrátit (u RFRO nejčastější konec),</li>
+      <li><code>NOAS</code> — příjemce vůbec neodpověděl,</li>
+      <li><code>AC04</code> — účet příjemce už je zrušený,</li>
+      <li><code>AM04</code> — na účtu nejsou prostředky (příjemce peníze utratil),</li>
+      <li><code>LEGL</code> — právní překážka (exekuce, insolvence…),</li>
+      <li><code>ARDT</code> — „already returned", platba už se vrátila jinou cestou.</li>
+    </ul>
+    <p>A teď to nejdůležitější, co si z téhle kapitoly odneste: <strong>kladná odpověď na recall camt.029 není.</strong>
+    Kladná odpověď na recall jsou <em>peníze</em> — tedy <code>pacs.004</code> FOCR. Camt.029 po recallu = vždy zamítnutí.
+    Naše spec to opakuje s vykřičníkem hned dvakrát (kap. 4.1.2.5 a 4.1.2.6).</p>
+
+    <h3>Sekundární úkol: verdikt nad SCT Inquiry — a tam umí být i milá</h3>
+    <p>Druhý život žije camt.029 ve světě šetření (SCT Inquiry, spec kap. 4.1.3). Tam odpovídá na
+    <code>camt.027</code> (Claim of Non-Receipt — „příjemce tvrdí, že platba nedošla") a
+    <code>camt.087</code> (Claim for Value Date Correction — „platba přišla s pozdní valutou") a
+    <strong>může být kladná i záporná</strong>:</p>
+    <ul>
+      <li><code>ACNR</code> — kladně: „platba u nás je, připsána dne X" (banka B má nárok na úrok/poplatek, který se
+      pak vybírá zvláštní <code>pacs.008</code> s Category Purpose <code>FCOL</code>/<code>INTE</code>/<code>FCIN</code> — fee collection!),</li>
+      <li><code>RJNR</code> — záporně: claim non-receipt zamítnut, s vysvětlením,</li>
+      <li><code>CVAA</code> — „správná valuta už byla aplikována, původní datum bylo správně" — zdvořilé „mýlíte se",</li>
+      <li><code>RJVA</code> — zamítnutí opravy valuty (např. překročeno 13 měsíců).</li>
+    </ul>
+    <p>U opravy valuty existují dokonce čtyři odstíny kladné odpovědi — „zaplaťte poplatek, pak opravíme",
+    „opraveno, zaplaťte poplatek", „opraveno, nic nechceme"… celá jemná choreografie fee &amp; interest kompenzací
+    může znamenat <em>dvě</em> camt.029 v jednom případu (potvrzení podmínek + finální potvrzení opravy).</p>
+
+    <h3>Pozor na verze: .09 vs .08</h3>
+    <p>Tady číhá past přímo v čísle verze. V SEPA implementačních guidelines (a přesně tak to má i APS) platí:</p>
+    <ul>
+      <li>odpověď na <strong>recall</strong> (camt.056) = <strong>camt.029.001<span class="mono">.09</span></strong>,</li>
+      <li>odpověď na <strong>inquiry</strong> (camt.027/087) = <strong>camt.029.001<span class="mono">.08</span></strong> —
+      spec kap. 4.1.4.1.5: „The answer to Outward SCT Inquiry is Inward SCT Resolution of Investigation (camt.029.001.08)".</li>
+    </ul>
+    <p>Stejná zpráva, dvě verze, dva různé kanály použití. Při implementaci parserů a routingu na tohle narazíte
+    jako první — nespoléhejte na to, že „camt.029 je prostě jedna".</p>
+    <p>Odkud se ten rozkol vzal? Z historie. SCT Inquiry přibylo do rulebooku v listopadu 2019 a rovnou na
+    tehdy čerstvých ISO verzích (camt.027.001<span class="mono">.07</span>, camt.087.001<span class="mono">.06</span>,
+    camt.029.001<span class="mono">.08</span>) — zatímco jádro schématu (platby, recall) tehdy ještě jelo na
+    verzích z roku 2009 a odpověď na recall byla stařičká camt.029.001<span class="mono">.03</span>.
+    Při velké „big-bang" migraci v listopadu 2023 se jádro zvedlo na 2019 verze (pacs.008.001.08,
+    camt.056.001.08, camt.029.001<span class="mono">.09</span>), ale inquiry sada už na 2019 verzích byla,
+    takže zůstala. Výsledek: .08 a .09 žijí vedle sebe dodnes — a IG 2025 to nezměnily.</p>
+
+    <h3>Klient–klient, nebo B2B?</h3>
+    <p>V SEPA provozu <strong>mezibankovní</strong>. Obecná ISO definice ale připouští i použití banka→klient
+    (jako odpověď na klientskou camt.055) — v korporátních kanálech se s tím potkat můžete.</p>
+  </div>
+
+  <div class="box confuse prose">
+    <div class="btitle">S čím se plete</div>
+    <ul>
+      <li><strong>S <code>pacs.002</code> (Payment Status Report).</strong> Zásadní rozdíl úrovní: pacs.002 hlásí
+      stav <em>zprávy/platby</em> (přijata, odmítnuta — RJCT při rejectu z clearingu), camt.029 uzavírá
+      <em>případ/šetření</em>. Reject ≠ resolution.</li>
+      <li><strong>S kladným vyřízením recallu.</strong> Znovu a naposledy: peníze po recallu = pacs.004 FOCR.
+      Camt.029 po recallu = smůla.</li>
+      <li><strong>S <code>camt.031</code> (Reject Investigation).</strong> V plném CBPR+ světě existuje i formální
+      odmítnutí šetření jako takového; v SEPA bulk se nepoužívá, roli plní camt.029 se zápornými kódy.</li>
+      <li><strong>Sama se sebou.</strong> Verze .08 (inquiry) vs .09 (recall) — viz výše.</li>
+    </ul>
+  </div>
+
+  <div class="flow">
+    <div class="ftitle">Scénář 3 · Claim of Non-Receipt s dobrým koncem (ACNR)</div>
+    <div class="lanes"><span>Banka A · Originator PSP</span><span>Banka B · Beneficiary PSP</span></div>
+    <div class="body">
+      <div class="fnote">Příjemce volá příkazci: „Ta platba nikde není!" Příkazce jde za svou bankou. Banka A platbu prokazatelně odeslala.</div>
+      <div class="msg a"><span class="dir">A → B</span><span class="tag">camt.027</span>
+        Claim of Non-Receipt: „Tvrdíte, že platba …9401 nedošla — prošetřete." Otevírá Case.</div>
+      <div class="msg b k029"><span class="dir">B → A</span><span class="tag">camt.029.001.08 · ACNR</span>
+        „Platba u nás je, připsána 12. 8. na účet příjemce." Případ vyřešen — problém byl v komunikaci příjemce, ne v platbě.
+        Banka B si nárokuje inquiry fee.</div>
+      <div class="msg a pay"><span class="dir">A → B</span><span class="tag">pacs.008 · FCOL</span>
+        Zvláštní platba: banka A platí bance B poplatek za šetření (Category Purpose FCOL). Kuriozita: jediný případ,
+        kdy šetření samo vyvolá <em>novou</em> platbu.</div>
+    </div>
+  </div>
+
+  <div class="aps prose">
+    <div class="btitle">Pohled z APS</div>
+    <p>Outward SCT Inquiry (TT <code>24601x</code> pro CNR, <code>24602x</code> pro CVA) se zadává přes Manual Capture
+    nad archivovanou outward platbou; APS ji distribuuje a uloží do <code>Distribution.Archive</code> se stavem
+    Sent (IUD), kde čeká na camt.029. Když resolution dorazí, inquiry se archivuje jako Processed (ARC).
+    Inward resolution přichází z clearingu jako camt.029.001.08. Inhouse platby APS pro inquiry nepodporuje.
+    (Spec kap. 4.1.4.1.5, 4.1.4.1.6.)</p>
+  </div>
+</section>
+
+<!-- ==================== PACS.028 ==================== -->
+<section id="pacs028" class="tint028">
+  <div class="kap-head">
+    <p class="eyebrow">Kapitola 3</p>
+    <h2>Zdvořilá urgence: „Kde je moje odpověď?"</h2>
+    <p class="msgname t028">pacs.028.001.03 · FIToFIPaymentStatusRequest</p>
+  </div>
+
+  <div class="passport">
+    <div class="ptitle">Pas zprávy</div>
+    <dl>
+      <dt>Kdo → komu</dt><dd>Banka → banka. Prefix pacs = z definice čistě mezibankovní.</dd>
+      <dt>Otázka, nebo odpověď?</dt><dd>Otázka — ale nikdy neotevírá nový případ, jen připomíná starý.</dd>
+      <dt>Nese peníze?</dt><dd><strong>Ne.</strong> Nemění ani stav ničeho — je to čistý dotaz.</dd>
+      <dt>MT předchůdce</dt><dd>MT 195 / n95 (Queries), volně i n99</dd>
+      <dt>Očekávaná odpověď</dt><dd>V SEPA bulk <code>camt.029</code> (na urgované šetření/recall); v SCT Inst <code>pacs.002</code>.</dd>
+      <dt>APS workflow</dt><dd>Outward SCT Request for Status Update (manuální akce z fronty Without Answer)</dd>
+    </dl>
+  </div>
+
+  <div class="prose">
+    <h3>Příběh</h3>
+    <p>Poslali jste camt.056 nebo camt.027 — a ticho. Deset bankovních dnů nic. Co teď? Nemůžete poslat
+    žádost znovu (vznikl by duplicitní case), nemůžete si peníze vzít. Můžete jediné: <strong>zaklepat</strong>.
+    <span class="mono">pacs.028</span> je to zaklepání — „FI to FI Payment Status Request", v SEPA hantýrce
+    <strong>Request for Status Update</strong>. Neříká nic nového, nechce nic nového; jen odkáže na původní
+    žádost a ptá se: <em>„Jak to s ní vypadá?"</em></p>
+    <p>Je to nejskromnější zpráva celého kvartetu. Nebookuje, nemění stav, neeskaluje, nevynucuje.
+    Rulebook dokonce výslovně říká, že banka B na ni <strong>nemusí reagovat</strong>, pokud už na původní
+    žádost odpověděla (spec kap. 4.1.3.3) — třeba se odpověď a urgence minuly cestou.</p>
+
+    <h3>Primární úkol v SEPA bulk</h3>
+    <p>Urgovat nezodpovězené <strong>SCT Inquiry</strong> (camt.027 / camt.087) po uplynutí lhůty
+    <strong>10 bankovních dnů</strong> — a stejným mechanismem i nezodpovězený <strong>Recall</strong>
+    (v procesních diagramech rulebooku figuruje pacs.028 i ve větvi recallu, spec PR-03 krok 4C).
+    Jedna pacs.028 se přitom smí odkázat na jednu i <em>několik</em> žádostí najednou.</p>
+
+    <h3>Sekundární úkol: hvězda instantních plateb</h3>
+    <p>Úplně jiný život žije pacs.028 ve světě <strong>SCT Inst</strong> (RT1, TIPS). Tam se neurguje šetření,
+    ale <em>platba samotná</em>: banka pošle instantní pacs.008, do pár sekund čeká pacs.002 s výsledkem —
+    a když nepřijde (timeout), pošle pacs.028 s odkazem na původní transakci: „Prošla, nebo ne?"
+    Odpovědí je pacs.002. V instantním světě je to zpráva denní potřeby, ne výjimečná urgence.
+    Až budete někdy implementovat instant, potkáte starou známou v nové roli.</p>
+
+    <h3>Klient–klient, nebo B2B?</h3>
+    <p>Výhradně <strong>B2B (mezibankovní)</strong> — jako celá rodina pacs. Klient se na stav ptá telefonem
+    nebo v bankovnictví; formální klientský ekvivalent v SEPA neexistuje.</p>
+  </div>
+
+  <div class="box confuse prose">
+    <div class="btitle">S čím se plete</div>
+    <ul>
+      <li><strong>S <code>pacs.002</code>.</strong> Zrcadlová dvojice: pacs.028 je <em>otázka</em> na stav,
+      pacs.002 je <em>hlášení</em> stavu. Snadná mnemotechnika: 002 přichází samo, 028 se posílá, když 002/029 nepřišlo.</li>
+      <li><strong>S <code>camt.056</code>/<code>camt.027</code>.</strong> Pacs.028 nikdy nezakládá nový požadavek —
+      kdo chce něco vrátit či prošetřit, posílá camt; kdo jen připomíná, posílá pacs.028.</li>
+      <li><strong>S eskalací.</strong> Vývojáři čekají, že pacs.028 „něco udělá" se stavem transakce. Neudělá.
+      V APS po jejím odeslání se inquiry prostě vrátí do <code>Distribution.Archive</code> a čeká dál.</li>
+    </ul>
+  </div>
+
+  <div class="flow">
+    <div class="ftitle">Scénář 4 · Šetření bez odpovědi — operátor urguje</div>
+    <div class="lanes"><span>Banka A · Originator PSP (APS)</span><span>Banka B · Beneficiary PSP</span></div>
+    <div class="body">
+      <div class="msg a"><span class="dir">den 0 · A → B</span><span class="tag">camt.087</span>
+        Claim for Value Date Correction: „Připsali jste s valutou o 3 dny později, opravte." Inquiry čeká v Distribution.Archive.</div>
+      <div class="fnote">10+ bankovních dnů ticho. APS podle systémového parametru přesune transakci do fronty
+      Distribution.Manual s důvodem <strong>Without Answer (OVD)</strong> — operátor dostává případ na stůl.</div>
+      <div class="msg a k028"><span class="dir">den 12 · A → B</span><span class="tag">pacs.028</span>
+        Operátor spustí manuální akci „Generate SCT Request for Status Update". Zpráva odkáže Case původní camt.087.
+        Inquiry se vrací do archivu a čeká dál — její stav se nemění.</div>
+      <div class="msg b k029"><span class="dir">den 14 · B → A</span><span class="tag">camt.029.001.08 · CVAA</span>
+        Banka B se probudila: „Valuta byla aplikována správně, oprava se nekoná." Případ uzavřen, inquiry → Processed (ARC).</div>
+      <div class="fnote"><span class="badge nomoney">žádné peníze</span> Kdyby banka B mlčela dál, operátor může pacs.028
+      poslat opakovaně — nebo inquiry ručně archivovat a případ ukončit. (Spec kap. 4.1.4.1.5.8.)</div>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="ftitle">Scénář 5 · Vedlejší role: timeout v SCT Inst (pro srovnání)</div>
+    <div class="lanes"><span>Banka A</span><span>Banka B (přes RT1/TIPS)</span></div>
+    <div class="body">
+      <div class="msg a pay"><span class="dir">t = 0 s · A → B</span><span class="tag">pacs.008 (Inst)</span>
+        Instantní platba 500 €. Odpověď má přijít do sekund.</div>
+      <div class="fnote">t = 25 s: timeout. Žádná pacs.002 nedorazila. Banka A <em>neví</em>, jestli platba prošla — a nesmí ji jen tak poslat znovu (riziko duplicity).</div>
+      <div class="msg a k028"><span class="dir">A → B</span><span class="tag">pacs.028</span>
+        „Jaký je stav transakce …3314?" Investigation po timeoutu — standardní, automatizovaný krok, žádný operátor.</div>
+      <div class="msg b"><span class="dir">B → A</span><span class="tag">pacs.002 · ACSC</span>
+        „Vypořádána v pořádku." Banka A může klientovi potvrdit platbu a hlavně ji <em>neposílat podruhé</em>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ACMT.022 ==================== -->
+<section id="acmt022" class="tint022">
+  <div class="kap-head">
+    <p class="eyebrow">Kapitola 4 · po revizi z webu</p>
+    <h2>Vetřelec z jiné domény — záhada vyřešena: služba CAI</h2>
+    <p class="msgname t022">acmt.022.001.02 · IdentificationModificationAdvice · „Change of Account Information"</p>
+  </div>
+
+  <div class="passport">
+    <div class="ptitle">Pas zprávy</div>
+    <dl>
+      <dt>Kdo → komu</dt><dd>Assigner → assignee: banka → banka (přes CSM); ve francouzské praxi i banka → klient/věřitel.</dd>
+      <dt>Otázka, nebo odpověď?</dt><dd>Ani jedno — <strong>oznámení</strong> (advice). Jednosměrná, bez párové odpovědi.</dd>
+      <dt>Nese peníze?</dt><dd><strong>Ne.</strong> Netýká se ani konkrétní platby — týká se identifikačních dat.</dd>
+      <dt>MT předchůdce</dt><dd>Žádný přímý ekvivalent.</dd>
+      <dt>Obsah</dt><dd>Páry <em>původní identifikace → nová identifikace</em> (strana a/nebo účet, typicky IBAN/BIC); jedna zpráva unese víc avíz najednou.</dd>
+      <dt>Kde v SEPA žije</dt><dd><strong>Volitelná služba CAI na EBA STEP2</strong> (od 16. 11. 2012, přesně ve verzi .001.02) a paralelně na STET CORE(FR); v jádrové sadě SCT rulebooku nefiguruje.</dd>
+    </dl>
+  </div>
+
+  <div class="prose">
+    <h3>Příběh</h3>
+    <p>Tři předchozí zprávy řešily osud <em>jedné konkrétní platby</em>. <span class="mono">acmt.022</span> je jiné zvíře:
+    pochází z domény <strong>Account Management</strong> a platby ji nezajímají — zajímají ji <strong>identifikátory</strong>.
+    Její poselství zní: <em>„Identifikace, kterou o téhle straně/účtu vedeš, už neplatí. Tady je nová."</em>
+    Strukturálně je to seznam dvojic: původní identifikace (party + account) → aktualizovaná identifikace.</p>
+    <p>Je to <em>advice</em> — oznámení, ne žádost. Nikdo nečeká na verdikt, neexistuje „acmt.022 rejected" odpověď
+    v párové choreografii, jakou mají camt.056 ↔ camt.029. Poslal jsem ti nová data; co s nimi uděláš, je tvoje odpovědnost.</p>
+
+    <h3>Primární úkol: CAI — Change of Account Information</h3>
+    <p>ISO definice říká přesně tohle: acmt.022 se posílá <strong>po přijetí jedné či více transakcí,
+    které nesly už neplatnou identifikaci strany nebo účtu</strong>, a oznamuje odesílateli správné
+    (nové) údaje — vedle sebe staré a nové „bankovní souřadnice". V SEPA se z toho stala konkrétní služba
+    se jménem <strong>CAI (Change of Account Information)</strong>: banka, které chodí platby či inkasa
+    na zrušený, převedený nebo přečíslovaný účet, pošle bankám-odesílatelům strukturované avízo
+    „tento klient má nově tenhle IBAN/BIC — aktualizujte si data". Typické spouště: klient změnil banku,
+    fúze či rozdělení bank, přečíslování účtů, změna BIC.</p>
+    <p>A teď to hlavní pro váš projekt: <strong>CAI je volitelná služba přímo na EBA STEP2</strong> —
+    tedy na CSM, přes který APS SEPA Bulk cleariduje. EBA Clearing ji spustil už <strong>16. listopadu 2012</strong>
+    (v rámci release k tehdejším EPC rulebookům) a používá přesně <strong>acmt.022.001.02</strong> — proto ta
+    na první pohled „stará" verze .02 ve vašem zadání, zatímco zbytek sady jede na verzích z roku 2019.
+    Verze sedí, protože STEP2 CAI od roku 2012 verzi nezvedal. Tím se záhada z první verze tohohle
+    povídání uzavírá: nejde o exotiku, ale o standardní STEP2 opci, kterou váš projekt zjevně zapíná.</p>
+
+    <h3>Sekundární úkoly a příbuzné biotopy</h3>
+    <ul>
+      <li><strong>Francouzská komunita (STET / CFONB).</strong> Francouzský CSM STET CORE(FR) nabízí vlastní
+      CAI službu a CFONB k ní má od roku 2013 i klientský guide — tam acmt.022 putuje i na poslední míli
+      banka → věřitel (firma s databází mandátů a trvalých plateb). Pozor: <strong>CAI na STET a CAI na
+      EBA STEP2 nejsou interoperabilní</strong> — francouzské banky používají STET větev.</li>
+      <li><strong>Account switching / mobilita klientů.</strong> Myšlenkově tatáž zpráva slouží v národních
+      službách přepínání účtů (věřitelé se dozvědí nový účet klienta pro budoucí inkasa a platby).</li>
+    </ul>
+
+    <h3>Klient–klient, nebo B2B?</h3>
+    <p>V STEP2 podobě čistě <strong>banka → banka</strong> (CSM avízo validuje a routuje jako jiné zprávy);
+    ve francouzské praxi existuje i noha banka → firemní klient. Rozhodně to není zpráva, kterou by posílal
+    běžný spotřebitel.</p>
+  </div>
+
+  <div class="box unsure prose">
+    <div class="btitle">Zbytková nejistota (už jen malá)</div>
+    <p>Že acmt.022.001.02 = STEP2/STET služba CAI, je po webové rešerši prakticky jisté — verze, CSM i účel
+    do sebe zapadají. Co z veřejných zdrojů nevyčtu, je přesný <em>rozsah na vašem projektu</em>: jestli budete
+    CAI avíza jen přijímat (a promítat do dat protistran), i generovat, a co přesně se má v APS po přijetí
+    aktualizovat. Tohle si nechte potvrdit projektovým CR / implementation guidem od CSM — je to první otázka,
+    kterou bych na analýze položil.</p>
+  </div>
+
+  <div class="box confuse prose">
+    <div class="btitle">S čím se plete</div>
+    <ul>
+      <li><strong>S <code>acmt.023</code> / <code>acmt.024</code> (Identification Verification Request/Report).</strong>
+      Nejbližší příbuzní a největší zdroj záměny — to jsou zprávy EPC schématu
+      <em>Verification of Payee</em> (rulebook EPC218-23, v platnosti od 5. 10. 2025, pro SCT i SCT Inst povinné
+      podle nařízení IPR). Rozdíl v čase a směru: acmt.023/024 je <strong>real-time otázka a odpověď PŘED platbou</strong>
+      („patří tenhle IBAN opravdu Janu Novákovi?"), acmt.022 je <strong>jednosměrné oznámení PO změně</strong>
+      („Jan Novák má nově tenhle IBAN"). Až se u vás bude implementovat VoP, potkají se obě rodiny vedle sebe.</li>
+      <li><strong>S <code>camt.029</code>.</strong> Svádí to brát acmt.022 jako „odpověď s opravenými údaji" v rámci
+      šetření. Není — šetření uzavírá camt.029; acmt.022 žádný case nezná a na žádnou platbu se neodkazuje.</li>
+      <li><strong>S recallem kvůli chybnému účtu (<code>camt.056</code> AC03).</strong> Recall řeší minulost
+      (vrátit špatně poslanou platbu), acmt.022 budoucnost (aby další platby šly správně). V praxi se krásně doplňují.</li>
+    </ul>
+  </div>
+
+  <div class="flow">
+    <div class="ftitle">Scénář 6 · STEP2 CAI v akci — jak acmt.022 šetří budoucí returny</div>
+    <div class="lanes"><span>Banka A · posílá trvalé platby</span><span>Banka B · (bývalá) banka příjemce</span></div>
+    <div class="body">
+      <div class="fnote">Příjemce (dodavatel klienta banky A) změnil banku. Trvalý příkaz klienta ale dál míří na starý IBAN u banky B.</div>
+      <div class="msg a pay"><span class="dir">měsíc 1 · A → CSM → B</span><span class="tag">pacs.008</span>
+        Pravidelná platba 1 200 € dorazí na účet, který už je zrušený.</div>
+      <div class="msg b pay"><span class="dir">B → A</span><span class="tag">pacs.004 · AC04</span>
+        Return „Closed Account Number". Peníze se vrací, klient banky A nechápe, dodavatel urguje fakturu.</div>
+      <div class="msg b k022"><span class="dir">B → CSM (CAI) → A</span><span class="tag">acmt.022 · CAI</span>
+        Banka B přes STEP2 CAI avizuje: „Původní identifikace: <code>CZ…4401</code> u nás. Nová identifikace:
+        <code>CZ…9902</code> u banky XYZ (BIC …)." Jednosměrné avízo, žádná odpověď se nečeká — přesně podle ISO
+        definice: <em>posíláno po přijetí transakcí s už neplatnou identifikací</em>.</div>
+      <div class="fnote">Banka A promítne nové údaje do dat protistrany a informuje klienta.</div>
+      <div class="msg a pay"><span class="dir">měsíc 2 · A → nová banka</span><span class="tag">pacs.008</span>
+        Další měsíční platba už jde na správný účet. Žádný return, žádný recall, žádné inquiry — acmt.022 je
+        jediná zpráva z celého kvartetu, která výjimkám <em>předchází</em>, místo aby je řešila.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SROVNANI ==================== -->
+<section id="srovnani">
+  <div class="kap-head">
+    <p class="eyebrow">Epilog</p>
+    <h2>Rodinná fotka</h2>
+  </div>
+  <div class="prose">
+    <p>Postavme si všechny čtyři vedle sebe. Všimněte si sloupce „nese peníze" — je celý prázdný.
+    A sloupce „otázka/odpověď/oznámení" — to je nejrychlejší způsob, jak zprávu v provozu zařadit.</p>
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Zpráva</th><th>Role v příběhu</th><th>Otázka / odpověď</th><th>Nese peníze</th><th>Kdo → komu</th><th>MT předek</th><th>Typická spoušť</th><th>Kladné vyústění</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="mono t056">camt.056</span></td>
+          <td>Recall — prosba o vrácení odeslané platby (SCT); storno inkas před vypořádáním (SDD)</td>
+          <td>Otázka (otevírá case)</td>
+          <td>ne</td>
+          <td>banka → banka</td>
+          <td>MT 192/292</td>
+          <td>DUPL / TECH / FRAD do 10 BD (FRAD 13 měs.); RFRO: AC03 / AM09 / CUST do 13 měs.</td>
+          <td><span class="mono">pacs.004 FOCR</span> — jediné místo, kde tečou peníze</td>
+        </tr>
+        <tr>
+          <td><span class="mono t029">camt.029</span></td>
+          <td>Resolution — verdikt nad recallem (jen záporný) i nad inquiry (kladný i záporný)</td>
+          <td>Odpověď (uzavírá case)</td>
+          <td>ne</td>
+          <td>banka → banka</td>
+          <td>MT 196/296</td>
+          <td>Přijatá camt.056 / camt.027 / camt.087</td>
+          <td>ACNR / CVAA…; pozor na verze: recall → .09, inquiry → .08</td>
+        </tr>
+        <tr>
+          <td><span class="mono t028">pacs.028</span></td>
+          <td>Urgence — připomenutí nezodpovězené žádosti; v SCT Inst dotaz na osud platby po timeoutu</td>
+          <td>Otázka (nikdy nový case)</td>
+          <td>ne</td>
+          <td>banka → banka</td>
+          <td>MT 195</td>
+          <td>10 BD ticha po inquiry/recallu; timeout instantní platby</td>
+          <td>Dorazí opožděná <span class="mono">camt.029</span> (bulk) či <span class="mono">pacs.002</span> (Inst)</td>
+        </tr>
+        <tr>
+          <td><span class="mono t022">acmt.022</span></td>
+          <td>CAI (Change of Account Information) — avízo „starý IBAN/BIC/strana → nový"; volitelná služba STEP2 (od 2012) a STET</td>
+          <td>Oznámení (bez odpovědi)</td>
+          <td>ne</td>
+          <td>banka → banka (přes CSM); ve FR i banka → věřitel</td>
+          <td>—</td>
+          <td>Přijaté platby/inkasa s už neplatnou identifikací (změna banky, fúze, přečíslování)</td>
+          <td>Protistrany si aktualizují data → méně budoucích returnů a recallů</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <h3>Pět vět na cestu</h3>
+    <ul>
+      <li>Žádná z těch čtyř zpráv <strong>nebookuje</strong>. Peníze vrací jen <code>pacs.004</code>.</li>
+      <li><code>camt.056</code> je <strong>prosba</strong>, ne příkaz — a kladnou odpovědí na ni nejsou slova, ale peníze (pacs.004 FOCR, klidně ponížené o poplatek).</li>
+      <li><code>camt.029</code> po recallu umí <strong>jen říkat ne</strong>; po inquiry umí ano i ne — a mění přitom verzi (.09 vs .08).</li>
+      <li><code>pacs.028</code> nic nemění, jen <strong>klepe</strong> — a adresát smí mlčet, pokud už jednou odpověděl.</li>
+      <li><code>acmt.022</code> se netýká žádné konkrétní platby: je to jednosměrné avízo <strong>„odteď používej
+      nová identifikační data"</strong> — v SEPA žije jako volitelná služba <strong>CAI na EBA STEP2</strong>
+      (od 2012, proto verze .001.02) a jako jediná z kvarteta výjimkám předchází, místo aby je řešila.</li>
+    </ul>
+    <br><br>
+    <hr>
+        <hr>
+    <p>  </p>
+
+    <h3>Web sources (ke 19. 8. 2026)</h3>
+    <ul style="font-size:14.5px">
+      <li><a href="https://www.europeanpaymentscouncil.eu/sites/default/files/kb/file/2024-11/EPC115-06%20SCT%20Inter-PSP%20IG%202025%20V1.0.pdf">EPC115-06 — SCT Inter-PSP Implementation Guidelines 2025 V1.0</a> (verze zpráv; v platnosti od 5. 10. 2025)</li>
+      <li><a href="https://www.europeanpaymentscouncil.eu/sites/default/files/kb/file/2025-04/EPC131-17%20v3.1%20Clarification%20Paper%20SCT%20and%20SCT%20Inst%20scheme%20rulebooks.pdf">EPC131-17 v3.1 — Clarification Paper SCT/SCT Inst</a> (lhůty a důvody recallu, RFRO)</li>
+      <li><a href="https://www.europeanpaymentscouncil.eu/news-insights/news/publication-2025-epc-payment-scheme-rulebooks">EPC — Publication of the 2025 payment scheme rulebooks</a> (platnost 5. 10. 2025, adresy, IPR)</li>
+      <li><a href="https://www.europeanpaymentscouncil.eu/document-library/rulebooks/verification-payee-scheme-rulebook">EPC218-23 — Verification of Payee Scheme Rulebook</a> (acmt.023/024)</li>
+      <li><a href="https://www.ebaclearing.eu/services-sepa-payments/step2-sct/">EBA Clearing — STEP2 SCT</a> (služba CAI, acmt.022.001.02, zavedena 16. 11. 2012)</li>
+      <li><a href="https://www.stet.eu/assets/files/site/documentation/Core%20Elements%20CORE(FR)_Internet%202025%20V2.pdf">STET — CORE(FR) Elements 2025</a> a
+          <a href="https://www.cfonb.org/fichiers/20130830095834_10_3_Guide_CAI_Banque_Client_Juin_2013.pdf">CFONB — Guide CAI banque–client (2013)</a> (francouzská větev CAI; bez interoperability se STEP2)</li>
+      <li><a href="https://www.iotafinance.com/en/SWIFT-ISO20022-Message-acmt-022-001-Identification-Modification-Advice.html">iotafinance — acmt.022 Identification Modification Advice</a> (ISO definice a tok)</li>
+      <li><a href="https://www.cpg.de/en/glossary/camt-029-iso-20022-message/">cpg.de — camt.029 glossary</a> (rozdíl verzí .08 pro inquiry vs. jiná verze pro recall; lhůty 10/15 BD)</li>
+      <li><a href="https://www.europeanpaymentscouncil.eu/sites/default/files/kb/file/2023-02/EPC087-22%20v3.0%20EPC%20guidance%20document%20-%20Migration%20to%20the%202019%20Version%20of%20ISO%2020022-based%20XML%20Messaging%20Standard.pdf">EPC087-22 — migrace na 2019 ISO verze (listopad 2023)</a> (původ rozkolu verzí .08/.09)</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  FCG - Sensei · SEPA — „Poslové výjimek".
+  
+</footer>
+
+</div>
+</body>
+</html>
