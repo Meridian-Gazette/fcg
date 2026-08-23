@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Učebnice SEPA pro pokročilé — principy, rizika, zneužití</title>
+<style>
+  :root{
+    --paper:#FDFCF9;
+    --ink:#1B1A17;
+    --muted:#6B675E;
+    --rule:#CFC9BC;
+    --bordeaux:#6E1423;
+    --boxbg:#F6F4EE;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--paper);color:var(--ink);
+    font-family:Charter,'Bitstream Charter','Sitka Text',Cambria,Georgia,serif;
+    font-size:17.5px;line-height:1.7;
+  }
+  .page{max-width:730px;margin:0 auto;padding:0 22px 90px}
+  code,.msg{
+    font-family:Consolas,'Cascadia Mono',Menlo,monospace;
+    font-size:.86em;background:#F1EEE6;padding:1px 5px;border-radius:3px;
+  }
+
+  /* titulní strana */
+  .titul{padding:70px 0 40px;border-bottom:1px solid var(--ink)}
+  .titul .instituce{
+    font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);
+    margin-bottom:34px;
+  }
+  h1{font-size:clamp(30px,5.4vw,44px);font-weight:700;line-height:1.15;letter-spacing:-.005em}
+  .podtitul{font-size:clamp(17px,2.6vw,20px);font-style:italic;color:var(--muted);margin-top:14px}
+  .motto{margin-top:36px;padding-left:18px;border-left:2px solid var(--bordeaux);
+    font-style:italic;font-size:16px;color:#3d3a34}
+  .motto .kdo{display:block;font-style:normal;font-size:13px;color:var(--muted);margin-top:6px}
+
+  /* obsah */
+  nav{padding:34px 0 10px;border-bottom:1px solid var(--rule)}
+  nav h2{font-size:14px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;margin-bottom:16px}
+  nav ol{list-style:none;counter-reset:toc}
+  nav li{counter-increment:toc;padding:3.5px 0;font-size:16px}
+  nav li::before{
+    content:counter(toc,upper-roman) ".";
+    display:inline-block;width:46px;color:var(--bordeaux);
+    font-variant-numeric:lining-nums;
+  }
+  nav a{color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--rule)}
+  nav a:hover{border-bottom-color:var(--bordeaux)}
+
+  /* kapitoly */
+  section{padding-top:52px}
+  .kap-num{
+    font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--bordeaux);
+    font-weight:600;margin-bottom:10px;
+  }
+  h2.kap{font-size:clamp(24px,4vw,31px);font-weight:700;line-height:1.2;margin-bottom:22px}
+  h3{font-size:19px;font-weight:700;margin:30px 0 10px}
+  p{margin-bottom:15px;text-align:justify;hyphens:auto}
+  em{font-style:italic}
+  ul.vycet{margin:0 0 15px 22px}
+  ul.vycet li{margin-bottom:7px}
+
+  /* boxy */
+  .pravidlo{
+    margin:22px 0;padding:14px 18px;background:var(--boxbg);
+    border-left:3px solid var(--ink);
+    font-size:16.5px;
+  }
+  .pravidlo b{font-weight:700}
+  .perla,.omyl{
+    margin:24px 0;padding:16px 18px 14px;background:var(--boxbg);
+    border:1px solid var(--rule);
+  }
+  .perla .stitek,.omyl .stitek{
+    font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+    display:block;margin-bottom:8px;
+  }
+  .perla .stitek{color:var(--bordeaux)}
+  .omyl .stitek{color:#8a6d00}
+  .perla p,.omyl p{font-size:16px;margin-bottom:10px}
+  .perla p:last-child,.omyl p:last-child{margin-bottom:0}
+
+  /* tabulky */
+  table{width:100%;border-collapse:collapse;margin:20px 0;font-size:15.5px}
+  th{border-bottom:2px solid var(--ink);text-align:left;padding:7px 8px;font-weight:700}
+  td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+
+  /* zákony */
+  .zakon{margin:26px 0;padding-left:18px;border-left:3px solid var(--bordeaux)}
+  .zakon .z-num{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--bordeaux);font-weight:700}
+  .zakon .z-text{font-size:18.5px;font-weight:700;line-height:1.45;margin:4px 0 6px}
+  .zakon p{font-size:16px;color:#3d3a34;margin-bottom:0;text-align:left}
+
+  footer{margin-top:70px;padding-top:18px;border-top:1px solid var(--ink);
+    font-size:13.5px;color:var(--muted);line-height:1.8}
+
+  @media print{
+    body{font-size:11.5pt}
+    .page{max-width:none;padding:0}
+    section{page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ============ TITUL ============ -->
+<div class="titul">
+  <div class="instituce">platební systémy</div>
+  <h1>SEPA: Principy</h1>
+  
+</div>
+
+<!-- ============ OBSAH ============ -->
+<nav>
+  <h2>Obsah</h2>
+  <ol>
+    <li><a href="#k1">Platba jako štafeta závazků: kde přesně může zemřít</a></li>
+    <li><a href="#k2">Vlastnictví polí: kdo pole píše a koho zavazuje</a></li>
+    <li><a href="#k3">Clearing a settlement: počítání a přesun</a></li>
+    <li><a href="#k4">Finalita: minulost se vyvažuje, nemění</a></li>
+    <li><a href="#k5">Likvidita: nejdražší surovina platebního dne</a></li>
+    <li><a href="#k6">Nostro, vostro, loro: geografie důvěry</a></li>
+    <li><a href="#k7">Rodina SEPA schémat a inverze iniciace</a></li>
+    <li><a href="#k8">SCT Inst: zákaz odložené nejistoty</a></li>
+    <li><a href="#k9">Cizí měny na hranách schématu</a></li>
+    <li><a href="#k10">Cover a serial: dekompozice informace a hodnoty</a></li>
+    <li><a href="#k11">Herstatt 1974: čas jako zbraň</a></li>
+    <li><a href="#k12">gpi: pravda teče paralelně</a></li>
+    <li><a href="#k13">Booking: účetní kniha jako poslední instance pravdy</a></li>
+    <li><a href="#k14">Zákony platebního světa (syntéza)</a></li>
+  </ol>
+</nav>
+
+<!-- ============ I ============ -->
+<section id="k1">
+  <div class="kap-num">Kapitola I</div>
+  <h2 class="kap">Platba jako štafeta závazků: kde přesně může zemřít</h2>
+
+  <p>Platba není jedna událost, ale řetěz předání odpovědnosti: plátce → banka plátce → clearingový mechanismus → banka příjemce → příjemce. V každém bodě řetězu lze položit jedinou rozhodující otázku: <em>proběhl už mezibankovní settlement?</em> Odpověď na ni třídí všechny způsoby, jimiž platba může skončit — a určuje, kdo ponese náklady konce.</p>
+
+  <h3>1.1 Reject: odmítnutí zprávy</h3>
+  <p>Před settlementem peníze mezi bankami nezměnily majitele. Odmítnout platbu je v této fázi levné: nikdo nikomu nic nedluží, stačí říct „ne". <b>Reject je odmítnutí zprávy, nikoli vrácení peněz</b> — žádný zpětný tok neexistuje, protože žádný tok tam ještě neproběhl. Reject smí vyslovit kdokoli, kdo zprávu právě drží: banka plátce (vůči instrukci klienta), clearingový mechanismus (formát, duplicita, nekrytá pozice), u inkas i banka plátce vůči příchozí mezibankovní zprávě.</p>
+
+  <h3>1.2 Return: nová platba opačným směrem</h3>
+  <p>Po settlementu už mezibanková pozice existuje; banka příjemce peníze drží. Zjistí-li nyní, že je nemá komu připsat (zrušený účet, zemřelý klient, chybný identifikátor), nemůže „odmítnout" — musí peníze <em>poslat zpět novou transakcí</em>, s vlastním settlementem a vlastními referencemi. Return není storno; je to plnohodnotná platba, která má i vlastní rizika (úroková, kurzová) a vlastní časovou osu — včetně možnosti, že sám return bude odmítnut.</p>
+
+  <div class="pravidlo"><b>Hranicí mezi reject a return je mezibankovní settlement — nikoli okamžik zaúčtování klientovi.</b> Klientský pohled („dotkl se toho příjemce?") nikdy nedefinuje R-transakci; definuje ji pohyb peněz mezi institucemi.</div>
+
+  <h3>1.3 Recall: prosba, nikoli příkaz</h3>
+  <p>Třetí bod taxonomie iniciuje opačná strana: banka plátce žádá o vrácení platby, kterou sama odeslala (duplicita, omyl, podvod). Zásadní asymetrie: return je <em>povinnost</em> banky příjemce při nedoručitelnosti; recall je <em>žádost</em>, kterou banka příjemce smí zamítnout. Peníze totiž mohou být již u jejího klienta — a klientovi banka jednostranně nebere. Porušením pravidel není zamítnutí recallu, nýbrž mlčení: schéma předepisuje povinnost <em>odpovědět</em>, nikoli vyhovět.</p>
+
+  <h3>1.4 Cena smrti roste s časem</h3>
+  <p>Tatáž chyba („nejsou peníze", „účet neexistuje") stojí různě podle toho, kde na ose ji systém chytí. Odmítnutí instrukce před vznikem schémové platby je zadarmo. Reject po podání znamená interní storno a otevřenou investigaci. Return po settlementu nese plnou váhu nové transakce včetně kurzového okna. A chyba, kterou nechytí nikdo nikdy, se hromadí jako nevysvětlené zůstatky. Odtud návrhový princip: <b>kontroly patří co nejdříve na osu — každý posun doprava zdražuje úklid</b>.</p>
+
+  <div class="omyl">
+    <span class="stitek">Častý omyl</span>
+    <p>„Klient si přál platbu vrátit, takže klient inicioval return." — Nikoli. Rulebook je smlouva mezi scheme participanty; klient není stranou schématu, nemá zprávy ani závazky. Klient je vždy jen <em>důvodem</em> (reason code), formálním iniciátorem každé R-transakce je instituce. Jedinou výjimkou v celém SEPA světě, kde klient drží skutečný vymahatelný nárok, je refund u inkas (kap. VII).</p>
+  </div>
+
+  <h3>1.5 Co by se rozbilo bez taxonomie</h3>
+  <p>Kdyby existoval jen nediferencovaný „vrácený payment", nedalo by se strojově určit, kdo nese náklady, čí systém selhal a zda vůbec proběhl settlement. Reconciliace by byla ruční práce; spor o každou vrácenou platbu by začínal archeologií. Taxonomie reject/return/recall je tedy především <em>strojově čitelné rozdělení viny a nákladů</em> — a jako každá dobrá taxonomie šetří to nejdražší: lidský úsudek v provozu.</p>
+</section>
+
+<!-- ============ II ============ -->
+<section id="k2">
+  <div class="kap-num">Kapitola II</div>
+  <h2 class="kap">Vlastnictví polí: kdo pole píše a koho zavazuje</h2>
+
+  <p>Platební zpráva není formulář, nýbrž vrstvený kontrakt. Každé pole má autora, garanta a publikum — a tyto tři role se nekryjí. Pole se dělí do tří prostorů podle toho, čí vůli nesou.</p>
+
+  <h3>2.1 Tři prostory polí</h3>
+  <ul class="vycet">
+    <li><b>Prostor klienta</b> — pole, která banky pouze přepravují: identifikace plátce a příjemce, účel platby, <em>end-to-end reference</em>, přikázaná částka. Banky jsou pošťáci: nesmějí je měnit a negarantují jejich kvalitu (unikátnost, smysluplnost), pouze doručení beze změny. End-to-end reference proto přežívá celý řetěz včetně R-transakcí — je to jediná nit, kterou plátce a příjemce navzájem poznají.</li>
+    <li><b>Prostor jednoho legu</b> — pole žijící jen mezi dvěma sousedy (instrukční a zprávové identifikátory). Autorem je odesílatel daného legu; na dalším hopu se legitimně přepisují. To není vada, nýbrž důkaz, že pole patří legu, ne platbě.</li>
+    <li><b>Prostor řetězce</b> — pole, za něž ručí instituce, ale platí end-to-end: především <b>UETR</b>, unikátní identifikátor transakce, generovaný první bankou a dále nedotknutelný.</li>
+  </ul>
+
+  <div class="pravidlo"><b>Pole smí mutovat právě tehdy, když jeho publikum nepřesahuje jeden leg.</b> Jakmile publikum přesáhne sousedy (oba konce řetězu, tracker, R-transakce), mutace je zakázána — jinak by vzdálení účastníci stavěli na písku.</div>
+
+  <h3>2.2 Vlastnictví jako garance</h3>
+  <p>Vlastnictví pole znamená: kdo ručí za jeho vlastnosti a kdo jediný je smí zapsat. Z toho plyne praktické pravidlo pro párování: <b>spolehlivým klíčem je jen pole, jehož unikátnost garantuješ ty, nebo instituce vázaná pravidly</b>. End-to-end reference patří klientovi — klient smí poslat sto plateb s referencí „FAKTURA" a nic tím neporuší. Stavět na ní párování R-transakcí je proto konstrukční chyba; správné klíče jsou transakční identifikátor instruující banky a UETR.</p>
+
+  <h3>2.3 Částky: přikázaná a vypořádaná</h3>
+  <p>Přikázaná částka (Instructed Amount) je vůle klienta; mezibankovní vypořádaná částka (Interbank Settlement Amount) je skutečný tok daného legu. Filozofie SEPA velí, aby se rovnaly: charge bearer <b>SLEV</b> („podle pravidel schématu") předepisuje, že poplatky jdou <em>mimo částku</em> — každá banka je účtuje svému klientovi zvlášť. Příjemce tak vždy dostane přesně to, co plátce poslal; vnitroevropská platba se chová jako domácí. Korespondenční svět mimo SEPA tuto rovnost negarantuje: u volby BEN si mezibanky legitimně strhávají z částky — a právě proto existují pole o poplatcích (Charges Information), která z rozdílu částek dělají auditovatelnou stopu místo podezření z krádeže.</p>
+
+  <div class="omyl">
+    <span class="stitek">Častý omyl</span>
+    <p>„SLEV zakazuje poplatky." — Nezakazuje. Zakazuje <em>strhávat je z převáděné částky</em>. Kolik si banka od svého klienta vezme, rulebook neřeší vůbec: ceny mezi bankou a klientem jsou mimo schéma, hlídá je nanejvýš regulace transparentnosti. Vzorec se opakuje v celém oboru: <em>schéma řeší proces mezi participanty, nikdy komerční vztahy s klienty.</em></p>
+  </div>
+
+  <h3>2.4 Nezměnitelnost odeslaného</h3>
+  <p>Po odeslání do clearingu neexistuje žádná „opravná" zpráva na pole klientova prostoru — ani recall historii needituje, jen žádá o peníze. Zprávy jsou append-only záznamy: co bylo odesláno, už se nikdy nemění; chyba se řeší novou transakcí. Celý audit trail mezibankovního světa stojí na tom, že minulost je nedotknutelná (kap. IV a XIII rozvedou, proč je to táž zásada jako v podvojném účetnictví).</p>
+</section>
+
+<!-- ============ III ============ -->
+<section id="k3">
+  <div class="kap-num">Kapitola III</div>
+  <h2 class="kap">Clearing a settlement: počítání a přesun</h2>
+
+  <p>Slovo „zaplaceno" znamená v každé vrstvě platebního systému něco jiného — a většina koncepčních chyb v oboru pramení ze záměny těchto vrstev.</p>
+
+  <h3>3.1 Tři vrstvy jedné události</h3>
+  <ul class="vycet">
+    <li><b>Clearing = počítání.</b> Výměna a validace zpráv, párování, výpočet vzájemných pohledávek. Clearing nepřesune jediné euro; vytváří <em>závazky</em>. Výstupem je pozice: kdo komu za cyklus kolik dluží.</li>
+    <li><b>Settlement = přesun.</b> Skutečná změna vlastnictví peněz zápisem na účtech u settlement agenta. Mezi bankami se „skutečnými penězi" rozumí <em>peníze centrální banky</em>: zůstatek u komerční banky je jen její slib; zůstatek u centrální banky je konečný.</li>
+    <li><b>Netting = komprese.</b> Clearingový mechanismus nezúčtovává platbu po platbě; spočítá netto pozice za cyklus. Tisíce vzájemných plateb se smrsknou na jeden pohyb.</li>
+  </ul>
+
+  <div class="pravidlo"><b>Netting je finanční komprese, nikoli výpočetní.</b> Nešetří výkon počítačů (spočítat milion plateb hrubě je triviální), šetří likviditu — peníze, které by banky musely držet připravené na hrubé toky. To je jeho jediný, ale obrovský smysl.</div>
+
+  <h3>3.2 Proč settlement musí být v penězích centrální banky</h3>
+  <p>Zůstatek na účtu u komerční banky není majetek, nýbrž pohledávka za ní. Kdyby mezibankovní settlement běžel na knihách komerční banky, každý účastník by nesl její kreditní riziko — a její krach by smazal „vypořádané" pozice všech. Centrální banka je jediná entita, jejíž slib v dané měně nemůže selhat, protože tato měna je jejím vlastním závazkem: <b>dlužník, který své dluhy sám emituje, se v nich nemůže ocitnout v platební neschopnosti</b>. Nejde o „stát" ani o vymáhací pravomoc — jde o emitenta. Proto je settlement v penězích centrální banky koncem řetězu důvěry: výš už není kam eskalovat.</p>
+
+  <h3>3.3 Kde platba „je" mezi clearingem a settlementem</h3>
+  <p>Přijetí platby do settlement cyklu je clearingová událost: platba existuje jako spočtený závazek v knihách clearingového mechanismu, peníze však dosud nedotčeně leží na účtu banky plátce u centrální banky. Dlužníkem je banka plátce; clearingový mechanismus je počtář a organizátor, nikoli pokladník — <b>nikdy nedrží peníze</b>. Mnemotechnicky: <em>clearing dluhy vytváří, settlement je maže; mezi tím jsou peníze tam, kde byly.</em></p>
+
+  <div class="omyl">
+    <span class="stitek">Častý omyl</span>
+    <p>Záměna počtáře a pokladníka: „platba je teď u clearingu / u zúčtovacího centra, je to jeho závazek." — Clearingová instituce (např. provozovatel retailového systému) počítá; peníze drží a vypořádává settlement vrstva centrální banky. Z toho plyne i limit jejích pravomocí: <em>reject smí poslat každý, kdo drží zprávu; return jen ten, kdo drží peníze</em> — a clearingový mechanismus peníze nedrží nikdy, tudíž return iniciovat nemůže.</p>
+  </div>
+
+  <h3>3.4 Krach účastníka uprostřed dne</h3>
+  <p>Selže-li banka s debetní pozicí v <em>běžícím</em> cyklu, základní mechanismus je tvrdý a jednoduchý: exkluze a přepočet. Její platby se z cyklu vyjmou, netto pozice ostatních se přepočítají, cyklus se vypořádá bez ní. Vyňaté platby se nikdy nekonaly — jsou to rejecty; klienti banky dostanou prostředky zpět interním stornem, nikoli R-transakcí. Naproti tomu <em>ranní, již vypořádané cykly</em> jsou nedotknutelné (kap. IV). Hranice settlementu tak v den krachu rozhoduje o tom, kdo je věřitelem konkurzní podstaty — což je nejostřejší praktický důsledek celé taxonomie z kapitoly I.</p>
+</section>
+
+<!-- ============ IV ============ -->
+<section id="k4">
+  <div class="kap-num">Kapitola IV</div>
+  <h2 class="kap">Finalita: minulost se vyvažuje, nemění</h2>
+
+  <p>Finalita je právní institut, nikoli technická vlastnost: od okamžiku vypořádání je převod neodvolatelný — nezvrátí jej clearingový mechanismus, insolvenční správce ani soud. V Evropě ji kodifikuje směrnice o neodvolatelnosti zúčtování (Settlement Finality Directive, 98/26/ES), přijatá právě proto, aby krach jednoho účastníka nemohl zpětně rozmotat den celého systému.</p>
+
+  <h3>4.1 Proč nesmí existovat „storno cyklu"</h3>
+  <p>Zpráva „ruším vypořádaný cyklus" nemá v žádném schématu ani definovaný formát — to je nejsilnější druh neexistence: není co poslat. Důvod je systémový: na každém settlementu okamžitě staví další svět. Banka příjemce připsala klientovi, klient utratil, jeho platby vstoupily do dalších cyklů, pozice dalších bank s částkou počítaly. Zpětné odestání by nevytáhlo jednu nit, muselo by rozpárat vše, co se od té chvíle upletlo — a rekurzivně dál, protože i navazující platby jsou vypořádané. Systém, v němž žádný zůstatek není nikdy definitivní, není platebním systémem, nýbrž nekonečnou podmíněností.</p>
+
+  <div class="pravidlo"><b>Correction happens forward.</b> Chybné vypořádání se opravuje novou transakcí opačným směrem, která historii nechává nedotčenou a pouze ji vyvažuje. Tentýž princip drží nezměnitelnost zpráv (kap. II), zákaz rejectu po settlementu (kap. I) i podvojné účetnictví (kap. XIII): <em>minulost se nemaže, minulost se dopisuje.</em></p>
+
+  <h3>4.2 Relativita „post-settlement"</h3>
+  <p>Jemnost, která často uniká: reject není vlastností <em>platby</em>, nýbrž <em>zprávy</em> — a každá zpráva má vlastní pre-settlementový úsek. Return, ač vzniká po settlementu původní platby, je novou transakcí před <em>svým</em> settlementem, a může tedy sám dostat reject (formát, duplicita, nekrytá pozice). „Post-settlement" je vždy relativní: co je <em>po</em> pro původní platbu, je <em>před</em> pro její return. Stavový model platby proto nikdy nesmí obsahovat stav „uzavřeno, nic už nepřijde" — uzavřená je až celá rodina transakcí kolem jednoho UETR.</p>
+</section>
+
+<!-- ============ V ============ -->
+<section id="k5">
+  <div class="kap-num">Kapitola V</div>
+  <h2 class="kap">Likvidita: nejdražší surovina platebního dne</h2>
+
+  <p>Platby nechodí v pohodlném pořadí: banka musí ráno zaplatit miliardu, zatímco její příchozí miliarda dorazí odpoledne. Rozdíl mezi „mít peníze" a „mít je v pravou chvíli" se jmenuje intraday likvidita — a je to surovina, kolem níž je postaven celý design settlement systémů.</p>
+
+  <h3>5.1 Vnitrodenní úvěr: zdarma, ale proti zástavě</h3>
+  <p>Centrální banka půjčuje přes den zdarma, avšak výhradně proti kolaterálu (zastaveným cenným papírům po srážce). Filozofie: systém chce, aby platby tekly — ale centrální banka nehodlá nést kreditní riziko účastníků. Čerpáním úvěru přitom vznikají <em>nové</em> peníze centrální banky proti dluhu čerpajícího; splacením večer zase zanikají. Vnitrodenní úvěr není přesun cizích vkladů, nýbrž dočasná emise — proto může být bezplatný a proto jej kryje zástava, nikoli něčí úspory.</p>
+
+  <h3>5.2 Pravidlo konce dne a trestná noc</h3>
+  <p>Nesplacený vnitrodenní úvěr se na konci dne automaticky překlopí do jednodenní zápůjční facility se sazbou záměrně nad trhem. Proč trest, a ne tržní cena? Kdyby noc u centrální banky stála totéž co mezibankovní trh, racionální banky by přestaly řídit likviditu a centrální banka by se stala výchozím věřitelem systému. Zemřel by mezibankovní peněžní trh — a s ním jeho <em>informační funkce</em>: trh, kde si banky navzájem oceňují kreditní riziko, je prvním veřejným signálem problémů (rostoucí sazba pro konkrétní banku = varování). <b>Nouzový východ musí bolet, jinak se z něj stanou hlavní dveře</b> — trestná sazba nechrání centrální banku před ztrátou (to dělá kolaterál), chrání trh před atrofií.</p>
+
+  <h3>5.3 Gridlock a vězňovo dilema</h3>
+  <p>Bez vnitrodenního úvěru by banky racionálně taktizovaly s časem: nikdo nechce platit první, každý čeká na příchozí likviditu. Kolektivní výsledek — ráno systém stojí, večer se vše nahrne do špičky, a platby, na něž ostatní čekali, dorazí pozdě. Je to vězňovo dilema hrané denně mezi stovkami bank; krize 2008 je předvedla naostro, když si banky přestaly navzájem posílat a systém zamrzl z nedostatku ochoty, nikoli peněz. Proto vedle úvěru existují i pravidla propustnosti (throughput guidelines: „do poledne odešli daný podíl objemu") — a proto je zadržování odchozích plateb v podvečer čteno trhem jako signál nouze, který se umí stát sebenaplňujícím proroctvím.</p>
+
+  <div class="pravidlo"><b>Trojúhelník likvidita — čas — riziko.</b> Netting šetří likviditu za cenu času (čekání na cyklus). Instantní platby kupují čas za likviditu (předfinancování). Vnitrodenní úvěr kupuje plynulost za kolaterál. Každý platební systém je bod v tomto trojúhelníku; žádný design z něj neuteče, jen si vybírá roh.</div>
+</section>
+
+<!-- ============ VI ============ -->
+<section id="k6">
+  <div class="kap-num">Kapitola VI</div>
+  <h2 class="kap">Nostro, vostro, loro: geografie důvěry</h2>
+
+  <p>Latinská přivlastňovací zájmena (noster, vester, illorum) přežila z renesančního bankovnictví, protože přesně vystihují, oč jde: tentýž účet má tři jména podle toho, kdo mluví. <b>Nostro</b> — náš účet u vás (moje aktivum). <b>Vostro</b> — váš účet u nás (moje pasivum). <b>Loro</b> — jejich účet, o němž spolu hovoříme. Jsou to zájmena, ne produkty: „nostro účet" bez kontextu mluvčího nedává smysl.</p>
+
+  <h3>6.1 Proč korespondenční síť existuje</h3>
+  <p>Centrální banka vede účty jen ve své měně a jen svým členům. Kdo chce platit v cizí měně, potřebuje účet u banky, která do jejího domácího systému dosáhne — nostro. Z toho plyne věta, která zpětně vysvětluje půl oboru: <b>peníze nikdy neopouštějí svou zemi.</b> Dolary žijí výhradně na účtech amerického systému, eura v evropském, jeny v japonském. „Poslat dolary do Evropy" znamená přepsat dolary mezi dvěma americkými účty a do Evropy poslat jen informaci. Vrstva hodnoty je geograficky uvězněná v zemi měny; cestuje pouze vrstva informace.</p>
+
+  <h3>6.2 Nostro jako pohledávka</h3>
+  <p>Zůstatek na nostru u komerčního korespondenta je jeho slib — pohledávka, kterou krach korespondenta nezmění, jen odhalí. SEPA tuto pavučinu bilaterálních slibů nezrušila, pouze ji vytlačila ze středu na periferii: uvnitř schématu ji nahradila hvězda se settlementem u centrální banky, na okrajích (nepřímí účastníci, držení cizoměnové likvidity) žije korespondenční svět dál — včetně kreditního rizika.</p>
+
+  <h3>6.3 Reconciliace: rozdíl není chyba, dokud není nevysvětlený</h3>
+  <p>Banka vede zrcadlo svého nostra ve vlastních knihách; korespondent večer pošle výpis. Čísla se běžně liší, aniž kdokoli chybil — položky na cestě mají tři rodiny: <em>oni napřed</em> (korespondent už zaúčtoval, informace ještě nedoputovala), <em>my napřed</em> (odesláno u nás, u nich zpracováno až v jejich dni), <em>jednostranné pohyby</em> (poplatky, úroky, opravy se zpětnou valutou — výpis je první informací). Reconciliace proto netvrdí „čísla se musí rovnat", nýbrž: <b>každý rozdíl musí být vysvětlen položkou známého typu, směru a stáří</b>. Nevysvětlený a stárnoucí rozdíl je eskalace — může znamenat, že korespondent na druhém konci světa ztratil milion. A protože každý typ rozdílu má definované znaménko (kdo je napřed a kterým směrem), párování pracuje vždy s trojicí částka × směr × stáří, nikdy jen s částkou.</p>
+</section>
+
+<!-- ============ VII ============ -->
+<section id="k7">
+  <div class="kap-num">Kapitola VII</div>
+  <h2 class="kap">Rodina SEPA schémat a inverze iniciace</h2>
+
+  <p>Evropská platební rada spravuje čtyři hlavní schémata: SCT (credit transfer), SCT Inst (instantní), SDD Core a SDD B2B (inkasa); na okraji stojí OCT Inst pro platby s jednou nohou mimo eurový prostor. Dávka (bulk) není schéma, nýbrž obal vrstvy klient–banka: tisíc výplat v jednom souboru se rozpadne na tisíc samostatných schémových transakcí s vlastním osudem — „rollback dávky" neexistuje, protože právně žádná dávka do schématu nevstoupila.</p>
+
+  <h3>7.1 Direct Debit: platbu iniciuje věřitel</h3>
+  <p>U převodu říká plátce své bance „pošli". U inkasa říká <em>příjemce</em> své bance „vyber od plátce" — zpráva teče od banky věřitele k bance plátce, peníze při settlementu opačně. Celá asymetrie rolí se zrcadlově obrací, včetně toho, kdo smí co odmítnout. Konstrukci legitimizuje <b>mandát</b>: plátcem podepsané zmocnění, které však drží a archivuje věřitel — banka plátce jej typicky nikdy neviděla a inkasuje na základě <em>tvrzení</em>, že mandát existuje.</p>
+
+  <h3>7.2 Refund: proč smí schéma dovolit inkaso bez důkazu</h3>
+  <p>Tvrzení bez důkazu drží pohromadě opravný mechanismus: spotřebitel může do <b>8 týdnů</b> žádat vrácení autorizovaného inkasa bez udání důvodu; u neautorizovaného až <b>13 měsíců</b>. Věřitel smí tvrdit, protože plátce smí vrátit — a riziko nese ten, kdo tvrzení vyslovil: refund stáhne prostředky řetězem zpět až k věřiteli. Odtud i odpověď na otázku, koho v inkasním schématu chrání banky věřitelů limity a zajištěním: sebe před svými inkasujícími klienty, jejichž selhání (včetně krachu s visícími refundy) nesou.</p>
+
+  <div class="perla">
+    <span class="stitek">Perla: proč B2B varianta vyžaduje ověření mandátu</span>
+    <p>SDD B2B refund autorizovaného inkasa ruší — firmy si kupují finalitu a rychlost cash flow. Jenže odstraněním ex-post opravy vzniká povinnost ex-ante kontroly: banka plátce <em>musí</em> mandát ověřit před prvním inkasem, protože „po" už žádné „po" není. Obecný zákon spojených nádob: <b>kontrola a oprava jsou spojené nádoby — odstraníš-li opravu vzadu, musíš přidat kontrolu vepředu.</b> Systém bez obojího je pozvánka k plenění (hromadné mikroinkaso milionů účtů by se stalo výnosným byznysem); systém s obojím je zbytečně pomalý a drahý. Návrh schématu je vždy volba, kam břemeno položit.</p>
+  </div>
+
+  <h3>7.3 Bohatší rodina R-transakcí</h3>
+  <p>Inverze iniciace plodí i bohatší opravný slovník. Pro orientaci — s vyznačením, kdo jediný smí iniciovat:</p>
+  <table>
+    <tr><th>R-transakce</th><th>Iniciátor</th><th>Podstata</th></tr>
+    <tr><td>Reject</td><td>kdokoli držící zprávu před settlementem</td><td>odmítnutí zprávy; peníze netečou</td></tr>
+    <tr><td>Refusal</td><td>plátce (před settlementem, přes svou banku)</td><td>„toto inkaso neprovádět"</td></tr>
+    <tr><td>Return</td><td>banka držící peníze po settlementu</td><td>nová platba zpět; monopol držitele peněz</td></tr>
+    <tr><td>Refund</td><td>plátce (u inkas; 8 týdnů / 13 měsíců)</td><td>jediný skutečný klientský nárok ve schématu</td></tr>
+    <tr><td>Recall / Cancellation request</td><td>banka plátce (u převodů), věřitel (u inkas)</td><td>prosba, ne příkaz; nefinanční zpráva</td></tr>
+    <tr><td>Reversal</td><td>věřitel(ova strana) po chybném inkasu</td><td>dobrovolné gesto viníka — vrací dřív, než si oběť všimne</td></tr>
+  </table>
+  <p>Reversal stojí za pozornost jako filozofická rarita: jediná R-transakce, v níž viník sám vrací. Rulebook ji neukládá — existuje proto, aby slušný věřitel mohl napravit dvojité inkaso levněji a reputačně lépe, než kdyby čekal na refund.</p>
+</section>
+
+<!-- ============ VIII ============ -->
+<section id="k8">
+  <div class="kap-num">Kapitola VIII</div>
+  <h2 class="kap">SCT Inst: zákaz odložené nejistoty</h2>
+
+  <p>Klasický převod dovoluje bance nejistotu odložit: přijmout, zaparkovat, rozhodnout ráno. Instantní schéma tuto možnost ruší — odpověď banky příjemce je součástí transakce samé a musí přijít v sekundách. Z toho plyne vše ostatní.</p>
+
+  <h3>8.1 Atomicita a její cena</h3>
+  <p>Rozhodnutí a settlement jsou jedna nedělitelná operace: rezervace prostředků, zúčtování, potvrzení, finalita — vše v jednom kroku, jednotlivě po platbách, z předfinancovaných pozic u centrální banky. Netting je pojmově vyloučen (množina velikosti jedna nemá co započítávat), a tak instantní svět platí likviditou drženou dopředu — vědomá volba rohu v trojúhelníku z kapitoly V. Odměnou je, že mezi „spočítáno" a „vypořádáno" nezeje žádné okno: instantní platba nemá settlement risk, protože nemá žádné „mezi".</p>
+
+  <h3>8.2 Timeout: „nevím" je legitimní stav</h3>
+  <p>Vyprší-li čas bez odpovědi, schéma platbu <em>považuje</em> za nevzniklou — to je však pravidlo pro rozhodnutí, nikoli popis tvé znalosti. Ticho znamená, že nedorazila odpověď; platba mohla selhat, ale také projít i s vypořádáním, jen se ztratilo potvrzení. Slepé vrácení prostředků klientovi by v druhém případě vyrobilo z jedné platby dvě; slepé automatické opakování duplicitu. Správný postup: otevřenou pozici nezavírat pocitem, zjistit fakt (status inquiry, reconciliace vůči systému) a teprve podle něj účtovat. <b>Nejdřív pravda, potom booking</b> — a nová platba, ukáže-li se první mrtvou, vzniká s novými identifikátory, protože je to nová transakce, ne opakování staré.</p>
+
+  <h3>8.3 Kontroly před rozhodnutím</h3>
+  <p>Protože kladná odpověď spouští finalitu, musí všechny kontroly (sankční prověrky, existence účtu, limity) proběhnout <em>před</em> ní — synchronně a strojově. Neexistuje „přijmu, prověřím, případně vrátím". Instantní design tedy nevynucuje rychlé kontroly kvůli rychlosti samé; vynucuje je proto, že po rozhodnutí už žádná kontrola nemá vykonatelný důsledek. Returny v instantním světě existují, ale řeší jen to, co synchronní prověrka vidět nemohla (pozdější zjištění podvodu, recall) — poměr smrtí se dramaticky přesouvá k okamžitým odmítnutím a suspense účty téměř nemají kde vzniknout. To není náhoda, to je záměr.</p>
+
+  <div class="perla">
+    <span class="stitek">Perla: regulátor přitvrzuje — nařízení o okamžitých platbách</span>
+    <p>Evropské nařízení o okamžitých platbách (Instant Payments Regulation, 2024) udělalo z instantního převodu povinnost a nepřímo potvrdilo obě filozofie této kapitoly. Zaprvé cena: instantní platba nesmí stát víc než běžný převod — rychlost přestává být prémiovou službou. Zadruhé kontroly: každodenní plošné prověřování klientů proti sankčním seznamům nahrazuje prověřování per transakce (které v sekundovém světě nestíhá), a povinná služba ověření příjemce (Verification of Payee) přesouvá část kontroly ještě před vznik platby — k okamžiku, kdy plátce zadává jméno a číslo účtu. Osa z kapitoly I v akci: když zdražíš smrt vpravo (finalita v sekundách), musíš posílit kontroly vlevo.</p>
+  </div>
+</section>
+
+<!-- ============ IX ============ -->
+<section id="k9">
+  <div class="kap-num">Kapitola IX</div>
+  <h2 class="kap">Cizí měny na hranách schématu</h2>
+
+  <p>SEPA schémata jsou výhradně eurová — žádné pole kurzu, žádná konverzní zpráva. A přesto v nich denně probíhají milionové konverze: SEPA zahrnuje i země bez eura. Rozuzlení paradoxu: <b>konverze probíhá na hraně schématu, před vstupem do něj a po výstupu z něj, na knihách banky klienta.</b> Do clearingu vstupuje platba, která z pohledu schématu vždycky byla eurová; koruna či zlotý jsou jen prehistorie na výpisu klienta.</p>
+
+  <h3>9.1 Proč jednoměnovost není elegance, ale statika</h3>
+  <p>„Přidat druhou měnu" by nespustilo estetický problém, nýbrž statický. Settlement v penězích centrální banky funguje jen pro měnu, kterou daná centrální banka emituje; netting potřebuje jednu jednotku, jinak vnáší kurz — čí, z kdy? — doprostřed settlement okna a s ním nový druh rizika; rovnost přikázané a vypořádané částky má smysl jen v téže měně. Jednoměnovost je <em>předpoklad, na němž stojí nosné zdi</em>. Proto i schéma pro platby s jednou nohou venku (OCT Inst) drží konverzi na hraně a eurovou nohu nedotčenou.</p>
+
+  <h3>9.2 Kurzové okno R-transakcí</h3>
+  <p>Return vrací přesně původní <em>eurovou</em> částku — schéma je spokojeno, jeho svět sedí. Klient, který platil z korunového účtu, však dostává eura konvertovaná dnešním kurzem: mezi platbou a returnem se kurz pohnul a klient navíc dvakrát zaplatil spread (banka prodává dráž a vykupuje levněji). Kdo nese kurzový rozdíl, rulebook mlčky ponechává vztahu banka–klient. Praktický důsledek pro každý systém: řetěz „původní debet + kurz → eurová platba → eurový return → kurz + kredit" musí být doložitelný, protože reklamace „vrátili jste mi méně" je z pohledu schématu nezaložená, ale z pohledu klienta pochopitelná.</p>
+
+  <div class="pravidlo"><b>Tvrdě porovnávej jen částky, jejichž rovnost někdo garantuje — a věz kdo.</b> Uvnitř schématu garantuje rulebook eurové rovnosti (return = původní částka); na hranách klient–banka negarantuje nikdo nic. Párovací a kontrolní logika musí znát topologii garancí, jinak buď zaplaví provoz falešnými poplachy, nebo přehlédne skutečné chyby.</div>
+
+  <h3>9.3 Kde hledat „chybějící peníze"</h3>
+  <p>Stěžuje-li si příjemce eurového účtu, že dorazilo méně, než plátce sliboval, konverzi nehledej u příjemce — jeho banka nic nekonvertovala, jen připsala, co došlo. Rozdíl vznikl téměř jistě u banky plátce, před vstupem do schématu: klient počítal středovým kurzem, banka prodala eura svým kurzem se spreadem, a do schématu už vstoupila nižší částka, doručená pak přesně. <b>Chybějící peníze hledej vždy na hraně, kde se měnila měna — a ta hrana je u plátce, dostává-li příjemce měnu schématu.</b> Vinen přitom nemusí být nikdo: legální marže není krádež; regulace (nařízení o přeshraničních platbách, pravidla transparentnosti) vynucuje jen její viditelnost, nikoli výši.</p>
+</section>
+
+<!-- ============ X ============ -->
+<section id="k10">
+  <div class="kap-num">Kapitola X</div>
+  <h2 class="kap">Cover a serial: dekompozice informace a hodnoty</h2>
+
+  <p>Mimo společná schémata — mezi měnami, mezi regiony — vede platbu řetěz korespondentů. Existují dvě architektury. <b>Serial</b>: jedna klientská zpráva putuje hop po hopu s penězi; každý článek ji drží, zpracovává klientským režimem a smí si vzít z částky. <b>Cover</b>: informace a hodnota se rozdělí — klientská zpráva letí přímo bance příjemce, krytí putuje řetězem jako čistě mezibankovní převod. Principal dorazí netknutý, poplatky se vypořádají bokem z korespondentských vztahů, avízo dorazí rychle a přímo.</p>
+
+  <h3>10.1 Není to trik, je to přiznání</h3>
+  <p>Nabízí se námitka: nejsou to klientské peníze propašované na „kvalitnější" mezibankovní koleje? Odpověď obrací perspektivu: <b>klientské peníze žádnou vlastní cestou nikdy nejely.</b> Hodnota se mezi bankami vždy hýbe jedině zápisy na nostro/vostro a settlement účtech — i u serialu. Rozdíl je jediný: zda s penězi cestuje přilepená klientská obálka, již každý hop musí zpracovat klientským režimem, nebo zda obálka letí zvlášť. Cover vrstvy pouze rozplétá a pojmenovává — jako v účetnictví, kde doklad jde poštou a úhrada bankou, a nikdo tomu neříká trik. Výhrada k „lepší" cestě však platí: netknutost jistiny je u covera <em>konvence trhu</em>, nikoli garance schématu — proto párovací systémy pracují s tolerančními pásmy a kódy důvodů, zatímco uvnitř SEPA smí být match tvrdý (kap. IX).</p>
+
+  <h3>10.2 Avízo bez krytí nesmí ke klientovi</h3>
+  <p>Banka příjemce účtuje proti penězům, nikoli proti oznámení. Klientská zpráva bez došlého krytí je informace, ne aktivum — připsat z ní znamená úvěrovat cizí banku bez smlouvy; ukázat ji klientovi znamená nechat ho počítat s penězi, které nemusí nikdy dorazit. Nespárovaná avíza proto žijí v interních frontách se stárnutím a eskalací; zrcadlově k nim existuje čekárna peněz bez avíza (krytí dorazilo dřív). Obě fronty jsou otevřené otázky s cílovým stavem nula.</p>
+
+  <div class="perla">
+    <span class="stitek">Perla: stripping — útok na jednu číslici klasifikace</span>
+    <p>Do roku 2009 jelo krytí obyčejnou mezibankovní zprávou, která z podstaty neměla pole pro jména klientů — je určena převodům mezi bankami. Toho využívaly banky obcházející sankce (Írán, Súdán a další): klientskou zprávu se jmény poslaly mimo dosah americké jurisdikce a krytí přes New York jako anonymní bankovní převod. Americký korespondent viděl „banka X platí bance Y" — a jeho sankční screening neměl <em>co</em> prověřovat. Žádné pole nebylo zfalšováno; informace byla jen rozdělena tak, aby ji kontrolor neviděl celou („svlékání" identit — stripping). Regulátoři odpověděli povinnou krycí variantou zprávy s kopií údajů o plátci a příjemci: vrstva hodnoty dostala okno do vrstvy informace. Řeší to však jen strukturální slepotu, nikoli podvod — kopii vyrábí odesílatel, tedy tentýž, kdo má motiv lhát. Odtud pokuty v miliardách dolarů, profilování provozu klientských bank a de-risking (rušení korespondentských vztahů s rizikovými regiony) jako trvalý vedlejší účinek. Obecné poučení: <b>schéma vynutí strukturu, nikoli pravdu</b> — struktura zaručí, že pole existuje; co v něm je, hlídá už jen represe.</p>
+  </div>
+</section>
+
+<!-- ============ XI ============ -->
+<section id="k11">
+  <div class="kap-num">Kapitola XI</div>
+  <h2 class="kap">Herstatt 1974: čas jako zbraň</h2>
+
+  <p>Devizový obchod má dvě nohy ve dvou měnách — a každá měna se vypořádává doma, ve své zemi a ve svém čase (kap. VI). Mezi nohama proto vždy zeje okno. Dne 26. června 1974 se ukázalo, co v tom okně bydlí.</p>
+
+  <h3>11.1 Anatomie jednoho odpoledne</h3>
+  <p>Kolínská Bankhaus Herstatt, prohraná na dolarových spekulacích po pádu brettonwoodského systému, dostala od německého dohledu odebranou licenci v 15:30 středoevropského času — v 9:30 newyorského. Protistrany jí toho dne dopoledne zaplatily marky s finalitou; dolarové protihodnoty měly odejít během newyorského dne z jejího účtu u amerického korespondenta. Korespondent po zprávě o likvidaci účet zmrazil. Výsledek: marky nenávratně pryč, dolary nikdy nedorazí — protistrany se z obchodních partnerů proměnily ve věřitele konkurzní podstaty. Ztrátou nebyl kurzový rozdíl, nýbrž <b>celá jistina</b>: to je definiční vlastnost settlement risku, od té doby zvaného Herstatt risk.</p>
+
+  <p>Pozoruhodné je, co rozhodlo: nikoli <em>že</em> banku zavřeli, ale <em>v kolik hodin</em>. Uzavření před oběma nohama by obchody nechalo nevypořádané (rejecty — nikdo nepřijde o jistinu); po obou nohách by bylo hotovo. Uzavření <em>mezi</em> nohama proměnilo časové pásmo v zbraň. Panika se pak nešířila po ose jednotlivých obchodů, ale po infrastruktuře: dolar je vehikulární měna, závazky všech vůči všem se potkávají v newyorském clearingu — a právě tam banky začaly zadržovat platby a čekat na příchozí. Gridlock naostro, z nedostatku ochoty jít první.</p>
+
+  <h3>11.2 Odpověď systému: PvP</h3>
+  <p>Přímým důsledkem byl vznik Basilejského výboru pro bankovní dohled (1974/75) — celá basilejská architektura má v rodném listě podpis jedné kolínské banky. Definitivní řešení přišlo roku 2002: specializovaná instituce CLS vypořádává devizové obchody principem <b>Payment versus Payment</b> — obě nohy atomicky, obě nebo žádná. Herstattovské okno se nezkracuje, ruší se: neexistuje okamžik, kdy jedna strana už zaplatila a druhá ještě ne. Za to se platí přísnou časovou choreografií (krátké okno, kdy mají otevřeno settlement systémy všech měn) a předfinancováním — opět trojúhelník z kapitoly V. Táž myšlenka atomicity, kterou instantní platby používají uvnitř jedné měny (kap. VIII), řeší mezi měnami nejstarší trauma oboru.</p>
+</section>
+
+<!-- ============ XII ============ -->
+<section id="k12">
+  <div class="kap-num">Kapitola XII</div>
+  <h2 class="kap">gpi: pravda teče paralelně</h2>
+
+  <p>Korespondentský řetěz nemá centrum: každá banka vidí jen souseda a otázka „kde jsou peníze" znamenala štafetu dotazů trvající dny. Odpověď z roku 2017 byla architektonicky elegantní: <b>nestavět novou kolej, nýbrž rozhlednu.</b> Centrální tracker, do něhož každý článek řetězu hlásí stav platby pod jejím neměnným UETR — přijal jsem, poslal dál, strhl poplatek, konvertoval kurzem, připsal. Zprávy dál tečou sériově starými cestami; pravda o nich teče paralelně, hvězdou, a nejlepší informaci má poprvé v dějinách <em>iniciátor</em>, nikoli ten, kdo platbu právě drží.</p>
+
+  <h3>12.1 Od konvence ke smlouvě</h3>
+  <p>Tracker není jen viditelnost — je to měřidlo vymahatelnosti. Sliby „připíšeme týž den, poplatky a kurzy transparentně" jsou měřitelné jen tehdy, leží-li data u třetí strany, strukturovaně a srovnatelně. Údaje o poplatcích existují dvakrát nikoli redundantně: ve zprávách pro <em>zpracování</em>, v trackeru pro <em>accountability</em>. Povinná univerzální potvrzení (od 2020 musí každá banka nahlásit finální stav každé přijaté klientské platby) pak zaplnila poslední tmu na mapě. Vzorec eskalace závaznosti: konvence → smluvní závazek s měřením → povinnost pro všechny.</p>
+
+  <h3>12.2 Stop a recall: dvě fáze, dvě síly</h3>
+  <p>Služba zastavení a odvolání platby využívá tracker jako stopku v reálném čase: požadavek s UETR dorazí okamžitě k článku, který platbu právě drží, a ten ji <em>nesmí poslat dál</em>. Stop však není instrukce k vrácení — je to zmrazení, po němž následuje standardní recall proces s právem zamítnout (mezitím mohl platbu chytit sankční screening; „podvod" může hlásit podvodník sociálním inženýrstvím; jurisdikce mají vlastní režimy). Vrácení pak proběhne řádným returnem se vším všudy. A po připsání příjemci končí moc úplně: služba už platbu nezastavuje, jen zrychluje prosbu — u podvodů je ovšem rychlost doručení žádosti vším, protože běží závod s kaskádou překupnických účtů. Před připsáním moc nad platbou; po připsání jen čas.</p>
+
+  <div class="omyl">
+    <span class="stitek">Častý omyl</span>
+    <p>Hlásit trackeru úmysl místo faktu. „Připsáno" se smí hlásit až po skutečném zápisu do knih — hlásit dopředu znamená lhát systému, na němž staví cizí procesy (protistrana uzavře případ, její klient slíbí dodavateli). Zároveň platí compliance strop transparentnosti: banka nehlásí „zadrženo sankčním screeningem", nýbrž neutrální „pending" — sdělit odesílateli, že jeho platbu drží prověrka, by bylo navádění (tipping-off). A systémová lekce na závěr: jakmile viditelnost existuje, procesy na ní zvyknou stavět (projekce likvidity, třídění reconciliačních rozdílů, kontrola duplicit před opakováním) — <b>selhání systému viditelnosti je pak horší než jeho neexistence</b>, protože staré obranné reflexy mezitím atrofovaly. Proto se kvalita hlášení měří a vynucuje.</p>
+  </div>
+</section>
+
+<!-- ============ XIII ============ -->
+<section id="k13">
+  <div class="kap-num">Kapitola XIII</div>
+  <h2 class="kap">Booking: účetní kniha jako poslední instance pravdy</h2>
+
+  <p>Vše předchozí se nakonec láme v účetnictví — a platí zde stejná pravidla jako v klasické podvojné knize, jen povýšená na protokol mezi institucemi.</p>
+
+  <h3>13.1 Dvoufázový zápis a suspense</h3>
+  <p>Odchozí platba má dvě nohy: klientskou (odepsat klientovi — hned) a mezibankovní (až po settlementu; do té doby částka sedí na účtu plateb na cestě). Účetnictví tak říká pravdivý příběh „klientovi odepsáno, mezibankovně nevypořádáno" — nikdy se neúčtuje o budoucnosti, která nemusí nastat. Příchozí strana zrcadlově: settlementem peníze přistály s povinností je umístit; než se rozhodne kam, leží na <b>suspense účtu</b> — interním účtu s významem „peníze dorazily, příběh není dovyprávěn". Klíčová vlastnost suspense: cílový stav je nula; každá položka je otevřená otázka a položka ležící týdny je červená vlajka. Auditoři tyto účty milují právem.</p>
+
+  <h3>13.2 Od vratného k nevratnému</h3>
+  <p>Pořadí zápisů není otázkou výkonu, nýbrž nevratnosti. Klientský kredit je nejtoxičtější zápis řetězu: jakmile je připsáno, peníze jsou klientovy a jednostranně se neberou — každá kontrola po něm ztrácí vykonatelný důsledek. Proto: <b>účtuj od nejvratnějšího k nejméně vratnému a nevratný zápis proveď poslední, až je rozhodnuto vše.</b> (Ekvivalent: závěrka se nepodepisuje, dokud běží inventura.) Instantní platby tento princip nevynucují kvůli rychlosti, ale proto, že kladná odpověď spouští finalitu — kontroly prostě musí stát před rozhodnutím.</p>
+
+  <h3>13.3 Append-only svět</h3>
+  <p>Žádný zápis se nemaže; opravy se vrství. Reject před settlementem = interní storno (dva páry zápisů uvnitř vlastních knih, mezibankovně ticho); return po settlementu = nový příjem účtovaný dneškem, nikdy „výmaz" původního. Kdo zná verzovací systémy: historie je posloupnost commitů, return je revert commit, a zákaz zpětné editace vypořádaného je zákaz force-push na hlavní větev. Test každého návrhu v platebním systému zní: <em>nedělá tohle force-push na vypořádanou historii?</em> Pokud ano, návrh je špatně — bez ohledu na to, jak je pohodlný.</p>
+
+  <div class="pravidlo"><b>Nejdřív pravda, potom booking.</b> U nejasných stavů (timeout, chybějící potvrzení, nespárované avízo) se otevřená pozice nezavírá domněnkou. Stav „nevím" je legitimní stav transakce; zavírá ho zjištěný fakt — dotaz, výpis, tracker — nikdy netrpělivost.</div>
+</section>
+
+<!-- ============ XIV ============ -->
+<section id="k14">
+  <div class="kap-num">Kapitola XIV</div>
+  <h2 class="kap">Zákony platebního světa (syntéza)</h2>
+
+  <p>Závěrem dvanáct vět, které se v předchozích kapitolách vracely v různých kostýmech. Nejsou to paragrafy žádného rulebooku — jsou to invariance, z nichž rulebooky vyrůstají.</p>
+
+  <div class="zakon"><div class="z-num">Zákon 1</div><div class="z-text">Hranicí všech taxonomií je settlement.</div><p>Před ním se odmítají zprávy, po něm se vracejí peníze. Táž hranice určuje, kdo je v den krachu věřitelem konkurzu.</p></div>
+
+  <div class="zakon"><div class="z-num">Zákon 2</div><div class="z-text">Reject smí poslat, kdo drží zprávu; return jen ten, kdo drží peníze.</div><p>Moc jednat plyne z pozice, nikoli z názvu role — a s mocí jde odpovědnost za rozhodnutí.</p></div>
+
+  <div class="zakon"><div class="z-num">Zákon 3</div><div class="z-text">Rulebook řeší proces, nikdy spravedlnost.</div><p>Kdo, komu, kdy, jakou zprávou — ano. Komu peníze právem náleží — nikdy; to patří smlouvám a soudům, mimo schéma.</p></div>
+
+  <div class="zakon"><div class="z-num">Zákon 4</div><div class="z-text">Klient není stranou schématu.</div><p>Je důvodem, nikdy iniciátorem; výjimka (refund u inkas) jen potvrzuje, jak vzácné je dát klientovi vymahatelný nárok uvnitř mezibankovního světa.</p></div>
+
+  <div class="zakon"><div class="z-num">Zákon 5</div><div class="z-text">Vlastnictví pole = garance jeho vlastností.</div><p>Páruj jen podle polí, jejichž unikátnost někdo garantuje; pole smí mutovat, jen nepřesahuje-li jeho publikum jeden leg.</p></div>
+
+  <div class="zakon"><div class="z-num">Zákon 6</div><div class="z-text">Minulost se vyvažuje, nemění.</div><p>Žádné storno vypořádaného cyklu, žádná editace odeslané zprávy, žádný výmaz zápisu. Oprava jde vždy vpřed.</p></div>
+
+  <div class="zakon"><div class="z-num">Zákon 7</div><div class="z-text">Kontrola a oprava jsou spojené nádoby.</div><p>Odstraníš-li ex-post opravu (refund, storno), musíš přidat ex-ante kontrolu (ověření mandátu, synchronní screening) — a naopak. Systém bez obojího je pozvánka; systém s obojím je zbytečně drahý.</p></div>
+
+  <div class="zakon"><div class="z-num">Zákon 8</div><div class="z-text">Likvidita, čas a riziko tvoří trojúhelník, z něhož nelze utéct.</div><p>Netting kupuje likviditu za čas, instantnost čas za likviditu, vnitrodenní úvěr plynulost za kolaterál. Každý systém si vybírá roh — a nouzový východ musí bolet, jinak se z něj stanou hlavní dveře.</p></div>
+
+  <div class="zakon"><div class="z-num">Zákon 9</div><div class="z-text">Peníze nikdy neopouštějí svou zemi.</div><p>Cestuje jen informace; hodnota se přepisuje mezi účty domácího systému měny. Odtud korespondenční bankovnictví, odtud i geopolitika otázky, kdo ti vede dolarové nostro.</p></div>
+
+  <div class="zakon"><div class="z-num">Zákon 10</div><div class="z-text">Schéma vynutí strukturu, nikoli pravdu.</div><p>Povinné pole zaručí, že pole existuje; co v něm je, hlídá represe. Stripping, sekce s kopií klientských údajů i tipping-off jsou tři kapitoly téhož poznání.</p></div>
+
+  <div class="zakon"><div class="z-num">Zákon 11</div><div class="z-text">Zpráva je tvrzení; settlement je fakt; booking fakta následuje.</div><p>Avízo bez krytí není aktivum, timeout není výsledek, hlásit úmysl je lež. Nejdřív pravda, potom zápis — a nevratný zápis vždy poslední.</p></div>
+
+  <div class="zakon"><div class="z-num">Zákon 12</div><div class="z-text">Důvěra v platební systém je počitatelná vymahatelnost oprav.</div><p>Ne pocit: mechanismus. Kde oprava zlevní pod cenu zneužití (refund vs. mikropodvod), účastníci zůstávají; kde zdraží nebo zmizí, racionální účastníci odcházejí — a systém umírá na opatrnost svých členů.</p></div>
+
+</section>
+
+<footer>
+  Učebnice SEPA pro pokročilé — principy, rizika, zneužití.<br>
+  Sestaveno ze série lekcí (životní cyklus platby; vlastnictví polí; clearing &amp; settlement; likvidita; nostro svět; SEPA schémata; FX na hranách; cover/serial; Herstatt &amp; CLS; gpi/gSRP; booking) a rozšířeno o navazující látku. <br><i>claude.ai - Projects - Claude Fable 5, High </i> 
+</footer>
+
+</div>
+</body>
+</html>
