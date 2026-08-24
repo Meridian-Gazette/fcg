@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEPA kvíz Part C — vzorové odpovědi (64–93)</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#FDFCF9;color:#1B1A17;
+    font-family:Charter,'Bitstream Charter','Sitka Text',Cambria,Georgia,serif;
+    font-size:16.5px;line-height:1.62}
+  .page{max-width:700px;margin:0 auto;padding:46px 22px 90px}
+  code{font-family:Consolas,Menlo,monospace;font-size:.86em;background:#F1EEE6;padding:1px 4px;border-radius:3px}
+  h1{font-size:25px;font-weight:700;padding-bottom:12px;border-bottom:1px solid #1B1A17;margin-bottom:8px}
+  .pozn{font-size:14px;font-style:italic;color:#6B675E;margin-bottom:28px}
+  h2{font-size:14px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+    color:#6E1423;margin:40px 0 14px;padding-bottom:6px;border-bottom:1px solid #CFC9BC}
+  .r{margin:0 0 22px;padding-bottom:20px;border-bottom:1px solid #E4E0D4}
+  .r h3{font-size:15.5px;font-weight:700;color:#6E1423;margin-bottom:6px}
+  .r p{margin-bottom:8px;text-align:justify;hyphens:auto}
+  .r p:last-child{margin-bottom:0}
+  b{font-weight:700}
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>Vzorové odpovědi — Part C (64–93)</h1>
+<p class="pozn">Verdikt + proč. Jiná formulace téhož je správně; rozhoduje důvod.</p>
+
+<h2>C1 &middot; Zprávy a statusy</h2>
+
+<div class="r"><h3>64 — Váha pacs.002: Inst vs. batch</h3>
+<p>V batchi je pacs.002 <b>oznámení o osudu zprávy</b> — technický ACK/reject; o penězích rozhodne až settlement cyklu, doložený settlement reportem. U Inst je pacs.002 <b>nosič samotného výsledku</b>: pozitivní/negativní potvrzení je ta událost, kolem níž se láme atomický settlement — „ANO" a finalita jsou jedno. Proto ztráta pacs.002 v batchi skoro nebolí (pravda dorazí jinudy, cyklem), kdežto u Inst vyrábí stav „nevím": zmizel jediný nosič rozhodnutí, a platba mohla i nemusela proběhnout — následuje investigace (pacs.028), nikdy domněnka.</p></div>
+
+<div class="r"><h3>65 — pain.002 vs. pacs.002</h3>
+<p><code>pain.002</code> žije ve vrstvě <b>klient–banka</b> (odpověď banky na pain.001, per transakce), <code>pacs.002</code> ve vrstvě <b>mezibankovní</b> (CSM/banka → banka). Klient pacs.002 nikdy nedostane, protože není stranou mezibankovního kontraktu — nemá zprávy, nemá závazky. Když platba umře v clearingu, banka mezibankovní smrt <b>přeloží</b> do klientovy vrstvy: storno na výpisu, notifikace, případně pain.002 k původní instrukci. Vrstvy nesmí prosakovat — každá má vlastní publikum, formáty i právní vztah.</p></div>
+
+<div class="r"><h3>66 — camt.056</h3>
+<p><code>camt.056</code> (žádost o cancellation/recall) posílá <b>banka plátce směrem k bance příjemce</b> (přes CSM). Žádá vrácení už odeslané platby — a je <b>nefinanční</b>: nehýbe penězi, nevytváří settlement, needituje historii. Nesmí sama způsobit vůbec nic účetního: i kdyby banka příjemce chtěla vyhovět okamžitě, camt.056 neumí peníze přenést — vrácení proběhne výhradně novou finanční transakcí (<code>pacs.004</code>). Slova a činy jsou v ISO světě oddělené zprávové rodiny; camt.056 patří ke slovům.</p></div>
+
+<div class="r"><h3>67 — Kladná odpověď na recall (chyták)</h3>
+<p>Peníze přijdou <b>pacs.004</b> (return s vazbou na recall) — nikdy camt.029. <code>camt.029</code> (Resolution of Investigation) jsou <b>slova</b>: nese zamítavou odpověď na recall (s důvodem), případně stavové/procesní informace k investigaci. Mnemotechnika: <b>kladná odpověď je čin (pacs.004), záporná je slovo (camt.029).</b> Plyne to z kapitoly o finalitě: vrátit peníze lze jen novou finanční transakcí s vlastním settlementem.</p></div>
+
+<div class="r"><h3>68 — FOCR vs. AC04</h3>
+<p><code>FOCR</code> („following cancellation request") říká: tomuto returnu <b>předcházel recall</b> (camt.056) — banka příjemce vrací, protože vyhověla žádosti. <code>AC04</code> (zrušený účet) je return <b>z vlastní povinnosti</b> banky příjemce: nedoručitelnost, rulebooková lhůta (u SCT do 3 pracovních dnů po settlementu), částka <b>přesně</b> původní. U FOCR smí být částka <b>nižší</b> — rulebook dovoluje strhnout fee, protože recall je služba plátci, který chybil, a náklady chyby nese viník. Táž zpráva, opačné vlastnictví viny → opačné pravidlo o částce.</p></div>
+
+<div class="r"><h3>69 — pacs.028</h3>
+<p>Správný první krok všude tam, kde chybí <b>fakt</b>: nedorazil settlement report, Inst timeout bez odpovědi, stárnoucí nespárované avízo, platba „in flight" bez stavu. Neumí a nesmí: nic rušit (to je camt.056), nic urgovat s právním účinkem, nic nahrazovat z R-taxonomie — je to <b>dotaz na stav, ne akce</b>. Je to nástroj principu „nejdřív pravda, potom booking": otevřená pozice se zavírá zjištěným faktem, a pacs.028 je kanál, kterým se fakt zjišťuje.</p></div>
+
+<div class="r"><h3>70 — camt.052 / 053 / 054</h3>
+<p><code>camt.053</code> (výpis konce dne) je <b>právní pravda dne</b> — baseline, proti níž se uzavírá reconciliace. <code>camt.052</code> (intraday report) <b>zkracuje okno růstu breaku</b>: čím častěji porovnáváš, tím dřív vidíš rozdíl a tím menší škoda stihne narůst. <code>camt.054</code> (avízo o debetu/kreditu) je <b>ochotná nápověda per položka</b> — urychluje párování, ale není výpis a nestaví se na ní závěrka. Častější 052 nemění peníze, mění <b>operační riziko</b>: rozdíl, který vidíš v 11:00, řešíš s korespondentem tentýž den; rozdíl z 053 až zítra.</p></div>
+
+<div class="r"><h3>71 — Duplicate check v CSM</h3>
+<p>CSM detekuje duplicity na referencích, jejichž unikátnost <b>garantuje odesílatel v rámci pravidel</b>: identifikátory souboru/zprávy a transakční ID per participant (v definovaném časovém okně). EndToEndId principiálně nelze použít — patří klientovi a jeho unikátnost negarantuje nikdo; „FAKTURA" stokrát není duplicita. A je to <b>záchranná síť, ne strategie</b>: parametry (okna, rozsah) jsou věcí CSM, ne tvého kontraktu — spoléhat na ni při resendů po timeoutu znamená sázet cizí peníze na cizí konfiguraci. Resend až po zjištění pravdy, s novými identifikátory.</p></div>
+
+<h2>C2 &middot; R-transakce do hloubky</h2>
+
+<div class="r"><h3>72 — Lhůty recallu</h3>
+<p>Banka plátce smí recall poslat do <b>13 měsíců</b> od settlementu; banka příjemce musí odpovědět do <b>15 pracovních dnů</b>. Asymetrie chrání pokaždé <b>plátce</b>: dlouhé okno proto, že duplicity a podvody se odhalují pozdě (ozvěna 13měsíčního okna PSD2 pro neautorizované transakce); krátká odpovědní lhůta proto, aby plátce nevisel v limbu — kdo drží rozhodnutí, musí jednat rychle. Obecně: lhůty schémat vždy tlačí na stranu, která blokuje cizí nejistotu.</p></div>
+
+<div class="r"><h3>73 — Dva režimy pacs.004</h3>
+<p><b>Return z vlastní vůle:</b> rozhodla banka příjemce (nedoručitelnost), lhůta 3 pracovní dny po settlementu, kódy typu AC04/AM05/MD07, částka přesně — vrací cizí peníze, nemá titul ukusovat. <b>Return na recall:</b> rozhodl proces recallu (klient/banka příjemce vyhověli camt.056), lhůta odpovědní (do 15 dnů), kód FOCR, fee dovoleno — služba viníkovi chyby. Táž zpráva nese dvě pravidla, protože pravidla neurčuje formát, ale <b>vlastnictví viny a iniciativa</b>: kdo chyboval, platí; kdo koná povinnost, nesmí vydělávat.</p></div>
+
+<div class="r"><h3>74 — Zamítnutý recall: co dál</h3>
+<p>Uvnitř schématu <b>nic</b> — povinnost odpovědět byla splněna, proces je uzavřen; rulebook spor o oprávněnost neřeší. Mimo schéma: přímý kontakt bank, občanskoprávní cesta, u podvodu trestní oznámení a AML kanály. Výsledek plátci sděluje <b>jeho banka</b> (banka plátce) — je to její klientský vztah a informační povinnost; banka příjemce s cizím klientem nekomunikuje. Vzorec: schéma je dopravní kanál sporu, ne jeho rozsudek.</p></div>
+
+<div class="r"><h3>75 — „Return returnu" (chyták)</h3>
+<p><b>Neexistuje.</b> Return je terminální R-transakce — pacs.004 odpovídající na pacs.004 schéma nezná. Peníze z returnu jsou teď peníze banky původního plátce s povinností je umístit: zrušený účet → suspense a <b>investigace</b> (kontakt, camt svět), případně jiné umístění dle práva (nástupnický účet, úschova) — nikdy ping-pong zpět. Důvod: opravný řetěz nesmí rekurzovat, jinak by platba mohla pendlovat věčně; a banka příjemce už žádný titul k penězům nemá — vrátit jí je by znamenalo poslat peníze někomu, komu nepatří.</p></div>
+
+<div class="r"><h3>76 — SDD zrcadlo</h3>
+<p>Return u inkasa posílá <b>Debtor Agent (banka plátce)</b>, do <b>5 pracovních dnů</b> po settlementu — přesně opačná banka než u SCT, protože se zrcadlí role: return posílá ten, komu přišla mezibankovní zpráva a kdo drží peníze/povinnosti z ní, a u SDD je příjemcem pacs.003 strana plátce. Osa inkasa: <b>refusal</b> (plátce přes svou banku, před settlementem), <b>reject</b> (kdokoli držící zprávu, před settlementem), <b>return</b> (Debtor Agent, do D+5), <b>refund</b> (plátce, 8 týdnů / 13 měsíců, provádí Debtor Agent), <b>reversal</b> (strana věřitele, dobrovolně, po zjištění vlastní chyby).</p></div>
+
+<div class="r"><h3>77 — File level vs. transaction level</h3>
+<p><b>File reject</b> nastává u strukturálních vad: rozbité schéma, nesouhlasící kontrolní součty, duplicitní soubor, neautorizovaný odesílatel — umře celý soubor včetně zdravých transakcí (ty se nikdy nedostaly do hry). <b>Transaction reject</b> je individuální validace uvnitř přijatého souboru; skupinový status „částečně přijato" znamená: osud existuje jen per transakce. Důsledek pro systém: <b>status souboru nikdy neinterpretuj jako status transakce</b> — ACK souboru není přijetí plateb, a po PART musíš projít položkové statusy; jednotkou závazku je transakce, soubor je obal (viz dávka pain.001).</p></div>
+
+<div class="r"><h3>78 — Nejdůležitější R-cesta u Inst</h3>
+<p><b>Recall</b> (cancellation). Reject okno je zhroucené do sekund a synchronní kontroly ho vyčerpají; return je vzácný, protože nedoručitelnost se zjistí před ANO. Zbývá svět „po připsání" — a ten je u Inst <b>nebezpečnější než u batche</b>: peníze jsou příjemci dostupné okamžitě, takže podvodník je může okamžitě rozprášit. Recall mechanismus je stejný, ale běží ostřejší závod — proto kolem Inst vyrostla infrastruktura rychlé žádosti (gSRP logika, VoP prevence). Zákon spojených nádob: čím rychlejší finalita vpravo, tím víc prevence vlevo a tím cennější rychlost prosby.</p></div>
+
+<div class="r"><h3>79 — UETR R-transakcí</h3>
+<p>Obě nesou <b>původní UETR</b>: pacs.004 ho má v Original UETR a putuje pod ním (tracker ukazuje „vrací se" u téže platby), camt.056 adresuje platbu jejím UETR. Rodina transakcí kolem jednoho UETR je jediný způsob, jak tracker i párování udrží souvislost: čerstvá UETR by rozpadla příběh na nesouvisející transakce — tracker by viděl novou neznámou platbu, párování by nemělo klíč, gSRP by nemělo co adresovat. Uzavřená je až celá rodina, ne jednotlivá zpráva.</p></div>
+
+<h2>C3 &middot; Clearing a settlement detailně</h2>
+
+<div class="r"><h3>80 — Cut-off → cyklus → T2 → D+1</h3>
+<p>Řetěz: klientský cut-off → banka zvaliduje, opraví, poskládá podání → cyklus CSM (clearing) → settlement okno v T2 → banka příjemce připisuje; PSD2 rámuje celek lhůtou D+1 pro kredit. Nárazník mezi klientským cut-offem a „technickým" limitem chrání dvě disciplíny: <b>operační</b> (čas na validace, screening, opravy a repair fronty před podáním — chyby chytat vlevo na ose) a <b>treasury</b> (znát čísla dne před posledními okny: řízení pozice v 17:45 vyžaduje, aby už netekly nové klientské objemy). Cut-off není zlomyslnost — je to nárazník mezi chaosem plateb a disciplínou settlement dne.</p></div>
+
+<div class="r"><h3>81 — Bilaterální vs. multilaterální netting</h3>
+<p>Multilaterální netting počítá pozici <b>každý vs. systém</b> — jedna částka místo N bilaterálních; úspora likvidity roste s počtem protistran, protože se započítávají i nepřímé okruhy (A dluží B, B dluží C, C dluží A → skoro nic neteče). Cena: <b>selhání je systémová událost</b> — pozice jsou vzájemně provázané, takže exkluze jedné banky znamená přepočet pozic všech (a někomu se pozice zhorší, ač s padlou bankou neobchodoval); právně to unese jen režim chráněný finalitou a pravidly (SFD, rulebook exkluze). Bilaterální selhání se dotkne jen párů — ale šetří zlomek.</p></div>
+
+<div class="r"><h3>82 — Kdo je settlement agent</h3>
+<p>Settlement agentem je <b>Eurosystém (T2)</b>: cyklus se vypořádá v penězích centrální banky na účtech účastníků v RTGS, na základě instrukcí, které CSM podává technickým mechanismem pro přidružené systémy. CSM tedy počítá a <b>instruuje</b>, ale peníze nikdy nepřejdou přes jeho bilanci — nemá pozice, nedrží zůstatky účastníků, a proto <b>nemá kreditní expozici</b>: je počtář s mandátem, ne protistrana. (Proto také nemůže iniciovat return a proto jeho role settlementem končí.)</p></div>
+
+<div class="r"><h3>83 — Nepřímý účastník</h3>
+<p>Platba klienta záložny se settluje <b>na RTGS účtu přímého účastníka</b> — záložna vlastní účet v T2 nemá. Její eura existují jako zůstatek u přímého účastníka, tedy jako <b>pohledávka za komerční bankou</b>: nese jeho kreditní riziko (krach přímého účastníka = konkurz, ne T2 jistota) plus operační závislost (jeho cut-offy, jeho výpadky). Potkávají se tu kapitoly: peníze centrální banky vs. komerční slib (III), nostro svět vytlačený na periferii hvězdy (VI) — nepřímé účastenství je korespondenční bankovnictví schované uvnitř SEPA.</p></div>
+
+<div class="r"><h3>84 — TIPS: rezervace</h3>
+<p>Při přijetí platby TIPS <b>okamžitě rezervuje (zablokuje)</b> částku na účtu banky plátce; teprve pozitivní potvrzení banky příjemce rezervaci přetaví v settlement (zápis ve prospěch příjemcovy banky, finalita). Timeout či zamítnutí → <b>rezervace se uvolní</b>, platba je odmítnuta, nic se nehnulo. Dvoufázovost je podmínkou atomicity: „ANO" příjemce nesmí selhat na nedostatku prostředků (proto se zamknou předem), ale prostředky se nesmí hnout před „ANO" (proto jen rezervace, ne převod). Rezervuj → rozhodni → potvrď-nebo-uvolni: databázová transakce přeložená do peněz.</p></div>
+
+<div class="r"><h3>85 — Tři časy platby</h3>
+<p><b>Přijetí (acceptance)</b> — okamžik, kdy banka instrukci přijala; od něj běží zákonné lhůty (PSD2). <b>Settlement date</b> — kdy se mezibankovní převod stal finálním; <b>nikdy se neposouvá</b>, to je finalita sama. <b>Valuta (value date)</b> — úrokové datum na účtu; účetní konvence, kterou lze ve prospěch klienta upravit. „Zpětná valuta" u opravy korespondenta finalitu neporušuje, protože nemění vypořádanou historii — peníze se hnuly, kdy se hnuly; mění se jen jejich <b>cena v čase</b> (úročení), a to novým, dopředným zápisem s kompenzačním účinkem. Correction forward, i tady.</p></div>
+
+<h2>C4 &middot; gpi, gSRP, VoP</h2>
+
+<div class="r"><h3>86 — gCCT vs. gCOV</h3>
+<p>Cover má <b>dva proudy zpráv</b> (avízo přímo + krytí řetězem), které tracker musí spojit pod jedním UETR a sledovat oba — serial má proud jeden, proto coveru patří vlastní služba. A klíčová interpretační past: potvrzení „krytí dorazilo" znamená jen, že peníze doletěly na nostro banky příjemce — <b>kredit klientovi vzniká až po spárování avíza s krytím a po kontrolách</b>. „Cover settled" tedy není „příjemci připsáno"; to smí banka plátce tvrdit až podle potvrzení klientské nohy (ACSC od banky příjemce). Zpráva je tvrzení, kredit je fakt — i uvnitř gpi.</p></div>
+
+<div class="r"><h3>87 — Proč stop letí hvězdou</h3>
+<p>Protože stop <b>závodí s platbou</b>. Kdyby putoval sériově, jel by stejnou rychlostí stejnými frontami jako platba sama — byl by vždy o hop pozadu a nikdy by ji nedohnal (leda by platba někde uvízla sama od sebe). Tracker ví, <b>kde platba právě je</b>, a doručí stop přímo aktuálnímu držiteli — hvězda je jediná topologie, která umí předběhnout řetěz. Je to tentýž princip jako u fee informací: zprávy tečou sériově, pravda (a příkazy nad ní) paralelně.</p></div>
+
+<div class="r"><h3>88 — Tři výsledky gSRP</h3>
+<p>(1) <b>Platba v letu → zastavena:</b> držitel ji zmrazí (nesmí dál), následuje recall rozhodnutí — kladné → pacs.004 (FOCR), záporné → uvolnění a pokračování. (2) <b>Už připsáno:</b> stop nemá co chytit; požadavek se mění v rychle doručenou prosbu — banka příjemce řeší recall s klientem, případně zmrazí účet dle vlastních AML povinností; odpověď camt.029 nebo pacs.004. (3) <b>Už odmítnuto/vráceno:</b> odpověď „already returned/rejected" s odkazem na existující R-transakci. „Already credited" přesto znamená splněnou roli: produktem gSRP je <b>rychlá, adresná a sledovatelná odpověď</b> — jistota, ne nutně peníze. I „ne" doručené za minuty má cenu: plátce ví, kudy dál.</p></div>
+
+<div class="r"><h3>89 — Universal Confirmations</h3>
+<p>Každá banka, která přijme klientskou platbu (MT103/ekvivalent), musí do trackeru nahlásit <b>finální stav do 2 pracovních dnů</b>: připsáno (ACSC), odmítnuto (RJCT), případně předáno mimo síť. Povinné pro všechny — i ne-gpi členy — protože hodnota viditelnosti je v <b>úplnosti</b>: dobrovolný režim by nechal tmavá místa přesně tam, kde problémy žijí (malé a exotické banky na konci řetězů). Tracker, který je „většinou úplný", nemůže nést procesy, které na něm staví (projekce, duplicate check, gSRP adresace) — viz důsledky lhoucího trackeru.</p></div>
+
+<div class="r"><h3>90 — ACSP vs. ACSC</h3>
+<p><code>ACSP</code> = přijato, vypořádání probíhá — článek platbu zpracoval a poslal dál (in flight). <code>ACSC</code> = vypořádání dokončeno u hlásící instituce. <b>ACSC od poslední banky</b> = příjemci připsáno: banka plátce smí klientovi říct „doručeno" (s časem, částkou po fees, kurzem z SLA dat). <b>ACSC od mezilehlé banky</b> je slabší tvrzení: dokončen je jen její leg — peníze odešly dál, o doručení koncovému příjemci to neříká nic. Stav se vždy čte s otázkou „čí leg to potvrzuje" — jinak zaměníš lokální finalitu za konec příběhu (tatáž past jako u covera: řetěz lokálních finalit ≠ doručení).</p></div>
+
+<div class="r"><h3>91 — Verification of Payee</h3>
+<p>VoP ověřuje shodu <b>jména příjemce zadaného plátcem s držitelem IBAN</b> u banky příjemce — v okamžiku <b>před vznikem platby</b>, na úplně levém kraji osy (initiation). Odpovědi: <b>match</b>, <b>close match</b> (s napovězeným správným jménem), <b>no match</b>. Je to informace, ne blokace, ze dvou důvodů: schéma neumí rozsoudit materiální pravdu (nesoulad jména může být legitimní — obchodní název, přejmenování) a rozhodnutí o autorizované platbě patří plátci — VoP ho jen činí informovaným. Naplňuje zákon spojených nádob: instantní finalita odstranila ex-post opravy, VoP přidává ex-ante kontrolu — a zároveň ilustruje „schéma vynutí strukturu, nikoli pravdu".</p></div>
+
+<div class="r"><h3>92 — VoP a odpovědnost</h3>
+<p>Klient varovaný „no match", který přesto potvrdí, nese ztrátu <b>sám</b> — platba je autorizovaná a varování proběhlo; banka doloží, že informační povinnost splnila. Neprovede-li banka VoP, ač měla, <b>odpovědnost se přesouvá na ni</b> — regulace z kontroly udělala její povinnost, a zanedbaná povinnost mění alokaci rizika. Důsledek pro UI: varování musí být <b>nepřehlédnutelné, explicitní a auditovatelné</b> (logovaný souhlas „odeslat přesto") — protože obranou banky je důkaz, že klient rozhodoval informovaně; „no match" schované v drobném písmu by v praxi přesunulo riziko zpět na banku. Design obrazovky je tady alokace odpovědnosti, ne kosmetika.</p></div>
+
+<div class="r"><h3>93 — „SEPA se dá vždycky vrátit" (syntéza)</h3>
+<p>Rozklad po mechanismech: <b>return</b> garantuje jen zacházení s nedoručitelností — je to povinnost a monopol banky příjemce, ne služba plátci; jakmile je připsáno, return nepřipadá v úvahu. <b>Recall</b> je prosba s povinnou odpovědí, ne s povinným vyhověním — zamítnutí není porušení. <b>gSRP</b> má moc jen nad platbou v letu; po připsání jen zrychluje prosbu (závod s mule kaskádou bez záruky výhry). <b>VoP</b> je informace před vznikem platby — prevence, žádná garance a žádná zpětná síla. Zlomový okamžik: <b>kredit na účtu příjemce</b> (mezibankovně finalita settlementu) — od něj žádný mechanismus schématu nevezme peníze jednostranně; zbývá dobrá vůle (reversal-style), zmrazení z vlastních AML povinností banky příjemce, nebo soud. Pointa: SEPA je bezpečná jako <b>infrastruktura</b> (deterministická, finální, auditovatelná) — nikoli jako „undo". Její bezpečnost spočívá právě v tom, že ji <b>nelze</b> vzít zpět; kdo chce ochranu plátce, musí ji postavit vlevo na ose, ne doufat vpravo.</p></div>
+
+</div>
+</body>
+</html>

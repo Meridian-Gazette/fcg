@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEPA kvíz — rozšíření: otázky 64–93</title>
+<style>
+  :root{--paper:#FDFCF9;--ink:#1B1A17;--muted:#6B675E;--rule:#CFC9BC;--bordeaux:#6E1423;--boxbg:#F6F4EE}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);
+    font-family:Charter,'Bitstream Charter','Sitka Text',Cambria,Georgia,serif;
+    font-size:17.5px;line-height:1.65}
+  .page{max-width:730px;margin:0 auto;padding:0 22px 90px}
+  code{font-family:Consolas,Menlo,monospace;font-size:.86em;background:#F1EEE6;padding:1px 5px;border-radius:3px}
+  .titul{padding:56px 0 28px;border-bottom:1px solid var(--ink)}
+  .instituce{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:24px}
+  h1{font-size:clamp(27px,5vw,38px);font-weight:700;line-height:1.16}
+  .podtitul{font-size:17px;font-style:italic;color:var(--muted);margin-top:12px}
+  .pokyny{margin:24px 0 4px;padding:13px 18px;background:var(--boxbg);border:1px solid var(--rule);font-size:15.5px}
+  h2{font-size:14px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+     color:var(--bordeaux);margin:42px 0 4px;padding-bottom:6px;border-bottom:1px solid var(--rule)}
+  .q{margin:24px 0;padding-left:56px;position:relative}
+  .q .num{position:absolute;left:0;top:1px;font-size:15px;font-weight:700;color:var(--bordeaux);
+    border:1px solid var(--bordeaux);padding:2px 0;width:42px;text-align:center}
+  .q p{margin-bottom:8px;text-align:justify;hyphens:auto}
+  .q p:last-child{margin-bottom:0}
+  footer{margin-top:60px;padding-top:16px;border-top:1px solid var(--ink);font-size:13.5px;color:var(--muted);line-height:1.8}
+  @media print{body{font-size:11.5pt}.page{max-width:none;padding:0}.q{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="page">
+
+
+
+<h2>C1 &middot; Zprávy a statusy (64–71)</h2>
+
+<div class="q"><span class="num">64</span>
+<p><code>pacs.002</code> (payment status report) existuje v batch SCT i v SCT Inst. V čem se jeho <em>váha</em> v obou světech zásadně liší — co pacs.002 „nese" u Inst a co „jen oznamuje" v batchi? Odvoď z toho, proč ztráta pacs.002 u Inst vyrábí stav „nevím", zatímco v batchi je to skoro nezajímavá událost.</p>
+</div>
+
+<div class="q"><span class="num">65</span>
+<p><code>pain.002</code> vs. <code>pacs.002</code>: obě jsou „status report". Která žije ve které vrstvě, kdo je komu posílá — a proč klient nikdy nedostane pacs.002, ani když jeho platba umřela právě tam?</p>
+</div>
+
+<div class="q"><span class="num">66</span>
+<p><code>camt.056</code>: kdo ji posílá komu, co přesně žádá — a proč je to <em>nefinanční</em> zpráva? Co všechno camt.056 <em>nesmí</em> sama způsobit, i kdyby ji příjemce chtěl okamžitě vyslyšet?</p>
+</div>
+
+<div class="q"><span class="num">67</span>
+<p>Chyták: Creditor Agent se rozhodl recallu <em>vyhovět</em>. Jakou zprávou přijdou peníze zpět — <code>camt.029</code>, nebo něčím jiným? A k čemu tedy camt.029 vlastně slouží? (Nápověda: rozlišuj slova a činy.)</p>
+</div>
+
+<div class="q"><span class="num">68</span>
+<p>Přijde ti <code>pacs.004</code> s reason kódem <code>FOCR</code>. Co ti ten kód říká o prehistorii platby, čím se takový return liší od returnu s kódem <code>AC04</code> (zrušený účet) — a u kterého z nich smí být vrácená částka nižší než původní, a proč?</p>
+</div>
+
+<div class="q"><span class="num">69</span>
+<p><code>pacs.028</code> (status request): ve kterých situacích z kurzu je to <em>správný</em> první krok — a co pacs.028 zásadně neumí a nikdy nesmí nahrazovat? Jak souvisí s principem „nejdřív pravda, potom booking"?</p>
+</div>
+
+<div class="q"><span class="num">70</span>
+<p><code>camt.052</code>, <code>camt.053</code>, <code>camt.054</code>: rozděl role těchto tří zpráv v nostro reconciliaci. Která z nich je „právní pravda dne", která zkracuje okno růstu breaku a která je jen ochotná nápověda? Proč častější camt.052 snižuje operační riziko, i když nic nemění na penězích?</p>
+</div>
+
+<div class="q"><span class="num">71</span>
+<p>Duplicate check v CSM: podle kterých referencí clearingový mechanismus detekuje duplicitní podání — a proč k tomu principiálně nemůže použít EndToEndId? Proč je duplicate check CSM „záchranná síť", na kterou se odesílatel nikdy nesmí spoléhat záměrně (vzpomeň na Inst timeout)?</p>
+</div>
+
+<h2>C2 &middot; R-transakce do hloubky (72–79)</h2>
+
+<div class="q"><span class="num">72</span>
+<p>Recall u SCT: do kdy po settlementu smí banka plátce recall poslat, a do kdy musí banka příjemce odpovědět? Proč je mezi oběma lhůtami tak dramatická asymetrie (měsíce vs. dny) — čí zájmy každá z nich chrání?</p>
+</div>
+
+<div class="q"><span class="num">73</span>
+<p>Jeden <code>pacs.004</code>, dva režimy: return „z vlastní vůle" banky příjemce (nedoručitelnost) vs. return jako kladná odpověď na recall. Srovnej: kdo rozhodl, jaká lhůta platí, jaký reason code, a kdo smí strhnout fee. Proč táž zpráva nese dvě různá pravidla o částce?</p>
+</div>
+
+<div class="q"><span class="num">74</span>
+<p>Banka příjemce odpoví na recall zamítavě (<code>camt.029</code>, např. „klient s vrácením nesouhlasí"). Co může banka plátce dělat dál — uvnitř schématu a mimo něj? A kdo má povinnost sdělit výsledek plátci?</p>
+</div>
+
+<div class="q"><span class="num">75</span>
+<p>Chyták: existuje „return returnu"? Banka plátce dostala pacs.004, ale účet původního plátce byl mezitím zrušen. Co s penězi — smí je poslat zpět bance příjemce dalším pacs.004? Odvoď z definice returnu a z toho, čí peníze teď jsou.</p>
+</div>
+
+<div class="q"><span class="num">76</span>
+<p>SDD zrcadlo: kdo posílá return u inkasa, do kdy — a proč je to přesně opačná banka než u SCT? Seřaď k tomu refusal, return a refund na časovou osu inkasa: kdo, kdy, s čí iniciativou.</p>
+</div>
+
+<div class="q"><span class="num">77</span>
+<p>CSM může odmítnout celý soubor (file level), nebo jednotlivé transakce v něm (transaction level). Kdy nastává které — a co znamená skupinový status „částečně přijato" pro tvůj systém? Proč nesmíš status souboru nikdy interpretovat jako status transakce?</p>
+</div>
+
+<div class="q"><span class="num">78</span>
+<p>U SCT Inst je reject okno zhroucené do sekund a return vzácný. Která R-cesta se tím u Inst stává prakticky nejdůležitější — a proč je u Inst zároveň důležitější než u batch SCT, přestože mechanismus je stejný? (Souvislost s podvody a rychlostí.)</p>
+</div>
+
+<div class="q"><span class="num">79</span>
+<p>Jaké UETR nese <code>pacs.004</code> a jaké <code>camt.056</code> vůči původní platbě? Proč je to tak — a co by se rozbilo v trackeru i v párování, kdyby R-transakce dostávaly vlastní čerstvé UETR?</p>
+</div>
+
+<h2>C3 &middot; Clearing a settlement detailně (80–85)</h2>
+
+<div class="q"><span class="num">80</span>
+<p>Retailový CSM settluje několikrát denně v oknech. Vysvětli řetěz: klientský cut-off → cyklus CSM → settlement v T2 → zákonná lhůta PSD2 (D+1 kredit). Proč banka stanovuje klientský cut-off dřív, než by „technicky musela" — jaké dvě různé disciplíny ten nárazník chrání?</p>
+</div>
+
+<div class="q"><span class="num">81</span>
+<p>Bilaterální vs. multilaterální netting: proč multilaterální šetří dramaticky víc likvidity — a co za to systém platí ve složitosti při selhání účastníka? (Vzpomeň na exkluzi a přepočet: proč je u multilaterálního nettingu „vyndání" jedné banky výpočetně i právně těžší?)</p>
+</div>
+
+<div class="q"><span class="num">82</span>
+<p>Kdo je u SEPA CSM settlement agentem a na čích účtech se cyklus skutečně vypořádá? Co přesně znamená, že CSM používá v T2 „technický" mechanismus — a proč z toho plyne, že CSM nikdy nemá kreditní expozici vůči účastníkům?</p>
+</div>
+
+<div class="q"><span class="num">83</span>
+<p>Malá záložna je nepřímý účastník: do CSM přistupuje přes velkou banku. Popiš, na čích účtech se settluje platba jejího klienta — a jaké riziko záložna nese navíc oproti přímému účastníkovi. Které kapitoly kurzu se tady potkávají?</p>
+</div>
+
+<div class="q"><span class="num">84</span>
+<p>TIPS technicky: co se stane s prostředky banky plátce v okamžiku, kdy TIPS přijme instantní platbu, ale banka příjemce ještě neodpověděla? A co se s nimi stane při timeoutu bez odpovědi? Proč je ta dvoufázovost (rezervace → settlement) nutná pro atomicitu?</p>
+</div>
+
+<div class="q"><span class="num">85</span>
+<p>Rozliš tři časy platby: acceptance/přijetí, settlement date a value date (valuta). Který z nich smí banka posunout ve prospěch klienta, který nikdy — a proč „zpětná valuta" u opravy korespondenta není porušení finality?</p>
+</div>
+
+<h2>C4 &middot; gpi, gSRP, VoP (86–93)</h2>
+
+<div class="q"><span class="num">86</span>
+<p>gCCT vs. gCOV: proč cover platby potřebují v gpi vlastní službu? Co musí tracker u covera umět spojit, co u serialu spojovat nemusí — a proč potvrzení „krytí dorazilo" still nesmí banka plátce interpretovat jako „příjemci připsáno"?</p>
+</div>
+
+<div class="q"><span class="num">87</span>
+<p>gSRP request neputuje řetězem bank, ale hvězdou přes tracker. Proč je topologie hvězdy pro stop request nutná — co by se stalo, kdyby stop putoval sériově jako platba sama? (Souvislost se závodem, který stop běží.)</p>
+</div>
+
+<div class="q"><span class="num">88</span>
+<p>Vyjmenuj tři možné výsledky gSRP requestu podle toho, ve které fázi platbu zastihl — a ke každému přiřaď, jakou akcí (a jakou zprávou/procesem) svět pokračuje. Proč výsledek „already credited" nemění nic na tom, že gSRP splnil svou roli?</p>
+</div>
+
+<div class="q"><span class="num">89</span>
+<p>Universal Confirmations: co přesně musí potvrdit i banka, která není gpi členem, do kdy, a jaké finální stavy připadají v úvahu? Proč SWIFT tuhle povinnost uvalil na všechny — co by se stalo s hodnotou trackeru, kdyby zůstala dobrovolná?</p>
+</div>
+
+<div class="q"><span class="num">90</span>
+<p>Tracker stavy <code>ACSP</code> vs. <code>ACSC</code>: co každý znamená, kdo ho typicky hlásí — a co smí banka plátce říct svému klientovi, když vidí ACSC od poslední banky v řetězu? Proč je ACSC od <em>mezilehlé</em> banky slabší tvrzení?</p>
+</div>
+
+<div class="q"><span class="num">91</span>
+<p>Verification of Payee: co přesně služba ověřuje, v jakém okamžiku osy platby — a jaké tři druhy odpovědi vrací? Proč je VoP <em>informace plátci</em>, a ne blokace platby — a který zákon z učebnice (kap. XIV) VoP naplňuje?</p>
+</div>
+
+<div class="q"><span class="num">92</span>
+<p>VoP vrátí „no match", klient přesto potvrdí odeslání — a ukáže se, že to byl podvod. Kdo nese ztrátu? A jak se odpovědnost změní, když banka VoP kontrolu vůbec neprovedla, ač měla? Co z toho plyne pro návrh UI, kterým banka „no match" klientovi ukazuje?</p>
+</div>
+
+<div class="q"><span class="num">93</span>
+<p>Závěrečný chyták na syntézu: kolega tvrdí — „SEPA platba je vlastně bezpečná, vždycky se dá vrátit: máme returny, recall, gSRP i VoP." Vyvrať to strukturovaně: u každého mechanismu řekni, co skutečně garantuje, a najdi okamžik na ose, od kterého už plátci nepomůže nic než dobrá vůle nebo soud.</p>
+</div>
+
+
+
+</div>
+</body>
+</html>
