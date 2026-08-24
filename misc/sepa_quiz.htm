@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SEPA kvíz</title>
+<style>
+  body {
+    margin: 0;
+    padding: 3rem 1.5rem 5rem;
+    background: #fdfdfc;
+    color: #1a1a1a;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
+  main {
+    max-width: 44rem;
+    margin: 0 auto;
+  }
+  h2 {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: #0f4761;
+    margin: 3rem 0 1.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid #d8d3c8;
+  }
+  main > h2:first-child {
+    margin-top: 0;
+  }
+  p {
+    margin: 0 0 1.1rem;
+  }
+  ol {
+    margin: 0 0 1.1rem;
+    padding-left: 1.6rem;
+  }
+  li {
+    margin-bottom: 0.35rem;
+  }
+  .separator {
+    text-align: center;
+    color: #b0a99a;
+    letter-spacing: 0.15em;
+    margin: 2.5rem 0;
+    user-select: none;
+  }
+</style>
+</head>
+<body>
+<main>
+
+<h2>PART A</h2>
+
+<p>1. Creditor Agent dostane SCT platbu, účet příjemce je zrušený. Zjistí to <i>před</i> zaúčtováním klientovi, ale <i>po</i> mezibankovním settlementu. Reject, nebo return? Proč?</p>
+
+<p>2. Klient (Creditor, fyzická osoba) volá do banky: "nechci tu platbu od bývalého zaměstnavatele, pošlete ji zpět." Kdo je formálně iniciátorem R-transakce, která vznikne — a je to vůbec return?</p>
+
+<p>3. Debtor Agent pošle recall. Creditor Agent odpoví zamítavě. Porušil něco? Co rulebook v tomto bodě <i>neřeší</i>?</p>
+
+<p>4. Z implementační perspektivy: v jakém poli/atributu poznáš, že příchozí pacs.004 se váže k tvé původní outward platbě — a proč nestačí EndToEndId?</p>
+
+<p>5. Kdyby returny půl roku neexistovaly (jen rejecty), co by se hromadilo a kde?</p>
+
+<p>6. Reject u SCT Inst vs. u klasického SCT: u kterého z nich je okno pro reject dramaticky kratší a proč to plyne z filozofie systému, ne z technického rozmaru?</p>
+
+<p>7. Chyták: může clearingový mechanismus (CSM) sám iniciovat return? Nebo jen reject?</p>
+
+<p>8. SEPA SCT: může se Interbank Settlement Amount lišit od Instructed Amount? Odvoď odpověď z filozofie, ne z paměti.</p>
+
+<p>9. Přijde ti cross-border platba, doručená částka je o 25 EUR nižší než Instructed Amount. Je to porušení pravidel? A kde v datech zjistíš, co se stalo?</p>
+
+<p>10. InstructionId vs. EndToEndId: které se smí na každém hopu změnit, a proč to nevadí?</p>
+
+<p>11. Chyták: klient udělal překlep v EndToEndId a chce, aby ho banka "opravila". Platba už odešla do clearingu. Může Debtor Agent pole opravit? A mohl by <i>před</i> odesláním?</p>
+
+<p>12. Return (pacs.004) v SEPA: vrací se vždy přesně původní částka, nebo si banka příjemce smí něco strhnout? Pozor, je v tom rozdíl mezi returnem a odpovědí na recall.</p>
+
+<p>13. Co konkrétně by se rozbilo, kdyby si každá mezibanka směla vygenerovat vlastní UETR?</p>
+
+<p>14. Charge bearer SLEV: koho přesně zavazuje — a co ohledně poplatků rulebook <i>neřeší</i>?</p>
+
+<p>15. CSM ti potvrdil přijetí platby do settlement cyklu. Banka příjemce o platbě zatím neví nic. Kde přesně teď platba "je" — a čí je to závazek?</p>
+
+<p>16. Proč netting <i>vyžaduje</i> dávkovost? Co přesně by se rozbilo, kdybys chtěl nettovat instantní platby?</p>
+
+<p>17. Uprostřed dne zkrachuje banka A, která má v běžícím cyklu spočtenou debetní pozici. Cyklus ještě nebyl vypořádán. Co se stane s platbami od A v tom cyklu — a co s těmi, které už prošly ranním cyklem?</p>
+
+<p>18. "Peníze centrální banky" vs. "peníze komerční banky" — proč mezibankovní settlement musí být v těch prvních? Co by znamenalo settlovat na účtech u komerční banky?</p>
+
+<p>19. Chyták: TIPS drží předfinancované pozice. Je SCT Inst platba přes TIPS clearovaná, settlovaná, obojí, nebo nic z toho?</p>
+
+<p>20. Z implementační perspektivy: tvůj systém dostal settlement confirmation za cyklus. O tři hodiny později přijde od CSM storno téhož cyklu. Může to nastat? (Nápověda: finalita.)</p>
+
+<p>21. Kdyby netting půl roku neexistoval (vše gross, platba po platbě, ale pořád v dávkových windows) — co přesně by banky bolelo a jak by se to projevilo?</p>
+
+<p>22. Český klient (CZK účet) posílá 100 EUR do Německa. V jakém okamžiku a na čích knihách proběhne FX — a co přesně vstoupí do CSM?</p>
+
+<p>23. Chyták: existuje v pacs.008 pole pro směnný kurz použitý Debtor Agentem? Odvoď z filozofie, nehádej.</p>
+
+<p>24. Platba z ot. 1 se po třech dnech vrátí returnem (účet neexistuje). Kurz EUR/CZK mezitím klesl. Kolik EUR přijde zpět, kolik CZK dostane klient, a kdo "prodělal"?</p>
+
+<p>25. Švédská banka připisuje došlou EUR platbu na SEK účet klienta kurzem s 2% přirážkou. Porušila SCT rulebook? Porušila něco jiného?</p>
+
+<p>26. Proč SEPA schémata <i>nemohou</i> jednoduše přidat multi-currency support ("pošli SEK přes SCT")? Co všechno z dnešní a minulé lekce by se muselo rozbít?</p>
+
+<p>27. Z implementační perspektivy: tvůj systém páruje return na původní platbu. Smíš při reconciliaci porovnávat CZK částky (co klient zaplatil vs. co dostal zpět)? Které částky <i>musí</i> sedět přesně?</p>
+
+<p>28. Klient si stěžuje: "poslal jsem 2 500 CZK, příjemci došlo 98,40 EUR místo 100." Banka tvrdí SLEV a žádné poplatky z částky. Kde všude budeš hledat vysvětlení — a je vůbec nutně někdo vinen?</p>
+
+<p>29. V pain.001 dávce 1000 výplat má jedna neplatný IBAN. Co se stane s dávkou z pohledu schématu — a v které vrstvě se rozhoduje?</p>
+
+<p>30. SDD Core: kdo je autorem pacs.003 a kterým směrem teče vs. kterým směrem tečou peníze při settlementu?</p>
+
+<p>31. Chyták: banka plátce dostane pacs.003, mandát nikdy neviděla. Smí/musí inkaso provést? Na čí riziko?</p>
+
+<p>32. Klient (spotřebitel) volá: "to inkaso jsem autorizoval, ale změnil jsem názor, chci peníze zpět" — 6 týdnů po inkasu. Má nárok? A kdyby to bylo B2B?</p>
+
+<p>33. Co by se rozbilo, kdyby refund právo (8 týdnů) půl roku neexistovalo?</p>
+
+<p>34. Proč u SDD B2B rulebook <i>vyžaduje</i> ověření mandátu Debtor Agentem, zatímco u Core ne? Odvoď z rozdělení rizika, ne z paměti.</p>
+
+<p>35. Firma dostala inkasem zaplaceno, pak zjistila, že vybrala omylem dvakrát. Která R-transakce to řeší, kdo ji iniciuje — a je to return?</p>
+
+<p>36. Klientovi jsi odepsal peníze (T1), CSM vrátil reject (T2). Klient volá: "kde mám peníze?" Co se stalo účetně a je to R-transakce?</p>
+
+<p>37. Chyták: může Debtor Agent poslat reject? V kterékoli fázi?</p>
+
+<p>38. Inward SCT: settlement proběhl v 10:00, tvůj systém zjistí v 10:05, že účet příjemce je zrušený. Popiš booking kroky od 10:00 do odeslání pacs.004 — kde peníze "sedí" v každém kroku?</p>
+
+<p>39. SCT Inst: poslal jsi pacs.008, timeout vypršel bez odpovědi. Co uděláš s klientskou nohou — a smíš platbu automaticky poslat znovu?</p>
+
+<p>40. Proč po settlementu už nesmí existovat reject — co přesně by se rozbilo, kdyby CSM směl "rejectnout" už vypořádanou platbu? (Napojení na lekci 3.)</p>
+
+<p>41. Z implementační perspektivy: v jakém pořadí bookuješ u inward platby — nejdřív klient, nebo nejdřív kontroly? A proč u SCT Inst nemáš na výběr?</p>
+
+<p>42. Reject od CSM přišel kvůli "nekryté pozici v cyklu" — čí peníze chyběly a proč to není totéž jako "klient nemá krytí"?</p>
+
+<p>43. ČSOB má účet u Deutsche Bank ve Frankfurtu pro EUR provoz. Pojmenuj ten účet z pohledu ČSOB, z pohledu DB — a řekni, v čí bilanci je aktivum a v čí pasivum.</p>
+
+<p>44. Z účetní perspektivy: co se stane s tvým nostro zůstatkem u DB, když DB zkrachuje — a proč je tohle jiná situace, než kdyby tvé peníze ležely v T2? (Lekce 3 to nakousla.)</p>
+
+<p>45. Proč centrální banka půjčuje intraday <b>zdarma</b>, ale overnight <b>trestně draze</b>? Co přesně tou cenovou konstrukcí řídí?</p>
+
+<p>46. Chyták: banka má v T2 nulový zůstatek, ale zastavený kolaterál za 2 mld. Přijde jí odchozí platba 500M ke zpracování v 10:00. Projde? A "čí peníze" to jsou?</p>
+
+<p>47. Kdyby intraday credit půl roku neexistoval (jen vlastní zůstatky), co by se stalo s chováním bank během dne — a kde jsme ten jev už potkali?</p>
+
+<p>48. Nostro reconciliace najde: tvoje knihy říkají zůstatek 10M, výpis camt.053 od korespondenta říká 9,2M. Jmenuj aspoň tři legitimní (nechybové) důvody rozdílu — účetní instinkt ti pomůže.</p>
+
+<p>49. Payment throttling v 17:00: treasury pozdrží odchozí platby kvůli likviditě. Vůči komu tím banka riskuje porušení čeho — a je tohle vůbec věc rulebooku?</p>
+
+<p>50. U covera: kolik zpráv existuje, kdo je komu poslal, a kterou z nich jedou peníze? (Ověř si MT i MX názvy.)</p>
+
+<p>51. Banka příjemce dostala MT103, cover nikde. Klient volá: "vidím v internetbankingu avízo, kde jsou peníze?" Co odpovíš a co udělal špatně systém, pokud klient avízo vidí?</p>
+
+<p>52. Chyták: je MT202 COV settlement? Kde přesně nastane settlement covera — a kolikrát?</p>
+
+<p>53. Proč stripping fungoval technicky — které pole v čem chybělo — a proč MT202 COV problém řeší jen částečně?</p>
+
+<p>54. Serial platba přes 3 korespondenty: dorazí 1M − poplatky. Cover přes tytéž 3: dorazí kolik? Odvoď z toho, kdo v cover řetězu "drží zprávu klienta".</p>
+
+<p>55. Z implementační perspektivy APS: inward MT103 avízo přišlo, cover má dorazit zítra (časová zóna USA). Na jakém účtu co sedí přes noc — a co se stane, když cover dorazí na jinou částku?</p>
+
+<p>56. Kdyby cover platby půl roku neexistovaly (vše serial): co by bolelo koho — a proč by to nejvíc poznaly treasury a FX desky?</p>
+
+<p>57. Který existující atribut platby umožnil gpi postavit, aniž se změnil formát zpráv — a proč by to bez něj nešlo? (Snadná, rozehřívací.)</p>
+
+<p>58. Tracker vs. zprávy: když gpi banka strhne fee, kde všude se ta informace objeví — a kdo ji vidí dřív, další hop, nebo banka plátce?</p>
+
+<p>59. Chyták: gSRP stop dorazil bance C, která platbu drží. Smí banka C platbu vrátit rovnou "protože stop"? Co jí k tomu chybí?</p>
+
+<p>60. Platba je připsaná příjemci před 2 hodinami. Plátce hlásí podvod. Co gSRP zmůže — a v čem je i tak lepší než svět před ním?</p>
+
+<p>61. Kdyby tracker půl roku lhal (banky reportují "připsáno" se zpožděním dnů): které konkrétní procesy z předchozích lekcí by se rozbily první?</p>
+
+<p>62. Z implementační perspektivy APS: inward gpi platba, vy jste poslední hop. Jaké povinnosti vůči trackeru máte — a v jakém okamžiku vůči bookingu je plníte?</p>
+
+<p>63. gpi SLA slibuje transparentnost fees a FX. Vzpomeň na lekci 4 (XchgRate) a lekci 2 (ChrgsInf): proč tahle data jedou do trackeru, když už pro ně zprávy pole mají? Co tracker přidává?</p>
+
+<p class="separator">==================================</p>
+
+<h2>PART B</h2>
+
+<p><b>Příběh: Miele &amp; Kyocera</b></p>
+
+<p>Německá firma <b>Miele</b> (účet u Commerzbank) platí <b>500 000 USD</b> japonskému dodavateli <b>Kyocera</b> (účet u MUFG Tokyo). Commerzbank nemá přímý vztah s MUFG — jede <b>coverem</b>: informační zpráva přímo MUFG, krytí přes Citi New York (nostro Commerzbank) → JPMorgan NY (nostro MUFG v USD).</p>
+
+<ol>
+ <li>Miele podává platbu (pain.001) — EndToEndId MIELE-INV-2026-0847</li>
+ <li>Commerzbank vytváří pacs.008 přímo pro MUFG + pacs.009 COV pro Citi</li>
+ <li>Citi zpracovává, posílá pacs.009 COV dál na JPMorgan</li>
+ <li>JPMorgan připisuje nostro MUFG</li>
+ <li>MUFG páruje avízo s krytím... ale účet Kyocery je den předtím zrušen (firma změnila banku)</li>
+ <li>MUFG posílá return</li>
+ <li>Mezitím Miele zpanikařila (myslela, že platí podvodníkovi) a Commerzbank vyslala gSRP stop + recall — dorazil až po odeslání returnu</li>
+ <li>Return doteče, Commerzbank vrací Miele peníze</li>
+</ol>
+
+<p><b><i>Kvíz k příběhu</i></b></p>
+
+<p>1. Vyjmenuj, kolik různých UETR v celém příběhu existuje. Pozor, chyták — rozmysli si kroky 2 (dvě zprávy!) a 6.</p>
+
+<p>2. EndToEndId MIELE-INV-2026-0847: ve kterých zprávách příběhu se objeví a ve kterých ne? (Projdi pacs.008, oba pacs.009 COV, pacs.004.)</p>
+
+<p>3. Krok 3: Citi posílá pacs.009 dál. Které reference z Commerzbank zprávy <b>zaniknou</b> a které <b>přežijí</b>? Proč — pravidlo, ne výčet.</p>
+
+<p>4. Krok 5: MUFG páruje avízo s krytím. Podle čeho konkrétně? A proč nesmí párovat podle EndToEndId?</p>
+
+<p>5. Krok 6: MUFG posílá return. Vůči komu — Commerzbank, nebo JPMorgan? Kudy tečou peníze a kudy informace? (Nápověda: return coveru je taky cover.)</p>
+
+<p>6. Krok 7: gSRP dorazil po odeslání returnu. Co s ním MUFG udělá — a je to porušení gSRP pravidel?</p>
+
+<p>7. V kroku 5–6 seděly USD na nostru MUFG u JPMorgan. Z pohledu MUFG bookingu: kde přesně ty peníze "byly" mezi settlementem coveru a settlementem returnu — a čí byly?</p>
+
+<p>8. Miele volá Commerzbank v kroku 7: "Zastavte to, je to podvod!" Commerzbank odpoví: "Uvidíme, co půjde." Vyjmenuj všechny důvody z kurzu, proč Commerzbank <b>nemůže nic slíbit</b> — od finality přes vlastnictví až po gSRP limity.</p>
+
+<p>9. Kdo v celém příběhu nese kurzové riziko EUR/USD — Miele platila z EUR účtu? (Doplň si: ano, Miele má EUR účet, platba šla v USD.) A ve kterém kroku se riziko realizuje?</p>
+
+<p>10. Závěrečná syntéza: v příběhu se vyskytly VŠECHNY tři "smrti platby" z lekce 6? Pokud ne, které ano, které ne — a kde by se ta chybějící mohla schovat?</p>
+
+</main>
+</body>
+</html>
