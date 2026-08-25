@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>České banky · přehled BIC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&family=Cormorant+Infant:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4ede1;
+    --ink: #1a1410;
+    --ink-soft: #4a3f33;
+    --oxblood: #6b1f24;
+    --gold: #a87b3a;
+    --rule: rgba(26, 20, 16, 0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0.3'/%3E%3C/filter%3E%3Crect width='200' height='200' fill='%23f4ede1'/%3E%3Crect width='200' height='200' fill='%23f9f5ee' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.6;
+  }
+
+  .masthead {
+    border-bottom: 3px double var(--ink);
+    padding: 28px 20px 18px;
+    margin: 0 auto;
+    max-width: 1060px;
+    text-align: center;
+  }
+
+  .brand {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--oxblood);
+  }
+
+  h1 {
+    font-family: 'Cormorant Infant', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 44px;
+    margin: 8px 0 6px;
+  }
+
+  .subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+
+  main {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 26px 20px 60px;
+  }
+
+  /* Široká tabulka roluje ve vlastním kontejneru, stránka se nikdy
+     neroztáhne do vodorovného scrollu. */
+  .table-wrap { overflow-x: auto; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 720px;
+  }
+
+  thead th {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--oxblood);
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  tbody td {
+    padding: 14px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+
+  tbody tr:hover { background: rgba(168, 123, 58, 0.07); }
+
+  td.bic {
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--oxblood);
+    white-space: nowrap;
+  }
+
+  td.nazev {
+    font-weight: 600;
+    font-size: 20px;
+    white-space: nowrap;
+  }
+
+  td.nazev .skupina {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    margin-top: 2px;
+    white-space: nowrap;
+  }
+
+  td.bio { min-width: 380px; }
+
+  .note {
+    margin-top: 26px;
+    padding-top: 14px;
+    border-top: 1px solid var(--rule);
+    font-size: 16px;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
+  .note p { margin-bottom: 6px; }
+
+  .footer {
+    max-width: 1060px;
+    margin: 0 auto 40px;
+    padding: 22px 20px;
+    border-top: 3px double var(--ink);
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .footer a { color: inherit; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="brand">FCG Infoservis · přehled</div>
+  <h1>České banky</h1>
+  <div class="subtitle">20 největších · BIC · medailony</div>
+</header>
+
+<main>
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>BIC (SWIFT)</th>
+        <th>Oficiální název</th>
+        <th>Medailon</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="bic">CEKOCZPP</td>
+        <td class="nazev">Československá obchodní banka, a. s.<span class="skupina">skupina KBC · kód 0300</span></td>
+        <td class="bio">Založena 1964 jako státní banka pro financování zahraničního obchodu a devizové operace. Po privatizaci ji v roce 1999 převzala belgická KBC; převzetím IPB (2000) se stala největší bankou v zemi podle bilanční sumy. Dnes univerzální banka pro občany i firmy, pod jednou střechou s Poštovní spořitelnou a hypotečním byznysem po pohlcené Hypoteční bance.</td>
+      </tr>
+      <tr>
+        <td class="bic">GIBACZPX</td>
+        <td class="nazev">Česká spořitelna, a.s.<span class="skupina">skupina Erste · kód 0800</span></td>
+        <td class="bio">Nejstarší kořeny na trhu — navazuje na Spořitelnu českou z roku 1825. Akciovou společností od 1992, od roku 2000 součást rakouské Erste Group. Bankou s největším počtem klientů (kolem 4,5 milionu) je především retailová: běžné účty, hypotéky, spoření; silná je ale i ve firemním bankovnictví a správě aktiv.</td>
+      </tr>
+      <tr>
+        <td class="bic">KOMBCZPP</td>
+        <td class="nazev">Komerční banka, a.s.<span class="skupina">skupina Société Générale · kód 0100</span></td>
+        <td class="bio">Vznikla 1990 vyčleněním komerčního bankovnictví ze Státní banky československé. V roce 2001 ji v privatizaci koupila francouzská Société Générale. Univerzální banka s tradičně nejsilnější pozicí ve firemním a korporátním segmentu; v retailu skupinu doplňují Modrá pyramida a ESSOX.</td>
+      </tr>
+      <tr>
+        <td class="bic">BACXCZPP</td>
+        <td class="nazev">UniCredit Bank Czech Republic and Slovakia, a.s.<span class="skupina">skupina UniCredit · kód 2700</span></td>
+        <td class="bio">Vznikla 2007 fúzí HVB Bank a Živnostenské banky — té s rodokmenem až k roku 1868, kdy vznikla jako první banka financovaná výhradně českým kapitálem. Od 2013 spojená s slovenskou sesterskou bankou do jedné instituce. Těžiště má v korporátním bankovnictví, privátních a bonitních klientech.</td>
+      </tr>
+      <tr>
+        <td class="bic">RZBCCZPP</td>
+        <td class="nazev">Raiffeisenbank a.s.<span class="skupina">skupina RBI · kód 5500</span></td>
+        <td class="bio">Na trhu od roku 1993, součást rakouské skupiny Raiffeisen Bank International. Vyrostla akvizicemi: 2006 pohltila eBanku, 2021 poštovní banku Equa bank a portfolio ING retailu. Univerzální banka se silným postavením u aktivních městských klientů a v podnikovém segmentu.</td>
+      </tr>
+      <tr>
+        <td class="bic">PMBPCZPP</td>
+        <td class="nazev">PPF banka a.s.<span class="skupina">skupina PPF · kód 6200</span></td>
+        <td class="bio">Kořeny má v roce 1992 (Royal banka, později První městská banka pražského magistrátu). Od 2002 patří do skupiny PPF, pro kterou slouží jako centrální treasury a investiční banka. Neobsluhuje běžný retail — klienty jsou korporace, municipality a finanční instituce; silná na kapitálových trzích.</td>
+      </tr>
+      <tr>
+        <td class="bic">AGBACZPP</td>
+        <td class="nazev">MONETA Money Bank, a.s.<span class="skupina">kód 0600</span></td>
+        <td class="bio">Dědička Agrobanky (1990), jejíž zdravou část koupila 1998 americká GE — odtud dlouholetá značka GE Money Bank. Od vstupu na burzu v roce 2016 působí pod jménem MONETA jako samostatná banka v rukou akcionářů. Soustředí se na drobné klienty, živnostníky a menší firmy, zejména mimo velká města.</td>
+      </tr>
+      <tr>
+        <td class="bic">FIOBCZPP</td>
+        <td class="nazev">Fio banka, a.s.<span class="skupina">česká soukromá · kód 2010</span></td>
+        <td class="bio">Vyrostla z brokerské společnosti Fio založené 1993; bankovní licenci získala 2010 jako první ryze česká banka po revoluci. Postavená na účtech zdarma a propojení s obchodováním s cennými papíry (e-Broker). Počtem klientů, přes milion, je největší bankou v čistě českých rukou.</td>
+      </tr>
+      <tr>
+        <td class="bic">JTBPCZPP</td>
+        <td class="nazev">J&amp;T Banka, a.s.<span class="skupina">skupina J&amp;T · kód 5800</span></td>
+        <td class="bio">Pod značkou J&amp;T od roku 1998, kdy skupina převzala Podnikatelskou banku (1992). Specialista na privátní bankovnictví a správu majetku bonitní klientely; vklady úročí výš než velké banky a investuje do korporátních emisí. Silná pozice i na Slovensku a v oblasti investičního bankovnictví.</td>
+      </tr>
+      <tr>
+        <td class="bic">AIRACZPP</td>
+        <td class="nazev">Air Bank a.s.<span class="skupina">skupina PPF · kód 3060</span></td>
+        <td class="bio">Retailová banka skupiny PPF spuštěná v roce 2011 s heslem „i banku můžete mít rádi“. Ryze digitální model bez poboček v klasickém smyslu, jednoduché produkty, žádné poplatky za vedení účtu. Přes milion klientů; se sesterským Zonky tvoří spotřebitelské křídlo PPF.</td>
+      </tr>
+      <tr>
+        <td class="bic">CTASCZ22</td>
+        <td class="nazev">Banka CREDITAS a.s.<span class="skupina">skupina CREDITAS · kód 2250</span></td>
+        <td class="bio">Původně družstevní záložna z roku 1996, bankovní licence 2017. Patří do skupiny CREDITAS podnikatele Pavla Hubáčka s vazbou na energetiku a nemovitosti. Roste přes atraktivně úročené vklady a úvěry pro firmy a development; v roce 2022 koupila Expobank (Max banku) a následně ji pohltila.</td>
+      </tr>
+      <tr>
+        <td class="bic">BREXCZPP</td>
+        <td class="nazev">mBank S.A., organizační složka<span class="skupina">pobočka polské mBank · kód 6210</span></td>
+        <td class="bio">Česká pobočka polské mBank (skupina Commerzbank), na trhu od roku 2007 jako průkopník bezpoplatkového internetového bankovnictví. Čistě digitální retail — účty, karty, hypotéky. Právně jde o pobočku zahraniční banky, vklady jsou pojištěné v polském systému.</td>
+      </tr>
+      <tr>
+        <td class="bic">INGBCZPP</td>
+        <td class="nazev">ING Bank N.V., pobočka Praha<span class="skupina">pobočka nizozemské ING · kód 3500</span></td>
+        <td class="bio">Nizozemská ING působí v Praze od roku 1992. Široké veřejnosti byla známá spořicím ING Kontem, retail ale v roce 2021 ukončila a portfolio předala Raiffeisenbank. Dnes se soustředí výhradně na velkoobchodní bankovnictví — financování velkých korporací a mezinárodní platební styk.</td>
+      </tr>
+      <tr>
+        <td class="bic">CITICZPX</td>
+        <td class="nazev">Citibank Europe plc, organizační složka<span class="skupina">pobočka skupiny Citi · kód 2600</span></td>
+        <td class="bio">Americká Citibank přišla do Československa už v roce 1991 jako jedna z prvních západních bank. Retailovou část prodala 2016 Raiffeisenbank; dnes obsluhuje nadnárodní korporace, velké české firmy a instituce — cash management, treasury, obchodní financování.</td>
+      </tr>
+      <tr>
+        <td class="bic">MPUBCZPP</td>
+        <td class="nazev">Trinity Bank a.s.<span class="skupina">česká soukromá · kód 2100</span></td>
+        <td class="bio">Pokračovatelka Moravského peněžního ústavu, spořitelního družstva založeného 1996 ve Zlíně; bankovní licenci drží od roku 2019. Rychle roste díky nadstandardně úročeným spořicím produktům; vedle vkladů se věnuje úvěrům pro podnikatele a privátní klientele.</td>
+      </tr>
+      <tr>
+        <td class="bic">COBACZPX</td>
+        <td class="nazev">Commerzbank AG, pobočka Praha<span class="skupina">pobočka německé banky · kód 8150</span></td>
+        <td class="bio">Druhá největší německá banka otevřela pražskou pobočku v roce 1992. Neobsluhuje spotřebitele — specializuje se na firemní bankovnictví, především na německé investory v Česku a české exportéry do Německa: financování obchodu, devizy, cash management.</td>
+      </tr>
+      <tr>
+        <td class="bic">DEUTCZPX</td>
+        <td class="nazev">Deutsche Bank AG, filiálka Praha<span class="skupina">pobočka německé banky · kód 7910</span></td>
+        <td class="bio">Pražská filiálka největší německé banky funguje od roku 1993. Úzce vyprofilovaná na korporátní a investiční bankovnictví pro velké firmy a instituce — platební styk, treasury, kapitálové trhy. Bez retailové sítě, klientelu tvoří převážně nadnárodní společnosti.</td>
+      </tr>
+      <tr>
+        <td class="bic">OBKLCZ2X</td>
+        <td class="nazev">Oberbank AG pobočka Česká republika<span class="skupina">pobočka rakouské banky · kód 8040</span></td>
+        <td class="bio">Regionální banka z rakouského Lince, v Česku od roku 2004. Drží klasický pobočkový model v krajských městech a míří na střední firmy a movitější drobnou klientelu — firemní úvěry, hypotéky, leasing. Konzervativní, vztahové bankovnictví starého střihu.</td>
+      </tr>
+      <tr>
+        <td class="bic">NROZCZPP</td>
+        <td class="nazev">Národní rozvojová banka, a.s.<span class="skupina">stát · kód 4300</span></td>
+        <td class="bio">Založena 1992 jako Českomoravská záruční a rozvojová banka, od 2021 pod dnešním jménem. Stoprocentně státní rozvojová instituce: neobsluhuje veřejnost, ale poskytuje záruky a zvýhodněné úvěry malým a středním podnikům a financuje infrastrukturu. Pozor na BIC — od února 2022 platí NROZCZPP (starý CMZRCZP1 koluje po webech dodnes).</td>
+      </tr>
+      <tr>
+        <td class="bic">CZEECZPP</td>
+        <td class="nazev">Česká exportní banka, a.s.<span class="skupina">stát · kód 8090</span></td>
+        <td class="bio">Státní specializovaná banka založená 1995 na podporu vývozu: financuje exportní kontrakty českých firem tam, kam komerční banky nedosáhnou, v tandemu s pojišťovnou EGAP. Neobsluhuje veřejnost; podle vládních plánů se má stát dceřinou společností Národní rozvojové banky.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note">
+    <p>Pořadí je orientační podle bilanční sumy; u poboček zahraničních bank jsou česká čísla jen částí bilance matky. Stavební spořitelny (Modrá pyramida, Raiffeisen stavební spořitelna, Stavební spořitelna ČS) jsou formálně také banky, do přehledu ale zařazeny nejsou — fungují jako specializované dcery velkých bank bez běžného platebního styku.</p>
+    <p>BIC kódy ověřeny proti číselníku kódů platebního styku ČNB. Stav: srpen 2026.</p>
+  </div>
+</main>
+
+<footer class="footer">
+  <a href="../index.html">← na Infoservis</a>
+</footer>
+
+</body>
+</html>
