@@ -68,14 +68,14 @@
     padding: 26px 20px 60px;
   }
 
-  /* Široká tabulka roluje ve vlastním kontejneru, stránka se nikdy
-     neroztáhne do vodorovného scrollu. */
+  /* Kdyby přece jen bylo úzko, tabulka roluje ve vlastním kontejneru,
+     stránka se nikdy neroztáhne do vodorovného scrollu. */
   .table-wrap { overflow-x: auto; }
 
   table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 720px;
+    min-width: 540px;
   }
 
   thead th {
@@ -97,33 +97,50 @@
 
   tbody tr:hover { background: rgba(168, 123, 58, 0.07); }
 
+  /* BIC je jediný sloupec bez zalamování (8 znaků); název banky se láme
+     normálně, aby první dva sloupce zůstaly úzké i na mobilu naležato. */
   td.bic {
     font-family: 'Inter', sans-serif;
-    font-size: 13.5px;
+    font-size: 12.5px;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     color: var(--oxblood);
     white-space: nowrap;
+    width: 1%;
   }
 
   td.nazev {
     font-weight: 600;
-    font-size: 20px;
-    white-space: nowrap;
+    font-size: 18px;
+    line-height: 1.3;
+    max-width: 190px;
   }
 
   td.nazev .skupina {
     display: block;
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    font-size: 11px;
-    letter-spacing: 0.08em;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
     color: var(--ink-soft);
-    margin-top: 2px;
-    white-space: nowrap;
+    margin-top: 3px;
   }
 
-  td.bio { min-width: 380px; }
+  td.bio { min-width: 260px; }
+
+  /* Mobil (i naležato): menší písmo, těsnější odsazení, užší sloupce. */
+  @media (max-width: 900px) {
+    body { font-size: 16px; line-height: 1.5; }
+    main { padding: 16px 10px 40px; }
+    h1 { font-size: 34px; }
+    thead th { padding: 8px 8px; font-size: 10px; letter-spacing: 0.14em; }
+    tbody td { padding: 10px 8px; }
+    td.bic { font-size: 11px; }
+    td.nazev { font-size: 15.5px; max-width: 130px; }
+    td.nazev .skupina { font-size: 9.5px; }
+    td.bio { min-width: 210px; }
+    .note { font-size: 14px; }
+  }
 
   .note {
     margin-top: 26px;
