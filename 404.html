@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="misc/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 · FCG Infoservis</title>
+<!-- Michel Houellebecq, Sérotonine (2019) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&family=Cormorant+Infant:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4ede1;
+    --ink: #1a1410;
+    --ink-soft: #4a3f33;
+    --oxblood: #6b1f24;
+    --gold: #a87b3a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0.3'/%3E%3C/filter%3E%3Crect width='200' height='200' fill='%23f4ede1'/%3E%3Crect width='200' height='200' fill='%23f9f5ee' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 21px;
+    line-height: 1.7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    text-align: center;
+  }
+
+  .code {
+    font-family: 'Cormorant Infant', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 96px;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .line {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--oxblood);
+    margin: 14px 0 40px;
+  }
+
+  blockquote {
+    max-width: 560px;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink-soft);
+    quotes: "«\00a0" "\00a0»";
+  }
+
+  blockquote::before { content: open-quote; color: var(--gold); }
+  blockquote::after { content: close-quote; color: var(--gold); }
+
+  .orn {
+    color: var(--gold);
+    font-size: 17px;
+    letter-spacing: 1.4em;
+    margin: 38px 0;
+    padding-left: 1.4em; /* kompenzace letter-spacingu za posledním znakem */
+  }
+
+  a.home {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-bottom: 1px solid var(--gold);
+    padding-bottom: 2px;
+    transition: color 0.25s ease;
+  }
+
+  a.home:hover { color: var(--oxblood); }
+</style>
+</head>
+<body>
+
+<div class="code">404</div>
+<div class="line">Stránka neexistuje</div>
+
+<blockquote>on n&rsquo;arrive jamais à imaginer à quel point c&rsquo;est peu de chose, en général, la vie des gens, on n&rsquo;y arrive pas davantage quand on fait soi-même partie de ces «&nbsp;gens&nbsp;», et c&rsquo;est toujours le cas, plus ou moins.</blockquote>
+
+<div class="orn">✦ ✦ ✦</div>
+
+<a class="home" href="/fcg/">← na Infoservis</a>
+
+</body>
+</html>
