@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIC českých bank — geologický záznam fúzí a krachů</title>
+<style>
+  :root {
+    --paper: #edece5;
+    --ink: #1c1b18;
+    --ink-soft: #4a4842;
+    --stamp: #a03123;
+    --rule: #b9b6aa;
+    --code-bg: #e2e0d6;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.55;
+    padding: 2.5rem 1.25rem 4rem;
+  }
+  .sheet { max-width: 680px; margin: 0 auto; }
+
+  header { border-bottom: 3px double var(--ink); padding-bottom: 1.2rem; margin-bottom: 2rem; }
+  .rubrika {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--stamp);
+    margin-bottom: 0.6rem;
+  }
+  h1 {
+    font-size: clamp(1.6rem, 5vw, 2.3rem);
+    line-height: 1.15;
+    font-weight: normal;
+    margin-bottom: 0.5rem;
+  }
+  .perex {
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 1.02rem;
+  }
+
+  /* ——— SWIFT-blok: podpisový prvek ——— */
+  .bic-block {
+    font-family: "Courier New", Courier, monospace;
+    background: var(--code-bg);
+    border: 1px solid var(--rule);
+    padding: 0.7rem 0.9rem;
+    margin: 0.9rem 0 0.8rem;
+    font-size: 0.95rem;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .bic-block .tag { color: var(--ink-soft); }
+  .bic-block .bank { font-weight: bold; }
+  .bic-block .cc { color: var(--stamp); font-weight: bold; }
+  .bic-parse {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.9rem;
+  }
+
+  article { margin-bottom: 2.4rem; }
+  article + article { border-top: 1px solid var(--rule); padding-top: 1.8rem; }
+  h2 { font-size: 1.15rem; font-weight: bold; }
+  h2 .zanik {
+    font-family: "Courier New", Courier, monospace;
+    font-weight: normal;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--stamp);
+    margin-left: 0.5rem;
+    white-space: nowrap;
+  }
+  p { margin-bottom: 0.7rem; }
+  strong { font-weight: bold; }
+
+  .zaver {
+    margin-top: 3rem;
+    border-top: 3px double var(--ink);
+    padding-top: 1.4rem;
+  }
+  .zaver .rubrika { color: var(--ink); }
+  .tiraz {
+    margin-top: 2.5rem;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header>
+  <div class="rubrika">Misc · Infrastruktura</div>
+  <h1>BIC českých bank: geologický záznam fúzí a krachů</h1>
+  <p class="perex">Přejmenovat banku stojí marketing pár milionů. Přejmenovat BIC znamená sáhnout do routingu všech korespondentů, RMA autorizací a statických dat půlky světa — takže se to nedělá. BIC prostor je proto vrstvou, kde zaniklé banky přežívají desítky let po své smrti.</p>
+</header>
+
+<article>
+  <h2>Moneta Money Bank <span class="zanik">† nosí kód mrtvé banky</span></h2>
+  <div class="bic-block"><span class="tag">{BIC:</span> <span class="bank">AGBA</span><span class="cc">CZ</span>PP<span class="tag">}</span></div>
+  <div class="bic-parse">AGBA = banka · CZ = země · PP = Praha</div>
+  <p>Fosilie z <strong>Agrobanky Praha</strong>. Ta zkrachovala roku 1996, zdravou část koupil GE Capital (1998) → GE Money Bank → Moneta (2016). BIC nikdo nikdy nepřejmenoval, takže Moneta dodnes nosí kód banky, která zanikla před třiceti lety.</p>
+</article>
+
+<article>
+  <h2>Raiffeisenbank <span class="zanik">† matka zanikla, kód žije</span></h2>
+  <div class="bic-block"><span class="tag">{BIC:</span> <span class="bank">RZBC</span><span class="cc">CZ</span>PP<span class="tag">}</span></div>
+  <div class="bic-parse">RZB = Raiffeisen Zentralbank · C = Czech</div>
+  <p>RZB = <strong>Raiffeisen Zentralbank Österreich</strong>, tehdejší mateřská centrála, plus C jako Czech. RZB se roku 2017 sloučila do Raiffeisen Bank International — BIC dceřiné banky ale zůstal beze změny.</p>
+</article>
+
+<article>
+  <h2>Fio banka</h2>
+  <div class="bic-block"><span class="tag">{BIC:</span> <span class="bank">FIOB</span><span class="cc">CZ</span>PP<span class="tag">}</span></div>
+  <div class="bic-parse">FIOB = Fio Banka</div>
+  <p>Nejnudnější případ: FIOB znamená prostě Fio Banka. Licence 2010, BIC vznikl rovnou, žádná historie k dešifrování. (Samotné „Fio" pochází z devadesátkové finanční skupiny Fio.)</p>
+</article>
+
+<article>
+  <h2>mBank <span class="zanik">† dědictví BRE Bank</span></h2>
+  <div class="bic-block"><span class="tag">{BIC:</span> <span class="bank">BREX</span><span class="cc">CZ</span>PP<span class="tag">}</span></div>
+  <div class="bic-parse">BREX = Bank Rozwoju Eksportu</div>
+  <p>Dědictví polské <strong>BRE Bank</strong> (Bank Rozwoju Eksportu — Banka rozvoje exportu), jejíž BIC byl BREXPLPW. mBank byla původně její internetová značka; roku 2013 pohltila mateřskou identitu, ale BIC zůstal. Česká pobočka jen vyměnila zemi: BREXCZPP.</p>
+</article>
+
+<article>
+  <h2>Česká spořitelna / Erste <span class="zanik">† kód pohlcené GiroCredit</span></h2>
+  <div class="bic-block"><span class="tag">{BIC:</span> <span class="bank">GIBA</span><span class="cc">CZ</span>PX<span class="tag">}</span></div>
+  <div class="bic-parse">GIBA = GiroCredit · PX = rozlišovací location kód</div>
+  <p>Skupinový prefix Erste. GIBA pochází z rakouské <strong>GiroCredit (Girozentrale und Bank der österreichischen Sparkassen)</strong>, kterou Erste pohltila roku 1997 a převzala její BIC GIBAATWW. Dcery pak dostaly stejný prefix: GIBACZPX, GIBASKBX (Slovenská sporiteľňa), GIBAHUHB (Erste Maďarsko). To „X" v location kódu je jen rozlišovací znak, žádný hlubší význam.</p>
+</article>
+
+<article>
+  <h2>Air Bank</h2>
+  <div class="bic-block"><span class="tag">{BIC:</span> <span class="bank">AIRA</span><span class="cc">CZ</span>PP<span class="tag">}</span></div>
+  <div class="bic-parse">AIRA = Air Bank, doplněno do čtyř znaků</div>
+  <p>Vznikla roku 2011 na zelené louce (PPF), takže žádná archeologie. BIC je prostým otiskem jména.</p>
+</article>
+
+<article>
+  <h2>UniCredit Bank <span class="zanik">† Živnobanka zmizela z BIC prostoru</span></h2>
+  <div class="bic-block"><span class="tag">{BIC:</span> <span class="bank">BACX</span><span class="cc">CZ</span>PP<span class="tag">}</span></div>
+  <div class="bic-parse">BACX = Bank Austria Creditanstalt</div>
+  <p>BACX = <strong>Bank Austria Creditanstalt</strong>. Česká UniCredit vznikla roku 2007 fúzí HVB Bank CZ (která zdědila BIC od BA-CA) a Živnostenské banky. Vyhrál kód rakouské větve — Živnobanka, nejstarší česká banka (1868), tím z BIC prostoru zmizela úplně.</p>
+</article>
+
+<article>
+  <h2>ČSOB</h2>
+  <div class="bic-block"><span class="tag">{BIC:</span> <span class="bank">CEKO</span><span class="cc">CZ</span>PP<span class="tag">}</span></div>
+  <div class="bic-parse">CEKO ← ČEsKOslovenská obchodní banka</div>
+  <p>CEKO je odvozeno z <strong>ČEsKOslovenská obchodní banka</strong> (založena 1964 pro zahraniční obchod). U přesného výběru písmen (CE+KO vs. jiná logika) panuje nejistota — SWIFT v 70. a 80. letech kódy přiděloval dost volně a dokumentace k tomu prakticky neexistuje.</p>
+</article>
+
+<section class="zaver">
+  <div class="rubrika">Závěr</div>
+  <p>Obecný vzorec: BIC je jedna z nejkonzervativnějších vrstev celé platební infrastruktury. Značky se přepisují, loga se mění, ale osmimístné kódy zůstávají — a tvoří tak de facto geologický záznam fúzí, akvizic a krachů středoevropského bankovnictví.</p>
+</section>
+
+<div class="tiraz">Meridian Gazette · Misc · 2026-08-26</div>
+
+</div>
+</body>
+</html>
