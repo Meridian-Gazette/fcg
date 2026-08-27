@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revocation date — recall, inquiry a pacs.028 v APS</title>
+<style>
+  :root{
+    --ink:#1e2a38; --muted:#5b6b7d; --bg:#f7f9fb; --card:#ffffff;
+    --accent:#0e6ba8; --accent2:#b3541e; --ok:#2e7d32; --warn:#b26a00; --bad:#b3261e;
+    --line:#dde5ec; --code:#eef3f7; --chip:#e8f1f8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+  .wrap{max-width:1080px;margin:0 auto;padding:24px 20px 80px}
+  header.hero{background:linear-gradient(135deg,#0e3a5d,#0e6ba8);color:#fff;border-radius:14px;padding:28px 32px;margin-bottom:28px}
+  header.hero h1{margin:0 0 6px;font-size:1.7rem}
+  header.hero p{margin:0;opacity:.92}
+  header.hero .env{display:inline-block;margin-top:12px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:3px 14px;font-size:.85rem}
+  h2{font-size:1.3rem;margin:38px 0 10px;color:#0e3a5d;border-bottom:3px solid var(--accent);padding-bottom:6px}
+  h3{font-size:1.05rem;margin:22px 0 8px;color:#0e3a5d}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:14px 0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:820px){.grid2{grid-template-columns:1fr}}
+  table{border-collapse:collapse;width:100%;font-size:.88rem;background:var(--card)}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin:10px 0}
+  th{background:#0e3a5d;color:#fff;text-align:left;padding:7px 10px;font-weight:600;white-space:nowrap}
+  td{padding:6px 10px;border-top:1px solid var(--line);vertical-align:top}
+  tr:nth-child(even) td{background:#f4f8fb}
+  code,.mono{font-family:Consolas,"Cascadia Mono",monospace;font-size:.86em;background:var(--code);border-radius:4px;padding:1px 5px}
+  .path{font-family:Consolas,monospace;font-size:.8rem;color:var(--muted)}
+  .chip{display:inline-block;background:var(--chip);color:#0e3a5d;border:1px solid #c4d8e8;border-radius:999px;padding:1px 10px;font-size:.8rem;font-weight:600;white-space:nowrap}
+  .chip.red{background:#fbe9e7;color:#8c2f24;border-color:#e8c4bd}
+  .chip.green{background:#e8f5e9;color:#1b5e20;border-color:#bfe0c2}
+  .chip.amber{background:#fff3e0;color:#7a4a00;border-color:#ecd3ad}
+  .note{border-left:4px solid var(--accent);background:#eef6fc;padding:10px 16px;border-radius:0 8px 8px 0;margin:12px 0}
+  .warnbox{border-left:4px solid var(--warn);background:#fff8ec;padding:10px 16px;border-radius:0 8px 8px 0;margin:12px 0}
+  .dangerbox{border-left:4px solid var(--bad);background:#fdefee;padding:10px 16px;border-radius:0 8px 8px 0;margin:12px 0}
+  .okbox{border-left:4px solid var(--ok);background:#eef7ef;padding:10px 16px;border-radius:0 8px 8px 0;margin:12px 0}
+  .timeline{position:relative;margin:26px 6px 10px;padding-left:0}
+  .tl-row{display:flex;align-items:flex-start;margin-bottom:2px}
+  .tl-dot{flex:0 0 34px;display:flex;flex-direction:column;align-items:center}
+  .tl-dot .d{width:16px;height:16px;border-radius:50%;background:var(--accent);border:3px solid #cfe3f0;margin-top:3px}
+  .tl-dot .l{width:3px;flex:1;background:#cfe3f0;min-height:34px}
+  .tl-body{padding:0 0 18px 10px}
+  .tl-body b{color:#0e3a5d}
+  .tl-row.warn .d{background:var(--warn)}
+  .tl-row.bad .d{background:var(--bad)}
+  .tl-row.ok .d{background:var(--ok)}
+  .legend{font-size:.82rem;color:var(--muted)}
+  .src{font-size:.78rem;color:var(--muted);margin-top:6px}
+  .kbd{border:1px solid #b9c6d2;border-bottom-width:3px;border-radius:5px;background:#fff;padding:0 6px;font-family:Consolas,monospace;font-size:.85em}
+  footer{margin-top:44px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:14px}
+  .big{font-size:1.02rem}
+  ul.tight li{margin:4px 0}
+  .qmark{color:var(--accent2);font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>Revocation date — recall, inquiry a pacs.028</h1>
+  <p>Školení nad vanilla APS produktem (SEPA / SEPA Bulk). Lhůty R&#8209;transakcí: kdo je počítá, co znamenají a jak je Request for Status posouvá.</p>
+  <span class="env">Konfigurace ověřena živě: prostředí <b>sulc_20260817_APS</b> (28.&nbsp;8.&nbsp;2026) + zdrojáky database/product &amp; database/aps</span>
+</header>
+
+<!-- ============================================================ -->
+<h2>0&nbsp;· Rychlá mapa aktérů</h2>
+<div class="card">
+<p>Než se pustíme do dat, ujasněme si, o jakých transakcích mluvíme (typy z <code>sys_trn_type</code>, produkt <code>XS&#8209;CT</code>):</p>
+<div class="tblwrap"><table>
+<tr><th>R&#8209;transakce</th><th>ISO zpráva</th><th>Outward TT</th><th>Inward TT</th><th>Kdo/jak vzniká</th><th>Odpověď</th></tr>
+<tr><td><b>Recall Request</b> (customer)</td><td>camt.056</td><td><code>24600x</code></td><td><code>11600x</code> / inhouse <code>15600x</code></td><td>MA „Recall Request by Customer" nad archivovanou platbou</td><td>pacs.004 Return (FOCR) / camt.029 Negative Answer</td></tr>
+<tr><td><b>Recall Request</b> (bank)</td><td>camt.056</td><td><code>24603x</code></td><td><code>11603x</code> / inhouse <code>15603x</code></td><td>MA „Recall Request by Bank"</td><td>dtto</td></tr>
+<tr><td><b>Inquiry CNR</b> — Claim Non&#8209;Receipt</td><td>camt.027</td><td><code>24601x</code></td><td><code>11601x</code></td><td>Manual Capture nad archivovaným outwardem</td><td>camt.029.001.<b>08</b> Resolution of Investigation (ROI)</td></tr>
+<tr><td><b>Inquiry CVD/CVA</b> — Claim Value Date Correction</td><td>camt.087</td><td><code>24602x</code></td><td><code>11602x</code></td><td>Manual Capture (zadává se správný value date)</td><td>camt.029.001.08 ROI</td></tr>
+<tr><td><b>Request for Status Update on Recall</b></td><td>pacs.028</td><td><code>24605x</code></td><td><code>11605x</code> / inhouse <code>15605x</code></td><td>MA „Request for Status" nad overdue recallem</td><td>— (urgence; odpovědí je stále odpověď na recall)</td></tr>
+<tr><td><b>Request for Status Update on Inquiry</b></td><td>pacs.028</td><td><code>24609x</code></td><td><code>11609x</code> (inhouse neexistuje)</td><td>MA „Request for Status" nad overdue inquiry</td><td>— (urgence; odpovědí je ROI)</td></tr>
+</table></div>
+<p class="legend">6.&nbsp;pozice <code>x</code>: 0&nbsp;=&nbsp;nerozlišeno, 1&nbsp;=&nbsp;internal (in&#8209;house), 3&nbsp;=&nbsp;domestic, 4&nbsp;=&nbsp;cross&#8209;border EU/EEA, 5&nbsp;=&nbsp;cross&#8209;border mimo EU/EEA — dědí se z původní platby. Všechny jsou <b>non&#8209;accounting</b> (nenesou peníze).</p>
+<p class="src">Zdroj: sys_trn_type @ sulc_20260817_APS; spec §4.1.4.1.4.1, §4.1.4.1.5.1, §4.1.4.1.10.1 (SepaBulk_Specification.md:5275, 5601, 6832)</p>
+</div>
+
+<!-- ============================================================ -->
+<h2>a&nbsp;· Co je „revocation date"?</h2>
+
+<div class="card big">
+<p><b>Etymologie:</b> latinsky <i>revocare</i> = odvolat. Specifikace to definuje doslova:
+<i>„Revocation means the official cancellation of a decree, decision, or promise."</i> — oficiální odvolání rozhodnutí či slibu (spec §4.2.2.3.1.3).</p>
+
+<p><b>Odpověď na tvou otázku „revokujeme tx?": NE.</b> Revocation date <b>nic sám o sobě neruší ani neodvolává</b>.
+Je to <b>deadline</b> — datum uložené na transakci, proti kterému APS kontroluje, zda je nějaká akce ještě přípustná,
+resp. zda už na něco nečekáme moc dlouho. V TRANS komentářích je to výslovně: <i>„Return — <b>last</b> revocation date",
+„Recall Request — <b>last</b> revocation date"</i> — tj. „poslední den, kdy lze".</p>
+</div>
+
+<div class="card">
+<h3>Jeden pojem, tři role (podle toho, na které transakci datum sedí)</h3>
+<div class="tblwrap"><table>
+<tr><th>Nositel data</th><th>Význam revocation date</th><th>Co se stane po uplynutí</th></tr>
+<tr><td><b>Iniciální platba</b> (outward/inward SCT, SDD)</td><td>„<b>Do kdy smí vzniknout R&#8209;transakce</b> daného typu" — pro každý typ zvlášť (return, recall, refund…). Sada dat se spočte hned při zpracování iniciály a je vidět v GUI detailu.</td><td>Generování R&#8209;tx buď projde s varováním a potvrzením usera (<code>after_revoc='Y'</code>), nebo je zablokováno (<code>after_revoc='N'</code>). Detaily v §e.</td></tr>
+<tr><td><b>Outward recall / inquiry / status request</b> (24600x/24603x, 24601x/24602x, 24605x/24609x)</td><td>„<b>Do kdy čekáme na odpověď protistrany</b>." Request po distribuci sedí v <code>Distribution.Archive</code> s reason <span class="chip">IUD — Issued</span> a čeká.</td><td>EOD job ho přesune do <code>Distribution.Manual</code> s reason <span class="chip amber">OVD — Overdue</span> → operátor řeší (archivace / pacs.028).</td></tr>
+<tr><td><b>Inward recall</b> (11600x/11603x/156xxx)</td><td>„<b>Do kdy musíme odpovědět MY</b>" (return nebo negative answer).</td><td>APS <b>automaticky vygeneruje Negative Answer</b> camt.029 s reason <span class="chip red">NOAS</span> (No Answer) — job <code>gu_auto_return_rvoc_pkg.auto_rna_from_pncci</code>.</td></tr>
+</table></div>
+<p class="src">Zdroj: database/product/core/ddl/trans.tab:538–553; sepa_pkg.bdy:148 (set_requests_overdue); gu_auto_return_rvoc_pkg.bdy:137–190; spec §4.1.4.1.4.7, §4.1.4.1.4.10, §4.1.4.1.5.6</p>
+</div>
+
+<div class="card">
+<h3>Kde v DB revocation dates bydlí — TRANS má 8 sloupců</h3>
+<div class="tblwrap"><table>
+<tr><th>Sloupec TRANS</th><th>Period type v konfiguraci</th><th>Komentář ve schématu</th></tr>
+<tr><td><code>REJ_REVOC_DATE</code></td><td>REJ</td><td>Reject/Refusal — last revocation date (SDD)</td></tr>
+<tr><td><code>RET_REVOC_DATE</code></td><td>RET</td><td>Return — last revocation date (CT i DD)</td></tr>
+<tr><td><code>REFA_REVOC_DATE</code></td><td>REFA</td><td>Refund of authorised DD — last revocation date</td></tr>
+<tr><td><code>REFN_REVOC_DATE</code></td><td>REFN</td><td>Refund of un&#8209;authorised DD — last revocation date</td></tr>
+<tr><td><code>CAN_REVOC_DATE</code></td><td>CAN</td><td>Cancellation Request — last revocation date</td></tr>
+<tr><td><code>REV_REVOC_DATE</code></td><td>REV</td><td>Reversal — last revocation date</td></tr>
+<tr><td><code>REC_REVOC_DATE</code></td><td>REC <b>+ ROI</b> (sdílený!)</td><td>Recall Request — last revocation date</td></tr>
+<tr><td><code>RECB_REVOC_DATE</code></td><td>RECB</td><td>Recall Request by Bank — last revocation date</td></tr>
+</table></div>
+<div class="note"><b>Klíčový design detail:</b> sloupec <code>REC_REVOC_DATE</code> je <b>sdílený pro REC a ROI</b>. Na iniciální platbě nese „do kdy recall", ale na inquiry/recallu/status requestu nese „do kdy čekám na odpověď (ROI)". V kódu doslova: <code>rec_revoc_date := COALESCE(v_rec_rev_date, v_roi_rev_date)</code> s komentářem <i>„Design: REC and ROI share one column. CNR/CVD will not be stored on initials (GUI will not display them)"</i>. Proto v GUI na inquiry uvidíš vyplněné „Rec revoc date", i když o žádný recall nejde.</div>
+<p class="src">Zdroj: trans.tab:116–123, 538–553; sepa_value_date_pkg.bdy:2600–2601; exceptions_api_pkg.bdy:37–38, 309–310</p>
+</div>
+
+<!-- ============================================================ -->
+<h2>b&nbsp;· Když ho nenastavím — napočítá se sám?</h2>
+
+<div class="card big">
+<p><b>Ano — a ve vanilla produktu dokonce VŽDY. User ho při vytváření nezadává vůbec.</b></p>
+<p>Výpočet dělá procesní krok <code>CALC_REVOC_PERIOD</code>/<code>COMPUTE_REVOC</code> (aktivita <code>SEPA_REVOC_PERIOD</code>,
+resp. online <code>OL_SEPA_REVOC_PERIOD</code>), který volá <code>SEPA_VALUE_DATE_PKG.tran_revoc_period</code>.
+Ten pro transakci najde řádky v číselníku <b>„SEPA Revocation period" (ctab&nbsp;1006)</b> podle
+<code>product_code</code> + <code>trn_types_mask</code> + profilu clearing partnera a spočte:</p>
+</div>
+
+<div class="card">
+<h3>Vzorec výpočtu</h3>
+<p style="text-align:center" class="big">
+<code>revoc_date</code> = <b>start</b> (<span class="chip">SED</span> settlement date | <span class="chip">EXD</span> execution date)
+&nbsp;+&nbsp; <b>civil</b> roky/měsíce/týdny/dny (kalendářní čas)
+&nbsp;+&nbsp; <b>calendar_days</b> (business dny přes kalendář!)
+</p>
+<ul class="tight">
+<li><b>civil_*</b> = prostý kalendářní posun (<code>ADD_MONTHS</code>, +7×týdny, +dny). Používá se pro dlouhé lhůty — 13 měsíců na customer recall, 440 dní na neautorizovaný SDD refund.</li>
+<li><b>calendar_days</b> = navzdory názvu <b>pracovní dny</b>: kód jde do <code>sys_calendar_v</code> a bere N&#8209;tý pracovní den (<code>c.rn = calendar_days</code>) podle kalendáře, který vrací <code>SEPA_IMPL_PKG.get_sepa_revoc_cal_id</code> (kalendář clearing partnera / entity / produktu — u nás EBA STEP2).</li>
+<li>Komponenty se skládají — konfigurace ale v praxi používá vždy jen jednu.</li>
+<li>Výsledky se uloží do TRANS (<code>UPDATE trans SET …_revoc_date</code>) a jsou vidět v GUI (view <code>sepa_gui_tran_record_v</code>).</li>
+</ul>
+<p class="src">Zdroj: sepa_value_date_pkg.bdy:2612–2928 (tran_revoc_period: sel20=roky, sel30=měsíce, sel40=týdny, sel50=civil dny, sel60=kalendář), :2660–2663 (SED/EXD), :2819–2823 (sys_calendar_v)</p>
+</div>
+
+<div class="card">
+<h3>A co pole, které user při inquiry vyplňuje?</h3>
+<p>Prošel jsem celý vanilla vstupní řetězec inquiry (<code>SEPA_PNMCI_API_PKG</code> + Angular formuláře) a user při vytváření zadává jen:</p>
+<ul class="tight">
+<li><b>CNR</b> (<code>create_inquiry_cnr</code>): <code>cp_agent_instr</code> (instrukce protistraně) + komentář,</li>
+<li><b>CVD</b> (<code>create_inquiry_cvd</code>): navíc <b>Modification Sett Date</b> (<code>eni_modif_rq_sett_date</code>) — to je ale <b>požadovaný správný value date</b>, žádná lhůta!</li>
+</ul>
+<div class="warnbox"><b>Pozor na záměnu:</b> pole „Modification (Req) Sett Date" v inquiry formuláři (<span class="path">payment-ma-edit-mx-out-sct-inq.component.html:82–116</span>) není revocation date — je to datum, na které chce klient opravit valutu (obsah camt.087). Revocation date se <b>vždy dopočítá</b> krokem CALC_REVOC_PERIOD (u inquiry = ROI lhůta, viz níže).
+<br><br><b>ZDE SI NEJSEM JISTÝ</b> jedině tím, zda tvůj konkrétní build/branch SEPA Bulk nepřidává nové editovatelné pole „Revocation date" do GUI — ve vanilla kódu (js/client, java/rest, MA editable_fields, pnmci API) žádné takové vstupní pole neexistuje; existuje jen zobrazení dopočtených hodnot v record view. Jestli ho v GUI vidíš editovatelné, ukaž mi obrazovku/branch a dohledám to.</div>
+<p class="src">Zdroj: sepa_pnmci_api_pkg.bdy:2504–2626; tp_manual_activity_exec_obj @ DB (RECALL_BC/RECALL_BB: editable jen R_REASON_CODE, R_ADDTL_INF_1; REQUEST_STATUS_UPDATE: žádné editovatelné pole)</p>
+</div>
+
+<!-- ============================================================ -->
+<h2>c&nbsp;· Request for Status (pacs.028) a automatický přepočet</h2>
+
+<div class="card big">
+<p><b>Ano, přepočet existuje a je přesně tady.</b> Jmenuje se ve specu „Set new alert date by status request" (§4.1.4.1.13.5)
+a v kódu <code>PNEBI_PKG.rsu_update_predecessor_period</code> (RSU = Request for Status Update).</p>
+</div>
+
+<div class="card">
+<h3>Životní cyklus krok za krokem (outward recall; pro inquiry identicky)</h3>
+<div class="timeline">
+  <div class="tl-row"><div class="tl-dot"><div class="d"></div><div class="l"></div></div><div class="tl-body">
+    <b>1 · Vznik recallu / inquiry.</b> User spustí MA nad archivovanou platbou (recall) nebo Manual Capture (inquiry). Vznikne <code>24600x/24603x</code> resp. <code>24601x/24602x</code>.</div></div>
+  <div class="tl-row"><div class="tl-dot"><div class="d"></div><div class="l"></div></div><div class="tl-body">
+    <b>2 · Výpočet vlastní lhůty.</b> Krok <code>CALC_REVOC_PERIOD</code>: z ctab 1006 se vezme řádek pro masku tx —
+    recall <code>24600_</code>: REC/SED/<b>15 dní</b>; inquiry <code>24601_,24602_</code>: ROI/SED/<b>10 dní</b> → uloží se do <code>REC_REVOC_DATE</code> requestu.</div></div>
+  <div class="tl-row ok"><div class="tl-dot"><div class="d"></div><div class="l"></div></div><div class="tl-body">
+    <b>3 · Distribuce → čekání.</b> Po odeslání do clearingu jde request do <code>Distribution.Archive</code> s reason <span class="chip green">IUD — Issued</span> a čeká na odpověď do svého revocation date.</div></div>
+  <div class="tl-row warn"><div class="tl-dot"><div class="d"></div><div class="l"></div></div><div class="tl-body">
+    <b>4 · Lhůta uplynula bez odpovědi.</b> EOD krok <code>EOD_SET_SEPA_REQUESTS_OVERDUE</code> (<code>SEPA_PKG.set_requests_overdue</code>) najde requesty typů <code>246000/246030/246010/246020</code> s <code>NVL(rec_revoc_date, recb_revoc_date) &le; dnešek</code> a přesune je do <code>Distribution.Manual</code> s reason <span class="chip amber">OVD — Overdue</span>.</div></div>
+  <div class="tl-row"><div class="tl-dot"><div class="d"></div><div class="l"></div></div><div class="tl-body">
+    <b>5 · User: MA „Request for Status".</b> Na OVD frontě má operátor volby <b>Archive</b> nebo <b>Generate Request for Status</b>. Druhá vytvoří pacs.028: <code>24605x</code> (nad recallem) / <code>24609x</code> (nad inquiry).</div></div>
+  <div class="tl-row"><div class="tl-dot"><div class="d"></div><div class="l"></div></div><div class="tl-body">
+    <b>6 · Status request si spočte VLASTNÍ lhůtu.</b> V online cestě <code>OUTGOING_CUST_SCT_RSU_OL</code> krok CALC_REVOC_PERIOD: maska <code>24605_</code>/<code>24609_</code>, typ ROI, <b>SED + 10 pracovních dní</b> → jeho <code>REC_REVOC_DATE</code>.</div></div>
+  <div class="tl-row bad"><div class="tl-dot"><div class="d"></div><div class="l"></div></div><div class="tl-body">
+    <b>7 · PŘEPOČET PŘEDCHŮDCE.</b> Krok <code>RSU_UPDATE_PREDECESSOR_PERIOD</code>: pro tx s <code>TRUNC(trn_type,-1) IN (246050, 246090)</code> provede<br>
+    <code>UPDATE trans t SET t.rec_revoc_date = NVL(status_req.rec_revoc_date, t.rec_revoc_date) WHERE t.id = status_req.tran_id_predecessor</code><br>
+    → recall/inquiry dostane <b>nové datum = lhůtu status requestu</b> (dnes + 10 BD).</div></div>
+  <div class="tl-row ok"><div class="tl-dot"><div class="d"></div><div class="l"></div></div><div class="tl-body">
+    <b>8 · Předchůdce čeká znovu.</b> Recall/inquiry se vrátí do <code>Distribution.Archive</code> s reason IUD („Sent") a smyčka 3→7 se může opakovat — pacs.028 lze posílat opakovaně, status originálu se nemění. Status request sám se po distribuci archivuje.</div></div>
+  <div class="tl-row"><div class="tl-dot"><div class="d"></div></div><div class="tl-body">
+    <b>9 · Konec:</b> přijde odpověď → archivace předchůdce se statusem <span class="chip">FRR</span> Return FOCR / <span class="chip">SRR</span> Return / <span class="chip">NRR</span> Negative Answer / <span class="chip">ARC</span> Processed (u inquiry po ROI). Nebo operátor na OVD zvolí Archive.</div></div>
+</div>
+<p class="src">Zdroj: pnebi_pkg.bdy:6964–7098 (rsu_update_predecessor_period + _ol); sepa_pkg.bdy:148–214; proc kroky živě z DB: OUTGOING_CUST_SCT_RSU_OL (ps 3251 CALC + 3252 RSU), OUTGOING_CCO_SCT (ps 3183 + 3184), EOD (ps 271); ct_sepa_revoc_period.sql:154–169 (design komentář: „when a status request is sent out, re&#8209;set rec_revoc_period on the corresponding recall using this period (defined for the status req)"); spec §4.1.4.1.10.5, §4.1.4.1.13.5</p>
+</div>
+
+<div class="card">
+<h3>Záleží na transaction type? — 24609_ vs. 24601_ vs. 24602_</h3>
+<div class="tblwrap"><table>
+<tr><th>Maska</th><th>Co to je</th><th>Řádek v ctab 1006 (sulc_20260817)</th><th>Role lhůty</th><th>Spouští přepočet předchůdce?</th></tr>
+<tr><td><code>24601_</code></td><td><b>Inquiry CNR</b> (camt.027) — samotný dotaz</td><td>ROI · SED · <b>10 cal. days</b> (sdílený řádek <code>24601_,24602_</code>)</td><td><b>První</b> čekací lhůta na ROI — počítá se při vzniku inquiry</td><td><span class="chip red">NE</span> — inquiry je předchůdcem, ne urgencí</td></tr>
+<tr><td><code>24602_</code></td><td><b>Inquiry CVD/CVA</b> (camt.087) — samotný dotaz</td><td>dtto (týž řádek)</td><td>dtto</td><td><span class="chip red">NE</span></td></tr>
+<tr><td><code>24609_</code></td><td><b>pacs.028 nad inquiry</b> (Claim Status Request)</td><td>ROI · SED · <b>10 cal. days</b> (vlastní řádek)</td><td><b>Nová</b> lhůta po urgenci — kopíruje se do <code>rec_revoc_date</code> inquiry</td><td><span class="chip green">ANO</span> (TRUNC ∈ {246090})</td></tr>
+<tr><td><code>24605_</code> <i>(pro úplnost)</i></td><td><b>pacs.028 nad recallem</b> (Recall Status Request)</td><td>ROI · SED · <b>10 cal. days</b> (vlastní řádek)</td><td>Nová lhůta po urgenci recallu</td><td><span class="chip green">ANO</span> (TRUNC ∈ {246050})</td></tr>
+</table></div>
+<div class="note"><b>Shrnutí logiky:</b> mechanismus přepočtu je pro 24605_ i 24609_ <b>stejný</b> (jedna procedura, filtr <code>IN (246050, 246090)</code>). Rozdíl je jen v tom, <b>čí</b> lhůtu resetují (recall vs. inquiry) a že každá maska má <b>vlastní řádek v konfiguraci</b> — banka si tedy může nastavit jinou délku pro urgenci recallu a jinou pro urgenci inquiry. Ve vanilla seedu jsou obě 10 dní. A protože jde o <code>NVL(nové, staré)</code>: kdyby status request z nějakého důvodu lhůtu neměl (chybějící config řádek), staré datum předchůdce zůstane.</div>
+<div class="warnbox"><b>Drobnost pro in&#8209;house:</b> Request for Status nad <b>recallem</b> se in&#8209;house zrcadlí (<code>156 05x</code>), ale „Inward SCT Inhouse Request for Status Update for Inquiry type does not exist" — pro inquiry in&#8209;house zrcadlení není (inquiry se in&#8209;house vůbec nepodporuje). Spec §4.1.4.1.10.6, §4.1.4.1.5.</div>
+</div>
+
+<!-- ============================================================ -->
+<h2>d&nbsp;· Slovníček zkratek</h2>
+
+<div class="card">
+<div class="tblwrap"><table>
+<tr><th>Zkratka</th><th>Rozklad</th><th>Význam v APS</th><th>Kde žije</th></tr>
+<tr><td><b>IUD</b></td><td><b>I</b>ss<b>U</b>e<b>D</b> („vydáno/odesláno")</td><td>Queue reason „Issued" — recall/inquiry odeslán, čeká v <code>Distribution.Archive</code> na odpověď. Zkomolenina vznikla nejspíš proto, že přímočaré „ISD" už bylo obsazené (viz níže).</td><td><span class="path">tp_constants_pkg.spc:994 (c_queue_reason_issued='IUD'); tp_queue_reason @ DB: „Issued"; funkční index TRAN_IDX_15 na QUEUE_REASON='IUD'</span></td></tr>
+<tr><td><b>ISD</b></td><td><b>I</b>ncorrect <b>S</b>ettlement <b>D</b>ate</td><td>Queue reason „Incorrect Settlement Date" (původem Fedwire). <b>Pozor past:</b> specifikace SEPA Bulk místy píše „Request Issued (ISD)" / „Sent (ISD)" — to je <b>překlep ve specu</b>; skutečný kód v DB je IUD. (I v <code>sepa_pkg.bdy:178</code> je zastaralý komentář s 'ISD', zatímco kód i index používají IUD.)</td><td><span class="path">fw_constants_pkg.spc:29; tp_queue_reason @ DB; spec:5452 vs. queue_reason.sql:701</span></td></tr>
+<tr><td><b>OVD</b></td><td><b>OV</b>er<b>D</b>ue</td><td>Queue reason „Overdue" — bez odpovědi do revocation date; transakce přesunuta na <code>Distribution.Manual</code>, kde operátor volí Archive / Request for Status.</td><td><span class="path">tp_constants_pkg.spc:996; sepa_pkg.set_requests_overdue</span></td></tr>
+<tr><td><b>CNR</b></td><td><b>C</b>laim <b>N</b>on&#8209;<b>R</b>eceipt</td><td>Inquiry typ 1 (camt.027): příjemce tvrdí, že platba nedošla → banka plátce se ptá banky příjemce, zda platbu dostala.</td><td><span class="path">TT 24601x; domain SEPA_REVOC_PERIOD_TYPES: „Claim Non&#8209;Receipt"</span></td></tr>
+<tr><td><b>CVA / CVD</b></td><td><b>C</b>laim <b>V</b>alue date <b>A</b>djustment = <b>C</b>laim <b>V</b>alue <b>D</b>ate correction</td><td><b>Totéž</b> — inquiry typ 2 (camt.087): platba připsána s pozdější valutou, žádá se oprava value date (+ případně kompenzace). Spec u TT 24602x píše „(CVA)", doménová hodnota v číselníku je „CVD" — dvě zkratky téže věci, žádný funkční rozdíl.</td><td><span class="path">spec:5605 vs. adm_domain.sql:39–41; TT 24602x</span></td></tr>
+<tr><td><b>ROI</b></td><td><b>R</b>esolution <b>O</b>f <b>I</b>nvestigation</td><td>Odpověď na inquiry (camt.029.001.08) — pozitivní či negativní. Jako period_type v ctab 1006 = „lhůta na doručení ROI" (u inquiry a u pacs.028 status requestů).</td><td><span class="path">adm_domain.sql:43–45; spec §4.1.4.1.6</span></td></tr>
+<tr><td><b>REC / RECB</b></td><td><b>REC</b>all / <b>REC</b>all by <b>B</b>ank</td><td>Period types pro recall iniciovaný klientem (originator) vs. bankou. Na iniciále = do kdy recall vytvořit; na recallu samém (24600_/24603_) = do kdy čekat na odpověď.</td><td><span class="path">adm_domain.sql:27–33</span></td></tr>
+<tr><td><b>RVO</b></td><td><b>R</b>e<b>V</b>ocation <b>O</b>verdue</td><td>Reject reason — inward R&#8209;tx (hlavně SDD) přišla po revocation date originálu → krok <code>PNCCI_REVOC_CHECK</code> ji odmítne s „Revocation overdue (RVO)".</td><td><span class="path">tp_constants_pkg.spc:1050; PS 3062/3168 (INCOMING_CCI/INH_SDD_R); spec §4.2.2.1.5.7</span></td></tr>
+<tr><td><b>NOAS</b></td><td><b>NO</b> <b>A</b>n<b>S</b>wer</td><td>Reason code automatické Negative Answer, kterou APS vygeneruje, když inward recall proleží v Manual frontě přes lhůtu.</td><td><span class="path">gu_auto_return_rvoc_pkg.bdy:169–188</span></td></tr>
+<tr><td><b>FOCR / FRR / SRR / NRR</b></td><td>Following Cancellation Request / FOCR Return Received / Standard Return Received / Negative Reply Received</td><td>FOCR = ISO reason code returnu „na základě recallu". FRR/SRR/NRR = archivní statusy outward recallu podle typu došlé odpovědi.</td><td><span class="path">queue_reason.sql:673–686; spec §4.1.4.1.4.8–9</span></td></tr>
+</table></div>
+</div>
+
+<div class="card">
+<h3>Revocation vs. recall — je to totéž?</h3>
+<p><b>Není.</b></p>
+<ul class="tight">
+<li><b>Recall</b> = konkrétní R&#8209;transakce (camt.056): žádost o <b>vrácení už vypořádané</b> platby. Peníze byly odeslány; protistrana může, ale nemusí vyhovět (FOCR return / negative answer).</li>
+<li><b>Revocation</b> = obecně „odvolání". V užším ISO/EPC smyslu je revocation odvolání příkazu <b>ještě před vypořádáním</b>, v APS se ale slovo používá skoro výhradně ve spojení <b>revocation period / revocation date</b> = <b>lhůta</b>, do kdy je která výjimka (recall, return, refund, cancellation…) přípustná, resp. do kdy se čeká na odpověď.</li>
+</ul>
+<p>Mnemotechnika: <i>recall je zpráva, revocation date je budík.</i></p>
+</div>
+
+<!-- ============================================================ -->
+<h2>e&nbsp;· Čeho se revocation date týká — „vyrobit r&#8209;tx", nebo „lhůta na odpověď"?</h2>
+
+<div class="card big">
+<p><b>Obojí — podle nositele.</b> Stejný sloupec, stejná konfigurační tabulka, dvě (tři) role:</p>
+<ul class="tight">
+<li>Na <b>iniciální platbě</b>: „možnost do kdy vyrobit R&#8209;tx" — kontroluje se při generování výjimky.</li>
+<li>Na <b>outward requestu</b> (recall/inquiry/pacs.028): „lhůta, do kdy má protistrana odpovědět" — hlídá EOD job (IUD→OVD).</li>
+<li>Na <b>inward recallu</b>: „lhůta, do kdy musíme odpovědět my" — po vypršení auto&#8209;NOAS.</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Jak přesně probíhá kontrola „smím ještě vyrobit R&#8209;tx?"</h3>
+<p>Při spuštění MA (recall, return, refund…) volá APS <code>EXCEPTIONS_API_PKG.calc_check_revoc_tran_worker</code>:</p>
+<ol class="tight">
+<li>Dopočte (on&#8209;the&#8209;fly) revocation dates originálu a vybere datum podle action type (REC→<code>rec_revoc_date</code>, RECB→<code>recb_revoc_date</code>, …).</li>
+<li>Spočte <code>v_days_after</code> = dnešek − revocation date (po cut&#8209;off čase téhož dne +1).</li>
+<li>Je&#8209;li <code>v_days_after &gt; 0</code>:
+  <ul>
+    <li><span class="chip amber">WRSEPAMA015</span> — varování „N days after revocation date". Je&#8209;li v konfiguraci <code>after_revoc = 'Y'</code>, user může potvrdit a pokračovat (přesně to, co říká spec: <i>„Recall request can be generated even after the revocation period has expired. APS alerts the user which has to confirm…"</i>).</li>
+    <li><span class="chip red">EXSEPAMA016</span> — tvrdý blok, pokud <code>after_revoc = 'N'</code> nebo není vyplněno (default N!).</li>
+    <li>Výjimka: <b>Returny</b> (exc TT 241xxx) se z tohoto varování vynechávají — hlídají se jinde (RVO check inwardů, u off&#8209;us CT RET je konfigurace 999 = vypnuto).</li>
+  </ul></li>
+</ol>
+<p class="src">Zdroj: exceptions_api_pkg.bdy:130–177 (get_date), :466–542 (dny po lhůtě, WRSEPAMA015/EXSEPAMA016, default 'N', výjimka pro 241xxx); spec:5263–5267</p>
+</div>
+
+<!-- ============================================================ -->
+<h2>f&nbsp;· Konfigurace prostředí sulc_20260817_APS (živý výpis)</h2>
+
+<div class="card">
+<h3>Číselník „SEPA Revocation period" (ctab 1006, view <code>SEPA_REVOC_PERIOD_V</code>) — produkt XS&#8209;CT</h3>
+<p class="legend">Profil partnera: DEFAULT. Sloupec „lhůta": <b>cal</b> = calendar_days (pracovní dny dle kalendáře CLP), <b>civ</b> = civil (kalendářní čas). „Po lhůtě" = <code>after_revoc</code> (Y = lze s potvrzením, prázdné/N = blok).</p>
+<div class="tblwrap"><table>
+<tr><th>Maska TT</th><th>Nositel</th><th>Period type</th><th>Start</th><th>Lhůta</th><th>Po lhůtě</th><th>K čemu slouží</th></tr>
+<tr><td><code>1100__,1100_</code></td><td>Inward SCT (initial)</td><td>RET</td><td>SED</td><td>3 cal</td><td>Y</td><td>do kdy smíme poslat outward Return</td></tr>
+<tr><td><code>1100__</code></td><td>Inward SCT (initial)</td><td>REC</td><td>SED</td><td><b>13 civ. měsíců</b></td><td>Y</td><td>do kdy může přijít / vzniknout customer recall</td></tr>
+<tr><td><code>1100__</code></td><td>Inward SCT (initial)</td><td>RECB</td><td>SED</td><td>10 cal</td><td>Y</td><td>dtto bank recall (DUPL/TECH)</td></tr>
+<tr><td><code>11600_</code> / <code>11603_</code></td><td>Inward Recall (cust/bank)</td><td>REC / RECB</td><td>SED</td><td>15 cal</td><td>Y</td><td><b>naše lhůta na odpověď</b>; po vypršení auto&#8209;NOAS</td></tr>
+<tr><td><code>11601_</code> / <code>11602_</code></td><td>Inward Inquiry CNR / CVD</td><td>ROI</td><td>SED</td><td>10 cal</td><td>Y</td><td>naše lhůta na odeslání ROI</td></tr>
+<tr><td><code>2200__,2400__,2600__,2800__</code></td><td>Outward SCT (initial)</td><td>RET</td><td>SED</td><td><b>999</b> cal</td><td>—</td><td>999 = check vypnut (inward returny hlídá protistrana)</td></tr>
+<tr><td><code>2200__,2400__,2600__,2800__</code></td><td>Outward SCT (initial)</td><td>REC</td><td>SED</td><td><b>13 civ. měsíců</b></td><td>—</td><td>do kdy klient smí žádat recall (EPC: FRAD 13 m.)</td></tr>
+<tr><td><code>2200__,2400__,2600__,2800__</code></td><td>Outward SCT (initial)</td><td>RECB</td><td>SED</td><td>10 cal</td><td>—</td><td>do kdy banka smí žádat recall (EPC: DUPL/TECH 10 BD)</td></tr>
+<tr><td><code>2200__,2400__,2600__,2800__</code></td><td>Outward SCT (initial)</td><td>CNR / CVD</td><td>SED</td><td><b>13 civ. měsíců</b></td><td>—</td><td>do kdy smí vzniknout inquiry (CNR i CVD zvlášť)</td></tr>
+<tr><td><code>24600_</code> / <code>24603_</code></td><td>Outward Recall (cust/bank)</td><td>REC / RECB</td><td>SED</td><td>15 cal</td><td>—</td><td><b>čekání na odpověď</b> na recall (pak OVD)</td></tr>
+<tr><td><code>24601_,24602_</code></td><td>Outward Inquiry CNR+CVD</td><td>ROI</td><td>SED</td><td>10 cal</td><td>—</td><td><b>čekání na ROI</b> (pak OVD)</td></tr>
+<tr><td><code>24605_</code></td><td>pacs.028 na recall</td><td>ROI</td><td>SED</td><td>10 cal</td><td>—</td><td>nová lhůta; <b>kopíruje se do předchůdce</b> (RSU krok)</td></tr>
+<tr><td><code>24609_</code></td><td>pacs.028 na inquiry</td><td>ROI</td><td>SED</td><td>10 cal</td><td>—</td><td>dtto pro inquiry</td></tr>
+</table></div>
+<p class="legend">Poznámky: (1)&nbsp;prostředí má identickou sadu i pro <code>XN&#8209;CT</code> (P27/NCT klon) a podmnožinu pro <code>XS&#8209;CT&#8209;INST</code> (instantní: REC 13 m., RECB 10 d., recall&#8209;odpovědi 15 d., in&#8209;house verze <code>1500__/15600_/15603_</code>; inquiry pro INST nejsou). (2)&nbsp;Spec §4.1.4.1.4.10 zmiňuje „client recall 15 / bank recall 10" pro čekání na odpověď — seed ale dává 15/15 (<code>24600_</code> i <code>24603_</code>); konfigurace v prostředí je autoritativní. (3)&nbsp;Číselník je editovatelný v GUI — app rights <code>CT_SEPA_REVOC_PERIOD_VIEW/INS/UPD/DEL/AUTH</code>.</p>
+<p class="src">Zdroj: SELECT z sepa_revoc_period_v @ sulc_20260817_APS (78 řádků, 28. 8. 2026); seed database/aps/data_scripts_sepa/administration/ct_sepa_revoc_period.sql</p>
+</div>
+
+<div class="card">
+<h3>SDD lhůty (tamtéž, pro srovnání — tady je vidět síla number&#8209;typů)</h3>
+<div class="tblwrap"><table>
+<tr><th>Produkt</th><th>REJ</th><th>RET</th><th>REFA</th><th>REFN</th><th>CAN</th><th>REV</th></tr>
+<tr><td>XS&#8209;DD&#8209;CORE inward (<code>1103__</code>)</td><td>0</td><td>5 cal</td><td>47 cal</td><td><b>440 civ. dní</b></td><td>0</td><td>5 cal</td></tr>
+<tr><td>XS&#8209;DD&#8209;CORE outward (<code>2203__…</code>)</td><td>0</td><td>5 cal</td><td>47 cal</td><td>440 civ.</td><td>0</td><td>5 cal</td></tr>
+<tr><td>XS&#8209;DD&#8209;B2B (<code>1104__ / 2204__…</code>)</td><td>0</td><td>2 cal (inh. return 20)</td><td>—</td><td>—</td><td>0</td><td>5 cal</td></tr>
+</table></div>
+<p class="legend">REFA 47 dní ≈ 8 týdnů „no questions asked" refund; REFN 440 dní ≈ 13 měsíců pro neautorizovaný refund; B2B refund nemá (proto REFA/REFN chybí). U SDD se po lhůtě odmítá reasonem <span class="chip red">RVO — Revocation overdue</span> (krok PNCCI_REVOC_CHECK na inward R&#8209;cestách).</p>
+</div>
+
+<div class="card">
+<h3>Kde všude se v prostředí lhůty počítají / kontrolují (živě z TP_PROC_STEP)</h3>
+<div class="tblwrap"><table>
+<tr><th>Procesní cesta</th><th>Krok</th><th>Aktivita → procedura</th><th>Co dělá</th></tr>
+<tr><td>INCOMING_CCI_SCT / INCOMING_INH_SCT</td><td>CALC_REVOC_PERIOD</td><td>SEPA_REVOC_PERIOD → tran_revoc_period</td><td>lhůty na inward iniciále (RET/REC/RECB)</td></tr>
+<tr><td>OUTGOING_CCO_SCT (distribuce do clearingu)</td><td>CALC_REVOC_PERIOD + RSU_UPDATE_PREDECESSOR_PERIOD</td><td>SEPA_REVOC_PERIOD; SEPA_RSU_UPDATE_PREDECESSOR_PERIOD → PNEBI_PKG.rsu_update_predecessor_period</td><td>lhůty na outward tx; batch varianta přepočtu předchůdce</td></tr>
+<tr><td>OUTGOING_CUST_SCT_INQ</td><td>CALC_REVOC_PERIOD</td><td>SEPA_REVOC_PERIOD</td><td>ROI lhůta na nové inquiry</td></tr>
+<tr><td>OUTGOING_CUST_SCT_RSU_OL (online, pacs.028)</td><td>CALC_REVOC_PERIOD + RSU_UPDATE_PREDECESSOR_PERIOD</td><td>OL_SEPA_REVOC_PERIOD → revoc_period_ol; OL_SEPA_RSU… → rsu_update_predecessor_period_ol</td><td><b>lhůta status requestu + přepis do předchůdce</b></td></tr>
+<tr><td>INCOMING_CCI_SCT_RR / _INQ, INCOMING_INH_SCT_RR_OL</td><td>CALC/COMPUTE_REVOC</td><td>SEPA_REVOC_PERIOD / OL_…</td><td>naše lhůty na odpověď (inward recall/inquiry)</td></tr>
+<tr><td>EOD</td><td>EOD_SET_SEPA_REQUESTS_OVERDUE (ps 271)</td><td>→ SEPA_PKG.set_requests_overdue</td><td>denně: IUD → OVD pro 246000/246030/246010/246020 po lhůtě</td></tr>
+<tr><td>INCOMING_CCI_SDD_R / INCOMING_INH_SDD_R</td><td>PNCCI_REVOC_CHECK</td><td>→ PNCCI_PKG.check_revoc_dates</td><td>inward SDD R&#8209;tx po lhůtě → reject RVO</td></tr>
+<tr><td><i>(job)</i></td><td>auto_rna_from_pncci</td><td>GU_AUTO_RETURN_RVOC_PKG</td><td>inward recall bez naší odpovědi po lhůtě → auto camt.029 NOAS</td></tr>
+</table></div>
+<p class="src">Zdroj: SELECT tp_proc_activity ⋈ tp_proc_step ⋈ tp_proc_path @ sulc_20260817_APS</p>
+</div>
+
+<div class="card">
+<h3>Queue reasons kolem recall/inquiry (živě z TP_QUEUE_REASON)</h3>
+<div class="tblwrap"><table>
+<tr><th>Kód</th><th>Popis v DB</th><th>Kontext</th></tr>
+<tr><td><span class="chip green">IUD</span></td><td>Issued</td><td>request odeslán, čeká na odpověď (Distribution/CCO/EBI Archive)</td></tr>
+<tr><td><span class="chip amber">OVD</span></td><td>Overdue</td><td>lhůta vypršela bez odpovědi → Manual</td></tr>
+<tr><td><span class="chip">ISD</span></td><td><b>Incorrect Settlement Date</b></td><td>něco úplně jiného (Fedwire) — nezaměňovat s IUD!</td></tr>
+<tr><td><span class="chip red">RVO</span></td><td>Revocation overdue</td><td>inward R&#8209;tx odmítnuta pro překročení lhůty</td></tr>
+<tr><td><span class="chip">REC / RCB</span></td><td>Recall request / … by bank</td><td>na originálu: „visí na tobě recall"</td></tr>
+<tr><td><span class="chip">FRR / SRR / NRR</span></td><td>Return FOCR / Standard Return / Negative reply Received</td><td>archivní status recallu podle odpovědi</td></tr>
+<tr><td><span class="chip">DRE</span></td><td>Duplicate Recall Request</td><td>duplicitní inward recall</td></tr>
+<tr><td><span class="chip">ARC / RCV / DST</span></td><td>Archive / Received / For distribution</td><td>obecné stavy</td></tr>
+</table></div>
+</div>
+
+<!-- ============================================================ -->
+<h2>TL;DR</h2>
+<div class="okbox big">
+<ul class="tight">
+<li><b>Revocation date = budík, ne revokace.</b> Na iniciále „do kdy smí vzniknout R&#8209;tx", na odeslaném recallu/inquiry „do kdy čekám na odpověď", na inward recallu „do kdy musím odpovědět já".</li>
+<li><b>Vždy se počítá sám</b> (ctab 1006: start SED/EXD + civil čas nebo pracovní dny dle kalendáře CLP); user ve vanilla nezadává žádný — u CVD zadává jen <i>správný value date</i>, což je jiné pole.</li>
+<li><b>pacs.028 = natažení budíku:</b> status request (24605x/24609x) si spočte vlastní lhůtu (SED+10 BD) a krok RSU_UPDATE_PREDECESSOR_PERIOD ji <b>přepíše do <code>rec_revoc_date</code> předchůdce</b>; ten se vrátí z OVD do IUD a čeká znovu. Opakovatelné.</li>
+<li><b>24601_/24602_</b> = inquiry samotné (první lhůta), <b>24609_</b> = jejich urgence (nová lhůta). Mechanika stejná jako u 24605_ (recall), jen jiný předchůdce; každá maska má vlastní config řádek.</li>
+<li><b>IUD=Issued, OVD=Overdue; „ISD" ve specu je překlep</b> (v APS znamená Incorrect Settlement Date). CNR=Claim Non&#8209;Receipt, CVA=CVD=Claim Value Date Correction, ROI=Resolution of Investigation.</li>
+</ul>
+</div>
+
+<footer>
+Vytvořeno 28.&nbsp;8.&nbsp;2026 · režim <b>product</b> (vanilla APS) · Konfigurace: živý SELECT ze <b>sulc_20260817_APS</b> (read&#8209;only) ·
+Kód: <span class="path">database/product/modules/sepa/packages/{sepa_value_date_pkg, pnebi_pkg, sepa_pkg, exceptions_api_pkg, gu_auto_return_rvoc_pkg, sepa_pnmci_api_pkg}</span>,
+<span class="path">database/aps/data_scripts_sepa/administration/ct_sepa_revoc_period.sql</span> ·
+Spec: <span class="path">_sulc/product/specs/SepaBulk_Specification.md</span> §4.1.4.1.1.32, §4.1.4.1.4, §4.1.4.1.5, §4.1.4.1.10, §4.1.4.1.13.5, §4.2.2.3.1.3
+</footer>
+
+</div>
+</body>
+</html>
