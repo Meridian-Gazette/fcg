@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Právní rozbor VOP – totální škoda / odcizení a předčasné splacení (klient–podnikatel)</title>
+<style>
+  :root{
+    --ink:#1c2430;
+    --paper:#fdfdfb;
+    --accent:#0f4c81;        /* hlubší bankovní modř */
+    --accent-soft:#e8eff6;
+    --quote-bg:#f4f6f8;
+    --quote-border:#0f4c81;
+    --warn-bg:#fff7e0;
+    --warn-border:#d9a300;
+    --muted:#5b6572;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Charter","Georgia","Times New Roman",serif;
+    font-size:17px;
+    line-height:1.65;
+  }
+  .wrap{max-width:840px;margin:0 auto;padding:48px 28px 72px}
+  header.doc{
+    border-bottom:3px double var(--accent);
+    padding-bottom:20px;
+    margin-bottom:32px;
+  }
+  .eyebrow{
+    font-family:"Segoe UI",Arial,sans-serif;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 10px;
+  }
+  h1{
+    font-size:30px;
+    line-height:1.25;
+    margin:0 0 10px;
+    font-weight:700;
+  }
+  .subtitle{color:var(--muted);margin:0;font-size:15.5px}
+  h2{
+    font-size:22px;
+    margin:44px 0 14px;
+    padding-top:26px;
+    border-top:1px solid #d8dde3;
+    color:var(--accent);
+  }
+  h2 .qnum{
+    display:inline-block;
+    font-family:"Segoe UI",Arial,sans-serif;
+    font-size:12px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    background:var(--accent);
+    color:#fff;
+    border-radius:3px;
+    padding:2px 8px;
+    margin-right:10px;
+    vertical-align:middle;
+  }
+  h3{font-size:17.5px;margin:26px 0 8px}
+  p{margin:0 0 14px}
+  .lead{
+    background:var(--accent-soft);
+    border-left:4px solid var(--accent);
+    padding:14px 18px;
+    margin:0 0 20px;
+  }
+  blockquote{
+    margin:14px 0 18px;
+    padding:12px 18px;
+    background:var(--quote-bg);
+    border-left:4px solid var(--quote-border);
+    font-style:italic;
+  }
+  blockquote p{margin:0}
+  .cite-ref{
+    display:block;
+    margin-top:8px;
+    font-style:normal;
+    font-family:"Segoe UI",Arial,sans-serif;
+    font-size:12.5px;
+    color:var(--muted);
+  }
+  ul{margin:0 0 14px 22px;padding:0}
+  li{margin-bottom:8px}
+  .uvaha{
+    background:var(--warn-bg);
+    border:1px solid var(--warn-border);
+    border-radius:6px;
+    padding:16px 18px;
+    margin:24px 0;
+  }
+  .uvaha .uvaha-label{
+    display:block;
+    font-family:"Segoe UI",Arial,sans-serif;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:#8a6800;
+    margin-bottom:8px;
+  }
+  .uvaha p{margin:0 0 10px}
+  .uvaha p:last-child{margin-bottom:0}
+  footer.disclaimer{
+    margin-top:48px;
+    padding-top:18px;
+    border-top:1px solid #d8dde3;
+    font-size:14.5px;
+    color:var(--muted);
+  }
+  @media (max-width:560px){
+    body{font-size:16px}
+    h1{font-size:24px}
+    .wrap{padding:32px 18px 56px}
+  }
+  @media print{
+    body{background:#fff}
+    .wrap{max-width:100%;padding:0}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="doc">
+  <p class="eyebrow">Právní rozbor · Všeobecné obchodní podmínky úvěrů – Leasing České spořitelny, a.s.</p>
+  <h1>Totální škoda / odcizení vozidla a dobrovolné předčasné splacení úvěru</h1>
+  <p class="subtitle">Scénář: klientka je <strong>podnikatelka, nikoli spotřebitel</strong>. Zdroj: nahrané VOP (single source of truth).</p>
+</header>
+
+<p>Rozumím zadání – vycházím výhradně z nahraných Všeobecných obchodních podmínek (dále „Podmínky“) a klíčovým východiskem je, že klientka je <strong>podnikatelka, nikoli spotřebitel</strong>. To je zásadní, protože Podmínky na řadě míst rozlišují režim pro spotřebitele a pro ostatní klienty.</p>
+
+<!-- ==================== DOTAZ 1 ==================== -->
+<h2><span class="qnum">Dotaz 1</span>Totální škoda nebo odcizení vozidla</h2>
+
+<div class="lead">
+  <p><strong>Stručná odpověď: Ano.</strong> Vedle nesplacené jistiny a dlužných plateb je Společnost oprávněna požadovat i částku odpovídající všem budoucím úrokům až do původně sjednaného konce smlouvy – formálně ovšem nikoli jako „úrok“, ale jako <strong>„mimořádný poplatek“</strong>.</p>
+</div>
+
+<p>Krok za krokem podle dokumentu:</p>
+
+<h3>1) Totální škoda / odcizení vede automaticky k předčasnému ukončení</h3>
+<blockquote>
+  <p>„Úvěr se stává splatným a smlouva se považuje za předčasně ukončenou vždy, nastala-li pojistná událost kvalifikovaná pojišťovnou jako totální škoda (tj. hodnota opravy Vozidla převyšuje obecnou hodnotu Vozidla) nebo došlo k odcizení či ztracení Vozidla, a to k datu vydání potvrzení od pojišťovny o likvidaci uvedené pojistné události jako totální škoda, nebo k datu vydání usnesení Policie o odložení pátrání po Vozidle.“</p>
+  <span class="cite-ref">— čl. 8.1 Podmínek (závěrečná část)</span>
+</blockquote>
+
+<h3>2) Běžné úročení se sice zastaví…</h3>
+<blockquote>
+  <p>„Smluvené běžné úročení se zastavuje s účinností ke dni okamžité splatnosti nebo odstoupení od Úvěrové smlouvy dle odstavce 8.2 Podmínek.“</p>
+  <span class="cite-ref">— čl. 4.14 Podmínek</span>
+</blockquote>
+
+<h3>3) …ale finanční vyrovnání dle čl. 10.1 obsahuje poplatek v identické výši jako budoucí úroky</h3>
+<p>Nadpis odst. 10.1 výslovně pokrývá i tento případ („…a v případě úplného zničení, odcizení nebo ztráty Vozidla“). Dle bodu 10.1.1 je Společnost oprávněna požadovat mj.:</p>
+<ul>
+  <li>písm. b): „nesplacené části jistiny Úvěru“,</li>
+  <li>písm. a): dlužné splátky a úroky do dne ukončení, včetně pojistného,</li>
+  <li>a především <strong>písm. j)</strong>:</li>
+</ul>
+<blockquote>
+  <p>„mimořádný poplatek za předčasné ukončení Úvěrové smlouvy v důsledku úplného zničení, odcizení nebo ztráty Vozidla <strong>ve výši úroků ode dne předčasného ukončení Úvěrové smlouvy do dne původně předpokládaného řádného ukončení Úvěrové smlouvy</strong> [plus případné DPH].“</p>
+  <span class="cite-ref">— čl. 10.1.1 písm. j) Podmínek</span>
+</blockquote>
+
+<h3>4) Spotřebitelská pojistka se na Vás nevztahuje</h3>
+<p>Bod 10.1.1 obsahuje limit jen pro spotřebitele: „Pokud je Klient spotřebitelem a některá z výše uvedených plateb by byla v rozporu s odstavcem 10.1.6 Podmínek, tak Společnost nebude tuto platbu požadovat.“ Jako podnikatelka tuto ochranu (ani limity dle 10.1.6) nemáte.</p>
+
+<p><strong>Odpověď na Vaši konkrétní formulaci:</strong> Částka zbývající po započtení plnění z havarijního pojištění (a případného GAP) tedy může obsahovat nejen nesplacenou jistinu a poplatky, ale i ekvivalent všech budoucích úroků do původního konce úvěru – prostřednictvím „mimořádného poplatku“ dle 10.1.1 písm. j). Datum, od kterého se tento poplatek počítá, určují body 10.1.3 (potvrzení pojišťovny o totální škodě) a 10.1.4 (usnesení Policie o odložení věci).</p>
+
+<div class="uvaha">
+  <span class="uvaha-label">Doplňující úvaha – zde si nejsem jistý</span>
+  <p>Bod 10.1.1 obsahuje vedle písm. j) i písm. i) (poplatek za předčasné ukončení 5 % z nesplacené jistiny + poplatek za zpracování ve výši úroků do konce smlouvy). Výčet je formulován jako „souhrn následujících plateb“ a dokument říká: „Je výhradním právem Společnosti rozhodnout o výši uplatňovaného nároku.“ Není mi z textu jednoznačně jasné, zda by při totální škodě Společnost uplatnila pouze specifické písm. j), nebo teoreticky i písm. i) souběžně (což by úrokový ekvivalent zdvojilo).</p>
+  <p>Dále upozorňuji, že mechanika GAP a havarijního pojištění není v tomto dokumentu upravena – čl. 3 odkazuje na „Doplňkové všeobecné podmínky pojištění“, které nemám k dispozici.</p>
+</div>
+
+<!-- ==================== DOTAZ 2 ==================== -->
+<h2><span class="qnum">Dotaz 2</span>Dobrovolné předčasné splacení úvěru</h2>
+
+<div class="lead">
+  <p><strong>Stručná odpověď: Ano.</strong> Jako podnikatelka fakticky zaplatíte ekvivalent úroků za celé zbývající období, jako kdyby úvěr běžel do konce – a navíc poplatek 5 % z nesplacené jistiny.</p>
+</div>
+
+<p>Klíčové je, že režim předčasného splacení s limitovanými náklady (0,5 % / 1 %) dle čl. 9.2 a vyrovnáním dle 10.2 je vyhrazen spotřebitelům – čl. 9.2.1 začíná slovy: „Klient, <strong>který je spotřebitelem</strong>, je oprávněn Úvěr zcela nebo z části splatit kdykoliv…“</p>
+
+<p>Pro Vás jako podnikatelku platí čl. <strong>9.3 (Dohoda stran)</strong>, který výslovně stanoví:</p>
+<blockquote>
+  <p>„<strong>Finanční vyrovnání pro případ předčasného splacení celého Úvěru ze strany Klienta právnické osoby nebo fyzické osoby - podnikatele je uvedeno v odstavci 10.1 Podmínek.</strong> Pro předčasné splacení Úvěrové smlouvy Klienta - podnikatele se nepoužije § 2399 odst. 2 občanského zákoníku.“</p>
+  <span class="cite-ref">— čl. 9.3 Podmínek</span>
+</blockquote>
+
+<p>A odst. 10.1.1 písm. i) zní:</p>
+<blockquote>
+  <p>„poplatek za předčasné ukončení ve výši 5 % z nesplacené části jistiny [minimálně však 5.000,- Kč plus případné DPH, maximálně 30.000,- Kč plus případné DPH] <strong>plus poplatek za zpracování ve výši úroků ode dne předčasného ukončení Úvěrové smlouvy do dne původně předpokládaného řádného ukončení Úvěrové smlouvy</strong> [plus případné DPH].“</p>
+  <span class="cite-ref">— čl. 10.1.1 písm. i) Podmínek</span>
+</blockquote>
+
+<p><strong>K Vaší přímé otázce: ano, přesně tak to je.</strong> „Poplatek za zpracování ve výši úroků“ znamená, že ekonomicky zaplatíte stejnou částku, jako kdybyste úvěr splácela až do původně sjednaného konce. Předčasným splacením tedy na úrocích nic neušetříte – rozdíl je pouze právně-formální (jde o poplatek, nikoli úrok, s možným dopadem DPH).</p>
+
+<p>Tento efekt je podtržen tím, že smlouva <strong>dvakrát vylučuje § 2399 odst. 2 občanského zákoníku</strong> (čl. 4.5: „Smluvní strany se dohodly, že ustanovení § 2399 odst. 2 Občanského zákoníku se pro účely Úvěrové smlouvy nepoužije.“ a znovu v čl. 9.3). Právě toto zákonné ustanovení by Vám jinak jako úvěrované dávalo právo vrátit prostředky předčasně a zaplatit úroky <strong>jen za dobu do vrácení</strong>. Jeho smluvním vyloučením – které je mezi podnikateli přípustné – tato výhoda odpadá.</p>
+
+<p>Procesně dle čl. 9.3 platí: „Klient Společnosti svůj úmysl dopředu oznámí. Na základě oznámení Společnost Klientovi sdělí částku a podmínky pro předčasné splacení. Pokud bude ze strany Klienta tato částka uhrazena, bude tím uzavřena Dohoda o předčasném splacení.“</p>
+
+<div class="uvaha">
+  <span class="uvaha-label">Doplňující úvaha – zde si nejsem jistý</span>
+  <p>Formulace 10.1.1 („je oprávněna požadovat“, „Je výhradním právem Společnosti rozhodnout o výši uplatňovaného nároku“) znamená, že jde o maximální smluvní nárok Společnosti – v praxi může při sdělení částky dle 9.3 požadovat i méně, ale právně to vymáhat nemůžete.</p>
+  <p>Pokud je pro Vás možnost výhodného předčasného splacení důležitá, jediná spolehlivá cesta je sjednat odchylku přímo v Úvěrové smlouvě ještě před podpisem – dle čl. 11.11 totiž „V případě rozporu mezi ustanovením Podmínek a Úvěrové smlouvy nebo Splátkového kalendáře mají ustanovení Úvěrové smlouvy přednost.“</p>
+</div>
+
+<footer class="disclaimer">
+  <p>Na závěr běžná výhrada: toto je výklad textu nahraných Podmínek, nikoli závazné právní poradenství – konkrétní Úvěrová smlouva může obsahovat odchylná ujednání, která mají dle čl. 11.11 přednost, proto doporučuji nechat finální znění smlouvy před podpisem posoudit advokátem.</p>
+</footer>
+
+</div>
+</body>
+</html>
