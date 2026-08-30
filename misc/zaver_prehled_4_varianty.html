@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Závěrečný přehled: 4 varianty předčasného ukončení úvěru (jistina 200 000 Kč)</title>
+<style>
+  :root{
+    --ink:#1c2430;
+    --paper:#fdfdfb;
+    --accent:#0f4c81;
+    --accent-soft:#e8eff6;
+    --quote-bg:#f4f6f8;
+    --warn-bg:#fff7e0;
+    --warn-border:#d9a300;
+    --ok:#1e7a45;
+    --ok-soft:#e8f4ec;
+    --risk:#a33c2e;
+    --risk-soft:#faeceb;
+    --muted:#5b6572;
+    --line:#d8dde3;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Charter","Georgia","Times New Roman",serif;
+    font-size:16.5px;
+    line-height:1.6;
+  }
+  .wrap{max-width:1020px;margin:0 auto;padding:44px 26px 72px}
+  header.doc{border-bottom:3px double var(--accent);padding-bottom:18px;margin-bottom:26px}
+  .eyebrow{
+    font-family:"Segoe UI",Arial,sans-serif;font-size:12px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent);margin:0 0 10px;
+  }
+  h1{font-size:28px;line-height:1.25;margin:0 0 10px;font-weight:700}
+  .subtitle{color:var(--muted);margin:0;font-size:15px}
+
+  .scenario{
+    background:var(--accent-soft);border-left:4px solid var(--accent);
+    padding:14px 18px;margin:22px 0 8px;
+  }
+  .scenario p{margin:0 0 8px}
+  .scenario p:last-child{margin:0}
+
+  .legend{
+    font-family:"Segoe UI",Arial,sans-serif;font-size:13.5px;color:var(--muted);
+    margin:14px 0 26px;
+  }
+  .legend .chip{display:inline-block;margin-right:16px;white-space:nowrap}
+
+  .grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:34px;
+  }
+  @media (max-width:760px){.grid{grid-template-columns:1fr}}
+
+  .card{
+    border:1px solid var(--line);border-radius:8px;background:#fff;
+    display:flex;flex-direction:column;overflow:hidden;
+  }
+  .card-head{
+    padding:12px 16px;border-bottom:1px solid var(--line);
+    font-family:"Segoe UI",Arial,sans-serif;
+  }
+  .card-head .tag{
+    display:inline-block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:#fff;border-radius:3px;padding:2px 8px;margin-right:8px;vertical-align:middle;
+  }
+  .a .tag{background:var(--ok)}
+  .b .tag{background:var(--risk)}
+  .card-head .who{font-weight:700;font-size:15.5px}
+  .card-head .what{display:block;color:var(--muted);font-size:13.5px;margin-top:2px}
+  .card-head .route{display:block;font-size:12.5px;color:var(--accent);margin-top:6px}
+
+  .card-body{padding:14px 16px 6px;flex:1}
+  .item{
+    display:flex;gap:10px;align-items:flex-start;
+    padding:7px 0;border-bottom:1px dashed #e6eaee;
+  }
+  .item:last-child{border-bottom:none}
+  .mark{flex:0 0 22px;text-align:center;font-size:15px;line-height:1.5}
+  .mark.ok{color:var(--ok)}
+  .mark.warn{color:var(--warn-border)}
+  .mark.minus{color:var(--accent)}
+  .item .txt{flex:1}
+  .item .txt small{display:block;color:var(--muted);font-size:12.5px;font-family:"Segoe UI",Arial,sans-serif}
+  .amount{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+
+  .card-sum{
+    margin-top:auto;padding:12px 16px;border-top:1px solid var(--line);
+    font-family:"Segoe UI",Arial,sans-serif;font-size:14px;
+  }
+  .a .card-sum{background:var(--ok-soft)}
+  .b .card-sum{background:var(--risk-soft)}
+  .card-sum b{font-size:14.5px}
+
+  h2{
+    font-size:21px;margin:40px 0 14px;padding-top:24px;
+    border-top:1px solid var(--line);color:var(--accent);
+  }
+  blockquote{
+    margin:12px 0 16px;padding:11px 16px;background:var(--quote-bg);
+    border-left:4px solid var(--accent);font-style:italic;font-size:15.5px;
+  }
+  blockquote p{margin:0}
+  .cite-ref{
+    display:block;margin-top:7px;font-style:normal;
+    font-family:"Segoe UI",Arial,sans-serif;font-size:12.5px;color:var(--muted);
+  }
+  .uvaha{
+    background:var(--warn-bg);border:1px solid var(--warn-border);border-radius:6px;
+    padding:15px 18px;margin:22px 0;
+  }
+  .uvaha .uvaha-label{
+    display:block;font-family:"Segoe UI",Arial,sans-serif;font-weight:700;font-size:13px;
+    letter-spacing:.08em;text-transform:uppercase;color:#8a6800;margin-bottom:8px;
+  }
+  .uvaha p{margin:0 0 10px}
+  .uvaha p:last-child{margin-bottom:0}
+  ul{margin:0 0 14px 22px;padding:0}
+  li{margin-bottom:8px}
+  p{margin:0 0 13px}
+  footer.disclaimer{
+    margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+    font-size:14px;color:var(--muted);
+  }
+  @media print{body{background:#fff}.wrap{max-width:100%;padding:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="doc">
+  <p class="eyebrow">   </p>
+  <h1>Čtyři varianty předčasného ukončení úvěru na vozidlo</h1>
+  <p class="subtitle">Spotřebitel vs. podnikatelka &nbsp;·&nbsp; totální škoda / odcizení vs. dobrovolné předčasné splacení</p>
+</header>
+
+<div class="scenario">
+  <p><strong>Modelový scénář:</strong> zbývá splatit <strong>200 000 Kč jistiny</strong> + budoucí úroky do původně sjednaného konce smlouvy.</p>
+  <p><strong>Společné pro všechny varianty:</strong> vedle níže uvedených částek se vždy platí i dlužné splátky, úroky a pojistné přirostlé <em>do dne ukončení</em> smlouvy (čl. 10.1.1 písm. a), resp. 10.2.1 písm. a)) – ve scénáři odfiltrováno tím, že počítáme jen zbylou jistinu.</p>
+</div>
+
+<p class="legend">
+  <span class="chip">✓&nbsp;= položka jistá dle textu Podmínek</span>
+  <span class="chip">⚠&nbsp;= textově nejasné / sporné</span>
+  <span class="chip">−&nbsp;= odečítá se</span>
+</p>
+
+<div class="grid">
+
+  <!-- A1 -->
+  <div class="card a">
+    <div class="card-head">
+      <span class="tag">A1</span><span class="who">Spotřebitel</span>
+      <span class="what">Totální škoda nebo odcizení vozidla</span>
+      <span class="route">Cesta: čl. 8.1 (automatické zesplatnění) → vyrovnání dle čl. 10.1</span>
+    </div>
+    <div class="card-body">
+      <div class="item"><span class="mark ok">✓</span><span class="txt">Nesplacená jistina <span class="amount">200 000 Kč</span><small>čl. 10.1.1 písm. b)</small></span></div>
+      <div class="item"><span class="mark minus">−</span><span class="txt">Plnění z havarijního pojištění (vinkulace ve prospěch Společnosti)<small>čl. 3 → Doplňkové podmínky pojištění</small></span></div>
+      <div class="item"><span class="mark warn">⚠</span><span class="txt">Budoucí úroky („mimořádný poplatek“ dle písm. j)) – <strong>text Podmínek je nevylučuje ani pro spotřebitele</strong>: spotřebitelská pojistka v 10.1.1 odkazuje jen na odst. 10.1.6, který kryje pouze <em>prodlení</em>, ne totální škodu. Nárok je ale v napětí se Zákonem o spotřebitelském úvěru → sporné.<small>čl. 10.1.1 písm. j) + 10.1.6</small></span></div>
+    </div>
+    <div class="card-sum"><b>Orientačně: 200 000 Kč − pojistné plnění</b> (+ textově sporný nárok na budoucí úroky)</div>
+  </div>
+
+  <!-- A2 -->
+  <div class="card a">
+    <div class="card-head">
+      <span class="tag">A2</span><span class="who">Spotřebitel</span>
+      <span class="what">Dobrovolné předčasné splacení</span>
+      <span class="route">Cesta: čl. 9.2 → vyrovnání dle čl. 10.2 (zákonná ochrana, nelze vyloučit)</span>
+    </div>
+    <div class="card-body">
+      <div class="item"><span class="mark ok">✓</span><span class="txt">Nesplacená jistina <span class="amount">200 000 Kč</span><small>čl. 10.2.1 písm. b)</small></span></div>
+      <div class="item"><span class="mark ok">✓</span><span class="txt">Náklady spojené s předčasným splacením: max. 1 % = <span class="amount">2 000 Kč</span> (zbývá-li do konce smlouvy <em>více než rok</em>), max. 0,5 % = <span class="amount">1 000 Kč</span> (zbývá-li <em>méně</em>)<small>čl. 10.2.1 písm. e)</small></span></div>
+      <div class="item"><span class="mark ok">✓</span><span class="txt">Druhý strop: náklady nesmí přesáhnout ani částku úroků, které by do konce smlouvy ještě zaplatil<small>čl. 10.2.1 písm. e), závěr</small></span></div>
+      <div class="item"><span class="mark ok">✓</span><span class="txt"><strong>Budoucí úroky se neplatí</strong> – ve výčtu 10.2.1 žádná taková položka není. Spotřebitel předčasným splacením reálně ušetří.</span></div>
+    </div>
+    <div class="card-sum"><b>Celkem: 200 000 Kč + max. 1 000–2 000 Kč</b></div>
+  </div>
+
+  <!-- B1 -->
+  <div class="card b">
+    <div class="card-head">
+      <span class="tag">B1</span><span class="who">Podnikatelka</span>
+      <span class="what">Totální škoda nebo odcizení vozidla</span>
+      <span class="route">Cesta: čl. 8.1 (automatické zesplatnění) → čl. 10.1 – bez spotřebitelských limitů</span>
+    </div>
+    <div class="card-body">
+      <div class="item"><span class="mark ok">✓</span><span class="txt">Nesplacená jistina <span class="amount">200 000 Kč</span><small>čl. 10.1.1 písm. b)</small></span></div>
+      <div class="item"><span class="mark ok">✓</span><span class="txt">Suma všech budoucích úroků do původního konce smlouvy („mimořádný poplatek“) + případné DPH<small>čl. 10.1.1 písm. j); datum zesplatnění: potvrzení pojišťovny (10.1.3) / usnesení Policie (10.1.4)</small></span></div>
+      <div class="item"><span class="mark warn">⚠</span><span class="txt">5 % z jistiny = <span class="amount">10 000 Kč</span> dle písm. i) – <strong>nejasné, zda se uplatní souběžně</strong> s písm. j); „je výhradním právem Společnosti rozhodnout o výši uplatňovaného nároku“</span></div>
+      <div class="item"><span class="mark warn">⚠</span><span class="txt">Teoretické textové maximum: úroková suma <strong>dvakrát</strong> (písm. i) „poplatek za zpracování ve výši úroků“ + písm. j)) – právně těžko obhajitelné, ale text to výslovně nevylučuje</span></div>
+      <div class="item"><span class="mark warn">⚠</span><span class="txt">Možný poplatek za znalecký posudek <span class="amount">4 000 Kč</span> (+ příp. DPH)<small>Sazebník: „při mimořádném ukončení smlouvy“</small></span></div>
+      <div class="item"><span class="mark minus">−</span><span class="txt">Plnění z havarijního pojištění a GAP – <strong>pozor:</strong> co přesně GAP kryje, určují Doplňkové podmínky (nejsou k dispozici); poplatek dle písm. j) může zůstat nekrytý</span></div>
+    </div>
+    <div class="card-sum"><b>Orientačně: 200 000 Kč + budoucí úroky − pojistná plnění</b> (± 10 000 Kč, ± posudek 4 000 Kč, + příp. DPH)</div>
+  </div>
+
+  <!-- B2 -->
+  <div class="card b">
+    <div class="card-head">
+      <span class="tag">B2</span><span class="who">Podnikatelka</span>
+      <span class="what">Dobrovolné předčasné splacení</span>
+      <span class="route">Cesta: čl. 9.3 (Dohoda stran) → čl. 10.1.1 písm. i); § 2399 odst. 2 OZ smluvně vyloučen (čl. 4.5 a 9.3)</span>
+    </div>
+    <div class="card-body">
+      <div class="item"><span class="mark ok">✓</span><span class="txt">Nesplacená jistina <span class="amount">200 000 Kč</span></span></div>
+      <div class="item"><span class="mark ok">✓</span><span class="txt">Poplatek za předčasné ukončení: 5 % z jistiny = <span class="amount">10 000 Kč</span> (min. 5 000 / max. 30 000 Kč – zde se neuplatní) + případné DPH<small>čl. 10.1.1 písm. i)</small></span></div>
+      <div class="item"><span class="mark ok">✓</span><span class="txt">Suma všech budoucích úroků do původního konce smlouvy – pojmenovaná jako „poplatek za zpracování“ – + případné DPH<small>čl. 10.1.1 písm. i); DPH se může vztahovat na obě složky</small></span></div>
+      <div class="item"><span class="mark ok">✓</span><span class="txt">Písm. j) se zde nepoužije – je vázáno výslovně jen na zničení / odcizení / ztrátu Vozidla. Trojice variant jako u B1 tedy nehrozí.</span></div>
+    </div>
+    <div class="card-sum"><b>Celkem: 200 000 Kč + 10 000 Kč + všechny budoucí úroky</b> (+ příp. DPH)</div>
+  </div>
+
+</div>
+
+<br> 
+<h2>Klíčové citace z Podmínek</h2>
+
+<blockquote>
+  <p>„Úvěr se stává splatným a smlouva se považuje za předčasně ukončenou vždy, nastala-li pojistná událost kvalifikovaná pojišťovnou jako totální škoda (tj. hodnota opravy Vozidla převyšuje obecnou hodnotu Vozidla) nebo došlo k odcizení či ztracení Vozidla…“</p>
+  <span class="cite-ref">— čl. 8.1 Podmínek (závěrečná část) · základ variant A1 a B1</span>
+</blockquote>
+
+<blockquote>
+  <p>„poplatek za předčasné ukončení ve výši 5 % z nesplacené části jistiny [minimálně však 5.000,- Kč plus případné DPH, maximálně 30.000,- Kč plus případné DPH] plus poplatek za zpracování ve výši úroků ode dne předčasného ukončení Úvěrové smlouvy do dne původně předpokládaného řádného ukončení Úvěrové smlouvy [plus případné DPH]“</p>
+  <span class="cite-ref">— čl. 10.1.1 písm. i) · základ varianty B2 (a sporně B1)</span>
+</blockquote>
+
+<blockquote>
+  <p>„mimořádný poplatek za předčasné ukončení Úvěrové smlouvy v důsledku úplného zničení, odcizení nebo ztráty Vozidla ve výši úroků ode dne předčasného ukončení Úvěrové smlouvy do dne původně předpokládaného řádného ukončení Úvěrové smlouvy [plus případné DPH]“</p>
+  <span class="cite-ref">— čl. 10.1.1 písm. j) · základ varianty B1</span>
+</blockquote>
+
+<blockquote>
+  <p>„Výše těchto nákladů nepřesáhne 1 % z předčasně splacené části Úvěru, přesahuje-li doba mezi předčasným splacením a sjednaným koncem Úvěrové smlouvy jeden rok nebo 0,5 % z předčasně splacené části Úvěru, nepřesahuje-li doba mezi předčasným splacením a sjednaným koncem Úvěrové smlouvy jeden rok a zároveň částku úroku, kterou by Klient zaplatil za dobu od předčasného splacení do skončení původně dohodnuté doby trvání Úvěrové smlouvy.“</p>
+  <span class="cite-ref">— čl. 10.2.1 písm. e) · základ varianty A2</span>
+</blockquote>
+
+<blockquote>
+  <p>„Finanční vyrovnání pro případ předčasného splacení celého Úvěru ze strany Klienta právnické osoby nebo fyzické osoby - podnikatele je uvedeno v odstavci 10.1 Podmínek. Pro předčasné splacení Úvěrové smlouvy Klienta - podnikatele se nepoužije § 2399 odst. 2 občanského zákoníku.“</p>
+  <span class="cite-ref">— čl. 9.3 Podmínek · proč podnikatelka spadá do režimu 10.1</span>
+</blockquote>
+
+<blockquote>
+  <p>„Je výhradním právem Společnosti rozhodnout o výši uplatňovaného nároku dle tohoto bodu 10.1.1 Podmínek.“</p>
+  <span class="cite-ref">— čl. 10.1.1 · zdroj nejistoty u B1 (souběh písm. i) a j))</span>
+</blockquote>
+
+<br><br>
+
+<div class="uvaha">
+  <span class="uvaha-label">Doplňující úvaha – zde si nejsem jistý</span>
+  <p><strong>K A1:</strong> Zákon o spotřebitelském úvěru nároky věřitele při předčasném zesplatnění vůči spotřebiteli výrazně omezuje; poplatek ve výši budoucích úroků (písm. j)) by vůči spotřebiteli byl nejspíš nevymahatelný – to je ale výklad zákona, ne text nahraných Podmínek.</p>
+  <p><strong>K B1:</strong> Souběh písm. i) + j) (a tím spíše dvojí úroková suma) považuji za textově možný, ale právně těžko obhajitelný – písm. j) je speciálním ustanovením pro zničení/odcizení, bod 10.1.5 deklaruje poplatek jako náhradu jednorázových nákladů (ušlý výnos je jen jeden) a nejednoznačné formulářové podmínky se i mezi podnikateli vykládají k tíži jejich autora.</p>
+  <p><strong>Prakticky:</strong> nejspolehlivější obranou je sjednat odchylky přímo v Úvěrové smlouvě před podpisem – dle čl. 11.11 mají ustanovení Úvěrové smlouvy před Podmínkami přednost. U GAP si nechat písemně potvrdit, zda kryje i poplatek dle písm. j).</p>
+</div>
+
+
+
+</div>
+</body>
+</html>
