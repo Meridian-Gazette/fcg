@@ -65,11 +65,13 @@
   blockquote::before { content: open-quote; color: var(--gold); }
   blockquote::after { content: close-quote; color: var(--gold); }
 
-  /* Ruský překlad: tišší ozvěna originálu. */
+  /* Ruský překlad: tišší ozvěna originálu. Bez kurzívy - azbuka v kurzívě
+     mění tvary písmen (т→m, и→u) a špatně se čte. */
   blockquote.ru {
     font-size: 19px;
     margin-top: 26px;
     opacity: 0.82;
+    font-style: normal;
   }
 
   .orn {
