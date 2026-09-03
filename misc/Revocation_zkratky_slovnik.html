@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revocation dates — slovník zkratek</title>
+<style>
+  :root{
+    --ink:#1e2a38; --muted:#5b6b7d; --bg:#f7f9fb; --card:#ffffff;
+    --accent:#0e6ba8; --accent2:#b3541e; --warn:#b26a00; --line:#dde5ec; --code:#eef3f7; --chip:#e8f1f8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+  .wrap{max-width:1060px;margin:0 auto;padding:24px 20px 80px}
+  header.hero{background:linear-gradient(135deg,#0e3a5d,#0e6ba8);color:#fff;border-radius:14px;padding:24px 30px;margin-bottom:24px}
+  header.hero h1{margin:0 0 6px;font-size:1.55rem}
+  header.hero p{margin:0;opacity:.92}
+  h2{font-size:1.18rem;margin:32px 0 8px;color:#0e3a5d;border-bottom:3px solid var(--accent);padding-bottom:5px}
+  table{border-collapse:collapse;width:100%;font-size:.88rem;background:var(--card)}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin:8px 0}
+  th{background:#0e3a5d;color:#fff;text-align:left;padding:6px 10px;font-weight:600;white-space:nowrap}
+  td{padding:6px 10px;border-top:1px solid var(--line);vertical-align:top}
+  tr:nth-child(even) td{background:#f4f8fb}
+  td.z{font-family:Consolas,"Cascadia Mono",monospace;font-weight:700;color:#0e3a5d;white-space:nowrap}
+  b.l{color:var(--accent2)}
+  code{font-family:Consolas,monospace;font-size:.86em;background:var(--code);border-radius:4px;padding:1px 5px}
+  .n{color:var(--muted);font-size:.84rem}
+  .warnbox{border-left:4px solid var(--warn);background:#fff8ec;padding:9px 15px;border-radius:0 8px 8px 0;margin:14px 0;font-size:.92rem}
+  .chip{display:inline-block;background:var(--chip);color:#0e3a5d;border:1px solid #c4d8e8;border-radius:999px;padding:0 9px;font-size:.78rem;font-weight:600}
+  footer{margin-top:40px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+
+
+
+<div class="tblwrap"><table>
+<tr><th> </th><th> </th><th> </th></tr>
+<tr><td class="z">RET</td><td><b class="l">RET</b>urn</td><td>vrácení platby (pacs.004) — okno 3 BD u SCT inward; SDD 5/2 BD</td></tr>
+<tr><td class="z">REJ</td><td><b class="l">REJ</b>ect</td><td>odmítnutí SDD před vypořádáním (SDD-only)</td></tr>
+<tr><td class="z">REC</td><td><b class="l">REC</b>all</td><td>odvolání platby klientem/originatorem (camt.056) — 13 měsíců</td></tr>
+<tr><td class="z">RECB</td><td><b class="l">REC</b>all by <b class="l">B</b>ank</td><td>recall z podnětu banky (DUPL/TECH) — 10 BD</td></tr>
+<tr><td class="z">CNR</td><td><b class="l">C</b>laim <b class="l">N</b>on-<b class="l">R</b>eceipt</td><td>reklamace „platba nedošla" (camt.027) — okno 13 měsíců</td></tr>
+<tr><td class="z">CVD</td><td><b class="l">C</b>laim <b class="l">V</b>alue <b class="l">D</b>ate correction</td><td>reklamace pozdní valuty (camt.087); spec místy píše <b>CVA</b> (…<b class="l">A</b>djustment) = totéž</td></tr>
+<tr><td class="z">ROI</td><td><b class="l">R</b>esolution <b class="l">O</b>f <b class="l">I</b>nvestigation</td><td>odpověď na inquiry (camt.029); v ctab 1006 = „lhůta, do kdy čekám na vyřešení" (sdílí slot s REC)</td></tr>
+<tr><td class="z">REFA</td><td><b class="l">REF</b>und <b class="l">A</b>uthorized</td><td>SDD refund autorizovaného inkasa — 8 týdnů „no questions asked" (SDD-CORE-only)</td></tr>
+<tr><td class="z">REFN</td><td><b class="l">REF</b>und <b class="l">N</b>on-authorized</td><td>SDD refund NEautorizovaného inkasa — 13 měsíců (SDD-CORE-only)</td></tr>
+<tr><td class="z">CAN</td><td><b class="l">CAN</b>cellation</td><td>zrušení SDD před settlementem (SDD-only)</td></tr>
+<tr><td class="z">REV</td><td><b class="l">REV</b>ersal</td><td>vrácení SDD creditorem po settlementu — 5 BD (SDD-only)</td></tr>
+</table></div>
+
+<h2>fronty/queue reasons</h2>
+<div class="tblwrap">
+<table>
+<tr><th> </th><th> </th><th> </th></tr>
+<tr><td class="z">IUD</td><td><b class="l">I</b>ss<b class="l">U</b>e<b class="l">D</b></td><td>„request odeslán, čekám na odpověď" (Distribution.Archive); zkomolené hláskování — přímočaré „ISD" už bylo obsazené ⤵</td></tr>
+<tr><td class="z">ISD</td><td><b class="l">I</b>ncorrect <b class="l">S</b>ettlement <b class="l">D</b>ate</td><td>Fedwire queue reason; SEPA spec ho na pár místech omylem píše místo IUD (pozor, past)</td></tr>
+
+
+<tr><td class="z">RVO</td><td><b class="l">R</b>e<b class="l">V</b>ocation <b class="l">O</b>verdue</td><td>inward R-tx přišla po lhůtě originálu → reject (krok PNCCI_REVOC_CHECK, v SEPA zapojen u SDD)</td></tr>
+<tr><td class="z">RCV</td><td><b class="l">R</b>e<b class="l">C</b>ei<b class="l">V</b>ed</td><td>přijato, čeká na obsluhu operátorem (např. došlá NA / inward pacs.028)</td></tr>
+<tr><td class="z">ARC</td><td><b class="l">ARC</b>hive(d)</td><td>archivováno / zpracováno</td></tr>
+<tr><td class="z">NRR</td><td><b class="l">N</b>egative <b class="l">R</b>eply <b class="l">R</b>eceived</td><td>archivní status recallu: zakončen zamítnutím (camt.029 RJCR)</td></tr>
+<tr><td class="z">FRR</td><td><b class="l">F</b>OCR <b class="l">R</b>eturn <b class="l">R</b>eceived</td><td>archivní status recallu: zakončen vrácením peněz (pacs.004 FOCR)</td></tr>
+<tr><td class="z">SRR</td><td><b class="l">S</b>tandard <b class="l">R</b>eturn <b class="l">R</b>eceived</td><td>běžný return spárovaný k recallu (bez FOCR)</td></tr>
+<tr><td class="z">DRE</td><td><b class="l">D</b>uplicate <b class="l">RE</b>call</td><td>duplicitní inward recall request</td></tr>
+<tr><td class="z">DST</td><td><b class="l">D</b>i<b class="l">ST</b>ribution</td><td>„for distribution" — čeká na distribuční den</td></tr>
+<tr><td class="z">BPG</td><td><b class="l">B</b>locked <b class="l">P</b>rocess <b class="l">G</b>roup</td><td>„skupina blokována kanálem, který ji vytvořil" — PG čeká na dokončení výstupního kanálu</td></tr>
+<tr><td class="z">NOAS</td><td><b class="l">NO</b> <b class="l">A</b>n<b class="l">S</b>wer</td><td>reason automatické negativní odpovědi, když naše odpovědní lhůta na inward recall vyprší</td></tr>
+</table></div>
+
+<h2>ISO kódy camt.029</h2>
+<div class="tblwrap"><table>
+<tr><th> </th><th> </th><th> </th></tr>
+<tr><td class="z">RJCR</td><td><b class="l">R</b>e<b class="l">J</b>ected <b class="l">C</b>ancellation <b class="l">R</b>equest</td><td>recall zamítnut (camt.029.001.03 — jediný povolený status v této verzi)</td></tr>
+<tr><td class="z">FOCR</td><td><b class="l">F</b>ollowing <b class="l">C</b>ancellation <b class="l">R</b>equest</td><td>reason code returnu = „vracím na základě recallu" — KLADNÁ odpověď na camt.056 (pacs.004)</td></tr>
+<tr><td class="z">ACNR</td><td><b class="l">AC</b>cepted Claim <b class="l">N</b>on-<b class="l">R</b>eceipt</td><td>claim uznán a vyřešen: „připsáno, tady je datum (DtPrcd)" — kladná odpověď na CNR</td></tr>
+<tr><td class="z">RJNR</td><td><b class="l">R</b>e<b class="l">J</b>ected Claim <b class="l">N</b>on-<b class="l">R</b>eceipt</td><td>claim zamítnut (s důvodem NOOR/RNPR/…)</td></tr>
+<tr><td class="z">ACVA</td><td><b class="l">AC</b>cepted <b class="l">V</b>alue date <b class="l">A</b>djustment</td><td>podmíněný souhlas s opravou valuty („nejdřív zaplať fee/úrok")</td></tr>
+<tr><td class="z">RJVA</td><td><b class="l">R</b>e<b class="l">J</b>ected <b class="l">V</b>alue date <b class="l">A</b>djustment</td><td>oprava valuty zamítnuta (typicky &gt; 13 měsíců)</td></tr>
+<tr><td class="z">MODI</td><td><b class="l">MODI</b>fication (done)</td><td>finální potvrzení — valuta opravena</td></tr>
+<tr><td class="z">CVAA</td><td><b class="l">C</b>orrect <b class="l">V</b>alue date <b class="l">A</b>lready <b class="l">A</b>pplied</td><td>„valuta byla správně od začátku" — zdvořilé zamítnutí CVD</td></tr>
+</table></div>
+
+<h2>recall / negative answer / return / ROI</h2>
+<div class="tblwrap"><table>
+<tr><th> </th><th> </th><th> </th></tr>
+<tr><td class="z">TECH</td><td><b class="l">TECH</b>nical problem</td><td>technická chyba — bank recall (10 BD)</td></tr>
+<tr><td class="z">FRAD</td><td><b class="l">FRA</b>u<b class="l">D</b>ulent</td><td>podvod — bank recall, ale s oknem 13 měsíců (měří se proti REC!)</td></tr>
+<tr><td class="z">AC03 / AC04 / AC06</td><td><b class="l">AC</b>count + pořadové číslo</td><td>ISO rodina „účet": špatný/neplatný účet · účet zrušen · účet blokován</td></tr>
+<tr><td class="z">AM04 / AM05 / AM09</td><td><b class="l">AM</b>ount + číslo</td><td>rodina „částka": nekryto · duplicita · špatná částka</td></tr>
+<tr><td class="z">AG01 / AG02</td><td><b class="l">AG</b>ent/agreement + číslo</td><td>transakce na účtu zakázána · nepovolený typ transakce</td></tr>
+<tr><td class="z">RR01–RR04</td><td><b class="l">R</b>egulatory <b class="l">R</b>eason + číslo</td><td>regulatorní rodina: chybějící údaje dlužníka (01), jeho jméno/adresa (02), věřitele (03), obecný regulatorní důvod (04)</td></tr>
+<tr><td class="z">MS02 / MS03</td><td><b class="l">M</b>i<b class="l">S</b>cellaneous + číslo</td><td>„bez udání důvodu" — klientem (02) / bankou (03)</td></tr>
+<tr><td class="z">MD07</td><td><b class="l">M</b>an<b class="l">D</b>ate + číslo</td><td>klient zemřel (ISO MD rodina)</td></tr>
+<tr><td class="z">RC01</td><td><b class="l">R</b>outing <b class="l">C</b>ode</td><td>chybný identifikátor banky (BIC) — nezroutovatelné</td></tr>
+<tr><td class="z">LEGL</td><td><b class="l">LEG</b>a<b class="l">L</b></td><td>právní překážka (druhý povolený kód NA vedle CUST v camt.029.001.03)</td></tr>
+<tr><td class="z">NOOR</td><td><b class="l">N</b>o <b class="l">O</b>riginal transaction <b class="l">R</b>eceived</td><td>„originál k nám vůbec nedošel"</td></tr>
+<tr><td class="z">ARDT</td><td><b class="l">A</b>l<b class="l">R</b>ea<b class="l">D</b>y re<b class="l">T</b>urned</td><td>„už jsme to vrátili"</td></tr>
+<tr><td class="z">ARJT</td><td><b class="l">A</b>lready <b class="l">R</b>e<b class="l">J</b>ec<b class="l">T</b>ed</td><td>„už jsme to odmítli"</td></tr>
+<tr><td class="z">RNPR</td><td><b class="l">R</b>eceived <b class="l">N</b>ot <b class="l">PR</b>ocessed</td><td>„došlo, ale nezpracováno/nepřipsáno"</td></tr>
+</table></div>
+
+<br><br>
+
+<div class="tblwrap"><table>
+<tr><th> </th><th> </th><th> </th></tr>
+<tr><td class="z">RFRO</td><td><b class="l">R</b>equest <b class="l">F</b>or <b class="l">R</b>ecall by the <b class="l">O</b>riginator</td><td>EPC název pro klientský recall mimo DUPL/TECH/FRAD — proto okno 13 měsíců a reasons AC03/AM09/CUST (v APS = 24600x)</td></tr>
+<tr><td class="z">RSU</td><td><b class="l">R</b>equest for <b class="l">S</b>tatus <b class="l">U</b>pdate</td><td>APS pojmenování pacs.028 (odtud krok RSU_UPDATE_PREDECESSOR_PERIOD)</td></tr>
+<tr><td class="z">NA</td><td><b class="l">N</b>egative <b class="l">A</b>nswer</td><td>zamítavá odpověď na recall (camt.029 RJCR)</td></tr>
+<tr><td class="z">ICF / SCF</td><td><b class="l">I</b>nput / <b class="l">S</b>ettled + <b class="l">C</b>redit transfer <b class="l">F</b>ile</td><td>STEP2 soubory jádra SCT: co účastník posílá (.I) / co mu přijde vypořádané (.N)</td></tr>
+<tr><td class="z">IQF / OQF</td><td><b class="l">I</b>nput / <b class="l">O</b>utput + <b class="l">Q</b>uery <b class="l">F</b>ile</td><td>inquiry rodina: můj dotazový soubor (.Q) / došlé dotazy a odpovědi (.O) — camt.027/087/029.001.08/pacs.028</td></tr>
+<tr><td class="z">DtPrcd</td><td><b class="l">D</b>a<b class="l">t</b>e <b class="l">P</b>ro<b class="l">c</b>esse<b class="l">d</b></td><td>datum připsání v ACNR odpovědi → APS ho propíše na iniciálu jako „Date Payment Processed"</td></tr>
+<tr><td class="z">CCI / CCO / EBI / CLO / MCI</td><td><b class="l">C</b>learing <b class="l">C</b>entre <b class="l">I</b>nput / <b class="l">O</b>utput · <b class="l">E</b>-<b class="l">B</b>anking <b class="l">I</b>nput · <b class="l">CL</b>earing-less <b class="l">O</b>utput · <b class="l">M</b>anual <b class="l">C</b>apture <b class="l">I</b>nput</td><td>APS větve zpracování (prefixy balíčků pncci/pncco/pnebi/pnclo/pnmci) — odkud transakce přišla / kam jde</td></tr>
+</table></div>
+
+</div>
+</body>
+</html>
