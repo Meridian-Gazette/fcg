@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deset vteřin — záhada okamžité platby</title>
+<style>
+  :root{
+    --paper:#FBFAF6; --ink:#1B1A17; --muted:#6F6A5F;
+    --rule:#D5D0C3; --azur:#16436B; --boxbg:#F0F2F0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);
+    font-family:Charter,'Bitstream Charter','Sitka Text',Cambria,Georgia,serif;
+    font-size:18px;line-height:1.72}
+  .page{max-width:700px;margin:0 auto;padding:0 22px 90px}
+  code{font-family:Consolas,Menlo,monospace;font-size:.85em;background:#ECEDE8;padding:1px 5px;border-radius:3px}
+
+  .titul{padding:72px 0 42px;border-bottom:3px double var(--azur)}
+  .rubrika{font-size:12.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin-bottom:26px}
+  h1{font-size:clamp(32px,6vw,50px);font-weight:800;line-height:1.1;letter-spacing:-.01em}
+  h1 .blue{color:var(--azur)}
+  .perex{font-size:clamp(18px,2.8vw,21px);font-style:italic;color:#3d3a34;margin-top:22px;line-height:1.55}
+
+  section{padding-top:52px}
+  .akt{font-size:12.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--azur);font-weight:700;margin-bottom:8px}
+  h2{font-size:clamp(23px,4vw,30px);font-weight:700;line-height:1.22;margin-bottom:20px}
+  h3{font-size:19px;font-weight:700;margin:28px 0 10px}
+  p{margin-bottom:17px;text-align:justify;hyphens:auto}
+  em{font-style:italic}
+  .inic::first-letter{font-size:3.1em;font-weight:700;float:left;line-height:.85;
+    padding:4px 10px 0 0;color:var(--azur)}
+
+  .pull{font-size:clamp(19px,3.2vw,24px);font-weight:700;font-style:italic;line-height:1.45;
+    padding:4px 0 4px 20px;border-left:4px solid var(--azur);margin:30px 0;text-align:left}
+
+  .perla{margin:26px 0;padding:16px 18px 14px;background:var(--boxbg);border:1px solid var(--rule)}
+  .perla .stitek{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+    color:var(--azur);display:block;margin-bottom:8px}
+  .perla p{font-size:16px;margin-bottom:10px;text-align:left}
+  .perla p:last-child{margin-bottom:0}
+
+  ul.v{margin:0 0 17px 22px}
+  ul.v li{margin-bottom:9px;text-align:justify}
+
+  table{width:100%;border-collapse:collapse;margin:24px 0;font-size:15px}
+  th{border-bottom:2px solid var(--ink);text-align:left;padding:7px 8px;font-weight:700}
+  td{border-bottom:1px solid var(--rule);padding:7px 8px;vertical-align:top}
+  td.rok{font-weight:700;white-space:nowrap;color:var(--azur)}
+  tr:last-child td{border-bottom:none}
+
+  footer{margin-top:70px;padding-top:18px;border-top:1px solid var(--ink);
+    font-size:13.5px;color:var(--muted);line-height:1.8}
+  @media print{body{font-size:11.5pt}.page{max-width:none;padding:0}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="titul">
+  <div class="rubrika">Příběh evropských plateb &middot; díl druhý</div>
+  <h1>Okamžité platby<br><span class="blue">aneb Deset sekund je pro počítač <em>věčnost</em> </span></h1>
+  <p class="perex">Pošlete kamarádovi peníze o silvestrovské půlnoci a doletí mu dřív, než dopadnou první rachejtle. Cestou přitom projdou desítkami kontrol, dvěma bankami, centrální bankou a jedním právním zázrakem zvaným finalita. Jak se tohle všechno vejde do pár sekund? Toto je rozklad celé té záhady. A taky příběh o tom, co všechno se muselo pokazit, aby to dnes fungovalo.</p>
+</div>
+
+<!-- PROLOG -->
+<section>
+  <div class="akt">Prolog</div>
+  <h2>Silvestr, 00:00:07</h2>
+  <p class="inic">Půlnoc. Celá Evropa si připíjí, banky mají „zavřeno" v tom nejlidštějším smyslu slova — v budovách tma, bankéři šampaňské. Zvednete mobil, protože kamarád zaplatil večeři a vy mu chcete poslat svou půlku. Napíšete částku, otisknete prst, odešlete.</p>
+  <p>Za těch pár okamžiků se stane tohle: vaše banka ověří, že jste to vy; zkontroluje zůstatek, limity a to, jestli náhodou nefinancujete embargovaný režim; zarezervuje peníze; pošle zprávu do systému Evropské centrální banky; ten peníze s konečnou platností přepíše mezi dvěma bankami; kamarádova banka prověří jeho účet, přijme platbu a připíše mu ji; a zpátky k vám doletí potvrzení. Dvě komerční banky, jedna centrální, desítky kontrol, právně neodvolatelný převod — <strong>a kamarádův telefon pípne dřív, než dozní odpočítávání.</strong></p>
+  <p>Teď ta záhada. Vždyť samotné připojení mobilu k síti někdy trvá déle! Vždyť ještě nedávno šla platba <em>dva dny</em>! Jak je možné zrychlit něco z dvou dnů na deset sekund — sedmnácttisíckrát?</p>
+  <p>Odpověď je krásnější než otázka: <strong>nikdo nic nezrychlil.</strong> A právě to je celý příběh.</p>
+</section>
+
+<!-- AKT I -->
+<section>
+  <div class="akt">Akt I</div>
+  <h2>První polovina záhady: kam se poděly ty dva dny</h2>
+  <p class="inic">Začněme kacířskou otázkou z druhé strany: proč vlastně běžná platba trvala dva dny? Co ty dva dny <em>dělala</em>?</p>
+  <p>Odpověď zní: čekala. Skoro celou dobu jen čekala.</p>
+  <p>Klasická platba je jako dopis v době, kdy pošťák jezdil jednou denně. Napíšete ho v úterý v poledne — a on leží ve schránce, protože pošťák už dnes jel. Večer ho vyzvedne noční svoz, v třídírně počká na ranní směnu, pak na další svoz… Samotné čtení dopisu trvá minutu; všechno ostatní je čekání na jízdní řády.</p>
+  <p>Přesně tak fungoval (a pro běžné převody pořád funguje) dávkový svět plateb: banka platby sbírá do „pytlů" a v pevných časech — třeba pětkrát denně — je odveze do společné zúčtovací centrály. Ta počká, až se sejdou pytle ode všech, všechno proti sobě sečte (geniální úspora: z tisíců vzájemných plateb zbyde pár čistých rozdílů), výsledek se vypořádá v centrální bance, a pytle s příchozími platbami se rozvezou zpět. Zmeškáte odpolední svoz? Vaše platba spí do rána. Pátek večer? Spí do pondělí, protože jízdní řád ctí víkendy a svátky.</p>
+  <div class="pull">Spočítejte to: z oněch „dvou dnů" tvořila skutečná práce počítačů dohromady možná vteřinu. Zbylých 99,999 % času platba ležela a čekala na jízdní řád. Okamžitá platba neudělala kroky rychlejší — zrušila jízdní řád.</div>
+  <p>Tohle je první polovina rozuzlení a stojí za to ji vychutnat, protože jde proti intuici. Počítače nebyly nikdy pomalé. Procesor ve vašem mobilu zvládne miliardy operací za sekundu; ověření podpisu, kontrola zůstatku, zápis do databáze — to všechno jsou záležitosti mikrosekund až milisekund. Světlo (a tedy i signál v optickém vlákně) urazí za jedinou sekundu vzdálenost Praha–Frankfurt tisíckrát. Deset sekund není pro počítač šibeniční termín. Deset sekund je pro počítač <em>věčnost</em> — dost času na miliardy operací a stovky cest tam a zpátky přes celý kontinent.</p>
+  <p>Pomalé nebyly stroje. Pomalé byly <strong>procesy postavené pro lidi</strong>: dávky, cut-offy, noční zpracování, ranní směny, opravné fronty, kde si člověk s kávou prohlédne, co nesedí. Celá ta choreografie vznikla v době papíru a děrných štítků — a přežívala ze setrvačnosti, protože fungovala a nikoho netlačil čas.</p>
+  <p>Okamžitá platba je tedy v jádru jednoduchá myšlenka: co kdyby platba nečekala na žádný svoz a jela hned, sama, jako jediný spěšný kurýr? Jenže — a tady začíná druhá polovina záhady — zrušit čekání znamená zrušit i všechno, co se během čekání stíhalo. A toho bylo víc, než se zdá.</p>
+</section>
+
+<!-- AKT II -->
+<section>
+  <div class="akt">Akt II</div>
+  <h2>Druhá polovina záhady: platba, která se odehrála včera</h2>
+  <p class="inic">Dávkový svět měl jednu skrytou výhodu: čas na rozmyšlenou. Nesedí něco na platbě? Odloží se do fronty a ráno se na ni podívá člověk. Nemá banka zrovna dost peněz na vypořádání? Do odpoledního cyklu si je stihne půjčit. Vypadl systém? Do nočního zpracování se opraví. Čekání nebylo jen lenost — bylo to polštářování, do kterého se schovávaly všechny nedokonalosti světa.</p>
+  <p>Desetisekundová platba žádný polštář nemá. A tak konstruktéři okamžitých plateb udělali druhý geniální tah, který je jádrem celé záhady: <strong>všechno, co nemusí proběhnout v okamžiku platby, přestěhovali do doby před platbou.</strong></p>
+  <ul class="v">
+    <li><strong>Peníze jsou připravené předem.</strong> V dávkovém světě si banky vzájemné dluhy sečetly a vyrovnaly rozdíl. V okamžitém světě na sčítání není čas — a tak má každá banka u centrální banky předem složený „zásobník" peněz, ze kterého každá platba okamžitě ukrojí. Financování settlement se neřeší při platbě; vyřešilo se včera večer, když treasury zásobník dolila.</li>
+    <li><strong>Prověrky proti sankčním seznamům se dělají plošně předem.</strong> Kontrolovat jméno příjemce proti seznamům teroristů u každé desetisekundové platby zvlášť je past: falešné shody (svět je plný nevinných jmenovců) by platby zdržovaly a zabíjely. Evropské nařízení proto přepnulo logiku: banky prověřují všechny své klienty proti seznamům každý den plošně — a jednotlivá platba už jen letí mezi předprověřenými účty.</li>
+    <li><strong>Kontrola příjemce proběhne, ještě než platba vůbec vznikne.</strong> Služba ověření příjemce se zeptá banky na druhé straně „sedí tohle jméno k tomuhle účtu?" ve chvíli, kdy ještě píšete částku. Když platbu potvrzujete, odpověď už dávno leží na obrazovce.</li>
+    <li><strong>Limity, podpisy, profily rizika — vše předpočítáno.</strong> Kolik smíte poslat, jak vypadá váš obvyklý platební vzorec, čemu má fraud systém věřit — to všechno je spočítané a nachystané v rychlé paměti dřív, než palec dosedne na čtečku.</li>
+  </ul>
+  <div class="pull">Okamžitá platba je rychlá, protože většina platby se odehrála včera. V oněch deseti sekundách už jen sklízíte, co bylo zaseto.</div>
+  <p>A co v těch sekundách skutečně zbývá? Štíhlý, předem vydlážděný řetěz: ověř odesílatele (milisekundy — kryptografie je levná), zkontroluj zůstatek a limit (jeden pohled do paměti), zarezervuj částku, pošli zprávu centrálnímu systému (pár desítek milisekund letu optikou), tam se částka zamkne a čeká na jediné slovo banky příjemce; ta prověří účet a řekne ANO; systém v tomtéž okamžiku neodvolatelně přepíše peníze mezi zásobníky obou bank; potvrzení letí na obě strany. Každý krok je otázka milisekund — a deset sekund je velkorysá rezerva pro chvíle, kdy je síť línější nebo systém příjemce zrovna přemýšlí.</p>
+  <p>Mimochodem, tady se rozpouští i ta část záhady s pomalým mobilem: váš telefon stojí <em>před</em> branou, ne uvnitř. Desetisekundové okno se týká mezibankovní dálnice — od banky k bance přes centrální systém, po páteřních optických trasách mezi datacentry. Jestli se vaše wifi probouzí tři sekundy, zdrží to vás u brány; dálnici za ní to nezajímá.</p>
+  <div class="perla">
+    <span class="stitek">Perla &middot; nejstarší okamžitá platba světa</span>
+    <p>Kdo si myslí, že okamžité platby vynalezly fintechy, měl by slyšet o Japonsku: tamní systém Zengin propojuje banky v reálném čase od roku <strong>1973</strong> — od éry, kdy se data posílala rychlostí, proti níž je dnešní wifi teleport. Japonci prostě usoudili, že platba má doletět hned, a postavili to. Trvalo přes čtyřicet let, než si zbytek světa všiml, že to jde. Ponaučení do sbírky: většina „technologických revolucí" v platbách nečekala na technologii — čekala na rozhodnutí.</p>
+  </div>
+</section>
+
+<!-- AKT III -->
+<section>
+  <div class="akt">Akt III</div>
+  <h2>Proč zrovna teď: mobil, netrpělivost a geopolitika</h2>
+  <p class="inic">Když to tedy šlo už v roce 1973, proč Evropa spala do roku 2017? Protože infrastruktura se nestaví, když je možná — staví se, když je nevyhnutelná. A nevyhnutelnou ji udělaly tři síly, které se potkaly v jedné dekádě.</p>
+  <p><strong>První síla: smartphone změnil netrpělivost v normu.</strong> Zpráva doletí hned. Fotka hned. Film hned. Taxi vidíte na mapě, jak zatáčí za roh. V takovém světě působí věta „peníze dorazí do dvou pracovních dnů" jako telegram doručovaný dostavníkem — a mladí uživatelé ji prostě přestali akceptovat. Británie to pochopila brzy (její Faster Payments jedou od roku 2008 — mimochodem taky ne dobrovolně, ale po důrazném šťouchnutí regulátora), Švédsko dalo světu Swish, Indie spustila UPI a předvedla, že miliarda lidí umí platit mobilem dřív, než mít bankovní pobočku, Brazílie s Pixem během dvou let překreslila celou platební mapu země.</p>
+  <p><strong>Druhá síla: konkurence, která nebyla bankou.</strong> Technologické firmy začaly stavět peněženky a platební aplikace nad bankovní infrastrukturou — a banky s hrůzou sledovaly, že zákazník vidí jejich logo čím dál míň. Kdo vlastní okamžik platby, vlastní vztah se zákazníkem. Pomalá infrastruktura znamenala přenechat ten okamžik jiným.</p>
+  <p><strong>Třetí síla, nejméně viditelná a nejmocnější: geopolitika.</strong> Evropa si v jedné chvíli spočítala nepříjemnou pravdu: velká část jejích každodenních plateb — zejména karetních — běží po kolejích dvou amerických společností. Co kdyby? Tahle otázka, dřív akademická, přestala být akademická s každou další sankční přestřelkou velmocí. Okamžité platby v penězích Evropské centrální banky, na evropské infrastruktuře, dostupné nonstop, jsou tichým pilířem něčeho, čemu se v Bruselu říká strategická autonomie: schopnost kontinentu zaplatit si sám za sebe, i kdyby se svět zbláznil. (A jsou i položenou kolejí pro případné digitální euro — ale to už je jiný příběh.)</p>
+  <p>Evropská odpověď měla dvě patra: v roce 2017 spustily banky schéma okamžitého převodu SCT Inst, o rok později Evropská centrální banka systém TIPS, který okamžité platby vypořádává jednu po druhé, v penězích centrální banky, 24 hodin denně, 365 dní v roce. Žádný jízdní řád, žádný víkend, žádný svátek. Poprvé v dějinách eura neexistuje okamžik, kdy by měna spala.</p>
+  <p>A pak se — jak jinak — opakoval starý evropský evergreen: katedrála stála a zela poloprázdnotou. Okamžitá platba byla dobrovolná, banky si za ni účtovaly příplatky jako za prémiovou službu, pokrytí bylo děravé. Trvalo dalších sedm let a jedno nařízení (parita cen s běžným převodem, povinnost přijímat i odesílat — čtenáři prvního dílu se právě usmívají, protože ten trik už znají), než se z výjimky začala stávat výchozí kolej.</p>
+</section>
+
+<!-- AKT IV -->
+<section>
+  <div class="akt">Akt IV</div>
+  <h2>Průšvihy: rychlost peněz je i rychlost zločinu</h2>
+  <p class="inic">Každé pravidlo v platebním systému je zkamenělý průšvih — a okamžité platby si své fosilie vyrobily rekordně rychle. Tři z nich stojí za vyprávění, protože z nich vyrostla dnešní ochranná výbava.</p>
+  <h3>Průšvih první: podvodník je rychlejší než rozmysl</h3>
+  <p>Británie, průkopník rychlých plateb, si jako první prošla i jejich stinnou stranou. Sotva se peníze naučily létat v sekundách, naučili se to i podvodníci — a objevil se fenomén, kterému se říká podvod autorizovanou platbou: oběť nikdo nehackne, oběť <em>přesvědčí</em>. Falešný „bezpečnostní pracovník banky", falešná faktura s pozměněným číslem účtu, falešná láska z internetu. Oběť platbu sama potvrdí — a v dávkovém světě by banka měla hodiny na zachycení, oběť noc na rozmyšlenou, policie den na zásah. V okamžitém světě jsou peníze pryč za deset sekund a za dalších deset minut rozprášené kaskádou nastrčených účtů takzvaných bílých koní. Británie po letech eskalace došla až k tvrdému řešení: banky oběti podvod v zásadě proplatí — čímž regulátor elegantně přesunul motivaci: když ztrátu nese banka, banka investuje do prevence.</p>
+  <p>Evropa se z britské lekce poučila předem a vestavěla obranu tam, kam v desetisekundovém světě jedině patří: <strong>před platbu</strong>. Ověření příjemce („jméno nesedí k účtu — opravdu odeslat?") je přímý potomek tisíců falešných faktur. Nepřetržité strojové sledování podvodných vzorců — které se učí, jak vypadá vaše normální platba, aby poznalo tu nenormální — je potomek falešných bankéřů. Pravidlo z prvního dílu v akci: když zrychlíš finalitu vpravo, musíš přistavět kontroly vlevo.</p>
+  <h3>Průšvih druhý: den, kdy si Evropa nezaplatila</h3>
+  <p>Říjen 2020: TARGET2, páteřní systém eurozóny pro velké platby, se na téměř jedenáct hodin zastavil kvůli softwarové chybě. Neztratilo se ani euro — ale kontinent si na vlastní kůži připomněl, že „infrastruktura" není abstraktní slovo: když stojí, stojí výplaty, burzy, vypořádání, všechno. Pro okamžitý svět z toho plyne dvojnásob tvrdá lekce: systém, který slibuje deset sekund <em>kdykoliv</em>, si nemůže dovolit ani „odstávku v neděli ve tři ráno", protože žádné „ve tři ráno se nic neděje" už neexistuje. Odpovědí jsou zdvojená datacentra v různých regionech, provoz běžící současně na více místech, a pravidelné ostré přepínání mezi nimi — ne jako test do šuplíku, ale jako rutina, aby se vědělo, že záloha opravdu žije.</p>
+  <h3>Průšvih třetí: ticho je nejnebezpečnější odpověď</h3>
+  <p>A jedna lekce tichá, provozní, o to zákeřnější: co dělat, když banka odešle okamžitou platbu — a nepřijde <em>žádná</em> odpověď? Ticho neznamená „neprošlo". Ticho znamená „nevím": platba mohla umřít cestou, ale taky mohla projít i s vypořádáním a ztratilo se jen potvrzení. Systém, který by v takové chvíli automaticky vrátil klientovi peníze, právě možná vyrobil z jedné platby dvě; systém, který by ji automaticky poslal znovu, možná vyrobil duplikát. Rané provozy si tímhle prošly a zrodila se disciplína, která zní skoro filozoficky: <strong>stav „nevím" je legitimní stav a zavírá se jedině zjištěným faktem</strong> — dotazem, nikdy domněnkou ani netrpělivostí. K tomu se ještě vrátíme, protože pro programátory je to denní chléb.</p>
+</section>
+
+<!-- AKT V -->
+<section>
+  <div class="akt">Akt V</div>
+  <h2>Pro stavitele: jak se píše kód, který nesmí mrknout</h2>
+  <p class="inic">A teď do strojovny. Co znamená desetisekundový svět pro lidi, kteří platební systémy programují? Odpověď: znamená to psát <em>jiný druh softwaru</em>. Ne rychlejší verzi starého — jiný žánr. Dávkový platební systém je kancelář; okamžitý je řídicí systém. Rozdíly stojí za vyjmenování, protože každý z nich je malá revoluce v myšlení.</p>
+  <h3>1. Zmizel člověk ze smyčky</h3>
+  <p>Dávkový svět má opravné fronty: co nesedí, odloží se, ráno se na to podívá zkušená paní Věra a rozhodne. Okamžitý svět žádné „ráno" nemá — <strong>každé rozhodnutí musí umět udělat stroj sám, hned, definitivně</strong>. To je největší kulturní zlom: programátor už nepíše systém, který práci připravuje lidem, ale systém, který rozhoduje místo nich. Každé „tady by to chtělo posoudit" v návrhu je chyba návrhu: v deseti sekundách se neposuzuje — buď je pravidlo tak jasné, že ho vykoná stroj, nebo platba letí zpět s odmítnutím. Což vede k pozoruhodné zásadě: <em>rychlé NE je dobrá odpověď.</em> Odmítnout za vteřinu je služba (klient hned ví a zkusí to jinak); přijmout za minutu je selhání. Dávkový svět optimalizoval na „nakonec všechno projde"; okamžitý optimalizuje na „hned se ví, na čem jsi".</p>
+  <h3>2. Rozpočet milisekund a tyranie nejpomalejšího</h3>
+  <p>Deset sekund zní velkoryse, ale řetěz má mnoho článků a každý dostává přidělený rozpočet: tolik milisekund na validaci, tolik na kontrolu limitů, tolik na rezervaci, tolik na síťový let. A tady přichází zrada, kterou zná každý, kdo takový systém ladil: nezáleží na <em>průměru</em>, záleží na <em>nejhorších případech</em>. Systém, který odpovídá průměrně za 50 milisekund, ale jednou z tisíce případů za 15 sekund, je špatný systém — protože ta jedna platba z tisíce umře, a při milionech plateb denně je to tisíc mrtvých plateb. Programátoři okamžitých systémů se proto dívají na grafy „99. percentilu" jako kardiolog na EKG a loví každý zdroj občasného zpomalení: databázový dotaz, který si jednou za čas vezme zámek; úklid paměti, který přijde v nevhodnou chvíli; disk, který se na okamžik zamyslí. V hlavní cestě platby nesmí být <em>nic</em>, co neumí garantovat svůj čas — všechno ostatní (statistiky, reporting, notifikace, archivace) se odsune stranou a doběhne si po svém, mimo kritickou dráhu.</p>
+  <h3>3. Stav „nevím" jako občan první kategorie</h3>
+  <p>V dávkovém systému má platba stavy typu „přijato — odesláno — vypořádáno". V okamžitém systému k nim přibývá plnoprávný stav <strong>„nevím"</strong> — a kolem něj celá inženýrská disciplína. Zprávy se můžou ztratit, odpovědi zpozdit, protistrana zamrznout. Kód proto musí být stavěný tak, aby <em>opakování nikdy neublížilo</em>: každá operace nese jednoznačnou identitu, a když dorazí podruhé (protože si někdo nebyl jistý, zda došla poprvé), systém ji pozná a neprovede znovu — tomu se říká idempotence a v okamžitém světě je to náboženství. Peníze se před odesláním <em>rezervují</em>, ne převádějí — takže ať to dopadne jakkoli, existuje čistá cesta vpřed (potvrdit) i vzad (uvolnit), ale nikdy stav „napůl". A železné pravidlo z aktu IV: ticho se nikdy neřeší akcí, jen dotazem. Timeout nesmí spustit vracení peněz — smí spustit jedině zjišťování pravdy.</p>
+  <h3>4. Systém, který se nikdy nezastaví — ani kvůli sobě</h3>
+  <p>Možná nejpodceňovanější rozdíl: <strong>neexistuje okno na údržbu.</strong> Dávkový systém má noci a víkendy — čas na nasazení nové verze, přestavbu databáze, závěrku. Okamžitý systém běží i o silvestrovské půlnoci (kdy má mimochodem špičku). Všechno, co dřív potřebovalo „vypnout a zapnout", se musí umět za plného provozu: nové verze se nasazují postupně, uzel po uzlu, zatímco ostatní nesou provoz; změny databázových struktur se dělají za letu, po malých vratných krocích; systém běží současně v několika datacentrech, takže výpadek jednoho nikdo nepozná. I účetní den se musí „překlopit" pod rukama běžícího provozu — půlnoc není okamžik ticha, půlnoc je jen další milisekunda, ve které zrovna letí něčí platba. Psát software bez možnosti kdykoli si „odskočit" je disciplína sama o sobě — a je to přesně ta disciplína, kterou desítky let ovládají řídicí systémy elektráren a letišť. Platby se k nim prostě přistěhovaly.</p>
+  <h3>5. Předpočítej, nebo zahyneš</h3>
+  <p>A konečně princip, který celou architekturu podpírá a který už známe z aktu II: <strong>hlavní cesta platby má být hloupá.</strong> Všechna chytrost — sankční prověrky klientů, výpočty limitů, rizikové profily, směrovací tabulky — se odehrává předem, průběžně, na pozadí; výsledky leží připravené v rychlé paměti. Platba pak v kritických milisekundách nic nepočítá, jen <em>čte hotové odpovědi</em> a zapisuje. Je to stejná filozofie jako u závodního boxového týmu: o vítězství se nerozhoduje během zastávky, ale v přípravě na ni. Pomalý systém pozná programátor podle toho, že v okamžiku platby <em>přemýšlí</em>; rychlý podle toho, že si všechno rozmyslel včera.</p>
+  <div class="pull">Dávkový systém je pošta: sběr, třídění, rozvoz, razítka, fronty. Okamžitý systém je rozvodná síť: napětí je v drátech pořád, spotřebič se jen připojí. Nedá se „zrychlit pošta" tak, aby z ní byla elektřina — musí se postavit jiná věc.</div>
+</section>
+
+<!-- EPILOG -->
+<section>
+  <div class="akt">Epilog</div>
+  <h2>Rozuzlení záhady</h2>
+  <p class="inic">Takže: jak se desítky kroků, kontrol a procedur vejdou do pár sekund, když se mobil někdy déle připojuje k wifi?</p>
+  <p>Třemi tahy, z nichž ani jeden není magie. <strong>Zaprvé:</strong> kroky samotné byly vždycky rychlé — mikrosekundy a milisekundy; pomalé byly jízdní řády kolem nich, dědictví světa papíru a nočních směn. Okamžitá platba nezrychlila práci, zrušila čekání. <strong>Zadruhé:</strong> co nešlo stihnout v okamžiku platby, přestěhovalo se před ni — peníze složené předem, klienti prověření předem, příjemce ověřený předem, limity spočítané předem. Většina platby se odehrála včera. <strong>Zatřetí:</strong> zbytek dotáhla inženýrská kázeň — kód bez člověka ve smyčce, rozpočty milisekund, posvátný stav „nevím", systém, který se nikdy nezastaví, a hlavní cesta tak hloupá, že jí nic nemůže zdržet.</p>
+  <p>A pod tím vším leží pointa, která spojuje oba díly tohoto vyprávění. Od směnky ze středověkých trhů přes amsterdamské giro po dnešní silvestrovskou platbu je princip pořád stejný: peníze se nestěhují, přepisují se; cestují jen zprávy. Osm století jsme zrychlovali posly — z koně na telegraf, z telexu na optiku. Okamžitá platba je okamžik, kdy posel konečně dohnal myšlenku: mezi rozhodnutím „pošlu ti peníze" a skutečností „máš je" už nezbývá žádné čekání, jen fyzika.</p>
+  <p>Deset sekund tedy není zázrak rychlosti. Je to pomník poznání, že počítače byly vždycky dost rychlé — pomalé byly naše procesy, naše dávky, naše „ráno se na to podíváme". A možná i tichá výzva pro všechny ostatní obory, kde dodnes něco „trvá dva dny": schválně, kolik z těch dvou dnů je práce — a kolik jízdní řád?</p>
+
+  <h2 style="margin-top:44px">Časová osa rychlosti</h2>
+  <table>
+    <tr><th>Rok</th><th>Událost</th></tr>
+    <tr><td class="rok">1973</td><td>Japonský Zengin: banky propojené v reálném čase — půl století před „revolucí"</td></tr>
+    <tr><td class="rok">2008</td><td>Britské Faster Payments: první velká evropská rychlá síť (na popud regulátora)</td></tr>
+    <tr><td class="rok">2012</td><td>Švédský Swish: rychlá platba se stává lidovou zábavou</td></tr>
+    <tr><td class="rok">2016</td><td>Indické UPI: miliarda lidí přeskakuje éru poboček rovnou do mobilu</td></tr>
+    <tr><td class="rok">2017</td><td>Evropa: schéma SCT Inst — okamžitý převod do ~10 sekund, 24/7/365</td></tr>
+    <tr><td class="rok">2018</td><td>TIPS: ECB vypořádává okamžité platby jednu po druhé, v penězích centrální banky, nonstop</td></tr>
+    <tr><td class="rok">2020</td><td>Brazilský Pix překresluje platební mapu země za dva roky; výpadek TARGET2 připomíná Evropě cenu infrastruktury</td></tr>
+    <tr><td class="rok">2024</td><td>Británie: povinné odškodňování obětí podvodů autorizovanou platbou — ztrátu nese ten, kdo umí prevenci</td></tr>
+    <tr><td class="rok">2024/25</td><td>Evropské nařízení o okamžitých platbách: parita cen, povinný příjem i odesílání, ověření příjemce, denní plošný sankční screening</td></tr>
+  </table>
+</section>
+
+<footer>
+  Deset vteřin — záhada okamžité platby. Díl druhý volné série o evropských platbách (díl první: „Bomba v Úředním věstníku").<br>
+  Psáno s literární licencí: letopočty a mechanismy odpovídají skutečnosti, zjednodušení slouží pointě. Opěrné body: Zengin (1973), UK Faster Payments (2008), SCT Inst (2017), TIPS (2018), výpadek TARGET2 (říjen 2020), britská pravidla odškodnění APP podvodů (2024), nařízení (EU) 2024/886 o okamžitých platbách.
+</footer>
+
+</div>
+</body>
+</html>
