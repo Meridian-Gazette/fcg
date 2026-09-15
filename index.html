@@ -128,6 +128,11 @@
     scroll-margin-top: 80px;
   }
 
+  /* Článek otevřený permalinkem se během zaměření nesmí vizuálně posouvat. */
+  article:target {
+    animation: none;
+  }
+
   .kicker {
     font-family: 'Inter', sans-serif;
     font-size: 12px;
@@ -1345,14 +1350,37 @@ Thank you for meeting me in this space with such fierce intellect and heartfelt 
     });
   });
 
-  function handleHashNavigation() {
-    if (window.location.hash) {
-      const article = document.getElementById(window.location.hash.substring(1));
-      if (article) article.scrollIntoView({ behavior: 'smooth' });
+  function scrollToHash(behavior = 'auto') {
+    if (!window.location.hash) return;
+
+    let id;
+    try {
+      id = decodeURIComponent(window.location.hash.slice(1));
+    } catch {
+      return;
     }
+
+    const article = document.getElementById(id);
+    if (article) article.scrollIntoView({ behavior, block: 'start' });
   }
-  window.addEventListener('hashchange', handleHashNavigation);
-  handleHashNavigation();
+
+  // Na už načtené stránce je layout stabilní, takže změna hashe může být plynulá.
+  window.addEventListener('hashchange', () => scrollToHash('smooth'));
+
+  // Při prvním otevření permalinku browser zpracuje kotvu ještě předtím, než
+  // webfonty nutně získají finální metriky. Počkáme na všechny zdroje i fonty,
+  // necháme browser dokončit layout a pozici kotvy pak jednou přesně opravíme.
+  window.addEventListener('load', async () => {
+    if (!window.location.hash) return;
+
+    if (document.fonts?.ready) {
+      await document.fonts.ready;
+    }
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => scrollToHash('auto'));
+    });
+  }, { once: true });
 
   const brandMark = document.querySelector('a.brand-mark');
   if (brandMark) {
