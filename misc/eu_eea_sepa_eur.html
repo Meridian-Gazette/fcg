@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title> &nbsp; </title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --paper: #ffffff;
+    --ink: #1c2230;
+    --ink-2: #5b6473;
+    --ink-3: #9aa3b2;
+    --rule: #e1e5eb;
+    --rule-2: #cfd5de;
+    --row-hover: #eef2f7;
+    --eu: #1d4f9c;
+    --ehp: #0f7c8a;
+    --sepa: #2e7d4f;
+    --eur: #b3791b;
+    --no: #d9dee6;
+    --no-ink: #aab2bf;
+    --focus: #1d4f9c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #151a22; --paper: #1c222c; --ink: #e8ecf2; --ink-2: #aab3c1; --ink-3: #6f7a8a;
+      --rule: #2a323e; --rule-2: #3a4452; --row-hover: #232b37;
+      --eu: #6f9be0; --ehp: #4fb8c6; --sepa: #6cc48f; --eur: #e0ab4e;
+      --no: #2a323e; --no-ink: #55606f; --focus: #6f9be0;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #151a22; --paper: #1c222c; --ink: #e8ecf2; --ink-2: #aab3c1; --ink-3: #6f7a8a;
+    --rule: #2a323e; --rule-2: #3a4452; --row-hover: #232b37;
+    --eu: #6f9be0; --ehp: #4fb8c6; --sepa: #6cc48f; --eur: #e0ab4e;
+    --no: #2a323e; --no-ink: #55606f; --focus: #6f9be0;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.45;
+    padding: 2.5rem 1.25rem 4rem;
+  }
+  main { max-width: 1040px; margin: 0 auto; }
+
+  h1 {
+    font-family: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+    font-weight: 500;
+    font-size: clamp(1.6rem, 3.2vw, 2.25rem);
+    line-height: 1.15;
+    margin: 0 0 .5rem;
+    letter-spacing: -0.01em;
+  }
+  .lede { color: var(--ink-2); margin: 0 0 1.75rem; max-width: 62ch; }
+
+  /* controls */
+  .controls {
+    display: flex; flex-wrap: wrap; gap: .6rem 1.25rem; align-items: center;
+    margin-bottom: 1rem; color: var(--ink-2); font-size: .92rem;
+  }
+  .controls label { display: inline-flex; align-items: center; gap: .35rem; cursor: pointer; }
+  .controls input[type="checkbox"] { accent-color: var(--focus); }
+  .count { margin-left: auto; color: var(--ink-3); }
+
+  /* table */
+  .wrap { overflow-x: clip; overflow-y: visible; background: var(--paper); border: 1px solid var(--rule-2); border-radius: 6px; }
+  table { border-collapse: collapse; width: 100%; min-width: 640px; }
+  th, td { padding: .55rem .9rem; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  thead th {
+    position: sticky; top: 0; background: var(--paper); z-index: 2;
+    font-weight: 600; text-align: left; border-bottom: 2px solid var(--rule-2);
+    box-shadow: inset 0 -2px 0 var(--rule-2);
+    cursor: pointer; user-select: none;
+  }
+  thead th:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+  thead th .arrow { color: var(--ink-3); font-size: .8em; margin-left: .3em; }
+  thead th[aria-sort="ascending"] .arrow::after { content: "▲"; }
+  thead th[aria-sort="descending"] .arrow::after { content: "▼"; }
+  th.c, td.c { text-align: center; }
+  th.eu { color: var(--eu); } th.ehp { color: var(--ehp); } th.sepa { color: var(--sepa); } th.eur { color: var(--eur); }
+  tbody tr:hover { background: var(--row-hover); }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.name { font-weight: 500; }
+  td.name small { display: block; font-weight: 400; color: var(--ink-3); font-size: .8rem; white-space: normal; max-width: 34ch; }
+  td.cur { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  td.cur .code { font-weight: 600; color: var(--ink); }
+
+  /* marks */
+  .mark {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 1.55rem; height: 1.55rem; border-radius: 50%;
+    font-size: .95rem; font-weight: 700; line-height: 1; vertical-align: middle;
+    color: #fff;
+  }
+  .mark.no { background: var(--no); color: var(--no-ink); font-weight: 500; }
+  .mark.eu { background: var(--eu); }
+  .mark.ehp { background: var(--ehp); }
+  .mark.sepa { background: var(--sepa); }
+  .mark.eur { background: var(--eur); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .mark:not(.no) { color: #10141a; } }
+  :root[data-theme="dark"] .mark:not(.no) { color: #10141a; }
+
+  .legend { color: var(--ink-2); font-size: .9rem; margin-top: 1.25rem; max-width: 74ch; }
+  .legend p { margin: .4rem 0; }
+  .legend .mark { width: 1.2rem; height: 1.2rem; font-size: .75rem; margin-right: .3rem; }
+  .sources { margin-top: 1.5rem; font-size: .85rem; color: var(--ink-3); }
+  .sources a { color: var(--ink-2); }
+  .empty td { text-align: center; color: var(--ink-3); padding: 2rem; }
+
+  @media (max-width: 640px) {
+    body { padding: 1.5rem .75rem 3rem; }
+    th, td { padding: .5rem .6rem; }
+  }
+  /* pod touto sirkou se tabulka nevejde: potreba vodorovny scroll uvnitr .wrap,
+     coz z .wrap dela scroll kontejner a sticky hlavicka tim prestava drzet u okna */
+  @media (max-width: 700px) {
+    .wrap { overflow-x: auto; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    tbody tr { transition: background .12s; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <div class="controls">
+    <label><input type="checkbox" data-filter="eu"> jen EU</label>
+    <label><input type="checkbox" data-filter="ehp"> jen EEA</label>
+    <label><input type="checkbox" data-filter="sepa"> jen SEPA</label>
+    <label><input type="checkbox" data-filter="eur"> jen euro</label>
+    <span class="count" id="count"></span>
+  </div>
+
+  <div class="wrap">
+    <table id="t">
+      <thead>
+        <tr>
+          <th data-key="name" tabindex="0" aria-sort="ascending">Stát<span class="arrow"></span></th>
+          <th class="c eu" data-key="eu" tabindex="0">EU<span class="arrow"></span></th>
+          <th class="c ehp" data-key="ehp" tabindex="0">EEA<span class="arrow"></span></th>
+          <th class="c sepa" data-key="sepa" tabindex="0">SEPA<span class="arrow"></span></th>
+          <th class="c eur" data-key="eur" tabindex="0">Euro<span class="arrow"></span></th>
+          <th data-key="cur" tabindex="0">Měna<span class="arrow"></span></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+</main>
+
+<script>
+(function () {
+  // [name, EU, EEA, SEPA, EUR, currency name, code, note]
+  const D = [
+    ["Albánie",0,0,1,0,"albánský lek","ALL"],
+    ["Belgie",1,1,1,1,"euro","EUR"],
+    ["Bělorusko",0,0,0,0,"běloruský rubl","BYN"],
+    ["Bosna a Hercegovina",0,0,0,0,"konvertibilní marka","BAM"],
+    ["Bulharsko",1,1,1,1,"euro","EUR"],
+    ["Česko",1,1,1,0,"česká koruna","CZK"],
+    ["Dánsko",1,1,1,0,"dánská koruna","DKK"],
+    ["Estonsko",1,1,1,1,"euro","EUR"],
+    ["Finsko",1,1,1,1,"euro","EUR"],
+    ["Francie",1,1,1,1,"euro","EUR"],
+    ["Chorvatsko",1,1,1,1,"euro","EUR"],
+    ["Irsko",1,1,1,1,"euro","EUR"],
+    ["Island",0,1,1,0,"islandská koruna","ISK"],
+    ["Itálie",1,1,1,1,"euro","EUR"],
+    ["Kypr",1,1,1,1,"euro","EUR"],
+    ["Litva",1,1,1,1,"euro","EUR"],
+    ["Lotyšsko",1,1,1,1,"euro","EUR"],
+    ["Lucembursko",1,1,1,1,"euro","EUR"],
+    ["Maďarsko",1,1,1,0,"forint","HUF"],
+    ["Malta",1,1,1,1,"euro","EUR"],
+    ["Moldavsko",0,0,1,0,"moldavský leu","MDL"],
+    ["Německo",1,1,1,1,"euro","EUR"],
+    ["Nizozemsko",1,1,1,1,"euro","EUR"],
+    ["Norsko",0,1,1,0,"norská koruna","NOK"],
+    ["Polsko",1,1,1,0,"zlotý","PLN"],
+    ["Portugalsko",1,1,1,1,"euro","EUR"],
+    ["Rakousko",1,1,1,1,"euro","EUR"],
+    ["Rumunsko",1,1,1,0,"rumunský leu","RON"],
+    ["Řecko",1,1,1,1,"euro","EUR"],
+    ["Severní Makedonie",0,0,1,0,"makedonský denár","MKD"],
+    ["Slovensko",1,1,1,1,"euro","EUR"],
+    ["Slovinsko",1,1,1,1,"euro","EUR"],
+    ["Spojené království",0,0,1,0,"libra šterlinků","GBP"],
+    ["Srbsko",0,0,1,0,"srbský dinár","RSD"],
+    ["Španělsko",1,1,1,1,"euro","EUR"],
+    ["Švédsko",1,1,1,0,"švédská koruna","SEK"],
+    ["Švýcarsko",0,0,1,0,"švýcarský frank","CHF"],
+  ];
+  const rows = D.map(r => ({ name:r[0], eu:r[1], ehp:r[2], sepa:r[3], eur:r[4], curName:r[5], cur:r[6], note:r[7]||"" }));
+  const coll = new Intl.Collator("cs");
+
+  const tbody = document.querySelector("#t tbody");
+  const count = document.getElementById("count");
+  const filters = [...document.querySelectorAll("[data-filter]")];
+  let sortKey = "name", sortDir = 1;
+
+  function mark(on, cls) {
+    return on ? `<span class="mark ${cls}" aria-label="ano">✓</span>` : `<span class="mark no" aria-label="ne">–</span>`;
+  }
+
+  function render() {
+    const active = filters.filter(f => f.checked).map(f => f.dataset.filter);
+    let list = rows.filter(r => active.every(k => r[k]));
+    list.sort((a,b) => {
+      let c = 0;
+      if (sortKey === "name") c = coll.compare(a.name, b.name);
+      else if (sortKey === "cur") c = coll.compare(a.cur, b.cur) || coll.compare(a.name, b.name);
+      else c = (b[sortKey] - a[sortKey]) || coll.compare(a.name, b.name);
+      return c * sortDir;
+    });
+    tbody.innerHTML = list.length ? list.map(r => `
+      <tr>
+        <td class="name">${r.name}${r.note ? `<small>${r.note}</small>` : ""}</td>
+        <td class="c">${mark(r.eu,"eu")}</td>
+        <td class="c">${mark(r.ehp,"ehp")}</td>
+        <td class="c">${mark(r.sepa,"sepa")}</td>
+        <td class="c">${mark(r.eur,"eur")}</td>
+        <td class="cur"><span class="code">${r.cur}</span></td>
+      </tr>`).join("")
+      : `<tr class="empty"><td colspan="6">Žádný stát neodpovídá zvoleným filtrům.</td></tr>`;
+    count.textContent = `${list.length} z ${rows.length} států`;
+  }
+
+  document.querySelectorAll("thead th").forEach(th => {
+    const go = () => {
+      const k = th.dataset.key;
+      if (sortKey === k) sortDir = -sortDir; else { sortKey = k; sortDir = 1; }
+      document.querySelectorAll("thead th").forEach(x => x.removeAttribute("aria-sort"));
+      th.setAttribute("aria-sort", sortDir === 1 ? "ascending" : "descending");
+      render();
+    };
+    th.addEventListener("click", go);
+    th.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+  });
+  filters.forEach(f => f.addEventListener("change", render));
+  render();
+})();
+</script>
+</body>
+</html>
