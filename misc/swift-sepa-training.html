@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Swift &amp; Sepa Training</title>
+<style>
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { font-family: -apple-system, "Segoe UI", sans-serif; font-size: 17px; max-width: 900px; margin: 2em auto; padding: 0 1em; background:#fff; color:#1a1a1a; }
+  h1 { font-size: 1.3em; border-bottom: 2px solid #ddd; padding-bottom: .5em; overflow-wrap: break-word; }
+  h2, h3, h4 { margin: 1em 0 .4em; line-height: 1.3; }
+  h2 { font-size: 1.15em; } h3 { font-size: 1.05em; } h4 { font-size: 1em; }
+  .msg { margin: 1.5em 0; }
+  .label { font-size: .75em; font-weight: 600; color: #888; margin-bottom: .3em; }
+  .bubble { border-radius: 10px; padding: .8em 1.1em; font-size: 1em; line-height: 1.55; overflow-wrap: break-word; min-width: 0; }
+  .bubble p { margin: .6em 0; }
+  .bubble :first-child { margin-top: 0; } .bubble :last-child { margin-bottom: 0; }
+  pre { white-space: pre-wrap; word-wrap: break-word; margin: 0; font-family: inherit; }
+  pre.code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: .85em; background: #1e1e1e; color: #d4d4d4; padding: .8em 1em; border-radius: 6px; overflow-x: auto; margin: .6em 0; max-width: 100%; }
+  code { font-family: ui-monospace, Consolas, monospace; font-size: .88em; background: #ececea; padding: .1em .35em; border-radius: 4px; overflow-wrap: break-word; }
+  pre.code code { background: none; padding: 0; }
+  blockquote { margin: .6em 0; padding: .3em .9em; border-left: 3px solid #93c5fd; background: #eff6ff; border-radius: 0 6px 6px 0; }
+  ul, ol { margin: .5em 0; padding-left: 1.5em; }
+  li { margin: .25em 0; }
+  .tablewrap { overflow-x: auto; max-width: 100%; margin: .8em 0; -webkit-overflow-scrolling: touch; }
+  table { border-collapse: collapse; font-size: .92em; margin: 0; }
+  th, td { border: 1px solid #d4d4d0; padding: .4em .7em; text-align: left; }
+  th { background: #ececea; }
+  a { color: #1d4ed8; overflow-wrap: anywhere; }
+  hr { border: 0; border-top: 1px solid #ddd; margin: 1em 0; }
+  .user { text-align: right; }
+  .user .bubble { display: inline-block; text-align: left; background: #dbeafe; border: 1px solid #bfdbfe; max-width: 75%; }
+  .claude .bubble { background: #f7f7f5; border: 1px solid #e5e5e2; }
+  @media (max-width: 600px) {
+    body { margin: 1em auto; font-size: 18px; }
+    .user .bubble { max-width: 92%; }
+  }
+  @media print { body { margin: 0; max-width: none; } .bubble { border: 1px solid #ccc; } pre.code { background: #f3f3f3; color: #111; border: 1px solid #ccc; } }
+</style></head><body>
+<h1>Swift &amp; Sepa Training</h1>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>první lekci prosím</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><h2>Lekce 1: Životní cyklus platby — a kde přesně může zemřít</h2>
+<p>Historie projektu je čistá, takže začínáme od nuly. První koncept: <strong>reject vs. return není terminologie, je to časová osa.</strong></p>
+<p><strong>Výklad</strong></p>
+<p>Platba není jedna událost, ale štafeta závazků. Debtor → Debtor Agent → (clearing) → Creditor Agent → Creditor. V každém bodě předání si polož jedinou otázku: <strong>došlo už k settlementu?</strong> Odpověď určuje všechno.</p>
+<p><strong>Před settlementem</strong> peníze ještě nezměnily majitele mezi bankami. Odmítnutí je tady levné: nikdo nikomu nic nedluží, stačí říct "ne" — to je <strong>reject</strong>. Technicky: zpráva se zahodí/odmítne, žádný tok peněz zpátky neexistuje, protože žádný tok tam ještě neproběhl. Reject je tedy <em>odmítnutí zprávy</em>, ne vrácení peněz.</p>
+<p><strong>Po settlementu</strong> už mezibanková pozice existuje. Kreditor Agent má peníze na svém účtu u clearingu/korespondenta. Když teď zjistí, že účet příjemce neexistuje, nemůže "odmítnout" — musí peníze <strong>poslat zpět novou transakcí</strong>. To je <strong>return</strong>. Return je plnohodnotná platba opačným směrem, s vlastním settlementem, vlastními referencemi.</p>
+<p>Proč na tom filozoficky záleží: <strong>reject nenese úrokové ani kurzové riziko, return ano.</strong> Mezi settlementem a returnem uplyne čas — peníze někde ležely. Proto rulebooky pečlivě definují, <em>kdo smí return iniciovat</em> (jen Creditor Agent, nikdy Creditor jako osoba) a v jaké lhůtě.</p>
+<p>Třetí bod na ose: <strong>recall/cancellation</strong>. To iniciuje strana <em>odesílatele</em> (Debtor Agent) — "poslal jsem omylem, vrať". Klíčová asymetrie: return je <em>povinnost</em> příjemcovy banky při nedoručitelnosti; recall je <em>prosba</em>, kterou příjemcova banka může odmítnout, protože peníze už můžou být u klienta a banka je nesmí jednostranně sebrat.</p>
+<p>Co by se rozbilo bez téhle taxonomie: kdyby existoval jen "vrácený payment" bez rozlišení, nedalo by se strojově určit, kdo nese náklady, čí systém selhal, a jestli vůbec proběhl settlement — reconciliace nostro účtů by byla ruční práce.</p>
+<p><strong>Kvíz</strong></p>
+<ol><li>Creditor Agent dostane SCT platbu, účet příjemce je zrušený. Zjistí to <em>před</em> zaúčtováním klientovi, ale <em>po</em> mezibankovním settlementu. Reject, nebo return? Proč?</li></ol>
+<ol><li>Klient (Creditor, fyzická osoba) volá do banky: "nechci tu platbu od bývalého zaměstnavatele, pošlete ji zpět." Kdo je formálně iniciátorem R-transakce, která vznikne — a je to vůbec return?</li></ol>
+<ol><li>Debtor Agent pošle recall. Creditor Agent odpoví zamítavě. Porušil něco? Co rulebook v tomto bodě <em>neřeší</em>?</li></ol>
+<ol><li>Z implementační perspektivy: v jakém poli/atributu poznáš, že příchozí pacs.004 se váže k tvé původní outward platbě — a proč nestačí EndToEndId?</li></ol>
+<ol><li>Kdyby returny půl roku neexistovaly (jen rejecty), co by se hromadilo a kde?</li></ol>
+<ol><li>Reject u SCT Inst vs. u klasického SCT: u kterého z nich je okno pro reject dramaticky kratší a proč to plyne z filozofie systému, ne z technického rozmaru?</li></ol>
+<ol><li>Chyták: může clearingový mechanismus (CSM) sám iniciovat return? Nebo jen reject?</li></ol>
+<p>Odpovídej klidně po jedné, projdeme je postupně.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>1 - return !</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Správně. Settlement proběhl → mezibanková pozice existuje → jediná cesta zpět je nová transakce, tedy return (pacs.004). To, že klientovi ještě nic nepřistálo na účtu, je irelevantní — hranice reject/return je <em>mezibankovní</em> settlement, ne zaúčtování klientovi.</p>
+<p>To je častý omyl: lidi hledají hranici v "dotkl se toho klient?", ale rulebook ji klade do "dotkly se toho peníze mezi bankami?".</p>
+<p>Pokračuj otázkou 2.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>2 - customer;  ano, je</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Napůl. <strong>Je to return — to ano.</strong> Ale formální iniciátor <strong>není customer, je to Creditor Agent</strong> (banka příjemce).</p>
+<p>Tady je ta filozofická pointa: rulebook je smlouva <strong>mezi bankami</strong> (scheme participants). Klient není stranou schématu, takže nemůže iniciovat žádnou R-transakci — nemá jak, nemá zprávy, nemá závazky. Klient je jen <em>důvod</em> (reason code typu "by order of the Beneficiary"), iniciátorem v datech i v odpovědnosti je banka.</p>
+<p>Prakticky to poznáš i v datech: v pacs.004 není žádné pole "klient si to přál" jako aktér — jen reason code. Kdyby ses při reconciliaci ptal "kdo tohle poslal", odpověď je vždy instituce, nikdy osoba.</p>
+<p>Zapisuju si to jako slabé místo: <strong>role klienta vs. role scheme participanta</strong> — vrátíme se k tomu u vlastnictví polí.</p>
+<p>Otázka 3?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>ne
+oprávněnost</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Přesně tak — obojí správně.</p>
+<p>Neporušil nic: recall je žádost, ne příkaz. Creditor Agent má <strong>povinnost odpovědět</strong> (ve lhůtě, u SCT recallu do 15 pracovních dnů), ale <strong>ne povinnost vyhovět</strong>. Porušením by bylo mlčení, ne zamítnutí.</p>
+<p>A "oprávněnost" je přesně to, co rulebook neřeší: <strong>komu peníze právně patří</strong>. Když klient příjemce řekne "ne, ty peníze mi náleží", schéma končí. Spor o vlastnictví peněz je věc práva, soudů, případně dohody mimo schéma. Rulebook definuje jen <em>dopravní kanál a lhůty</em> pro komunikaci sporu, ne jeho rozsouzení.</p>
+<p>To je obecný vzorec, který se ti bude vracet: rulebook řeší <strong>procesní</strong> otázky (kdo, komu, kdy, jakou zprávou), nikdy <strong>materiální</strong> (kdo má pravdu). Kdykoli v kvízu ucítíš otázku typu "kdo má nárok", správná odpověď je nejspíš "tohle rulebook neřeší".</p>
+<p>Otázka 4 — pacs.004 a párování na původní outward platbu?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>4.
+těch parametrů je podle mě víc 
+
+ tak tři nebo pět a určitě je tam UETR</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Správný instinkt — je jich víc a UETR tam je. Pointa otázky je ale v tom, <strong>který z nich je tvůj</strong>.</p>
+<p>pacs.004 nese blok Original Transaction Reference: OrgnlMsgId, OrgnlInstrId, OrgnlEndToEndId, OrgnlTxId, OrgnlUETR. Spolehlivý párovací klíč pro tvou outward platbu je <strong>OriginalTransactionId (TxId)</strong> — protože <strong>ty jsi jeho autor</strong> a ručíš za jeho unikátnost ve svém systému. UETR funguje taky výborně (unikátní z definice, generuje ho první banka v řetězci).</p>
+<p>A proč nestačí EndToEndId: <strong>není tvůj.</strong> Autorem je debtor — klient. Banky ho jen povinně propouštějí beze změny. Klient klidně pošle sto plateb s EndToEndId "FAKTURA" a rulebook mu v tom nebrání. Párovat podle pole, jehož unikátnost negarantuješ ty, ale cizí klient, je implementační chyba.</p>
+<p>Všimni si vzorce: <strong>vlastnictví pole = kdo ručí za jeho vlastnosti.</strong> EndToEndId patří klientovi (banky = pošťáci), TxId patří instruující bance, UETR řetězci jako celku. Tohle bude celá jedna budoucí lekce.</p>
+<p>Otázka 5 — kdyby půl roku existovaly jen rejecty, žádné returny: co se hromadí a kde?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>5 - 
+nechtěné peníze 
+u příjemce</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Napůl — nechtěné peníze ano, ale <strong>ne u příjemce. U banky příjemce.</strong></p>
+<p>Přemysli to: return řeší hlavně případy, kdy peníze <em>nelze</em> doručit — zrušený účet, neexistující IBAN po settlementu, zemřelý klient. Příjemce tam často ani není. Peníze by tedy uvízly o patro níž: <strong>na interních/suspense účtech Creditor Agentů</strong>, protože settlement proběhl, banka je má, ale nemá je komu připsat a nemá kanál, jak je vrátit.</p>
+<p>Co by následovalo:</p>
+<ul><li>rostoucí suspense zůstatky, které nikomu nepatří → účetní a regulatorní problém banky příjemce,</li><li>na druhé straně řetězce plátci, kterým se peníze nikdy nevrátí → reklamace mimo schéma, dopisy, ruční převody "obyčejnou" platbou tam a zpět,</li><li>rozpad důvěry v automatizaci: každá nedoručitelná platba = manuální case.</li></ul>
+<p>A to je ta filozofie: return není služba klientovi, je to <strong>hygienický mechanismus banky příjemce</strong>, jak se zbavit peněz, které jí nepatří a nemá pro ně adresáta. Proto ho smí iniciovat jen ona.</p>
+<p>Otázka 6 — reject u SCT Inst vs. klasického SCT: kde je okno dramaticky kratší a proč filozoficky?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>počkej 
+
+suspense
+
+co to je? to mám v práci pořád !
+
+programuju platby
+
+a všude je tam suspense account a nikdy nevím co si pod tím představit 
+
+nějaký přestupný účet ???</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Ano, přesně — česky se tomu říká <strong>přechodný</strong> nebo <strong>nezúčtovaný účet</strong>. A je to jednodušší, než zní.</p>
+<p>Základní pravidlo účetnictví banky: <strong>každá koruna musí někde sedět.</strong> Když ti settlementem přiteče platba, peníze <em>už máš</em> — ale ještě nevíš (nebo nemůžeš) je připsat na cílový účet klienta. Nesmí viset ve vzduchu. Tak je odložíš na suspense account: interní účet banky, který znamená <strong>"peníze dorazily, ale příběh není dovyprávěný"</strong>.</p>
+<p>Typické důvody, proč tam něco leží:</p>
+<ul><li>IBAN neexistuje / účet zrušený → čeká na return,</li><li>platba chycena sanction/AML screeningem → čeká na rozhodnutí compliance,</li><li>nesedí něco v datech, čeká na manuální investigaci,</li><li>došlo to po cut-off a zaúčtuje se zítra.</li></ul>
+<p>Klíčová vlastnost: <strong>cílový stav suspense účtu je nula.</strong> Všechno, co tam přistane, musí dřív nebo později odejít — buď ke klientovi, nebo returnem zpátky, nebo interním zaúčtováním. Položka, která tam leží týdny, je červená vlajka; proto se suspense účty pravidelně reconciliují a auditoři je milují.</p>
+<p>Takže když to vidíš ve vlastním kódu: každý zápis na suspense = "systém si zaparkoval peníze a otevřel otázku". Párový odpis = odpověď na tu otázku. Pokud v datovém modelu vidíš suspense položky bez párového odpisu — to jsou přesně ty hromadící se mrtvoly z otázky 5.</p>
+<p>Dává to teď smysl v kontextu returnů? A pak otázka 6.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>6.
+
+SCT Inst</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Správně, SCT Inst. Ale ta zajímavější půlka otázky zní: <strong>proč to plyne z filozofie systému?</strong></p>
+<p>Zkus to doříct: klasický SCT má na zpracování (a tedy i reject) celý business day cyklus, SCT Inst dává celému řetězci ~10 sekund. Co takhle krátké okno <em>vynucuje</em> v návrhu systému příjemcovy banky — a co to znamená pro poměr reject vs. return v praxi?</p>
+<p>Nápověda implementační: u SCT Inst nemůže existovat "zaparkuju a rozhodnu ráno".</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>je to "instantní"
+všechno musí být v fofrem</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Ano — a teď ta konsekvence, o kterou šlo.</p>
+<p>U klasického SCT je zpracování <strong>dávkové a asynchronní</strong>: zpráva přijde, systém má hodiny, může validovat, parkovat na suspense, ptát se compliance, a reject poslat "až to zjistí". Reject okno je dlouhé, protože settlement cykly jsou daleko od sebe.</p>
+<p>U SCT Inst je odpověď <strong>součástí transakce samotné</strong>: banka příjemce musí do pár sekund říct definitivní ANO/NE, a teprve to ANO spouští settlement. Filozofický důsledek: <strong>u SCT Inst reject a settlement nemohou být oddělené události v čase</strong> — buď platba projde celá hned, nebo neprojde vůbec. Neexistuje "přijmu a uvidím".</p>
+<p>Z toho plyne pro praxi:</p>
+<ul><li>validace (IBAN, sankce, formát) musí být <strong>synchronní a strojové</strong> — žádná fronta na ráno,</li><li>returny u SCT Inst existují, ale řeší už jen to, co synchronní kontrola nemohla vidět (např. recall, podvod zjištěný později) — poměr se dramaticky přesouvá k rejectům,</li><li>suspense účet v Inst světě skoro nemá kde vzniknout — a to je záměr, ne náhoda.</li></ul>
+<p>Jinými slovy: SCT dovoluje bance nejistotu odložit, SCT Inst ji zakazuje. Celý design (timeout, negativní potvrzení, limity) je důsledek zákazu odložené nejistoty.</p>
+<p>Poslední otázka 7, chyták: může CSM (clearingový mechanismus) sám iniciovat <strong>return</strong>? Nebo jen reject?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>return - nemůže!
+
+z definice returnu, ten může nastat až po skončení úspěšného clearingu a settlementu ;)</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Přesně tak — a tvoje zdůvodnění je správné, jen ho dotáhnu o krok dál.</p>
+<p>Reject smí poslat kdokoli v řetězci, kdo platbu ještě drží před settlementem — včetně CSM (špatný formát, nesplněná validace, nedostatečná pozice). Ale settlementem role CSM <strong>končí</strong>: peníze sedí u Creditor Agenta, CSM žádné nedrží. A return je nová platba — poslat ji může jen ten, <strong>kdo ty peníze fyzicky má</strong>. CSM nemá co vracet.</p>
+<p>Obecné pravidlo na zapamatování: <strong>reject může poslat každý, kdo zprávu drží; return jen ten, kdo drží peníze.</strong> Proto je return monopol Creditor Agenta.</p>
+<hr>
+<p><strong>PROBRÁNO:</strong></p>
+<ul><li>Hranice reject/return = mezibankovní settlement, ne zaúčtování klientovi (ot. 1 ✓)</li><li>Klient nikdy není formální iniciátor R-transakce, jen reason (ot. 2 — půl chyby, hlídat)</li><li>Recall = žádost, ne příkaz; oprávněnost/vlastnictví peněz rulebook neřeší (ot. 3 ✓)</li><li>Párování pacs.004: OrgnlTxId/UETR ano, EndToEndId ne — vlastnictví pole = kdo ručí za unikátnost (ot. 4 — instinkt dobrý, chyběla pointa vlastnictví)</li><li>Bez returnů se hromadí peníze na suspense účtech bank příjemců, ne u příjemců (ot. 5 — půl chyby)</li><li>Suspense account = zaparkovaná otevřená otázka, cílový stav nula (bonus z praxe)</li><li>SCT Inst zakazuje odloženou nejistotu → reject a settlement neoddělitelné (ot. 6 ✓)</li><li>Return = monopol držitele peněz, CSM smí jen reject (ot. 7 ✓)</li></ul>
+<p><strong>OTEVŘENÉ:</strong></p>
+<ul><li>Vlastnictví polí do hloubky (Instructed vs. Settlement Amount, Charges) — příští lekce, navážeme na tvé slabé místo klient vs. participant</li><li>Role klienta ve schématu (vracet se, chybováno 2×)</li></ul>
+<p>Příště: <strong>komu které pole patří a koho zavazuje</strong>. Dobrá práce na první lekci.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>pojďme na druhou lekci!</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><h2>Lekce 2: Komu které pole patří — a koho zavazuje</h2>
+<p>Navazujeme přímo na tvé slabé místo z lekce 1: klient vs. scheme participant. Dnes to samé, ale na úrovni jednotlivých polí.</p>
+<p><strong>Výklad</strong></p>
+<p>Platební zpráva není formulář, je to <strong>vrstvený kontrakt</strong>. Každé pole má autora, garanta a publikum — a ty tři role se nekryjí. Pole se dělí do tří prostorů:</p>
+<p><strong>Prostor klienta</strong> — pole, která banka jen <em>přepravuje</em>: Debtor, Creditor, Remittance Information, <strong>EndToEndId</strong>, <strong>Instructed Amount</strong>. Banky jsou pošťáci: nesmí je měnit, negarantují jejich kvalitu (unikátnost, smysluplnost), jen doručení beze změny. Proto EndToEndId přežije celý řetězec včetně R-transakcí — je to jediná nit, kterou klient na obou koncích pozná.</p>
+<p><strong>Prostor jednoho legu</strong> — pole, která žijí jen mezi dvěma sousedy: <strong>InstructionId</strong>, MsgId. Autor je odesílatel daného legu a na dalším hopu se klidně přepíšou. To není bug — je to důkaz, že pole patří legu, ne platbě.</p>
+<p><strong>Prostor řetězce</strong> — pole, za která ručí instituce, ale platí end-to-end: <strong>UETR</strong> (generuje první banka, pak nedotknutelné), <strong>TransactionId</strong>.</p>
+<p>Teď peníze. <strong>Instructed Amount</strong> = co klient přikázal. <strong>Interbank Settlement Amount</strong> = co skutečně teče mezi bankami v daném legu. Filozofie SEPA: tyto dvě částky se <strong>musí rovnat</strong> — SEPA předepisuje charge bearer <strong>SLEV</strong> (každý platí svou banku zvlášť, nikdo si nesmí "ukousnout" z částky cestou). Proto v SEPA světě příjemce vždy dostane přesně to, co plátce poslal.</p>
+<p>Svět korespondenčního SWIFTu tohle negarantuje: u charge option <strong>BEN</strong> si mezibanky smí strhnout poplatek z částky. Proto existují pole <strong>Charges Information</strong> — dokumentují, kdo si vzal kolik. Bez nich by každý rozdíl mezi Instructed a doručenou částkou vypadal jako krádež; s nimi je to auditovatelná stopa.</p>
+<p>Obecný princip: <strong>vlastnictví pole = kdo ručí za jeho vlastnosti a kdo jediný ho smí zapsat.</strong> A druhá strana mince: pole zavazuje toho, kdo ho dál přenáší beze změny.</p>
+<p><strong>Kvíz</strong></p>
+<ol><li>SEPA SCT: může se Interbank Settlement Amount lišit od Instructed Amount? Odvoď odpověď z filozofie, ne z paměti.</li></ol>
+<ol><li>Přijde ti cross-border platba, doručená částka je o 25 EUR nižší než Instructed Amount. Je to porušení pravidel? A kde v datech zjistíš, co se stalo?</li></ol>
+<ol><li>InstructionId vs. EndToEndId: které se smí na každém hopu změnit, a proč to nevadí?</li></ol>
+<ol><li>Chyták: klient udělal překlep v EndToEndId a chce, aby ho banka "opravila". Platba už odešla do clearingu. Může Debtor Agent pole opravit? A mohl by <em>před</em> odesláním?</li></ol>
+<ol><li>Return (pacs.004) v SEPA: vrací se vždy přesně původní částka, nebo si banka příjemce smí něco strhnout? Pozor, je v tom rozdíl mezi returnem a odpovědí na recall.</li></ol>
+<ol><li>Co konkrétně by se rozbilo, kdyby si každá mezibanka směla vygenerovat vlastní UETR?</li></ol>
+<ol><li>Charge bearer SLEV: koho přesně zavazuje — a co ohledně poplatků rulebook <em>neřeší</em>?</li></ol>
+<p>Postupně, jako minule.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>1
+nemůže 
+v SEPA nechceme žádné zprostředkovatelské banky které se budou přiživovat</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Přesně tak, včetně zdůvodnění. SEPA vznikla, aby vnitroevropská platba fungovala jako domácí — a domácí platbě si taky nikdo cestou neukusuje. SLEV to vynucuje strukturálně: poplatky jdou mimo částku, každý svou bance. Proto rovnost Instructed = Settlement není technické omezení, ale definiční vlastnost schématu.</p>
+<p>Drobné zpřesnění terminologie: mezibanky (intermediary agents) v SEPA řetězci klidně být <em>můžou</em> — jen si nesmí <strong>nic vzít z částky</strong>. Zákaz se týká přiživování, ne existence prostředníků.</p>
+<p>Otázka 2 — cross-border, dorazilo o 25 EUR míň. Porušení? Kde v datech hledat?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>ne
+
+Charges Information</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Správně obojí. Mimo SEPA to porušení není — pokud byla charge option BEN (nebo SHA v legacy MT světě pro mezibanky), strhávání z částky je legitimní byznys model korespondenčního bankovnictví. A stopu najdeš v <strong>Charges Information</strong> (ChrgsInf v pacs.008): kdo, kolik, v jaké měně. Součet: Instructed Amount − Σ charges = doručená částka. Když nesedí ani tohle, teprve pak máš investigaci.</p>
+<p>Implementační poznámka pro tvůj svět: tohle je přesně důvod, proč reconciliace nesmí tvrdě porovnávat Instructed vs. přijatou částku u non-SEPA plateb — potřebuje logiku "rozdíl vysvětlen charges?".</p>
+<p>Otázka 3 — InstructionId vs. EndToEndId: které se smí měnit na každém hopu a proč to nevadí?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>InstructionId
+
+proč to nevadí nedokážu říct 
+prostě to nikdo nečeká že by to bylo prezistentní</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Instinkt správný — a "nikdo to nečeká" je vlastně půlka odpovědi, jen jí chybí <em>proč</em> to nikdo nečeká.</p>
+<p>InstructionId je <strong>adresní pole jednoho legu</strong>: identifikuje instrukci mezi mnou a mým přímým sousedem. Jeho publikum je jeden příjemce zprávy, jeho životnost jeden hop. Když Debtor Agent pošle platbu do CSM a CSM ji pošle dál, na druhém legu je <em>nová instrukce</em> — nový autor, nový InstructionId. Nic se neztratilo, protože žádný vzdálený účastník na tom poli nesmí stavět.</p>
+<p>EndToEndId má opačné publikum: <strong>oba konce řetězce</strong> — klienty, kteří vzájemně nevidí do mezibankovních legů. Proto musí být neměnné: je to jediné pole, kterým plátce řekne příjemci "tahle platba je ta faktura".</p>
+<p>Zapamatuj si to přes publikum: <strong>pole smí mutovat právě tehdy, když jeho publikum nepřesahuje jeden leg.</strong> InstructionId = dopisní obálka (na každé poště nová), EndToEndId = vzkaz uvnitř dopisu.</p>
+<p>Otázka 4 — klient chce opravit překlep v EndToEndId. Platba už v clearingu. Může banka opravit? A mohla by před odesláním?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>před odesláním může cokoliv 
+
+ Po odeslání už nic</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Směr správný, ale u první půlky si tě chytnu za slovo: <strong>"cokoliv" ne.</strong></p>
+<p>Před odesláním platba právně neexistuje ve schématu — je to jen instrukce mezi klientem a jeho bankou. Banka ji tedy může opravit/doplnit, ALE: EndToEndId je pole <strong>klientova prostoru</strong>. Banka ho smí změnit jen jako <em>provedení klientovy nové instrukce</em>, ne z vlastní vůle. Rozdíl je subtilní, ale přesně tam sedí vlastnictví: banka je před odesláním editor s klientovým souhlasem, ne autor.</p>
+<p>Po odeslání do clearingu správně: <strong>neexistuje žádná "opravná" zpráva na pole klientova prostoru.</strong> Ani recall to neumí — recall vrací peníze, needituje historii. Jediná cesta: return/recall a poslat platbu znovu, správně. Zprávy jsou immutable záznamy, ne editovatelné řádky v databázi — celý audit trail mezibankovního světa stojí na tom, že co bylo odesláno, to se už nikdy nemění.</p>
+<p>Mimochodem tady vidíš, proč tvůj systém nejspíš nikde nemá UPDATE na odeslané zprávy — jen INSERT nových. To není lenost architektů.</p>
+<p>Otázka 5 — return v SEPA: vrací se přesně původní částka, nebo si banka příjemce smí něco strhnout? A jaký je v tom rozdíl proti odpovědi na recall?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>technický dotaz 
+
+clearing &amp; settlement 
+
+procesuju platbu (já jako banka) a pošlu zprávu do clearingu 
+
+čekám na odpověď 
+
+podle toho postupuju dál 
+
+až potud je to správně že ?
+
+clearingové centrum přece ale nedělá zúčtování okamžitě 
+
+Jak může vědět co mi odpovědět ?
+
+kontext: mluvím o běžné platbě kdy jeden Němec pošle 100 EUR svému kamarádovi v Itálii...</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Dobrá otázka — a odhaluje skrytý předpoklad. To "čekám na odpověď" totiž ve skutečnosti nejsou jedna odpověď, ale <strong>dvě různé věci v různých časech</strong>:</p>
+<p><strong>1. Technická validace — hned.</strong> CSM po přijetí souboru/zprávy okamžitě zvaliduje formát, schéma, duplicity, BIC účastníka. Na tohle ti odpoví rychle: ACK, nebo reject. Tahle odpověď ale znamená jen <em>"zprávu beru do hry"</em> — o penězích neříká nic.</p>
+<p><strong>2. Settlement — v cyklu.</strong> Klasický SCT je dávkový: CSM sbírá platby, v pevných časech (settlement windows, několikrát denně) spočítá netto pozice účastníků a zúčtuje je v centrální bance (TARGET2/T2). Teprve <strong>po</strong> úspěšném settlementu cyklu CSM platbu pošle dál bance příjemce a tobě přijde settlement report/confirmace za celý cyklus.</p>
+<p>Takže tvůj procesní model uprav takhle: neposíláš a nečekáš synchronně na výsledek platby. Posíláš, dostaneš technické ACK, platba je "in flight", a pak <strong>asynchronně</strong> zpracováváš settlementové zprávy cyklu. Mezi tím tvá platba žije ve stavu, kdy ji nikdo nemůže odmítnout kvůli penězům — jen kvůli formě.</p>
+<p>A všimni si, jak to ladí s lekcí 1: reject od CSM přichází z fáze 1 (validace) nebo z fáze 2 (nepokrytá pozice v cyklu) — vždy <strong>před</strong> settlementem. Po settlementu už CSM mlčí, protože jeho role skončila.</p>
+<p>SCT Inst tohle celé zhroutí do jedné synchronní transakce — proto tam odpověď skutečně znamená "vyřízeno".</p>
+<p>Pomohlo? Pak zpátky k otázce 5: return v SEPA — vrací se přesně původní částka, nebo smí banka něco strhnout?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>dovol ještě podotázku 
+
+&gt;&gt;Teprve po úspěšném settlementu cyklu CSM platbu pošle dál bance příjemce a tobě přijde settlement report/confirmace za celý cyklus.
+
+
+a co když mi nepřijde "settlement report/confirmace"?
+
+co já potom mám dělat ?
+
+já jsem u sebe přece už dávno provedl booking...  nebo ne?</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Výborná otázka — a odpověď je: <strong>ano, provedl, ale ne celý.</strong> Právě proto existují přechodné účty z lekce 1.</p>
+<p>Správně navržený booking má dvě nohy:</p>
+<ul><li><strong>Klientská noha</strong> — hned: odepíšeš klientovi z účtu. Peníze mu už nepatří.</li><li><strong>Mezibanková noha</strong> — až po settlementu. Do té doby částka sedí na interním účtu typu "platby na cestě" (payments in transit — bratranec suspense účtu).</li></ul>
+<p>Tvoje účetnictví tedy říká pravdivý příběh: "klientovi odepsáno, mezibankovně nevypořádáno". Nikdy nebookuješ mezibankovní stranu <em>dopředu</em> jen proto, žes platbu odeslal — to by bylo účtování o budoucnosti, která nemusí nastat.</p>
+<p>Když report nepřijde:</p>
+<ol><li><strong>Timeout monitoring</strong> — na cyklus čekáš definovanou dobu; každý CSM má publikovaný harmonogram windows. Zmeškané okno = incident, ne "počkáme do zítřka".</li><li><strong>Aktivní dotaz</strong> — status inquiry (v ISO světě pacs.028 payment status request) nebo dotaz na CSM: co je s cyklem/platbou?</li><li><strong>Reconciliace break</strong> — položka na transit účtu bez párového settlementu je přesně ten typ otevřené otázky, kterou reconciliace musí vyplivnout jako výjimku.</li><li>Podle výsledku: settlement proběhl a report se ztratil (jen doúčtuješ) / cyklus selhal → platba se nekonala, vracíš klientovi.</li></ol>
+<p>Všimni si symetrie: klientovi jsi schopen vrátit peníze <em>bez</em> R-transakce, protože do schématu platba právně nedorazila — settlement nebyl. Tohle není return, jen interní storno.</p>
+<p>A teď už otázka 5: return v SEPA — přesná původní částka, nebo si banka smí strhnout?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>přesná částka</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Správně — ale jen půlka, ta druhá byla v té nápovědě o recallu.</p>
+<p><strong>Return (iniciativa banky příjemce):</strong> vrací se <strong>přesně</strong> původní settlement amount. Logika: banka se zbavuje peněz, které jí nepatří — nemá žádný titul si z nich ukusovat. Vracíš cizí peníze, ne poskytuješ službu.</p>
+<p><strong>Kladná odpověď na recall:</strong> tady rulebook SCT <strong>výslovně dovoluje</strong> bance příjemce strhnout si poplatek z vracené částky. Logika je opačná: recall je <em>služba plátci</em>, který udělal chybu (duplicita, překlep). Banka příjemce s tím má práci navíc, kterou nezavinila — a náklady chyby nese ten, kdo chybu udělal. Plátci se tedy může vrátit míň, než poslal, a je to legální a auditovatelné.</p>
+<p>Krásná ilustrace celé filozofie: <strong>stejná zpráva (pacs.004), stejný směr peněz, ale opačné vlastnictví viny → opačná pravidla o částce.</strong> Kdo pole/peníze vlastní a kdo chybu zavinil, určuje, co se smí.</p>
+<p>Otázka 6 — co by se rozbilo, kdyby si každá mezibanka generovala vlastní UETR?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>trackability transakce</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Přesně — a rozlož si, co konkrétně umře:</p>
+<p><strong>gpi tracking:</strong> UETR je klíč, pod kterým SWIFT gpi Tracker skládá stav platby napříč bankami. Každá banka reportuje "mám, poslal jsem dál, připsáno" pod týmž UETR. Rozbij unikátnost → tracker vidí tři různé platby místo jedné a nikdo neodpoví na otázku "kde jsou moje peníze".</p>
+<p><strong>End-to-end investigace:</strong> dnes zavoláš "UETR xyz" a kterákoli banka v řetězci najde svůj kus. S per-hop UETR by investigace znamenala řetězovou korespondenci: každá banka zná jen mapování na svého souseda — přesně ten svět, který existoval před gpi a kde dotaz na platbu trval týdny.</p>
+<p><strong>Párování R-transakcí:</strong> pacs.004 nese OrgnlUETR. Kdyby UETR mutoval, return od třetí banky v řetězci by nesl UETR, který tvůj systém nikdy neviděl.</p>
+<p>Všimni si, že UETR je výjimka z pravidla z otázky 3: publikum InstructionId je jeden soused → smí mutovat. Publikum UETR je <strong>celý řetězec včetně trackeru</strong> → nesmí. Proto ho generuje první banka a všichni dál jsou jen přepravci — je to jediné pole <em>institucionálního</em> prostoru s end-to-end neměnností. Jakmile publikum přesáhne leg, mutace zakázána.</p>
+<p>Poslední otázka 7 — SLEV: koho přesně zavazuje, a co ohledně poplatků rulebook <em>neřeší</em>?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>zavazuje všechny, že nesmí přiúčtovat poplatky 
+
+
+(btw co ta zkratka znamená?)</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Půlka. "Nesmí přiúčtovat poplatky" je moc silné — přesně řečeno: <strong>nesmí je strhnout z převáděné částky.</strong> Poplatky existovat smí, jen jdou mimo tok peněz: každá banka si je účtuje <strong>svému vlastnímu klientovi</strong> zvlášť (výpis, ceník). A "všechny" zpřesni na <strong>scheme participanty</strong> — klienta SLEV nezavazuje k ničemu, klient je jeho beneficient.</p>
+<p>A co rulebook <strong>neřeší</strong>: <strong>kolik</strong> si banka od svého klienta smí vzít. Cena mezi bankou a jejím klientem je mimo schéma — to je věc ceníku, konkurence a případně regulace (PSD2, nařízení o přeshraničních platbách), ne rulebooku. Vzorec z lekce 1: rulebook řeší proces mezi participanty, ne komerční vztahy s klienty.</p>
+<p>Ta zkratka: <strong>SLEV = "Service Level"</strong>, ISO kód ChargeBearer s významem <em>"poplatky podle pravidel service levelu"</em> — tedy "řiď se schématem, pod kterým platba jede". V SEPA to schéma říká: každý platí svou banku, částka nedotčená. Sourozenci v ISO číselníku: DEBT (vše platí plátce), CRED (vše příjemce), SHAR (každý svou stranu). SLEV je vlastně SHAR povýšený na zákon schématu.</p>
+<hr>
+<p><strong>PROBRÁNO:</strong></p>
+<ul><li>Instructed = Settlement Amount v SEPA je definiční vlastnost, ne technikálie (ot. 1 ✓)</li><li>Rozdíl částek mimo SEPA legální, stopa v Charges Information (ot. 2 ✓)</li><li>Pole smí mutovat ⟺ publikum nepřesahuje jeden leg; InstructionId vs. EndToEndId (ot. 3 — instinkt ✓, chybělo proč)</li><li>Banka je editor s klientovým souhlasem, ne autor; odeslané zprávy immutable, žádný UPDATE (ot. 4 — skoro ✓)</li><li>Return vrací přesně, recall-odpověď smí strhnout fee — vlastnictví viny určuje pravidla (ot. 5 — půlka)</li><li>UETR: jediné institucionální pole s end-to-end neměnností; gpi tracking, investigace, párování R-transakcí (ot. 6 ✓)</li><li>SLEV zavazuje participanty nesahat na částku; ceny bank vůči klientům rulebook neřeší (ot. 7 — půlka)</li></ul>
+<p><strong>BONUS Z PRAXE:</strong> dvoufázový booking (klientská vs. mezibanková noha), payments-in-transit účty, co dělat když nepřijde settlement report (pacs.028, reconciliace breaks)</p>
+<p><strong>OTEVŘENÉ:</strong></p>
+<ul><li>Přesnost formulací: 2× odpověď správným směrem, ale málo precizní (ot. 5, 7) — příště víc chytáků na přesné znění</li><li>Clearing vs. settlement jako samostatné téma (dnešní podotázky ukázaly, že tam je co probírat) — kandidát na lekci 3</li><li>Role klienta vs. participanta — zlepšení proti lekci 1, ale ještě hlídat</li></ul>
+<p>Příští lekce: <strong>clearing vs. settlement</strong> — co přesně dělá CSM, netting, settlement windows, TARGET2, a proč "zaplaceno" znamená v každé vrstvě něco jiného. Sedí ti to?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>rád bych též probral SEPA payment schemes (batch, Sepa bulk, wires, Direct debit...) a SEPA FX rates scénáře 
+pamatuj si to prosím 
+
+Jsem připravený na další lekci!</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Zapsáno do kurikula — SEPA schemes (bulk, wires, SDD) a FX scénáře přijdou na řadu po dnešku.</p>
+<h2>Lekce 3: Clearing vs. settlement — proč "zaplaceno" znamená v každé vrstvě něco jiného</h2>
+<p><strong>Výklad</strong></p>
+<p>Včerejší podotázky odhalily jádro: pleteme si tři různé věci, které všechny vypadají jako "platba proběhla". Rozděl si to na vrstvy:</p>
+<p><strong>Clearing = počítání.</strong> Výměna a validace zpráv, párování, výpočet <em>kdo komu kolik dluží</em>. Clearing nepřesouvá jediné euro — vytváří <strong>závazky</strong>. Výstupem clearingu je pozice: "banka A dluží do systému 80M, bance B systém dluží 30M…"</p>
+<p><strong>Settlement = přesun.</strong> Skutečná změna vlastnictví peněz — zápis na účtech u <strong>settlement agenta</strong>. A tady klíčová filozofie: mezi bankami se "skutečnými penězi" myslí <strong>peníze centrální banky</strong>. Zůstatek u komerční banky je jen její slib; zůstatek v TARGET2/T2 je konečný. Proto EUR settlement končí v centrální bance — výš už není kam eskalovat důvěru.</p>
+<p><strong>Netting = komprese.</strong> CSM nezúčtovává každou platbu zvlášť; spočítá <strong>netto pozice</strong> za cyklus. Tisíce plateb mezi A a B se smrsknou na jeden pohyb. Proto je klasický SCT levný — a proto je dávkový: netting potřebuje dávku, nad kterou počítá.</p>
+<p>Teď ta pointa o slově "zaplaceno":</p>
+<ul><li>klient: "zaplaceno" = odepsáno z účtu (ale mezibankovně nic)</li><li>clearing: "zaplaceno" = závazek spočítán a přijat do cyklu (ale peníze stojí)</li><li>settlement: "zaplaceno" = pozice vypořádány v centrální bance — <strong>finalita</strong>: od tohoto okamžiku je převod neodvolatelný právně (Settlement Finality Directive), ne jen technicky</li></ul>
+<p>A SCT Inst? Nemůže čekat na netting cyklus → zúčtovává <strong>jednotlivě a okamžitě</strong> z předfinancovaných pozic (TIPS model): banka si drží u centrální banky "zásobník" likvidity a každá instantní platba z něj ihned ukrojí. Filozofická cena instantnosti: <strong>vzdáváš se komprese nettingu a platíš likviditou drženou dopředu.</strong></p>
+<p>Poslední pojem: <strong>settlement risk</strong> — riziko, že mezi clearingem a settlementem protistrana padne. Čím delší okno mezi "spočítáno" a "vypořádáno", tím víc riskuješ. Celý design platebních systémů je vyjednávání mezi tímto rizikem, cenou likvidity a rychlostí.</p>
+<p><strong>Kvíz</strong></p>
+<ol><li>CSM ti potvrdil přijetí platby do settlement cyklu. Banka příjemce o platbě zatím neví nic. Kde přesně teď platba "je" — a čí je to závazek?</li></ol>
+<ol><li>Proč netting <em>vyžaduje</em> dávkovost? Co přesně by se rozbilo, kdybys chtěl nettovat instantní platby?</li></ol>
+<ol><li>Uprostřed dne zkrachuje banka A, která má v běžícím cyklu spočtenou debetní pozici. Cyklus ještě nebyl vypořádán. Co se stane s platbami od A v tom cyklu — a co s těmi, které už prošly ranním cyklem?</li></ol>
+<ol><li>"Peníze centrální banky" vs. "peníze komerční banky" — proč mezibankovní settlement musí být v těch prvních? Co by znamenalo settlovat na účtech u komerční banky?</li></ol>
+<ol><li>Chyták: TIPS drží předfinancované pozice. Je SCT Inst platba přes TIPS clearovaná, settlovaná, obojí, nebo nic z toho?</li></ol>
+<ol><li>Z implementační perspektivy: tvůj systém dostal settlement confirmation za cyklus. O tři hodiny později přijde od CSM storno téhož cyklu. Může to nastat? (Nápověda: finalita.)</li></ol>
+<ol><li>Kdyby netting půl roku neexistoval (vše gross, platba po platbě, ale pořád v dávkových windows) — co přesně by banky bolelo a jak by se to projevilo?</li></ol>
+<p>Po jedné, jako vždy.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>je v centrálním bance a je to její závazek</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Tentokrát ne — a je to přesně ta chyba, kterou dnešní lekce míří.</p>
+<p>Přijetí do cyklu je <strong>clearingová</strong> událost. Centrální banka o platbě zatím vůbec neví — ta vstoupí do hry až v settlement okamžiku, kdy zapíše netto pozice. Do té doby:</p>
+<p><strong>Kde platba "je":</strong> existuje jen jako <strong>spočtený závazek v knihách CSM</strong> — řádek v netto pozici tvé banky pro běžící cyklus. Peníze fyzicky pořád sedí na účtu tvé banky u centrální banky, nedotčené. Nic se nikam nepřesunulo.</p>
+<p><strong>Čí závazek:</strong> <strong>tvůj — Debtor Agenta.</strong> Ty dlužíš do cyklu. CSM není dlužník, je počtář a organizátor; centrální banka je zatím jen budoucí místo vypořádání.</p>
+<p>Vzpomeň na včerejší dvoufázový booking: přesně proto máš klientskou nohu zaúčtovanou a mezibankovní na transit účtu — protože mezibankovně jsi v tuhle chvíli <strong>dlužník s nevypořádaným závazkem</strong>, ne někdo, kdo už zaplatil.</p>
+<p>Mnemotechnika: clearing vytváří dluhy, settlement je maže. Mezi tím jsou peníze pořád tam, kde byly.</p>
+<p>Otázka 2 — proč netting <em>vyžaduje</em> dávkovost? Co by se rozbilo při nettingu instantních plateb?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>bez dávkovosti by nebylo co sčítat 
+
+rychlost</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Správný směr, dotáhnu to do mechanismu.</p>
+<p>"Nebylo by co sčítat" — přesně: netting je <strong>množinová operace</strong>. Potřebuje uzavřenou množinu plateb, nad kterou spočítá vzájemné pohledávky. Množina se ale uzavírá <strong>časem</strong>: "všechno do 12:00". Netting tedy strukturálně vyžaduje cut-off, a cut-off = čekání. </p>
+<p>A "rychlost" je ta obětovaná strana: instantní platba z definice nesmí čekat na uzavření množiny. Kdybys chtěl nettovat instanty, máš dvě možnosti a obě jsou špatně:</p>
+<ul><li><strong>čekat na dávku</strong> → platba není instantní, rozbil jsi promise schématu,</li><li><strong>nettovat průběžně po jedné</strong> → netting jedné platby je oxymóron; není s čím ji započíst, "netto" jedné platby je ta platba sama → fakticky gross settlement.</li></ul>
+<p>Proto TIPS ani nepředstírá netting a jede <strong>gross po jednotlivých platbách</strong> z předfinancované likvidity. To je ten trade-off z výkladu: instantnost se platí likviditou, komprese se platí časem. Nejde mít obojí — ne kvůli technologii, ale kvůli logice množin.</p>
+<p>Implementační ozvěna: proto má tvůj SCT engine settlement windows a cut-off logiku, zatímco Inst větev nic takového nemá — tam neexistuje "cyklus", jen nekonečný proud jednotlivých transakcí.</p>
+<p>Otázka 3 — banka A zkrachuje uprostřed dne. Běžící cyklus má spočtenou její debetní pozici, ranní cyklus už je vypořádaný. Co se stane s platbami v obou?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>ranní platby proběhly v pořádku</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Ano</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>ranní platby proběhly v pořádku
+
+debetní pozice běžícího cyklu vezme peníze ze složené zálohy</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Půlka výborně, půlka je optimističtější než realita.</p>
+<p><strong>Ranní cyklus:</strong> přesně tak — a řekni si proč: <strong>finalita</strong>. Settlement Finality Directive existuje právě pro tento den. Vypořádané je neodvolatelné, ani insolvenční správce banky A nemůže ranní cyklus rozporovat a vytahat peníze zpět. Bez tohoto pravidla by krach jedné banky rozmotal celý den celého systému.</p>
+<p><strong>Běžící cyklus:</strong> záloha není samozřejmost. Některé systémy garanční fondy či kolaterál mají, ale základní mechanismus SEPA CSM je tvrdší a jednodušší: <strong>exkluze a přepočet.</strong> Platby banky A se z cyklu vyhodí, netto pozice ostatních se přepočítají bez ní, cyklus se vypořádá bez A.</p>
+<p>A teď to napoj na lekci 1: co jsou ty vyhozené platby? Settlement neproběhl → <strong>rejecty</strong>. Platby prostě <em>nikdy nenastaly</em>. Klienti banky A dostanou peníze zpět interním stornem (žádná R-transakce — do schématu nic nedorazilo), klienti čekající na příchozí platby od A nedostanou nic a jdou si stěžovat… insolvenčnímu správci.</p>
+<p>Tady vidíš, proč hranice reject/return není akademická: v den krachu banky rozhoduje o tom, <strong>kdo je věřitelem konkurzní podstaty</strong>. Platba před settlementem = klient má pořád své peníze. Po settlementu = peníze došly a jsou příjemcovy. Přesně na té čáře se láme, kdo o peníze bojuje u soudu.</p>
+<p>Otázka 4 — proč settlement musí být v penězích centrální banky? Co by znamenalo settlovat na účtech u komerční banky?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>neumím odpovědět 
+asi je potřeba nějaký rozhodčí který pak má i vymáhací pravomoc, soudy a policii 
+
+ale pokud by nějaká komerční banka měla velkou důvěru tak proč ne ... ?!</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Zajímavá intuice s rozhodčím — ale je to jinak. Nejde o vymáhání, jde o <strong>kreditní riziko</strong>. A tvoje "proč ne" má krásnou odpověď: ono se to totiž <strong>dělá</strong> — a přesně z toho plynou problémy.</p>
+<p>Rozklad: zůstatek na účtu u komerční banky <strong>nejsou peníze — je to pohledávka za bankou.</strong> Slib. Když banka padne, tvůj "zůstatek" je řádek v konkurzu. Kdyby EUR settlement běžel přes účty u Deutsche Bank, každá banka v systému by nesla kreditní riziko DB — a krach DB by smazal "vypořádané" pozice všech. Systémové riziko koncentrované v jednom komerčním subjektu.</p>
+<p>Centrální banka je jediná entita, jejíž slib v dané měně <strong>nemůže selhat</strong> — eura jsou její vlastní závazek, ona je jejich zdroj. Nemůže zkrachovat v měně, kterou sama emituje. Proto "peníze centrální banky" = konec řetězce důvěry. Ne proto, že má policii — proto, že <strong>její dluh je definice peněz</strong>.</p>
+<p>A teď to "proč ne": celý <strong>korespondenční SWIFT svět přesně takhle funguje!</strong> Nostro účet = settlement na knihách komerční banky. Malá banka bez přístupu k T2 settluje eura přes účet u velké banky — a nese její kreditní riziko. Rozdíl mezi SEPA settlement světem a correspondent bankingem není technický, je to rozdíl v odpovědi na otázku <strong>"čí slib je pro tebe dost dobrý"</strong>.</p>
+<p>Mimochodem právě proto Basel/regulátoři hlídají interbank expozice a proto se po 2008 tolik plateb tlačilo z korespondenčních vztahů do CSM s centrální bankou.</p>
+<p>Otázka 5, chyták: SCT Inst přes TIPS — clearovaná, settlovaná, obojí, nic?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>obojí 
+a fofrem...</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Přesně — obojí, atomicky, v jednom kroku. Chyták byl v pokušení říct "jen settlement, vždyť netting chybí": jenže clearing ≠ netting. Clearing je validace, párování, spočtení závazku — a to TIPS dělá taky, jen nad množinou velikosti jedna. Netting je pouze <em>optimalizace</em> clearingu, ne jeho definice.</p>
+<p>A "fofrem" má přesný technický obsah: v TIPS jsou clearing a settlement <strong>jedna nedělitelná transakce</strong> — rezervuj likviditu plátce, zapiš, potvrď, vše v sekundách, s finalitou okamžitě. Neexistuje stav "cleared, čeká na settlement". Srovnej s klasickým SCT, kde mezi clearingem a settlementem zeje okno — a v tom okně žije settlement risk z výkladu. SCT Inst to okno zavřel na nulu: instantní platba nemá settlement risk, protože nemá "mezi".</p>
+<p>Proto taky u Inst neexistuje reject z důvodu "nepokrytá pozice v cyklu" — nedostatek likvidity se projeví okamžitým zamítnutím celé transakce. Buď všechno hned, nebo nic hned.</p>
+<p>Otázka 6 — dostal jsi settlement confirmation za cyklus, o tři hodiny později přijde od CSM "storno cyklu". Může to nastat?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>storno cyklu?
+to neexistuje</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Přesně — neexistuje, <strong>nesmí existovat</strong>. Settlement confirmation = finalita, a finalita je definitivní z právní podstaty (Settlement Finality Directive), ne jako technické rozhodnutí CSM. Zpráva "storno vypořádaného cyklu" nemá v žádném schématu ani definovaný formát — to je nejsilnější druh neexistence: není co poslat.</p>
+<p>Implementační důsledek: kdyby ti něco takového přišlo, je to buď chyba CSM, nebo podvržená zpráva — a tvůj systém by ji měl odmítnout jako nezpracovatelnou, ne se snažit "vyhovět". Correction happens forward: chybné vypořádání se řeší <strong>novou transakcí</strong> (return, kompenzace), nikdy mazáním historie. Stejný princip jako immutable zprávy z lekce 2 — účetní kniha mezibankovního světa se nikdy needituje zpětně, jen dopisuje.</p>
+<p>Poslední, otázka 7 — kdyby netting půl roku neexistoval (vše gross, platba po platbě, ale pořád dávková windows): co přesně by banky bolelo a jak?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>velká zátěž (mnoho transakcí)
+časové prodlevy
+nároky na infra</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Zátěž ano, ale ta hlavní bolest je jinde — a je to jedno slovo z dnešního výkladu: <strong>likvidita.</strong></p>
+<p>Netting není primárně úspora výpočtů (spočítat milion plateb gross umí dnešní hardware levou zadní). Netting šetří <strong>peníze, které musíš mít připravené</strong>. Čísla: denní obrat mezi bankami A a B je 10 mld. EUR každým směrem. S nettingem potřebuješ na settlement pokrýt netto rozdíl — třeba 200M. Gross potřebuješ mít v centrální bance likviditu na <strong>hrubý tok</strong> — řádově celých 10 mld., protože každá platba čerpá pozici individuálně.</p>
+<p>A likvidita v centrální bance není zadarmo: jsou to peníze, které nevydělávají jinde, plus kolaterál, který musíš zastavit pro intraday credit. Půl roku gross settlementu by znamenalo:</p>
+<ul><li>banky drží násobně vyšší zůstatky v T2 → mrtvý kapitál, ušlý výnos,</li><li>honba za kolaterálem (státní dluhopisy k zástavě) → zdražení na repo trhu,</li><li><strong>gridlock</strong>: banka nemá na odchozí platbu, čeká na příchozí, kterou jiná banka nemůže poslat, protože čeká na svou příchozí — kruhová zácpa, kterou netting strukturálně rozpouští,</li><li>treasury oddělení řídící intraday likviditu hodinu po hodině místo jednoho čísla za cyklus.</li></ul>
+<p>Tvoje "nároky na infra" tedy platí, ale infra tady není hardware — je to <strong>kapitál</strong>. Netting je finanční komprese, ne výpočetní.</p>
+<p>(A všimni si: přesně tuhle cenu SCT Inst dobrovolně platí za instantnost — TIPS je gross svět s předfinancováním. Jde to, ale jen proto, že instantní platby jsou zatím zlomek objemů.)</p>
+<hr>
+<p><strong>PROBRÁNO:</strong></p>
+<ul><li>Clearing = počítání závazků, settlement = přesun peněz CB, netting = komprese (ot. 1 ✗ — platba v cyklu je závazek Debtor Agenta v knihách CSM, CB o ní neví!)</li><li>Netting vyžaduje uzavřenou množinu → cut-off → dávkovost; instant + netting = logický spor (ot. 2 ✓)</li><li>Krach banky: finalita chrání vypořádané cykly; běžící cyklus → exkluze a přepočet, platby se stávají rejecty; hranice reject/return určuje věřitele konkurzu (ot. 3 — půlka, "záloha" není základní mechanismus)</li><li>Peníze CB = jediný slib, který nemůže selhat; nostro svět = settlement na komerčních knihách včetně kreditního rizika (ot. 4 ✗ — nová látka, ne chyba)</li><li>TIPS: clearing i settlement atomicky, netting je jen optimalizace clearingu; Inst nemá settlement risk, protože nemá "mezi" (ot. 5 ✓)</li><li>Storno vypořádaného cyklu neexistuje ani jako formát; correction forward (ot. 6 ✓)</li><li>Netting šetří likviditu, ne výpočty; gross svět = mrtvý kapitál, kolaterál, gridlock (ot. 7 — směr ✓, jádro uniklo)</li></ul>
+<p><strong>OTEVŘENÉ:</strong></p>
+<ul><li>Likvidita jako téma tě zaskočila 2× (ot. 1, 7) — vrátit se při lekci o nostro/vostro a intraday liquidity</li><li>Kde přesně "je" platba v každé fázi — procvičit znovu jinou formou</li><li>Z kurikula dále čeká: SEPA schemes (bulk/wires/SDD), FX scénáře, vlastnictví polí hlouběji, reference chain, gpi</li></ul>
+<p>Příští lekce podle plánu: <strong>SEPA payment schemes</strong> — SCT/SCT Inst/SDD Core/SDD B2B, bulk vs. single, a proč Direct Debit obrací celou filozofii iniciace platby. Nebo preferuješ FX scénáře dřív?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>fx dřív prosím</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><h2>Lekce 4: FX v SEPA světě — proč schéma o kurzech mlčí, a přesto se konvertuje pořád</h2>
+<p><strong>Výklad</strong></p>
+<p>Nejdřív zdánlivý paradox: <strong>SEPA schémata jsou výhradně eurová.</strong> Interbank leg — pacs.008, clearing, settlement v T2/TIPS — všechno běží jen v EUR. Žádné pole "kurz", žádná konverzní zpráva. A přesto FX v SEPA platbách probíhá denně milionkrát.</p>
+<p>Rozuzlení: SEPA zahrnuje i země, které eurem neplatí — Česko, Polsko, Švédsko. Klient s CZK účtem pošle SEPA platbu do Itálie. Kde se stala konverze? <strong>Na hraně schématu, před vstupem do něj.</strong> Debtor Agent konvertuje CZK→EUR na svých knihách, do clearingu vstupuje čistá eurová platba. Schéma konverzi nikdy nevidí.</p>
+<p>To je celá filozofie v jedné větě: <strong>FX je vztah klient–banka, ne participant–participant.</strong> Vzorec z lekce 2: rulebook řeší proces mezi participanty; kurz je cena, a ceny mezi bankou a klientem rulebook neřeší — stejně jako poplatky u SLEV.</p>
+<p>Symetricky na příjmu: EUR platba dorazí bance příjemce, ta připisuje na SEK účet → konverze na hraně, na knihách Creditor Agenta. Interbank svět zůstal čistě eurový oběma směry.</p>
+<p>Co z toho plyne:</p>
+<ul><li><strong>Instructed Amount je vždy v EUR</strong> — to, co klient zadal v CZK, je jen podklad pro konverzi před vznikem schémové platby. Do zprávy se dostane až výsledek.</li><li>Rovnost Instructed = Settlement z lekce 2 platí dál — obě v EUR, konverze ji neporušuje, protože proběhla mimo.</li><li><strong>Kurz nemá auditní stopu ve zprávě.</strong> Klient ho najde na výpisu, ne v pacs.008.</li></ul>
+<p>Teď to zajímavé: <strong>R-transakce po konverzi.</strong> Return vrací přesně původní <strong>eurovou</strong> settlement částku (lekce 2). Ale klient platil v CZK — a mezi platbou a returnem se kurz hnul. Banka mu vrací EUR konvertované <em>dnešním</em> kurzem. Klient dostane zpět jinou CZK částku, než zaplatil. <strong>Kdo nese kurzový rozdíl? Rulebook mlčí</strong> — schéma vidělo jen EUR tam a stejné EUR zpět, jeho svět je konzistentní. Rozdíl je věcí ceníku banky a smlouvy s klientem. Přesně tady vznikají reklamace, které tvůj systém musí umět aspoň zdokumentovat.</p>
+<p>Regulatorní vrstva mimo rulebook: nařízení o přeshraničních platbách (2021/1230) vynucuje transparentnost — banka musí konverzní přirážku zveřejnit srovnatelně (marže vůči ECB kurzu). Ale výši nereguluje.</p>
+<p>A novinka na okraj: EPC od 2023 provozuje <strong>OCT Inst</strong> (One-Leg Out Instant) — schéma pro instantní platby, kde jedna noha je mimo SEPA/EUR. Tam už FX vstupuje blíž ke schématu, ale pořád platí: kurz dělá banka na hraně, ne clearing.</p>
+<p><strong>Kvíz</strong></p>
+<ol><li>Český klient (CZK účet) posílá 100 EUR do Německa. V jakém okamžiku a na čích knihách proběhne FX — a co přesně vstoupí do CSM?</li></ol>
+<ol><li>Chyták: existuje v pacs.008 pole pro směnný kurz použitý Debtor Agentem? Odvoď z filozofie, nehádej.</li></ol>
+<ol><li>Platba z ot. 1 se po třech dnech vrátí returnem (účet neexistuje). Kurz EUR/CZK mezitím klesl. Kolik EUR přijde zpět, kolik CZK dostane klient, a kdo "prodělal"?</li></ol>
+<ol><li>Švédská banka připisuje došlou EUR platbu na SEK účet klienta kurzem s 2% přirážkou. Porušila SCT rulebook? Porušila něco jiného?</li></ol>
+<ol><li>Proč SEPA schémata <em>nemohou</em> jednoduše přidat multi-currency support ("pošli SEK přes SCT")? Co všechno z dnešní a minulé lekce by se muselo rozbít?</li></ol>
+<ol><li>Z implementační perspektivy: tvůj systém páruje return na původní platbu. Smíš při reconciliaci porovnávat CZK částky (co klient zaplatil vs. co dostal zpět)? Které částky <em>musí</em> sedět přesně?</li></ol>
+<ol><li>Klient si stěžuje: "poslal jsem 2 500 CZK, příjemci došlo 98,40 EUR místo 100." Banka tvrdí SLEV a žádné poplatky z částky. Kde všude budeš hledat vysvětlení — a je vůbec nutně někdo vinen?</li></ol>
+<p>Po jedné.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>otázka 1
+v okamžiku kdy to česká banka zaúčtuje a převede 
+fx probíhá na bance tohoto českého klienta 
+do CSM vstoupí už jenom eura</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Správně ve všech třech bodech. Jen zvýrazním jednu jemnost, která se ti bude hodit: "v okamžiku, kdy to zaúčtuje" — přesněji jde o okamžik <strong>vzniku schémové platby</strong>. Sekvence na knihách Debtor Agenta:</p>
+<ol><li>odepiš klientovi 2 5XX CZK (klientská noha, kurz dle ceníku),</li><li>na vlastních knihách konvertuj — CZK pozice banky ↑, EUR pozice ↓,</li><li>vytvoř pacs.008 na 100 EUR → transit účet, čeká na settlement (dvoufázový booking z lekce 2).</li></ol>
+<p>Do CSM vstupuje eurová platba, která z pohledu schématu <strong>vždycky byla eurová</strong> — CZK prehistorie neexistuje. Banka tu mimochodem nedělá klientovi jen převod, ale zároveň s ním uzavřela drobný FX obchod — proto FX sazby řeší treasury, ne payments engine.</p>
+<p>Otázka 2 — existuje v pacs.008 pole pro použitý směnný kurz? Odvoď z filozofie.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>neexistuje
+neměl by tam žádný smysl 
+nikoho to nezajímá</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Chyták zafungoval napůl — pozor, tady je jemné, ale důležité rozlišení.</p>
+<p><strong>V SEPA implementaci pacs.008: ne.</strong> Tvoje zdůvodnění sedí — konverze proběhla mimo schéma, participanty nezajímá, SEPA usage guidelines takové pole nepovolují.</p>
+<p><strong>Ale v ISO 20022 standardu pacs.008 pole existuje: <code>XchgRate</code> (Exchange Rate)</strong>, hned vedle Instructed Amount. Proč? ISO 20022 je <strong>globální</strong> standard — a v korespondenčním světě (CBPR+, cross-currency platby) běžně Instructed Amount zní na jinou měnu než settlement. Tam kurz auditní stopu ve zprávě mít <em>musí</em>, jinak nikdo nezrekonstruuje, jak se ze 2 500 CZK stalo 98,40 EUR.</p>
+<p>Ponaučení, které se ti bude v práci hodit: <strong>SEPA je restriktivní podmnožina ISO 20022.</strong> Když v XSD schématu uvidíš pole, které "v SEPA neexistuje", často existuje — jen ho SEPA rulebook zakazuje/nevyužívá. Tvůj validátor SEPA plateb ho musí odmítat; tvůj parser obecného pacs.008 s ním musí počítat.</p>
+<p>Filozofie tedy zní přesněji: kurz nepatří do zprávy <strong>tam, kde konverze proběhla mimo schéma</strong>. Kde je konverze součástí mezibankovního legu (SWIFT cross-currency), tam do zprávy patří.</p>
+<p>Otázka 3 — return po třech dnech, kurz EUR/CZK mezitím klesl. Kolik EUR jde zpět, kolik CZK dostane klient, kdo prodělal?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>zpět jde 100 euro 
++
+zákazník banky na tom lehce vydělal</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>EUR zpět: <strong>přesně 100</strong> — správně, return vrací settlement částku nedotčenou.</p>
+<p>Ale klient: <strong>prodělal, ne vydělal.</strong> Projdi to s čísly. Kurz klesl, řekněme z 25,00 na 24,50:</p>
+<ul><li>Den 1: klient zaplatil 2 500 CZK → banka z nich udělala 100 EUR (kurz 25,00)</li><li>Den 4: přišlo 100 EUR returnem → banka konvertuje dnešním kurzem 24,50 → klient dostane <strong>2 450 CZK</strong></li></ul>
+<p>Klesl kurz = euro je levnější = za vracená eura je <em>méně</em> korun. Klientovi chybí 50 Kč, přestože "všechno vrátili přesně". Vydělal by při růstu kurzu — směr sis otočil.</p>
+<p>A v praxi prodělá skoro vždycky, i kdyby se kurz nehnul: banka nekonvertuje středem, ale <strong>spread</strong> — prodává eura dráž (den 1: kurz "prodej" 25,10) a vykupuje levněji (den 4: kurz "nákup" 24,90). Klient zaplatí spread dvakrát, tam i zpět. Rulebook k tomu mlčí (viděl 100 EUR tam, 100 EUR zpět — jeho svět sedí), smlouva banky s klientem obvykle taky nic negarantuje.</p>
+<p>Implementační důsledek: reklamace "vrátili jste mi míň" je z pohledu schématu nezaložená, ale tvůj systém musí umět doložit řetěz: původní CZK debet + kurz → EUR platba → EUR return → kurz + CZK kredit. Dvě konverze, dva kurzy, jedna platba.</p>
+<p>Otázka 4 — švédská banka připíše došlou EUR platbu na SEK účet s 2% přirážkou v kurzu. Porušila SCT rulebook? Porušila něco jiného?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>rulebook neporušila
+
+jestli porušila nějaké obchodní dohody v rámci své země to je jiná věc</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Přesně tak, obě půlky. Rulebook čistý: schéma skončilo v okamžiku, kdy 100 EUR přistálo u Creditor Agenta — co banka udělá při připsání na SEK účet, je vztah s jejím klientem, mimo hřiště. Rovnost Instructed = Settlement platí v EUR světě, o SEK výsledku rulebook nic netvrdí.</p>
+<p>A ta "jiná věc" má konkrétní jména, doplním ti je: <strong>nařízení 2021/1230</strong> (transparentnost přeshraničních plateb — přirážku smí mít, ale musí být zveřejněná a srovnatelná vůči referenčnímu kurzu ECB), <strong>PSD2</strong> (informační povinnosti o kurzu před transakcí a na výpisu), plus švédský spotřebitelský dohled. Vzorec: <strong>rulebook neřeší ceny, regulace řeší transparentnost cen, výši neřeší skoro nikdo.</strong> 2% přirážka zveřejněná v ceníku = legální byznys; 2% přirážka zatajená = regulatorní problém, ale pořád ne schémový.</p>
+<p>Za odpověď bez zaváhání palec nahoru — tenhle vzorec (proces/cena/transparentnost jako tři oddělené vrstvy) už ti sedí.</p>
+<p>Otázka 5 — proč SEPA schémata <em>nemohou</em> jen tak přidat multi-currency ("pošli SEK přes SCT")? Co všechno z dnešní a minulé lekce by se rozbilo?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>rozbila by se ta čistá filosofie rychlých plateb kde si nikdo neužírá; a to jde lépe když nejsou konverze</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Směr dobrý — "čistota" je správné slovo — ale zůstal jsi o patro výš, než kde to doopravdy praská. Rozbij to na konkréta z lekce 3:</p>
+<p><strong>Settlement.</strong> Mezibankovní settlement = peníze centrální banky. ECB/T2 umí vypořádat jen <strong>svou</strong> měnu — EUR je její závazek. SEK je závazek Riksbanku. "SEK přes SCT" znamená: buď settlement SEK na komerčních knihách (→ kreditní riziko, přesně to, co jsme u ot. 4 lekce 3 zavrhli), nebo zapojit druhou centrální banku → už nestavíš schéma, ale <strong>měnový pár systémů</strong>.</p>
+<p><strong>Netting.</strong> Netto pozice se počítá v jedné jednotce. Multi-currency cyklus = buď oddělené pozice per měna (→ fakticky N paralelních schémat), nebo netting napříč měnami kurzem — a kurz čí, z kdy, kdo nese pohyb mezi clearingem a settlementem? Vnesl jsi <strong>FX risk doprostřed settlement okna</strong> — nový druh rizika, který eurové schéma strukturálně nemá.</p>
+<p><strong>Pravidla.</strong> Instructed = Settlement Amount funguje, jen když obě žijí v téže měně. Return "přesné částky" — přesné v čem? Finalita čeho, když mezi legy visí konverze?</p>
+<p>Takže přesněji než "čistá filosofie": <strong>jednoměnovost není vlastnost SEPA, je to předpoklad, na kterém stojí settlement v CB penězích, netting i rovnost částek.</strong> Vytáhneš ho — a nespadne elegance, spadne statika.</p>
+<p>(Proto OCT Inst z výkladu tu druhou měnu drží <em>mimo</em> SEPA nohu — konverze na hraně, eurová noha nedotčená.)</p>
+<p>Otázka 6 — reconciliace returnu: smíš párovat CZK částky? Které částky musí sedět přesně?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>nerozumím otázce</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Rozvedu ji na tvém vlastním systému.</p>
+<p>Situace: klient poslal 2 500 CZK → z toho vzniklo 100 EUR pacs.008 → po třech dnech přišel pacs.004 return na 100 EUR → klientovi připsáno 2 450 CZK.</p>
+<p>Teď píšeš reconciliaci/matching. Otázka zní: <strong>na kterých částkách smí tvůj matching stavět tvrdou kontrolu</strong> ("nesedí → exception, investigace") — a na kterých ne?</p>
+<p>Konkrétně dvě kandidátní pravidla:</p>
+<ul><li><code>pacs.004.RtrdIntrBkSttlmAmt == původní pacs.008.IntrBkSttlmAmt</code> (100 EUR == 100 EUR)</li><li><code>CZK vráceno klientovi == CZK původně odepsáno</code> (2 450 == 2 500?)</li></ul>
+<p>Které z nich je správný tvrdý check, které je bug — a proč?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>platí pravidlo první 
+
+Národní měny systém SEPA neřeší</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Správně — a "SEPA národní měny neřeší" je přesný důvod, proč druhé pravidlo je bug. Dotáhnu implementační pointu:</p>
+<p><strong>Pravidlo 1 = tvrdý check.</strong> Return musí vracet přesně původní eurovou settlement částku; nerovnost znamená buď špatné spárování (vrací se jiná platba), nebo partial return mimo pravidla → exception, investigace. Tady má tvrdost smysl, protože obě čísla žijí <strong>uvnitř schématu</strong>, kde platí garance rovnosti.</p>
+<p><strong>Pravidlo 2 = falešný alarm by design.</strong> CZK strany prošly dvěma konverzemi ve dvou dnech dvěma kurzy — nerovnost je <em>očekávaný výsledek</em>, ne anomálie. Tvrdý check by ti zaplavil exception queue položkami, kde se nic nepokazilo. Správně: CZK částky se <strong>dokumentují</strong> (audit trail pro reklamace z ot. 3), případně soft-check proti kurzovému rozpětí, ale nikdy hard match.</p>
+<p>Obecné pravidlo pro návrh reconciliace, zapamatuj si: <strong>tvrdě porovnávej jen částky, jejichž rovnost někdo garantuje — a věz, kdo.</strong> Uvnitř SEPA garantuje rulebook EUR rovnosti; na hranách klient–banka negarantuje nikdo nic. Stejný princip jako u non-SEPA charges z lekce 2: tam rozdíl vysvětlovaly Charges Information, tady kurzy. Matching musí znát <em>topologii garancí</em>, ne jen čísla.</p>
+<p>Poslední otázka 7 — klient: "poslal jsem 2 500 CZK, došlo 98,40 EUR místo 100." Banka tvrdí SLEV, žádné poplatky z částky. Kde všude hledáš vysvětlení — a je nutně někdo vinen?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>to asi banka, která tu funguje jako kreditor agent, svého klienta odrbala ;)</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Tentokrát sis vybral špatného podezřelého — a je to přesně chyták na dnešní látku.</p>
+<p>Projdi tok: příjemce dostal <strong>EUR</strong> — má eurový účet, Creditor Agent nic nekonvertoval, jen připsal, co došlo. Konverze proběhla na <strong>druhém konci: u Debtor Agenta, před vstupem do schématu</strong> (otázka 1!). </p>
+<p>Kde tedy hledat, v pořadí:</p>
+<ol><li><strong>Původní pacs.008: jaká byla Instructed Amount?</strong> Skoro jistě zjistíš, že do schématu vstoupilo rovnou <strong>98,40 EUR</strong> — a pak schéma doručilo přesně, SLEV neporušen, nikde nic nechybí.</li><li>Odkud se vzalo 98,40? <strong>Kurz Debtor Agenta.</strong> Klient počítal středem (25,00 → čekal 100), banka prodala eura svým kurzem se spreadem, cca 25,41 → 2 500 CZK = 98,40 EUR.</li><li>Kdyby (teoreticky) vstoupilo 100 a došlo 98,40 → teprve pak Charges Information a otázka, jestli to vůbec jelo SEPA cestou.</li></ol>
+<p><strong>Vinen nutně nikdo:</strong> rozdíl je legální FX marže. Otázka není "kdo ukradl 1,60 EUR", ale "byl kurz transparentní dle 2021/1230 a ceníku". Klientova stížnost pramení z počítání středovým kurzem — klasika first-line supportu.</p>
+<p>Pointa: <strong>"chybějící peníze" hledej vždy nejdřív na hraně, kde se měnila měna — a ta hrana je u plátce, ne u příjemce, pokud příjemce dostává měnu schématu.</strong></p>
+<hr>
+<p><strong>PROBRÁNO (lekce 4 — FX v SEPA):</strong></p>
+<ul><li>FX na hraně schématu, na knihách banky; do CSM vstupuje jen EUR (ot. 1 ✓)</li><li>XchgRate v ISO 20022 existuje, SEPA subset ho nevyužívá — SEPA = restriktivní podmnožina (ot. 2 — půlka, "pole neexistuje" bylo moc silné)</li><li>Return vrací přesně EUR; klient při poklesu kurzu <strong>prodělá</strong> + platí spread 2× (ot. 3 — směr otočen ✗)</li><li>Přirážka u připsání: rulebook čistý, transparentnost řeší 2021/1230/PSD2 (ot. 4 ✓✓)</li><li>Jednoměnovost = statický předpoklad settlement/netting/rovností, ne elegance (ot. 5 — směr ✓, konkréta chyběla)</li><li>Reconciliace: tvrdý match jen na garantované EUR rovnosti; CZK strany dokumentovat, nematchovat (ot. 6 ✓)</li><li>"Chybějící" částka = skoro vždy FX marže u Debtor Agenta; vinen nutně nikdo (ot. 7 ✗ — špatný agent)</li></ul>
+<p><strong>OTEVŘENÉ:</strong></p>
+<ul><li>Směr kurzového dopadu na klienta (ot. 3) — procvičit číselný příklad příště</li><li>Konverze u plátce vs. příjemce — kdo konvertuje kdy (ot. 7)</li><li>Z kurikula: <strong>SEPA schemes (SCT bulk, SDD, wires)</strong> — příští lekce, jak jsi chtěl; pak reference chain, nostro/vostro + likvidita (dluh z lekce 3)</li></ul>
+<p>Dobrá lekce — nejtěžší dosud, dvě čisté chyby, ale oboje na nové látce. Příště: <strong>SEPA payment schemes a proč Direct Debit obrací filozofii iniciace.</strong></p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>jdeme do toho</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><h2>Lekce 5: SEPA payment schemes — a proč Direct Debit obrací celou filozofii</h2>
+<p><strong>Výklad</strong></p>
+<p>Zatím jsme žili ve světě, kde platbu iniciuje ten, kdo peníze <strong>posílá</strong>. Dnes rozbijeme i tenhle předpoklad.</p>
+<p><strong>Mapa schémat EPC:</strong> SCT (klasický credit transfer), SCT Inst, SDD Core, SDD B2B. Plus na okraji OCT Inst z minula. Všechno ostatní — "wires", vysoké částky přes T2, cross-currency SWIFT — <strong>není SEPA schéma</strong>, i když to v bance leží ve stejném oddělení.</p>
+<p><strong>Bulk/batch není schéma, je to obal.</strong> Firma pošle bance pain.001 s tisícem plateb (výplaty). To je vrstva <strong>klient–banka</strong> (initiation). Banka z toho vyrobí jednotlivé schémové transakce; v clearingu žije každá platba samostatně — vlastní EndToEndId, vlastní osud. Jedna se rejectne, 999 projde. Batch je logistika, ne jednotka závazku. (Souvisí: proto má pain.001 strukturu Group → PaymentInfo → jednotlivé transakce a proto status report pain.002 umí odpovědět per-transakce.)</p>
+<p><strong>Direct Debit — inverze iniciace.</strong> U SCT říká plátce své bance "pošli". U SDD říká <strong>příjemce</strong> (Creditor) své bance "vyber od plátce". Zpráva teče od Creditor Agenta k Debtor Agentovi — celá asymetrie rolí z lekcí 1–2 se zrcadlově otočí: pacs.003 posílá věřitel.</p>
+<p>Co takovou konstrukci vůbec legitimizuje? <strong>Mandát</strong>: plátcem podepsané zmocnění "tento creditor si smí sahat na můj účet". Klíčová filozofie: mandát drží a archivuje <strong>Creditor</strong> — banka plátce ho typicky nikdy neviděla. Debtor Agent inkasuje na základě <em>tvrzení</em> creditora, že mandát existuje.</p>
+<p>To zní nebezpečně — a přesně proto má SDD Core nejsilnější ochranu spotřebitele v celém SEPA světě: <strong>refund</strong>. Plátce může do <strong>8 týdnů</strong> žádat vrácení autorizovaného inkasa <strong>bez udání důvodu</strong> — no questions asked. U neautorizovaného (mandát neexistuje/neplatný) až <strong>13 měsíců</strong>. Refund je nová R-transakce — iniciuje ji Debtor Agent na pokyn klienta. Srovnej s lekcí 1: u SCT klient nemohl iniciovat nic; u SDD refund je klient (plátce) poprvé skutečným spouštěčem R-transakce s nárokem.</p>
+<p>Důsledek pro věřitele: inkaso není nikdy jisté dřív než 8 týdnů po settlementu. Peníze máš, ale s vratkou visící ve vzduchu.</p>
+<p><strong>SDD B2B</strong>: mezi firmami se refund právo <strong>vzdává</strong> — žádné vrácení autorizovaného inkasa. Výměnou: Debtor Agent <strong>musí</strong> ověřit mandát u svého klienta před prvním inkasem (u Core nemusí). Rychlost a finalita pro byznys, ochrana vyměněna za due diligence.</p>
+<p>R-transakce u SDD jsou proto bohatší než u SCT: reject, refusal (plátce odmítne předem), return (banka do 5 dnů), refund (klient, 8t/13m), reversal (creditor vrací omylem vybrané), revocation/request for cancellation. Každá má jiného autora — dobrá mapa na chytáky.</p>
+<p><strong>Kvíz</strong></p>
+<ol><li>V pain.001 dávce 1000 výplat má jedna neplatný IBAN. Co se stane s dávkou z pohledu schématu — a v které vrstvě se rozhoduje?</li></ol>
+<ol><li>SDD Core: kdo je autorem pacs.003 a kterým směrem teče vs. kterým směrem tečou peníze při settlementu?</li></ol>
+<ol><li>Chyták: banka plátce dostane pacs.003, mandát nikdy neviděla. Smí/musí inkaso provést? Na čí riziko?</li></ol>
+<ol><li>Klient (spotřebitel) volá: "to inkaso jsem autorizoval, ale změnil jsem názor, chci peníze zpět" — 6 týdnů po inkasu. Má nárok? A kdyby to bylo B2B?</li></ol>
+<ol><li>Co by se rozbilo, kdyby refund právo (8 týdnů) půl roku neexistovalo?</li></ol>
+<ol><li>Proč u SDD B2B rulebook <em>vyžaduje</em> ověření mandátu Debtor Agentem, zatímco u Core ne? Odvoď z rozdělení rizika, ne z paměti.</li></ol>
+<ol><li>Firma dostala inkasem zaplaceno, pak zjistila, že vybrala omylem dvakrát. Která R-transakce to řeší, kdo ji iniciuje — a je to return?</li></ol>
+<p>Po jedné, jako vždy.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>(1)
+999 tx v pohodě projde 
+
+vrstvou je zde banka debitora</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Správně — a stojí za to si říct, co přesně tvá odpověď implikuje.</p>
+<p>Dávka se rozpadá na jednotlivé transakce <strong>na hraně klient–banka</strong>: Debtor Agent zvaliduje pain.001, vadnou položku odmítne v pain.002 (status RJCT per transakce), zbylých 999 přetaví do samostatných pacs.008. Schéma tu vadnou platbu <strong>nikdy neuvidí</strong> — zemřela před narozením, ve vrstvě initiation.</p>
+<p>Jemnost: kdyby IBAN byl formálně validní, ale neexistující, projde možná až ke Creditor Agentovi — a pak zpět letí reject/return podle fáze (lekce 1). Stejná chyba, jiný okamžik detekce, jiná vrstva řešení a jiný nositel nákladů. Tvůj systém proto potřebuje obě větve: syntaktická validace u sebe, sémantická selhání zvenku.</p>
+<p>A všimni si důsledku pro firmu: z její perspektivy "poslala výplaty" jednou akcí, ale právně vzniklo 999 nezávislých závazků + 1 odmítnutí. Batch není transakce — proto neexistuje "rollback dávky", jakmile ji banka přijala.</p>
+<p>Otázka 2 — SDD Core: kdo je autorem pacs.003, kterým směrem teče zpráva, kterým směrem peníze?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>zprávu posílá kreditor směrem k debitorovi 
+
+peníze tečou opačně</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Správně — s jedním zpřesněním rolí, které u tebe hlídám od lekce 1: zprávu neposílá kreditor, ale <strong>Creditor Agent</strong> (a před ním stojí creditor s pain.008). Kreditor-firma do mezibankovního světa sama nikdy nemluví.</p>
+<p>Tok tedy: creditor → pain.008 → Creditor Agent → <strong>pacs.003</strong> → CSM → Debtor Agent. Peníze při settlementu: účet plátce → Debtor Agent → CSM → Creditor Agent → creditor. Zpráva a peníze v protisměru — u SCT jedou souběžně.</p>
+<p>Implementační důsledek té inverze: u SDD je <strong>Creditor Agent stranou, která podává do clearingu</strong>, a Debtor Agent stranou, která přijímá a musí reagovat (zaúčtovat/odmítnout). Inward/outward logika tvého systému se u SDD zrcadlí: "outward SDD" = vybíráš peníze pro svého klienta-věřitele, "inward SDD" = někdo sahá na účty tvých klientů. Práva a povinnosti se tím prohazují taky — inward SDD nese povinnost hlídat mandátové náležitosti dle schématu, refusaly klientů, D-day timing.</p>
+<p>A druhá jemnost: settlement u SDD je <strong>budoucí datum</strong> (due date v pacs.003) — inkaso se podává dopředu, D-1 nebo dřív, peníze se hnou až v D. Mezi podáním a D existuje okno, kde žijí refusaly a rejecty — další rozdíl proti SCT, kde se settluje "hned v dalším cyklu".</p>
+<p>Otázka 3, chyták: Debtor Agent dostane pacs.003, mandát nikdy neviděl. Smí/musí provést? Na čí riziko?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>musí provést 
+
+na risiko svého klienta</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Půlka sedí, půlka je přesně ten chyták.</p>
+<p><strong>"Musí provést"</strong> — ano, s výhradami: pokud je zpráva formálně v pořádku, účet existuje, jsou prostředky a klient nemá blokaci, Debtor Agent inkaso provede. Nesmí si vymýšlet vlastní překážky typu "neukázali mi mandát" — schéma s tím počítá, mandát u něj není.</p>
+<p><strong>"Na riziko svého klienta" — ne. Přesně obráceně: na riziko creditora.</strong> Odvoď to z refund práva: klient má 8 týdnů no-questions-asked, u neautorizovaného 13 měsíců. Jaké riziko tedy nese? Prakticky žádné — jeho pozice je chráněná nejsilněji z celého SEPA. Kdo riziko nese, poznáš podle toho, <strong>komu nakonec chybí peníze, když se věc zvrtne</strong>: refund stáhne prostředky zpět řetězem až ke creditorovi. Creditor tvrdil, že mandát má; jestli lhal nebo se spletl, vratka jde za ním.</p>
+<p>To je celá konstrukce SDD v jedné větě: <strong>schéma dovoluje inkasovat bez důkazu, protože riziko naložilo na toho, kdo tvrzení vyslovil.</strong> Debtor Agent je vykonavatel, klient je chráněn refundem, creditor nese tíhu svého tvrzení. Proto banky věřitelů prověřují své inkasní klienty (creditor onboarding, limity) — nesou jejich selhání.</p>
+<p>Mimochodem přesný zrcadlový obraz lekce 1: tam return = monopol toho, kdo drží peníze; tady refund riziko = břemeno toho, kdo držel tvrzení.</p>
+<p>Otázka 4 — klient-spotřebitel, 6 týdnů po inkasu, "autorizoval jsem, ale chci peníze zpět". Nárok? A v B2B?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>ano nárok 
+
+v b2b ne</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Obojí správně, bez výhrad. Core: 6 týdnů &lt; 8, autorizace nehraje roli, "změnil jsem názor" je plnohodnotný důvod — přesněji: důvod se vůbec neuvádí. B2B: refund autorizovaného neexistuje, firma může leda prosit creditora o reversal nebo jít smluvní/soudní cestou — mimo schéma (vzorec z lekce 1: spory o oprávněnost rulebook neřeší).</p>
+<p>Jen dokresli si, co to znamená prakticky: u Core je "vyinkasováno" 8 týdnů jen <strong>podmíněně tvoje</strong>. Firmy s inkasním byznysem (utility, telco) to mají zaceněné — počítají s procentem refundů jako s provozním nákladem. A banky creditorů si kvůli té visící vratce drží vůči inkasním klientům limity a kolaterál: kdyby creditor mezitím zkrachoval, refundy jdou z kapsy jeho banky. Refund riziko je tedy nakonec i <strong>kreditní</strong> vztah mezi creditorem a jeho bankou — další ozvěna lekce 3.</p>
+<p>Otázka 5 — kdyby refund právo půl roku neexistovalo: co by se rozbilo?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>důvěra v systém
+kreditor by inkasoval a lidi poplakali</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Přesně — a rozlož "důvěru" na mechanismus, ať vidíš, proč je refund nosný prvek a ne benefit.</p>
+<p>SDD stojí na tvrzení bez důkazu (ot. 3). Tu konstrukci drží pohromadě právě refund: <strong>creditor smí tvrdit, protože plátce smí vrátit.</strong> Vyjmi refund a zbyde "kdokoli s přístupem do schématu smí sáhnout komukoli na účet a oběť musí dokazovat". Konkrétní kaskáda:</p>
+<ul><li><strong>Racionální reakce klientů:</strong> blokace všech inkas (to schéma umožňuje) → SDD přestane být použitelné pro legitimní věřitele — utility, nájmy, pojistky přejdou na SCT/faktury → dražší vymáhání, horší cash flow, konec automatizace plateb domácností.</li><li><strong>Podvodný byznys model:</strong> hromadné mikroinkaso (miliony účtů × 2 EUR) se stane výnosným — dnes ho zabíjí právě to, že refund je levnější než stížnost.</li><li><strong>Přesun sporů do drahých kanálů:</strong> místo strojové R-transakce policie, soudy, reklamace — přesně ty náklady, které schéma existuje aby eliminovalo.</li><li><strong>Regulátor:</strong> PSD2 refund právo pro inkasa stejně vyžaduje — schéma bez něj by bylo nelegální provozovat. Tady rulebook nekodifikuje dobrou vůli, ale zákon.</li></ul>
+<p>Obecná pointa, která se ti vrátí u gpi i u SCT Inst: <strong>každé schéma, které někomu dává moc jednat bez souhlasu druhé strany v reálném čase, musí mít symetrický opravný mechanismus — jinak se mu racionální účastníci vyhnou.</strong> Důvěra v platební systém není pocit, je to výsledek počitatelné vymahatelnosti oprav.</p>
+<p>Otázka 6 — proč B2B rulebook <em>vyžaduje</em> ověření mandátu Debtor Agentem před prvním inkasem, u Core ne? Odvoď z rozdělení rizika.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>protože jde o vysoké částky</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Částky s tím souvisí, ale příčina je strukturální — odvoď to z toho, co jsme právě probrali.</p>
+<p>U Core se chyba dá <strong>vrátit</strong>: refund 8 týdnů kryje omyl i podvod, poslední pojistka je vždy po ruce. Systém si proto může dovolit inkasovat naslepo — oprava je levná a jistá.</p>
+<p>U B2B jsi refund <strong>odstranil</strong>. Autorizované inkaso je finální okamžikem settlementu. Kde je teď poslední okamžik, kdy lze chybu chytit? <strong>Před prvním inkasem.</strong> A kdo jediný stojí mezi cizím tvrzením a účtem plátce? Debtor Agent. Proto rulebook přesouvá kontrolu tam: ověř mandát u svého klienta, protože <strong>po</strong> už není žádné "po".</p>
+<p>Obecný princip, zapamatuj si ho jako zákon zachování: <strong>kontrola a opravný mechanismus jsou spojené nádoby — odstraníš-li ex-post opravu, musíš přidat ex-ante kontrolu.</strong> Core: slabá kontrola vpředu, silná oprava vzadu. B2B: silná kontrola vpředu, žádná oprava vzadu. Systém s ničím vpředu ani vzadu je otázka 5. Systém s obojím by byl pomalý a drahý zbytečně.</p>
+<p>(Částky pak vysvětlují, proč si firmy ten obchod vůbec chtějí koupit: finalita a rychlost mají pro B2B cash flow větší cenu než ochrana. Spotřebiteli bys finalitu neprodal — a regulátor by ti to ani nedovolil.)</p>
+<p>Poslední otázka 7 — firma vybrala inkasem omylem dvakrát. Která R-transakce, kdo iniciuje, a je to return?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>reversal
+creditor
+ne</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Bez zaváhání, všechno správně. Reversal, iniciuje creditor(ova strana), a return to není — return je monopol banky, která peníze <em>nechtěně drží</em> (lekce 1), kdežto reversal je gesto toho, kdo peníze <em>vybral a ví, že neměl</em>. Jediná R-transakce, kde viník sám vrací — proto taky teče stejným směrem jako původně tekly peníze opačně... a proto má vlastní zprávu (pacs.007), ne pacs.004.</p>
+<p>Stojí za povšimnutí: reversal je <strong>dobrovolný</strong>. Rulebook creditorovi neukládá povinnost reversalu — dvojité inkaso může klient řešit i refundem. Reversal existuje, aby slušný creditor mohl chybu napravit <strong>dřív, než si jí klient všimne</strong> — levnější než refund proces a reputačně lepší. Dva mechanismy pro tutéž chybu, lišící se tím, kdo se hne první.</p>
+<hr>
+<p><strong>PROBRÁNO (lekce 5 — SEPA schemes, SDD):</strong></p>
+<ul><li>Batch = obal vrstvy initiation; schéma vidí jen jednotlivé transakce, rollback dávky neexistuje (ot. 1 ✓)</li><li>SDD: pacs.003 od Creditor Agenta, zpráva a peníze v protisměru; inward/outward logika zrcadlená; settlement na due date (ot. 2 ✓ — hlídat klient vs. agent, zase)</li><li>Debtor Agent inkasuje bez mandátu; riziko nese <strong>creditor</strong>, ne plátce — odvozeno z refundu (ot. 3 — půlka ✗)</li><li>Refund: Core 8 týdnů bez důvodu / 13 měsíců neautorizované; B2B nic (ot. 4 ✓✓)</li><li>Bez refundu se hroutí konstrukce "tvrzení bez důkazu"; důvěra = počitatelná vymahatelnost oprav (ot. 5 — směr ✓, mechanismus doplněn)</li><li>Zákon spojených nádob: ex-post oprava ⇄ ex-ante kontrola; B2B vyměnil refund za povinné ověření mandátu (ot. 6 ✗ — "vysoké částky" je následek, ne příčina)</li><li>Reversal: dobrovolné gesto viníka, pacs.007, dřív než refund (ot. 7 ✓✓✓)</li></ul>
+<p><strong>OTEVŘENÉ:</strong></p>
+<ul><li>Kdo nese riziko = komu nakonec chybí peníze — procvičit na dalších scénářích (ot. 3)</li><li>Vzorec kontrola ⇄ oprava aplikovat na SCT Inst a gpi (ot. 6)</li><li>Z kurikula zbývá: reference chain (EndToEndId/UETR do hloubky), nostro/vostro + likvidita (dluh z lekce 3), gpi/gSRP, cover vs. serial, SCT vs. Inst filozofie souhrnně</li><li>Číselný FX příklad (dluh z lekce 4, směr kurzového dopadu)</li></ul>
+<p>Příště navrhuju <strong>nostro/vostro/loro + likvidita</strong> — splatíme dluh z lekce 3 a připravíme půdu pro cover/serial. Nebo reference chain, jestli chceš lehčí?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>zeptám se: v rámci SEPA také existuje nostro/vostro/loro?</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Výborná otázka — a odpověď je "ve schématu ne, na jeho okrajích ano".</p>
+<p><strong>Uvnitř schématu ne.</strong> Celá pointa SEPA settlement modelu (lekce 3): pozice se vypořádají v penězích centrální banky, v T2/TIPS. Žádná banka nedrží eura "u protistrany" — protistranou je vždy centrální banka. Nostro/vostro síť je přesně to, co SEPA nahradila: místo pavučiny bilaterálních účtů jedna hvězda s ECB uprostřed. Proto SEPA platba nepotřebuje žádný "account with institution" routing — stačí BIC/IBAN, cesta je vždy přes CSM.</p>
+<p><strong>Na okrajích ano, dvěma způsoby:</strong></p>
+<ol><li><strong>Nepřímí účastníci.</strong> Malá záložna nemá vlastní přístup do CSM/T2 — účastní se přes přímého účastníka (velkou banku). Její eura fyzicky sedí na účtu u té velké banky, která za ni podává a přijímá. To je strukturálně čistý vostro/nostro vztah — včetně kreditního rizika z lekce 3: záložna věří slibu komerční banky, ne centrální. Schéma to formalizuje jako direct/indirect participation, ale ekonomicky je to korespondenční bankovnictví schované uvnitř SEPA.</li></ol>
+<ol><li><strong>Hranice měnové zóny.</strong> Tvoje česká banka drží EUR likviditu pro SEPA provoz. Kde? Buď má účet v T2 (pak drží "nostro u ECB", bezrizikové), nebo u komerční korespondenční banky v eurozóně — a jsi zpátky v nostro světě.</li></ol>
+<p>Takže přesně: SEPA nostro/vostro <strong>nezrušila, jen vytlačila ze středu na periferii</strong> — tam, kde končí přímý přístup k centrální bance.</p>
+<p>Tím jsme si mimochodem nakousli příští lekci líp, než jsem plánoval. Jdeme na <strong>nostro/vostro/loro + likviditu</strong> naplno?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>hvězda s ECB uprostřed  ;)
+
+mám trochu zmatek v pojmech 
+proč někdy říkáš ECB, a někdy CSM T2 ?
+
+povyprávěj mi více o této hvězdě 
+
+ kde to sídlí 
+ zda to je opravdu jedna centrála či má nějaké klony a kopie 
+ kolik lidí tam pracuje 
+  funguje nonstop? atd</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Dobrá otázka — zmatek je oprávněný, protože jsem střídal pojmy pro <strong>dvě různá patra hvězdy</strong>. Rozpletu to.</p>
+<p><strong>Proč jednou ECB, jindy CSM/T2:</strong></p>
+<ul><li><strong>CSM</strong> (clearing) = počtář. Pro SEPA typicky <strong>EBA Clearing STEP2</strong> nebo národní systémy (u nás pro CZK CERTIS, pro eura jedou české banky přes STEP2/přímé účastníky). CSM spočítá netto pozice — lekce 3.</li><li><strong>T2</strong> = settlement služba <strong>Eurosystému</strong> (ECB + národní centrální banky), kde se ty pozice vypořádají v penězích centrální banky. <strong>TIPS</strong> = sesterská služba pro instantní platby.</li><li><strong>ECB</strong> jsem používal jako zkratku za celý Eurosystém — právně přesnější je, že T2/TIPS vlastní Eurosystém společně.</li></ul>
+<p>Hvězda má tedy dvě vrstvy: paprsky vedou od bank do CSM (počítání) a z CSM do T2 (peníze). Plus banky mají v T2 účty přímo.</p>
+<p><strong>Kde to fyzicky sídlí:</strong> T2 neprovozuje ECB ve Frankfurtu, ale konsorcium <strong>4CB</strong> — Bundesbank, Banca d'Italia, Banque de France, Banco de España. <strong>TIPS</strong> provozně vede Banca d'Italia. <strong>STEP2</strong> patří EBA Clearing — soukromé společnosti vlastněné bankami, s kancelářemi v Paříži, Bruselu, Frankfurtu a Milán.</p>
+<p><strong>Klony a kopie:</strong> ano, z principu. Architektura je vícesitová — dvě geografické oblasti, v každé redundantní datacentra, s pravidelným ostrým přepínáním regionů (ne jen "záloha v šuplíku", provoz se skutečně periodicky stěhuje, aby se vědělo, že to funguje). Přesné lokality datacenter se z bezpečnostních důvodů nepublikují.</p>
+<p><strong>Lidé:</strong> překvapivě málo — je to vysoce automatizovaný stroj; provozní týmy 4CB + dohled ECB jsou řádově stovky lidí dohromady, ne tisíce. Přesné číslo ti nepovím a nebudu ho vymýšlet.</p>
+<p><strong>Provoz:</strong> tady je krásný rozdíl obou světů. <strong>TIPS: 24/7/365, žádný kalendář</strong> — instantní platba o půlnoci na Štědrý den projde. <strong>T2: business day</strong> — otevírá brzy ráno, RTGS fáze končí kolem 18:00 CET, má maintenance window, zavřeno o víkendech a TARGET svátcích (Nový rok, Velký pátek, Velikonoční pondělí, 1. máj, 25.–26. prosinec). Proto klasický SCT "přes noc stojí", zatímco SCT Inst ne — nejde o lenost bank, ale o otevírací dobu settlement vrstvy.</p>
+<p>Chceš navázat lekcí o likviditě v této hvězdě (intraday credit, kolaterál, co se děje v 18:00 při uzávěrce)?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>super
+téma další lekce budiž SEPA , booking, clering, a hlavně reject, return immediate, atd.</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><h2>Lekce 6: Časová osa platby — booking, clearing, a kde přesně platba umírá</h2>
+<p>Tohle je syntéza lekcí 1 + 3: vezmeme jednu SCT platbu a půjdeme po její ose bod po bodu — a v každém bodě si řekneme, <strong>co je zaúčtováno, kdo ji může zabít, a jak se ta smrt jmenuje</strong>.</p>
+<p><strong>Výklad</strong></p>
+<p><strong>Osa outward platby (jsi Debtor Agent):</strong></p>
+<p><strong>T0 — přijetí instrukce (pain.001).</strong> Validace syntaxe, IBAN, limity, sanction screening, krytí. Smrt zde = <strong>odmítnutí instrukce (pain.002 RJCT)</strong>. Není to R-transakce! Schéma nic nevidělo, žádný booking nevznikl. Nejlevnější místo úmrtí.</p>
+<p><strong>T1 — booking klientské nohy.</strong> Odepíšeš klientovi, mezibankovní noha jde na transit účet (lekce 3). Platba je "in flight" — v tvých knihách existuje, ve schématu ještě ne.</p>
+<p><strong>T2 — podání do CSM (pacs.008).</strong> Od teď je zpráva immutable (lekce 2). Smrt zde = <strong>reject od CSM</strong> (formát, duplicita, nekrytá pozice v cyklu). Booking důsledek: settlement nenastal → <strong>interní storno</strong> — odepíšeš z transitu zpět klientovi. Žádná R-transakce, peníze nikdy neodešly.</p>
+<p><strong>T3 — settlement cyklu.</strong> Finalita. Transit noha se páruje se settlement reportem. Od tohoto bodu <strong>už tvoje platba nemůže dostat reject — nikdy</strong>. Cokoli přijde zpět, je nová transakce.</p>
+<p><strong>T4+ — smrt po settlementu = return (pacs.004).</strong> Booking důsledek zrcadlový: příchozí return je <strong>nový příjem</strong>, nové zaúčtování ve prospěch klienta (dnešním kurzem, lekce 4) — nikdy ne "storno" původního zápisu. Historie se dopisuje, nemaže.</p>
+<p><strong>Osa inward platby (jsi Creditor Agent):</strong> settlementem ti peníze přistály — a s nimi <strong>povinnost je umístit</strong>. Buď připíšeš klientovi, nebo (účet neexistuje, blokace) → suspense → <strong>return v rulebookové lhůtě</strong> (SCT: do 3 pracovních dnů po settlementu). Ty jsi jediný, kdo smí return poslat — monopol držitele peněz (lekce 1).</p>
+<p><strong>SCT Inst — celá osa zhroucena do ~10 s.</strong> Žádné T1–T3 oddělené fáze: rezervace prostředků, clearing, settlement, potvrzení = jedna atomická transakce. Reject je <strong>immediate a synchronní</strong> — negativní odpověď (pacs.002) do timeoutu. Když timeout vyprší bez odpovědi, platba se <strong>považuje za nevzniklou</strong> — a to je jediné schéma, kde "žádná odpověď = ne". Return u Inst existuje, ale jen pro post-settlement důvody (recall, podvod) — nikdy pro "nestíhám zpracovat".</p>
+<p>Mnemotechnika celé osy: <strong>pain zprávy umírají odmítnutím, pacs před settlementem rejectem, po settlementu jen novou transakcí.</strong> A booking vždy říká pravdu o tom, kde peníze právně jsou — ne kde si přeješ, aby byly.</p>
+<p><strong>Kvíz</strong></p>
+<ol><li>Klientovi jsi odepsal peníze (T1), CSM vrátil reject (T2). Klient volá: "kde mám peníze?" Co se stalo účetně a je to R-transakce?</li></ol>
+<ol><li>Chyták: může Debtor Agent poslat reject? V kterékoli fázi?</li></ol>
+<ol><li>Inward SCT: settlement proběhl v 10:00, tvůj systém zjistí v 10:05, že účet příjemce je zrušený. Popiš booking kroky od 10:00 do odeslání pacs.004 — kde peníze "sedí" v každém kroku?</li></ol>
+<ol><li>SCT Inst: poslal jsi pacs.008, timeout vypršel bez odpovědi. Co uděláš s klientskou nohou — a smíš platbu automaticky poslat znovu?</li></ol>
+<ol><li>Proč po settlementu už nesmí existovat reject — co přesně by se rozbilo, kdyby CSM směl "rejectnout" už vypořádanou platbu? (Napojení na lekci 3.)</li></ol>
+<ol><li>Z implementační perspektivy: v jakém pořadí bookuješ u inward platby — nejdřív klient, nebo nejdřív kontroly? A proč u SCT Inst nemáš na výběr?</li></ol>
+<ol><li>Reject od CSM přišel kvůli "nekryté pozici v cyklu" — čí peníze chyběly a proč to není totéž jako "klient nemá krytí"?</li></ol>
+<p>Po jedné.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>q1
+účetně se nestalo nic moc 
+dali jsme to na přechodný účet a zase to svému klientovi připíšeme zpátky 
+jeho peníze v podstatě neopustili naši banku</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Skoro celé správně — a "jeho peníze v podstatě neopustily banku" je přesně ta pointa. Jen zpřesním "nestalo se nic moc", protože účetně se stalo dost, jen nic <em>mezibankovního</em>:</p>
+<p>T1: klient −100, transit +100. T2 reject → storno: transit −100, klient +100. Dva páry zápisů, oba uvnitř tvých knih. Kdyby ses podíval jen na mezibankovní svět: ticho, nula, žádná stopa — proto <strong>žádná R-transakce</strong>. Pacs.004 neexistuje, protože není co vracet mezi bankami; reject od CSM je odpověď na zprávu, ne pohyb peněz (lekce 1: reject může poslat každý, kdo drží zprávu — CSM ji držel a odmítl).</p>
+<p>Klientovi tedy odpovídáš: "platba neproběhla, prostředky vráceny" — a na výpisu vidí buď obě položky (debet + kredit), nebo nic, podle toho, jak banka storna zobrazuje. To je poslední jemnost: <strong>interní storno ≠ výmaz historie.</strong> V žurnálu zůstávají oba zápisy navždy — immutabilita platí i uvnitř banky, jen klientský výpis to může skládat.</p>
+<p>A tvá formulace "dali jsme to na přechodný účet" — ano, transit/suspense noha vznikla už v T1 a reject ji rozpustil. Cílový stav nula, splněno (lekce 1).</p>
+<p>Otázka 2, chyták: může <strong>Debtor Agent</strong> poslat reject? V kterékoli fázi?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>může maximálně dát reject na příchozí pain ;)</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Půlka bodu — a ten smajlík naznačuje, že víš, že pain.002 RJCT je odmítnutí ve vrstvě initiation, ne schémová R-transakce. Správně.</p>
+<p>Ale chyták měl druhé dno: <strong>u SDD je Debtor Agent příjemcem mezibankovní zprávy</strong> — pacs.003 mu přistane inward (lekce 5, zrcadlení rolí!). A kdo drží zprávu před settlementem, smí reject. Debtor Agent tedy <strong>plnohodnotný schémový reject posílá</strong> — na příchozí inkaso: neexistující účet, blokace inkas, formální vady, mrtvý klient. Plus před settlementem přeposílá refusal svého klienta.</p>
+<p>Oprava pravidla, které sis možná zafixoval moc úzce: "Debtor Agent nemůže reject" platí <strong>jen pro SCT</strong>, kde stojí na začátku řetězce a žádnou mezibankovní zprávu nepřijímá (leda pacs.004 — a vracet return nejde, jen zaúčtovat). U SDD se celá inward/outward mapa otočila — a s ní i to, kdo drží zprávu a smí říct ne.</p>
+<p>Obecné pravidlo tedy zůstává z lekce 1 a je silnější než role: <strong>reject není privilegium role, ale pozice — smí ho poslat ten, kdo právě drží zprávu před settlementem.</strong> Kdo to je, určuje směr toku zpráv daného schématu, ne jmenovka banky.</p>
+<p>Otázka 3 — inward SCT, settlement 10:00, v 10:05 zjistíš zrušený účet. Booking kroky od 10:00 po pacs.004, kde peníze sedí v každém kroku?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>jj, jasné 
+my u nás zatím Direct Debit neprogramujeme takže na to vždy zapomenu ...
+
+Q3: když dostaneme info od CSM, tak to zapíšeme na přechodný účty 
+
+a když nenajdeme cílový zákaznický účet tak to z nich vracíme</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Správně, doplním jen přesné zápisy, ať vidíš symetrii s outward stranou z otázky 1:</p>
+<p><strong>10:00 settlement:</strong> nostro/T2 pozice +100, suspense +100. Peníze právně tvé banky, ale "příběh nedovyprávěný" (lekce 1) — čekají na umístění.</p>
+<p><strong>10:05 účet zrušený:</strong> suspense zůstává, otevřená otázka trvá. Žádné klientské zaúčtování nikdy nevznikne — pozor, tohle je rozdíl proti outward storno scénáři: tam existoval klientský zápis k vrácení, tady klientská noha vůbec nevznikla.</p>
+<p><strong>Do 3 pracovních dnů: pacs.004</strong> na přesně 100 EUR (lekce 2). Po settlementu returnu: suspense −100, nostro −100. Suspense na nule, otázka zavřená.</p>
+<p>Všimni si: return je z tvého pohledu <strong>outward platba</strong> se vším všudy — jde do cyklu, čeká na settlement, do té doby máš na suspense "return in flight". Kdyby return sám dostal reject (formát), suspense zůstává plná a investigace pokračuje.</p>
+<p>A poznámka k "my DD neprogramujeme, zapomínám": to je přesně správný důvod, proč to v kvízu držím — až vám SDD přistane, ta zrcadlová mapa bude první věc, o kterou zakopnete. (tedy váš payments engine, ano?)</p>
+<p>Otázka 4 — SCT Inst: pacs.008 odeslán, timeout vypršel bez odpovědi. Co s klientskou nohou — a smíš automaticky poslat znovu?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>&gt;&gt;tedy váš payments engine, ano?
+
+jj</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Dobře vědět — budu vaše scénáře používat jako implementační kontext.</p>
+<p>Takže otázka 4 čeká: SCT Inst, pacs.008 odeslán, <strong>timeout vypršel bez odpovědi</strong> — žádné ACK, žádný reject, ticho.</p>
+<p>Dvě podotázky:</p>
+<ol><li>Co uděláš s klientskou nohou (odepsané peníze na transitu)?</li><li>Smíš platbu automaticky poslat znovu, "když to nedopadlo"?</li></ol>
+<p>Pozor, je to záludnější, než jsem to ve výkladu zjednodušil.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>1. prostě to z tranzitu vrátím klientovi na účet 
+2. NE</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Instinkt u obojího správný — a přesně proto je ta otázka záludná: <strong>hned to udělat nesmíš.</strong></p>
+<p>"Timeout = platba nevznikla" je pravidlo schématu pro <em>rozhodnutí</em>, ale ne pro <em>tvou znalost</em>. Ticho znamená, že odpověď nedorazila — ne že platba neproběhla. Mohla nastat kterákoli varianta: zpráva se ztratila cestou (platba nevznikla), NEBO prošla, byla vypořádána a ztratilo se jen potvrzení (platba <strong>existuje</strong> a příjemce má peníze!).</p>
+<p>Kdybys v tu chvíli slepě vrátil klientovi peníze z transitu a platba přitom prošla — vyrobil jsi z jedné platby dvě: klient má peníze zpět A příjemce taky. Banka je o 100 EUR kratší a ani o tom neví.</p>
+<p>Správný postup:</p>
+<ol><li>Transit noha <strong>zůstává</strong> — otevřená otázka se nezavírá pocitem, ale faktem (lekce 3, chybějící settlement report — stejný vzorec!).</li><li><strong>Zjisti pravdu</strong>: status inquiry (pacs.028), reconciliace vůči TIPS/CSM. Schémata na to mají definovaný investigation postup.</li><li>Podle odpovědi: platba neexistuje → storno na klienta; platba prošla → transit se páruje normálně, klientovi je odepsáno správně.</li></ol>
+<p>A tvoje <strong>NE</strong> u resendu je správně z téhož důvodu — automatický resend by byl sázka na jednu z variant. Kdyby platba prošla, vyrobil jsi duplicitu (a spoléhat, že ji chytí duplicate check CSM, není strategie). Nová platba smí vzniknout až po potvrzení, že první nevznikla — a pak s <strong>novým</strong> UETR/TxId, protože je to nová transakce, ne opakování staré.</p>
+<p>Pointa pro váš engine: timeout handler nesmí nikdy volat storno přímo — jen překlopit platbu do stavu "unknown/investigating" a spustit inquiry. Stav "nevím" je legitimní stav platby.</p>
+<p>Otázka 5 — proč po settlementu už nesmí existovat reject? Co by se rozbilo, kdyby CSM směl rejectnout vypořádanou platbu?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>rozbil by se to , že debitorovi by ty peníze spadly do kanálu 
+
+settlement by mu je odepsal ale potom ticho po pěšině ;)
+(reject)</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Obraz je správný — peníze v kanálu — ale dotáhni ho o patro výš: nerozbije se jedna platba, rozbije se <strong>finalita jako instituce</strong> (lekce 3).</p>
+<p>Reject vypořádané platby = tvrzení "settlement se nestal". Jenže na tom settlementu už <strong>stojí další svět</strong>: Creditor Agent připsal klientovi, klient utratil, jeho platby vstoupily do dalších cyklů, netto pozice dalších bank s tou částkou počítaly. Zpětný reject by nevytáhl jednu nitku — musel by rozpárat všechno, co se od 10:00 upletlo. A rekurzivně: i ty navazující platby jsou vypořádané, takže i je by šlo "rejectnout"… Systém, kde žádný zůstatek není nikdy definitivní, není platební systém — je to nekonečná podmíněnost.</p>
+<p>Proto to není zakázané jen rulebookem, ale <strong>zákonem</strong> (Settlement Finality Directive, lekce 3): ani insolvenční správce, ani CSM, ani soud nemůže vypořádání odestát. Jediná cesta je <strong>forward correction</strong> — nová transakce opačným směrem (return), která nechává historii nedotčenou a jen dopisuje.</p>
+<p>Všimni si, že už máš tři výskyty téhož zákona: immutable zprávy (lekce 2), žádné storno cyklu (lekce 3), žádný reject po settlementu (teď). Jeden princip, tři patra: <strong>minulost se nemění, minulost se vyvažuje.</strong></p>
+<p>Otázka 6 — inward platba: bookuješ nejdřív klienta, nebo nejdřív kontroly? A proč u SCT Inst nemáš na výběr?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>ještě k tvé odpovědi: 
+
+byl jsem kdysi zaměstnán jako hlavní účetní 
+takže umím dobře podvojné účetnictví a controling
+
+a tam je to stejné 
+nikdy se nedá žádný účetní zápis vymazat 
+vždy se jen vrství různé opravy atd 
+ je to něco jako github u programátorů...</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Přesná paralela — a máš v ruce něco cenného: celý mezibankovní svět je <strong>podvojné účetnictví povýšené na protokol mezi institucemi</strong>. Co ti v účtárně říkal auditor, tady říká Settlement Finality Directive. Storno vs. oprava vpřed, párování otevřených položek (= suspense), zákaz mazání žurnálu (= immutable pacs), audit trail (= UETR) — jedno myšlenkové schéma, jiná měřítka.</p>
+<p>A github je dokonce přesnější přirovnání, než možná tušíš: append-only historie = commity, reject před settlementem = zahozený branch co se nikdy nemergnul, return = revert commit (nový commit, který neguje starý, ale historie ho vidí), zákaz rejectu po settlementu = zákaz force-push na main. Až budeš něco navrhovat, testuj to otázkou "nedělá tohle force-push na vypořádanou historii?" — pokud ano, návrh je špatně.</p>
+<p>Tvoje účetní minulost mimochodem vysvětluje, proč ti suspense/transit logika šla tak hladce — to je silná stránka, na které budeme stavět u likvidity a nostro rekonciliace.</p>
+<p>Zpět ke kvízu, otázka 6: inward platba — bookuješ nejdřív klienta, nebo nejdřív běží kontroly? A proč u SCT Inst nemáš na výběr?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>klienta bookuju až nakonec 
+
+kvůli rychlosti</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Pořadí správně, zdůvodnění si oprav — je to skoro naopak: kvůli <strong>nevratnosti</strong>, ne rychlosti.</p>
+<p>Klientský kredit je nejtoxičtější zápis v celém řetězci: jakmile klientovi připíšeš, peníze jsou <em>jeho</em> — vidí je, utratí je, a vzít mu je zpět jednostranně nesmíš (max. žádat, soudit se — mimo schéma, lekce 1). Sanction hit, zrušený účet, embargo — všechno tohle musíš vědět <strong>před</strong> kreditem, protože <strong>po</strong> kreditu už žádná tvoje kontrola nemá vykonatelný důsledek. Zápis na suspense je naproti tomu vratný interně, kdykoliv, bez ptaní.</p>
+<p>Pravidlo: <strong>bookuj od nejvratnějšího k nejméně vratnému — a nevratný zápis dělej jako poslední, až když je rozhodnuto všechno.</strong> (Ekvivalent v účetnictví: závěrku nepodepisuješ, dokud běží inventura. Ekvivalent v gitu: merge do main až po testech.)</p>
+<p>U SCT Inst nemáš na výběr proto, že rozhodnutí a settlement jsou jedna atomická transakce (lekce 3): kontroly musí proběhnout <strong>před</strong> tvým ANO, protože tvoje ANO spouští settlement a settlement je finální. Neexistuje okno "přijmu, prověřím, případně vrátím" — buď je platba čistá do timeoutu, nebo posíláš reject. Proto Inst vynucuje synchronní sanction screening — a proto má tvůj Inst flow jiný design kontrol než batch větev: ne že by byl rychlejší, on je <strong>před rozhodnutím místo po něm</strong>.</p>
+<p>(Rychlost je důsledek: kontroly stavěné před rozhodnutí musí být strojové a rychlé. Ale příčina je nevratnost toho, co následuje.)</p>
+<p>Poslední otázka 7 — reject "nekrytá pozice v cyklu": čí peníze chyběly a proč to není totéž jako "klient nemá krytí"?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>chyběly moje peníze (moje jakožto banky)
+
+když nemá můj klient krytí ,tam je to snazší: prostě pacs.008 vůbec nevyrobím a neodešlu</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Přesně, obě půlky. Doplním jen mechaniku a jednu ozvěnu.</p>
+<p>"Nekrytá pozice v cyklu" = tvoje banka nemá v T2 dost <strong>likvidity centrální banky</strong> na pokrytí svého netto debetu za cyklus (lekce 3: ta drahá věc, co ji netting šetří). Klientovo krytí s tím nesouvisí vůbec — klientů jsou tisíce, jejich peníze jsou tvoje pasiva; tady chybí <strong>tvoje aktiva u ECB</strong>. Selhala treasury (nedolila pozici, nezastavila kolaterál pro intraday credit), ne klient.</p>
+<p>A tvůj druhý bod je přesně ten strukturální rozdíl: klientovo krytí kontroluješ <strong>v T0, před vznikem čehokoliv</strong> — pain se odmítne, schéma nic nevidí, nejlevnější smrt na ose. Nekrytá pozice se projeví až <strong>v cyklu, po podání</strong> — platba už žije, má UETR, klient je odepsaný, a teď se vrací rejectem a ty děláš interní storno (otázka 1) a voláš treasury, proč se to stalo. Stejný ekonomický jev — "nejsou peníze" — ale o tři patra jinde: jiná vrstva (initiation vs. clearing), jiný viník (klient vs. banka), jiná cena úklidu.</p>
+<p>Mimochodem tohle je čtvrtý výskyt vzorce z celého kurzu: <strong>kde na ose problém chytíš, určuje, kolik stojí úklid.</strong> T0 odmítnutí = zadarmo. T2 reject = interní storno. Post-settlement return = R-transakce + kurzová rizika (lekce 4). A B2B SDD bez refundu = problém chycený nikdy (lekce 5).</p>
+<hr>
+<p><strong>PROBRÁNO (lekce 6 — časová osa, booking, smrti platby):</strong></p>
+<ul><li>Reject od CSM: dva interní páry zápisů, mezibankovně ticho, žádná R-transakce (ot. 1 ✓)</li><li>Reject není privilegium role, ale pozice držitele zprávy; u SDD ho posílá Debtor Agent (ot. 2 — půlka, SDD slepé místo potvrzeno: "DD neděláme")</li><li>Inward: settlement → suspense → return jako plnohodnotná outward platba; klientská noha nikdy nevznikla (ot. 3 ✓)</li><li>Inst timeout: stav "nevím" je legitimní; žádné storno ani resend bez zjištění pravdy; pacs.028 (ot. 4 — instinkt ✓, chybělo "nejdřív pravda")</li><li>Reject po settlementu = force-push na main; finalita jako instituce; minulost se vyvažuje, nemění (ot. 5 — obraz ✓, systémový dopad doplněn)</li><li>Bookuj od vratného k nevratnému; Inst = kontroly před rozhodnutím, protože ANO spouští finalitu (ot. 6 — pořadí ✓, důvod ✗: nevratnost, ne rychlost)</li><li>Nekrytá pozice = likvidita banky v T2, ne krytí klienta; T0 vs. T2 smrt = jiná cena úklidu (ot. 7 ✓✓)</li></ul>
+<p><strong>BONUS:</strong> účetní paralela (append-only žurnál, github/force-push) — silný mentální model, používat dál</p>
+<p><strong>OTEVŘENÉ:</strong></p>
+<ul><li>SDD inward/outward mapa — slepé místo dokud to neimplementujete, průběžně oživovat</li><li>"Nejdřív pravda, pak booking" u nejasných stavů — vrátit se u gpi (tam je inquiry celý byznys model)</li><li>Z kurikula: nostro/vostro/loro + likvidita (dluh z lekce 3 a dnešní ot. 7 na to přímo ukazuje), reference chain, gpi/gSRP, cover vs. serial</li></ul>
+<p>Příště bych řekl, že likvidita už je nevyhnutelná — dnešní otázka 7 je přesně vstupní brána: <strong>nostro/vostro/loro, intraday credit, kolaterál, co dělá treasury v 17:45.</strong> Souhlas?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>dobře, příště budeme pokračovat tak jak ty navrhuješ 
+
+pro změnu ti dám teď otázku já 
+
+existuje také reject post-settlement ?
+pozor je to chyták</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Dobrý chyták — a odpověď je: <strong>ano i ne, podle toho, k čemu vztáhneš slovo "settlement".</strong></p>
+<p><strong>Ne:</strong> reject <em>vypořádané transakce</em> neexistuje — finalita, force-push zakázán, to jsme uzavřeli.</p>
+<p><strong>Ale ano:</strong> rejecty <em>v čase po settlementu původní platby</em> běžně existují — protože R-transakce jsou <strong>nové transakce s vlastní osou</strong>. Konkrétně:</p>
+<ul><li>pošleš return (pacs.004) — a <strong>return sám dostane reject</strong> od CSM (formát, duplicita, nekrytá pozice). Původní platba je dávno vypořádaná, a přesto ti přistál reject — patřící returnu, který je před <em>svým</em> settlementem,</li><li>recall (camt.056) může být formálně odmítnut,</li><li>u SDD reversal (pacs.007) totéž.</li></ul>
+<p>Pointa, kterou tvůj chyták krásně vytahuje: <strong>reject není vlastnost platby, ale vlastnost zprávy — a každá zpráva má svůj vlastní pre-settlement úsek.</strong> "Post-settlement" je vždycky relativní: co je post pro původní pacs.008, je pre pro pacs.004. Osa z lekce 6 se neaplikuje jednou na "platbu", ale znovu na každou transakci v jejím životě.</p>
+<p>Implementačně pro váš engine: stavový automat nesmí mít stav "platba uzavřena, nic už nepřijde" — i k vypořádané a returnované platbě může dorazit reject (returnu). Uzavřená je až celá <strong>rodina transakcí</strong> kolem jednoho UETR.</p>
+<p>Dal jsi otázku, kterou bych příště dal já tobě. Příště tedy likvidita a nostro/vostro — a začneme přesně tím, co dělá treasury v 17:45.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>podle mě reject post-settlement nastává docela často 
+před půl rokem jsem to programoval 
+přijde mi ve swiftu inward platba na moje nostro
+tzn. settlement již proběhl , peníze mi již patří — mě jako bance 
+
+ale z nějakého důvodu je nemohu z svého nostro účtu či transit účtu připsat svému klientovi 
+takže zavolám reject!
+
+z hlediska customer booking je to reject
+z hlediska mě jako banky je to return</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Tvoje pozorování je věcně přesné — a tvoje poslední dvě věty jsou vlastně správné rozuzlení. Jen ho dotáhnu, protože terminologicky sis odpověděl líp, než tušíš:</p>
+<p><strong>To, co u vás voláte "reject", je z pohledu taxonomie return.</strong> Kritérium z lekce 1 je nemilosrdné a jediné: proběhl mezibankovní settlement? Ano — peníze sedí na tvém nostru. Cokoli od té chvíle posíláš zpět, je <strong>nová platba opačným směrem</strong> (v MT světě MT103/202 zpět s return kódy, v CBPR+ pacs.004) — se svým vlastním settlementem. Přesně tvůj případ.</p>
+<p>Proč tomu tedy celé oddělení říká reject? Protože <strong>interní produktová/booking terminologie ≠ taxonomie schématu.</strong> Z pohledu <em>customer bookingu</em> má tvůj "reject" logiku: klientská noha nikdy nevznikla, pro klienta platba "byla odmítnuta". Ale klientský pohled nikdy nedefinuje R-transakci — to jsme zavřeli v lekci 1: hranice je mezibankovní, ne klientská. Ten label je zkratka pro "nepřipsáno klientovi", ne schémová klasifikace.</p>
+<p>Že to není puntičkářství, poznáš na důsledcích, které se liší <strong>jen</strong> podle správné klasifikace:</p>
+<ul><li>return čerpá <strong>tvou likviditu</strong> (posíláš skutečné peníze z nostra — reject nikdy),</li><li>nese <strong>kurzové okno</strong> (lekce 4),</li><li>má <strong>lhůty a reason kódy</strong> rulebooku/CBPR+,</li><li>a v reconciliaci je to párovaná outward transakce, ne zahozená zpráva.</li></ul>
+<p>Takže tvá formulace platí, jen jí prohoď váhy: z hlediska klienta to <em>vypadá</em> jako reject, z hlediska systému to <strong>je</strong> return — a systémový pohled je ten, který rozhoduje, protože jemu patří peníze, lhůty i zprávy.</p>
+<p>Mimochodem: přesně tenhle rozpor (interní labely vs. schémová taxonomie) je klasický zdroj bugů při migracích MT→MX. Dobrá tečka před lekcí o nostro světě — kde tohle bude denní chleba.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>super 
+díky za školení 
+pokračujeme zítra</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Rádo se stalo — dnešek byl silný: syntéza celé osy, dva bonusy z tvé praxe (účetní paralela, váš reject/return) a jeden chyták, který jsi položil ty mně.</p>
+<p>Zítra tedy: <strong>nostro/vostro/loro + likvidita</strong> — treasury v 17:45, intraday credit, kolaterál, a proč je nostro reconciliace nejstarší řemeslo v bance.</p>
+<p>Dobrou!</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>jdem do toho!</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><h2>Lekce 7: Nostro/vostro/loro a likvidita — kde bance v 17:45 teče do bot</h2>
+<p><strong>Výklad</strong></p>
+<p>Slovník je z italštiny a je to čisté účetnictví — tvoje domácí půda:</p>
+<p><strong>Nostro</strong> ("náš") = můj účet vedený <strong>u tebe</strong>. Pro mě aktivum, v mé bilanci "peníze u korespondentů". <strong>Vostro</strong> ("váš") = tentýž účet z pohledu druhé banky: cizí peníze na mých knihách, moje <strong>pasivum</strong>. <strong>Loro</strong> ("jejich") = účet třetí strany, o kterém spolu mluvíme ("plať na jejich účet u Citi"). Jeden účet, tři jména podle toho, kdo mluví. Podvojnost mezi institucemi: moje nostro aktivum = tvoje vostro pasivum, vždy zrcadlově.</p>
+<p>Klíč z lekce 3: nostro zůstatek u komerční banky je <strong>její slib</strong>, ne peníze centrální banky. Nostro svět = řetězy slibů + kreditní riziko korespondenta.</p>
+<p><strong>Proč nostro vůbec existuje:</strong> centrální banka vede účty jen ve <strong>své</strong> měně a jen <strong>svým</strong> členům. Chceš-li jako česká banka platit v USD, Fed ti účet nedá — potřebuješ nostro u americké banky. Každá měna, ve které podnikáš = minimálně jeden nostro vztah. Proto má velká banka stovky nostro účtů a proto existuje celé oddělení nostro reconciliace: párování výpisů (camt.053 / MT950) proti vlastním knihám — přesně otevřené položky, které znáš z účtárny.</p>
+<p><strong>Intraday likvidita.</strong> Teď T2 svět. Banka přes den platí a přijímá; pozice osciluje. Problém: platby nechodí v pohodlném pořadí — ráno musíš zaplatit miliardu, tvoje příchozí miliarda dorazí ve 14:00. Kde vezmeš ráno peníze?</p>
+<p><strong>Intraday credit</strong>: centrální banka ti půjčí <strong>přes den, zdarma, ale jen proti kolaterálu</strong> (zastavené dluhopisy). Filozofie: Eurosystém chce, aby platby tekly (žádný gridlock, lekce 3), ale nenese kreditní riziko — proto zástava. Denní limit = hodnota tvého kolaterálu po srážce (haircut).</p>
+<p><strong>Pravidlo 18:00:</strong> intraday credit <strong>musí být splacen do konce dne.</strong> Co se nestihne, překlopí se automaticky do <strong>marginal lending facility</strong> — přesnoční půjčky za sazbu, která je záměrně trestná (nad tržní). Nulová sazba přes den, bolestivá přes noc: systém tě nutí končit den čistý.</p>
+<p><strong>Co dělá treasury v 17:45:</strong> kouká na projekci end-of-day pozice. Chybí? Možnosti: urgentně si půjčit na money marketu od banky s přebytkem, přitáhnout odchozí platby (payment throttling — pozdrž nekritické), zastavit další kolaterál. Přebývá? Půjčit ostatním, uložit. Proto mají banky <strong>cut-off časy pro klienty</strong> dávno před 18:00 — treasury potřebuje okno, kdy už zná čísla a může jednat. Klientský cut-off není zlomyslnost, je to nárazník mezi chaosem plateb a disciplínou settlement dne.</p>
+<p>A ozvěna lekce 6, ot. 7: "nekrytá pozice v cyklu" = přesně selhání téhle mašinérie.</p>
+<p><strong>Kvíz</strong></p>
+<ol><li>ČSOB má účet u Deutsche Bank ve Frankfurtu pro EUR provoz. Pojmenuj ten účet z pohledu ČSOB, z pohledu DB — a řekni, v čí bilanci je aktivum a v čí pasivum.</li></ol>
+<ol><li>Z účetní perspektivy: co se stane s tvým nostro zůstatkem u DB, když DB zkrachuje — a proč je tohle jiná situace, než kdyby tvé peníze ležely v T2? (Lekce 3 to nakousla.)</li></ol>
+<ol><li>Proč centrální banka půjčuje intraday <strong>zdarma</strong>, ale overnight <strong>trestně draze</strong>? Co přesně tou cenovou konstrukcí řídí?</li></ol>
+<ol><li>Chyták: banka má v T2 nulový zůstatek, ale zastavený kolaterál za 2 mld. Přijde jí odchozí platba 500M ke zpracování v 10:00. Projde? A "čí peníze" to jsou?</li></ol>
+<ol><li>Kdyby intraday credit půl roku neexistoval (jen vlastní zůstatky), co by se stalo s chováním bank během dne — a kde jsme ten jev už potkali?</li></ol>
+<ol><li>Nostro reconciliace najde: tvoje knihy říkají zůstatek 10M, výpis camt.053 od korespondenta říká 9,2M. Jmenuj aspoň tři legitimní (nechybové) důvody rozdílu — účetní instinkt ti pomůže.</li></ol>
+<ol><li>Payment throttling v 17:00: treasury pozdrží odchozí platby kvůli likviditě. Vůči komu tím banka riskuje porušení čeho — a je tohle vůbec věc rulebooku?</li></ol>
+<p>Po jedné, jako vždy.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>1)
+nostro
+vostro
+aktivum u ČSOB, pas. u Deuba</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Bez zaváhání, vše správně. Nostro pro ČSOB, vostro pro DB, aktivum/pasivum zrcadlově — a všimni si, jak z té zrcadlovosti plyne praktický důsledek: obě banky účtují <strong>tentýž ekonomický vztah</strong>, jen z opačných stran, a proto se dá reconciliovat. Kdyby nostro/vostro nebyly přesné zrcadlo, nebylo by co párovat.</p>
+<p>Otázka 2 — DB zkrachuje. Co je tvůj nostro zůstatek v tu chvíli právně, a proč je to jiné než peníze v T2?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>ohl. otazky 1 - já jsem kromě účetnictví studoval také filozofickou fakultu, takže umím latinsky, a to mi pomáhá porozumět slovům jako nostro-vostro-loro ,to je přece z latiny 
+
+Q2
+právně mám pohledávku za mrtvou firmou 
+je to hodně jiné, protože t2 není soukromá ale státní 
+tj. pohoda, no risk</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Latina ti tady slouží dobře — noster/vester/illorum, italské bankovnictví renesance jen zdědilo deklinaci. Mimochodem proto ta slova fungují jen relativně k mluvčímu: jsou to přivlastňovací zájmena, ne názvy produktů. "Nostro účet" bez kontextu, čí je věta, nedává smysl — což je přesně chyba, kterou v dokumentaci systémů občas najdeš.</p>
+<p>Q2: <strong>pohledávka za mrtvou firmou</strong> — přesně. Nostro zůstatek byl vždycky jen pohledávka; krach ji nemění, jen odhalí. Řadíš se mezi věřitele konkurzní podstaty, čekáš roky, dostaneš zlomek. A platby "in flight" přes DB v den krachu — vzpomeň lekci 3, hranice settlementu rozhoduje, kdo o peníze bojuje u soudu.</p>
+<p>Jen jedno zpřesnění, ať nezůstane šikmo: T2 bezpečí neplyne z "státní vs. soukromá" — státní banka může zkrachovat taky (a stalo se). Jádro z lekce 3: <strong>ECB nemůže selhat v EUR, protože EUR je její vlastní závazek</strong> — dlužník, který své dluhy sám emituje, se v nich nemůže ocitnout v platební neschopnosti. Slovo "stát" v tom nefiguruje; figuruje "emitent měny". Proto je i pohledávka za ECB pořád pohledávka — jen za jediným dlužníkem na světě, který v té měně nemá jak nezaplatit.</p>
+<p>(Ozvěna pro budoucí lekci: přesně tohle je důvod, proč se USD nostro svět točí kolem přístupu k Fedu — a proč je "kdo ti vede dolarové nostro" geopolitická otázka.)</p>
+<p>Otázka 3 — proč intraday zdarma, ale overnight trestně? Co ta cenová konstrukce řídí?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>maximalizuje provoz, flow</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Půlka — zdarma přes den skutečně maximalizuje flow (nikdo nešetří na platbách, gridlock z lekce 3 se nekoná). Ale proč potom <strong>trestná</strong> noc? Kdyby šlo jen o flow, mohla by být noc za tržní sazbu.</p>
+<p>Nápověda: co by banky začaly dělat, kdyby overnight u centrální banky stál totéž co půjčka na mezibankovním trhu?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>šetřili by 
+ukládali by si u centrální banky menší peníze 
+a tim ji vystavovali velkému riziku pokud by ty malé zkrachovali</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Směr úvahy dobrý — banky by změnily chování — ale mechanismus je jiný. Pozor: tady nejde o <strong>ukládání</strong> (deposit facility, jiný nástroj), ale o <strong>půjčování si</strong> od centrální banky.</p>
+<p>Kdyby overnight půjčka od ECB stála totéž co na trhu: proč bych si půjčoval od jiné banky (limity, vyjednávání, kreditní linky), když centrální banka půjčí vždycky, bez řečí, za stejnou cenu? Racionální treasury by přestala řídit likviditu — nechala by intraday credit každý večer "přetéct" do overnight a <strong>centrální banka by se stala výchozím věřitelem systému</strong>, ne věřitelem poslední instance.</p>
+<p>Co by umřelo: <strong>mezibankovní money market</strong> — trh, kde si banky navzájem oceňují kreditní riziko (banka s pochybnou pověstí platí víc, nebo nedostane nic). Ten trh je zároveň informační systém: rostoucí sazba pro konkrétní banku je první veřejný signál problému. Nahraď ho anonymním okénkem ECB a systém oslepne — a rizika se tiše hromadí v bilanci centrální banky.</p>
+<p>Konstrukce sazeb tedy říká: <strong>přes den tečte (zdarma, flow, žádný gridlock) — přes noc se financujte navzájem, u mě je jen nouzový východ, a nouzový východ musí bolet, jinak se z něj stanou hlavní dveře.</strong> Trestná sazba nechrání ECB před ztrátou (kolaterál ji kryje), chrání <strong>trh před atrofií</strong>.</p>
+<p>Vzorec spojených nádob z lekce 5 znovu: odstraníš-li cenový trest, musíš přidat příděl/kontrolu — jinak se nouzový mechanismus stane provozním.</p>
+<p>Otázka 4, chyták: nulový zůstatek v T2, zastavený kolaterál 2 mld., odchozích 500M v 10:00. Projde? Čí peníze to jsou?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>projde
+v podstatě ty peníze už patří instituci jménem EBA</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Projde — správně, a to je půlka chytáku: <strong>nulový zůstatek nerovná se nulová platební schopnost.</strong> Kolaterál 2 mld. → intraday credit linka → platba 500M čerpá úvěr, pozice jde do −500M, nikdo nic neřeší (do 18:00).</p>
+<p>Ale "peníze patří EBA" — ne, tady se ti spletly dvě věci najednou:</p>
+<p><strong>EBA Clearing</strong> je počtář (CSM, STEP2) — nikdy nedrží peníze, lekce 3. Settlement běží v T2, tedy na knihách <strong>Eurosystému</strong>.</p>
+<p>A hlavně: čerpáním úvěru vznikají <strong>nová centrální-banková peníze, které jsou tvoje.</strong> Rozepiš si to podvojně, účetní: tvoje bilance — aktivum "zůstatek T2" +500M (hned odteče příjemci), pasivum "závazek vůči Eurosystému" +500M. Bilance Eurosystému zrcadlově: pohledávka za tebou / závazek na účtu příjemcovy banky. Nikomu jsi nic nevzal — úvěr od emitenta měny peníze <strong>tvoří</strong>, do 18:00 je splacením zase <strong>zničíš</strong>. (Zastavené dluhopisy zůstávají celou dobu tvoje — zástava není prodej, jen podmíněný nárok pro případ defaultu.)</p>
+<p>Takže odpověď na "čí peníze": <strong>tvoje — čerstvě stvořené proti tvému dluhu.</strong> Intraday credit není přesun cizích peněz k tobě; je to dočasná emise. Proto může být zdarma a proto ji kryje kolaterál, ne něčí vklad.</p>
+<p>(Tohle je mimochodem tatáž mechanika, kterou znáš z komerčního úvěru — banka klientovi vklad nepůjčuje, tvoří zápisem — jen o patro výš, u emitenta samotného.)</p>
+<p>Otázka 5 — kdyby intraday credit půl roku neexistoval: jak se změní chování bank během dne a kde jsme ten jev už potkali?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>museli by složit strašně velký depozit 
+
+u inst. payments  ;)</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Přesně — TIPS předfinancování, lekce 3: <strong>instantní svět už dnes žije bez intraday creditu</strong> (TIPS půjčky neposkytuje, jen zůstatky), a cena je právě ta, kterou říkáš — mrtvý kapitál složený dopředu.</p>
+<p>Dokresli si k tomu ještě druhou, zákeřnější změnu chování: banky bez úvěru začnou <strong>taktizovat s časem</strong>. Nikdo nechce platit první — každý čeká na příchozí likviditu, ze které zaplatí odchozí. Racionální strategie jednotlivce: zdržuj platby k večeru. Kolektivní výsledek: ráno systém stojí, večer se všechno nahrne do špičky — a platby, na které ostatní čekali celý den, dorazí pozdě na to, aby z nich stihli zaplatit své. Gridlock z lekce 3, tentokrát ne z nedostatku peněz, ale z <strong>nedostatku ochoty jít první</strong>. (Herní teorie: vězňovo dilema hrané každý den mezi stovkami bank.)</p>
+<p>Proto RTGS systémy s intraday creditem zároveň mívají <strong>throughput guidelines</strong> — pravidla typu "do poledne odešli X % denního objemu" — aby flow nezkolaboval do večerní špičky ani s úvěrem k dispozici.</p>
+<p>A všimni si té výměny ještě jednou, už potřetí v kurzu: netting šetří likviditu za cenu času (lekce 3), Inst platí likviditou za rychlost (TIPS), intraday credit kupuje flow za kolaterál. <strong>Likvidita, čas, riziko — trojúhelník, ve kterém se každý platební systém někam usadil.</strong> Až uvidíš konfiguraci settlement windows nebo prefunding limitů, je to vždycky souřadnice v tomhle trojúhelníku.</p>
+<p>Otázka 6 — nostro reconciliace: tvé knihy 10M, camt.053 od korespondenta 9,2M. Aspoň tři legitimní, nechybové důvody rozdílu.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>nechápu otázku 
+můžeš ji dát podrobněji?</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Jasně, rozvedu — je to klasická situace z nostro oddělení, a vlastně ti známá z účtárny víc, než tušíš.</p>
+<p>Situace: ČSOB vede ve svých knihách interní "zrcadlový účet" svého nostra u DB — každý pohyb, o kterém ví, si účtuje sama (jako sis v účtárně vedl vlastní evidenci bankovního účtu firmy). Večer přijde od DB oficiální výpis (camt.053) — co DB skutečně na vostru zaúčtovala.</p>
+<p>Tvoje knihy: 10,0M. Výpis DB: 9,2M. Rozdíl 800k.</p>
+<p>Kdyby to byla chyba, je to incident. Ale otázka zní: <strong>jaké tři scénáře vysvětlí rozdíl, aniž by kdokoli udělal chybu?</strong> — situace, kdy obě strany účtovaly správně, a přesto čísla nesedí.</p>
+<p>Nápověda z tvé praxe: v účtárně se tomu říkalo "položky na cestě" při odsouhlasení bankovního výpisu s hlavní knihou. Tady je to totéž, jen mezi dvěma bankami. Napadnou tě tři konkrétní podoby?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>někdo zažádal o SDD a já o tom ještě nevím</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Výborně — přesný mechanismus: protistrana už zaúčtovala, tvoje knihy o tom ještě neví. Inkaso stržené z nostra, výpis to ukáže dřív, než ti doputuje informace. To je jedna rodina rozdílů: <strong>oni napřed, ty pozadu.</strong></p>
+<p>Zbylé dvě rodiny ti dám, ať máme kompletní taxonomii — je symetrická, takže si ji zapamatuješ strukturou:</p>
+<p><strong>2) Ty napřed, oni pozadu — platby in transit.</strong> Poslal jsi MT103/pacs.008 s dnešní valutou, svoje knihy jsi zaúčtoval při odeslání — ale DB instrukci zpracuje až v nočním batchi nebo zítra (cut-off, časová zóna!). Tvých 800k už "odešlo" u tebe, ještě "neodešlo" u nich. Klasická položka na cestě.</p>
+<p><strong>3) Nikdo nikam nespěchal — jednostranné pohyby korespondenta.</strong> DB si strhla poplatky za vedení účtu, připsala/strhla úroky, provedla opravu s valutou zpětně (back-valuation). Účtuje to výpisem — výpis JE tvoje první informace. Ekvivalent bankovních poplatků, které jsi v účtárně doúčtovával až podle výpisu.</p>
+<p>Nostro reconciliace tedy netvrdí "čísla se musí rovnat" — tvrdí: <strong>každý rozdíl musí být vysvětlen položkou známého typu a známého stáří.</strong> Break report = rozdíly, které nikdo nevysvětlil, a stárnoucí break (třetí den nevysvětlený) = eskalace. Přesně otevřené položky z účtárny — jen tady nevysvětlený rozdíl může znamenat, že ti korespondent v jiné zemi ztratil milion.</p>
+<p>(Pro tvůj svět: proto existuje camt.052 — intraday výpis. Čím častěji porovnáváš, tím kratší je okno, ve kterém rozdíl roste.)</p>
+<p>Poslední otázka 7 — treasury v 17:00 pozdrží odchozí platby kvůli likviditě. Vůči komu banka riskuje porušení čeho — a je to věc rulebooku?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>&gt;&gt;Tvých 800k už "odešlo" u tebe, ještě "neodešlo" u nich.
+
+ale v zadání to říkáš obráceně;)</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Máš pravdu — dobře chyceno. V zadání jsem dal tvoje knihy 10M a výpis 9,2M, tedy <strong>u tebe víc než u nich</strong>. Odchozí platba in transit by vyrobila přesný opak: u tebe už odepsáno (méně), u nich ještě ne (více).</p>
+<p>Se zadáním 10 &gt; 9,2 konzistentní scénáře: oni už <strong>strhli</strong> a ty nevíš — tvoje SDD, jejich poplatky/úroky k tíži, oprava se zpětnou valutou. Tedy rodina 1 a část rodiny 3; moje rodina 2 patří do zrcadlového zadání.</p>
+<p>Aspoň vidíš, že taxonomii je potřeba číst <strong>se znaménkem</strong>: každý typ break položky má definovaný směr (kdo je napřed a kterým směrem se liší). Reconciliační systém nepáruje jen částky, ale částky × směr × stáří — break "u nás víc" má jiný seznam podezřelých než "u nás míň". Tvoje korekce je přesně ten reflex, který nostro oddělení živí.</p>
+<p>A teď už otázka 7, poslední: treasury v 17:00 pozdrží odchozí platby kvůli likviditě. Vůči komu tím banka riskuje porušení čeho — a je to věc rulebooku?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>riskuje důvěru zákazníka 
+
+věc rulebooku to není</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Zákazník ano, ale je to jen nejměkčí patro — a "není věc rulebooku" je tentokrát jen z poloviny pravda. Rozvrstvi si to:</p>
+<p><strong>1) Klient</strong> — smlouva a PSD2: pro SEPA platby platí zákonné lhůty provedení (D+1 pro SCT). Pozdržení uvnitř dne obvykle přežije, ale "pozdržím do zítřka" už je porušení zákona, ne jen důvěry.</p>
+<p><strong>2) Rulebook — tady pozor:</strong> SCT rulebook lhůty <em>má</em> (přijaté platby do cut-off musí do CSM v D, maximálně D+1) — a <strong>SCT Inst throttling vůbec nepřipouští</strong>: 10 sekund end-to-end nejde "pozdržet do 17:30". Takže přesněji: klasický SCT dává treasury vůli v rámci dne; Inst žádnou. Throttling je nástroj <strong>batch světa</strong>.</p>
+<p><strong>3) T2 guidelines</strong> — throughput pravidla z otázky 5: systémové okolí očekává, že významnou část objemu odešleš do poledne/odpoledne. Soustavné večerní přesouvání = dohled centrální banky se ptá, co se děje.</p>
+<p><strong>4) A nejtvrdší patro — signál trhu.</strong> Banka, která v 17:00 zdržuje platby, vysílá přesně ten signál, který money market umí číst (otázka 3): "má likviditní problém". Korespondenti zkrátí linky, protistrany zdraží — a z opatrnosti se stane sebenaplňující proroctví. Liquidity hoarding jedné banky historicky spouštěl řetězové reakce (2008: banky si přestaly navzájem posílat, každá čekala na příchozí — systémový gridlock naostro).</p>
+<p>Pointa: throttling je legitimní nástroj řízení dne, ale má <strong>gradient rizika</strong> — od reputace přes zákon a scheme lhůty až po tržní paniku. Treasury v 17:45 nebalancuje "stihneme/nestihneme", ale kolik z těchto pater si smí dovolit naráz.</p>
+<hr>
+<p><strong>PROBRÁNO (lekce 7 — nostro/vostro/loro + likvidita):</strong></p>
+<ul><li>Nostro/vostro/loro: přivlastňovací zájmena, ne produkty; zrcadlová podvojnost mezi institucemi (ot. 1 ✓✓, latina jako bonus)</li><li>Nostro = pohledávka; krach korespondenta ji odhalí; T2 bezpečné ne kvůli "státu", ale protože ECB je emitent EUR (ot. 2 — ✓ s korekcí stát→emitent)</li><li>Intraday zdarma = flow; overnight trestný = ochrana money marketu před atrofií; nouzový východ musí bolet (ot. 3 — půlka, mechanismus doplněn)</li><li>Intraday credit = dočasná emise peněz proti kolaterálu; EBA nedrží peníze — počtář ≠ pokladník (ot. 4 — půlka ✗, EBA/T2 záměna)</li><li>Bez intraday creditu: prefunding (TIPS!) + taktizování s časem → večerní špička, vězňovo dilema; trojúhelník likvidita–čas–riziko (ot. 5 ✓✓)</li><li>Nostro reconciliace: rozdíl ≠ chyba; taxonomie break položek se znaménkem a stářím; tvá korekce mého zadání ✓ (ot. 6 — po dovysvětlení ✓)</li><li>Throttling: gradient rizika klient → PSD2 → rulebook lhůty → T2 guidelines → tržní signál; Inst throttling nezná (ot. 7 — půlka)</li></ul>
+<p><strong>BONUS:</strong> peníze jako emise proti dluhu (intraday credit účetně), latinská etymologie, oprava směru v mém zadání — pozornost na znaménka je přesně reconciliační dovednost</p>
+<p><strong>OTEVŘENÉ:</strong></p>
+<ul><li>EBA Clearing vs. T2 — kdo počítá vs. kdo drží peníze, plete se podruhé (lekce 3 ot. 1, dnes ot. 4) — vrátit se</li><li>Money market a signální funkce sazeb — nová látka, zaskočila (ot. 3)</li><li>Z kurikula: reference chain, gpi/gSRP (napojit "nejdřív pravda, pak booking"), cover vs. serial — ten je teď na dosah: nostro svět je jeho předpoklad</li></ul>
+<p>Příště navrhuju <strong>cover vs. serial</strong> — přímé pokračování nostro světa: dvě cesty, jak dostat peníze přes korespondenty, a proč jedna z nich málem zabila důvěru v SWIFT. Sedí?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>super
+tak zitra pokračujeme ve školení;
+teď se vrátila z dovolené manželka a dcera takže nemůžu pokračovat</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Jasně, rodina má přednost! Zítra tedy <strong>cover vs. serial</strong> — dvě cesty přes korespondenty.</p>
+<p>Hezký večer s manželkou a dcerou!</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>Jdem na to.</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><h2>Lekce 8: Cover vs. serial — dvě cesty přes korespondenty</h2>
+<p>Přímé pokračování nostro světa. Situace: česká banka posílá USD platbu do Japonska. Žádné společné schéma, žádný CSM, žádná hvězda s Fedem uprostřed dostupná oběma — jen řetězy nostro vztahů. Jak dostat peníze i informaci k příjemci?</p>
+<p><strong>Výklad</strong></p>
+<p><strong>Serial (sériová cesta):</strong> jedna zpráva putuje <strong>hop po hopu celým řetězem</strong>. Pošlu MT103/pacs.008 svému korespondentovi, ten dalšímu, ten bance příjemce. Každý hop = jeden leg: korespondent mě odepíše ze svého vostra, pošle dál, další totéž. <strong>Peníze a informace jedou spolu, stejnou cestou.</strong> Jednoduché, ale: každá banka v řetězu zprávu drží, zpracovává, vidí celou (remittance info, jména) — a každá si může vzít poplatky (BEN/SHA svět, lekce 2) a každá přidává zdržení.</p>
+<p><strong>Cover (krycí platba):</strong> rozdělím <strong>informaci a peníze na dvě zprávy dvěma cestami</strong>:</p>
+<ul><li><strong>MT103 / pacs.008 přímo bance příjemce</strong> ("posílám ti pro tvého klienta 1M USD — peníze dorazí bokem"), </li><li><strong>MT202 COV / pacs.009 COV</strong> řetězem korespondentů — čistě mezibankovní přesun krytí na nostro banky příjemce.</li></ul>
+<p>Banka příjemce dostane oznámení rychle a přímo — ale peníze má až settlement covera. Výhoda: oznámení nese plné detaily jen mezi koncovými bankami, korespondenti uprostřed vezou "jen peníze mezi bankami". Rychlejší, levnější, diskrétnější.</p>
+<p>A přesně ta diskrétnost byla průšvih. <strong>Před rokem 2009</strong> jel cover jako obyčejný MT202 — <strong>bez jmen plátce a příjemce</strong>. Korespondent uprostřed (třeba US banka zúčtovávající dolary) viděl jen "banka A platí bance B 1M" — a neměl šanci na sanction screening skutečných stran. Írán, Sudán… banky to léta vědomě využívaly (stripping). Regulátoři (FATF) zasáhli: od 2009 povinný <strong>MT202 COV</strong> s kopií údajů o plátci a příjemci ze souvisejícího MT103. Cover smí existovat jen průhledný.</p>
+<p><strong>Booking pohled (tvoje pole):</strong> u covera banka příjemce účtuje <strong>až proti penězům</strong>, ne proti oznámení. MT103 bez došlého krytí = informace, ne aktivum. Připsat klientovi z pouhého oznámení znamená úvěrovat banku plátce bez smlouvy. Proto systémy párují: MT103 čeká v suspense na MT202 COV (přes reference), teprve pár = kredit klientovi. Nedorazí-li cover — oznámení po lhůtě umírá, klient nikdy nic nevidí.</p>
+<p><strong>Kdy serial, kdy cover:</strong> serial když je řetěz krátký nebo když korespondent stejně musí zprávu zpracovat celou (compliance požadavky, exotické měny). Cover když koncové banky mají přímý vztah (RMA klíče) a jde o rychlost — typicky velké částky, treasury operace, FX settlement.</p>
+<p>SEPA tohle celé <strong>nemá</strong> — hvězda s CSM je strukturální náhrada obou cest (lekce 7). Cover/serial žije tam, kde není společná infrastruktura: cross-currency, cross-region, exotika.</p>
+<p><strong>Kvíz</strong></p>
+<ol><li>U covera: kolik zpráv existuje, kdo je komu poslal, a kterou z nich jedou peníze? (Ověř si MT i MX názvy.)</li></ol>
+<ol><li>Banka příjemce dostala MT103, cover nikde. Klient volá: "vidím v internetbankingu avízo, kde jsou peníze?" Co odpovíš a co udělal špatně systém, pokud klient avízo vidí?</li></ol>
+<ol><li>Chyták: je MT202 COV settlement? Kde přesně nastane settlement covera — a kolikrát?</li></ol>
+<ol><li>Proč stripping fungoval technicky — které pole v čem chybělo — a proč MT202 COV problém řeší jen částečně?</li></ol>
+<ol><li>Serial platba přes 3 korespondenty: dorazí 1M − poplatky. Cover přes tytéž 3: dorazí kolik? Odvoď z toho, kdo v cover řetězu "drží zprávu klienta".</li></ol>
+<ol><li>Z implementační perspektivy vašeho engine: inward MT103 avízo přišlo, cover má dorazit zítra (časová zóna USA). Na jakém účtu co sedí přes noc — a co se stane, když cover dorazí na jinou částku?</li></ol>
+<ol><li>Kdyby cover platby půl roku neexistovaly (vše serial): co by bolelo koho — a proč by to nejvíc poznaly treasury a FX desky?</li></ol>
+<p>Po jedné.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>q1
+dvě 
+pacs.008 přímo příjemci 
+pacs.009 COV (money) přes nostro/vostro řetěz</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Správně — a "money" v závorce je přesné: pacs.008/MT103 = informace koncovým bankám, pacs.009 COV/MT202 COV = peníze řetězem. </p>
+<p>Jen jedna jemnost k "dvě": to je počet <strong>typů</strong>. Fyzicky zpráv může být víc — pacs.009 COV se na každém hopu řetězu posílá znovu (banka A → korespondent, korespondent → další...), každý hop je nová zpráva s vlastními referencemi. Takže: jedna informační zpráva end-to-end + N krycích zpráv po řetězu. Pro vaše párování to znamená: MT103 se páruje proti <em>poslednímu</em> hopu covera — tomu, který skutečně připsal tvoje nostro.</p>
+<p>Otázka 2 — MT103 dorazilo, cover nikde, klient volá "vidím avízo, kde jsou peníze?". Co odpovíš a co udělal systém špatně?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>ať čeká 
+
+nic</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Věcně správně — čekat, protože booking běží proti penězům, ne proti oznámení (výklad). Ale "nic" ti neprojde: <strong>systém chybu udělal, a velkou.</strong></p>
+<p>Přečti si znovu otázku: klient <strong>vidí avízo v internetbankingu</strong>. Jak se tam dostalo? Někdo promítl nespárované MT103 do klientského kanálu. To je porušení pravidla z lekce 6: klientovi se nesmí ukázat nic, co ještě může nenastat. Avízo bez krytí je Schrödingerova platba — a klient, který ji vidí, s ní <strong>počítá</strong>: zaplatí z ní fakturu, řekne dodavateli "peníze jsou na cestě". Když cover nedorazí, banka klientovi "vzala" peníze, které nikdy neměl — reputačně horší než zpoždění.</p>
+<p>Správný design: nespárované MT103 žije jen v interní frontě (suspense/pending), klient nevidí nic, dokud pár nevznikne. Výjimka: některé banky velkým korporátům avíza vědomě zpřístupňují (cash management služba) — ale pak <strong>explicitně označená</strong> "advice, funds not received" a smluvně ošetřená. Default je ticho.</p>
+<p>A druhá půlka odpovědi klientovi: "čekej" má lhůtu. Nespárované avízo po X dnech = investigace k bance plátce (MT n95/pacs.028 svět), ne věčné čekání. Pending fronta bez stárnutí a eskalace je stejný bug jako suspense bez reconciliace (lekce 1).</p>
+<p>Otázka 3, chyták: <strong>je MT202 COV settlement?</strong> Kde přesně nastane settlement covera — a kolikrát?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>ano, je
+
+záleží na počtu intermediary bank</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Chyták zafungoval — <strong>MT202 COV není settlement. Je to zpráva.</strong> A tohle rozlišení je jádro celé lekce 3, tak si ho vytáhneme naostro.</p>
+<p>Zpráva je <strong>instrukce</strong> ("převeď krytí"). Settlement je <strong>zápis na účtech</strong> — změna vlastnictví peněz. MT202 COV settlement <em>způsobuje</em>, ale není jím — stejně jako pacs.008 není platba, je to žádost o ni. Kde se tedy peníze skutečně hnou? Na <strong>knihách každého prostředníka v řetězu</strong>:</p>
+<ul><li>hop 1: korespondent odepíše tvoje vostro u sebe, připíše dalšímu (nebo pošle do Fedwire/CHIPS),</li><li>hop 2: US clearing přesune mezi členy — tam settlement v penězích Fedu,</li><li>hop N: nostro banky příjemce připsáno.</li></ul>
+<p>Takže druhá půlka tvé odpovědi je správně — <strong>settlementů je tolik, kolik hopů</strong>, každý na jiných knihách, v jiném čase, v jiné kvalitě peněz (komerční slib vs. peníze Fedu — lekce 7!). Neexistuje jeden okamžik "cover settlnut" — existuje řetěz lokálních finalit. Poslední z nich (kredit na nostru banky příjemce) je ta, proti které se páruje MT103 a bookuje klient.</p>
+<p>Důsledek, který se ti bude hodit: otázka "kde jsou peníze?" u cover platby nemá jednu odpověď — jsou <em>někde v řetězu</em>, a zjistit kde znamená ptát se hop po hopu. Přesně tahle bolest porodila gpi (UETR tracking, lekce 2) — a k ní se vrátíme.</p>
+<p>Otázka 4 — stripping: které pole v čem chybělo, proč to technicky fungovalo, a proč MT202 COV řeší problém jen částečně?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>promiň ale to musím reklamovat když říkáš že jsem se chytil na chyták
+
+to už si trochu hraješ se slovy 
+běžně se přece říká že pacs 008 je pohyb peněz 
+to bys mohl i tady namítnout že to není pohyb peněz ale jenom instrukce ;)</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Fér reklamace — a máš pravdu, že se běžně říká "pacs.008 = platba". Jenže tady nejde o slovíčkaření, a ukážu ti proč — protože <strong>přesně tenhle rozdíl už jsi jednou draze zaplatil</strong>.</p>
+<p>Vzpomeň si na svou vlastní otázku z lekce 3: <em>"poslal jsem zprávu do CSM, čekám na odpověď — jak může vědět, co odpovědět, když ještě nezúčtoval?"</em> Celá ta záhada vznikla právě ze ztotožnění zprávy s pohybem peněz. A lekce 6, timeout u Inst: zpráva odešla, peníze možná ano, možná ne — kdyby zpráva <em>byla</em> pohyb peněz, stav "nevím" by nemohl existovat.</p>
+<p>Běžná řeč to zkracuje, protože v SEPA je mezi pacs.008 a settlementem <strong>jedna instituce a garantovaný proces</strong> — zkratka skoro nikdy nebolí. Ale u covera je mezi MT202 COV a posledním settlementem <strong>N bank, N časových zón, N cut-offů</strong> — a zkratka se rozpadne přesně v okamžiku, kdy klient volá "kde jsou peníze" a ty potřebuješ vědět, že odpověď zní "zpráva doletěla, peníze jsou u hopu 2 ze 4".</p>
+<p>Takže dohoda: v hovoru klidně "pacs.008 = platba", oba víme, jak to je. Ale v návrhu systému, v reconciliaci a v investigacích platí přísná verze: <strong>zpráva je tvrzení, settlement je fakt</strong> — a párování je řemeslo spojování tvrzení s fakty. Tam, kde se obojí kryje (SEPA), sis zkratku můžeš dovolit; tam, kde ne (cover, Inst timeout), zkratka = bug.</p>
+<p>Tvoje námitka byla dobrá — a mimochodem přesně proto byla otázka 3 označená jako chyták: mířila na zkratku, kterou používá celý trh.</p>
+<p>Otázka 4 čeká: stripping — které pole v čem chybělo a proč MT202 COV řeší problém jen částečně?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>chyběla identifikace cílové i iniciační banky</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Blízko, ale o patro vedle — banky tam byly vždycky. MT202 je mezibankovní zpráva: ordering institution, beneficiary institution, correspondent fields — bez nich by nešla ani zroutovat. Co chybělo: <strong>klienti.</strong> Pole 50 (ordering customer — plátce) a 59 (beneficiary customer — příjemce) v MT202 prostě neexistovala; je to zpráva pro převody <em>mezi bankami</em>, jména fyzických/právnických osob nemá kam dát.</p>
+<p>Stripping tedy fungoval takhle: íránská banka pošle MT103 (se jmény) přímo bance příjemce mimo dosah US jurisdikce — a krytí pošle přes New York čistým MT202, kde US korespondent vidí jen "banka X platí bance Y". Screeningběží, ale nemá <strong>co</strong> screenovat — sankcionovaná jména jedou jinou cestou. Formálně žádné pole nezfalšováno; informace jen rozdělena tak, aby ji kontrolor neviděl celou. (Proto "stripping" — svlékání identit z platby.)</p>
+<p>MT202 COV od 2009: povinná sekce B s kopií ordering/beneficiary customer z podkladového MT103. Korespondent uprostřed konečně vidí strany.</p>
+<p>A proč jen částečně? Protože <strong>kopii vyrábí odesílatel</strong> — tentýž, kdo má motiv lhát. COV řeší <em>strukturální slepotu</em> (poctivá banka už nemůže nevidět), neřeší <em>podvod</em> (nepoctivá napíše do sekce B nesmysl, nebo pošle krytí čistým MT202 s tvrzením, že žádné podkladové MT103 není — bank-to-bank převod covera nepotřebuje). Proto kolem toho vyrostl celý compliance aparát: korespondenti profilují provoz klientských bank, hledají vzory "MT202 bez páru", a de-risking (rušení nostro vztahů s rizikovými regiony) je přímý potomek téhle díry.</p>
+<p>Vzorec z lekce 5 znovu: <strong>schéma vynutí strukturu, ne pravdu.</strong> Struktura zprávy zaručí, že pole existuje — co v něm je, hlídá už jen represe a riziko.</p>
+<p>Otázka 5 — serial přes 3 korespondenty: dorazí 1M − poplatky. Cover přes tytéž 3: kolik dorazí a proč?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>totéž 
+práce jako práce</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Logika "práce jako práce" je poctivá — ale trh to vidí jinak, a důvod je přesně v tom, co kdo drží.</p>
+<p>Serial: každý korespondent drží a zpracovává <strong>klientskou platbu</strong> (MT103) — je jejím účastníkem, běží mu na ní plný compliance proces nad klientskými daty, a charge model klientských plateb (BEN/SHA) mu dovoluje <strong>strhnout si poplatek z částky</strong> (lekce 2). Tři hopy = třikrát ukousnuto = dorazí 1M − 3× fee.</p>
+<p>Cover: korespondenti uprostřed drží <strong>pacs.009 COV / MT202 COV — mezibankovní převod</strong>. Klientská platba (pacs.008) letí bokem, přímo mezi koncovými bankami — prostředníci ji nikdy nedrží. A mezibankovní převody jedou v jiném ekonomickém režimu: poplatky se neukusují z principalu, ale fakturují/zúčtovávají z nostro vztahu (billing, condition sheets mezi bankami). Sekce B jim dává klientská jména <em>vidět</em> (compliance, ot. 4), ale nedělá z nich účastníky klientské platby s nárokem na její částku.</p>
+<p>Výsledek: <strong>cover doručí principal netknutý</strong> — 1M dorazí celý; náklady řetězu zaplatí banky mezi sebou mimo částku. (Strukturálně stejná filozofie jako SLEV: poplatky mimo tok — jen tady dobrovolně/smluvně, ne příkazem schématu.)</p>
+<p>Proto FX desky a treasury settlement jedou coverem: u 50M obchodu nesmí "cestou zmizet" ani dolar, protože protistrana čeká přesnou částku a rozdíl = settlement break. A proto serial zůstává pro drobné klientské platby, kde je fee-z-částky tolerovaná ekonomika.</p>
+<p>Otázka 6 — implementační pohled: inward MT103 večer, cover dorazí zítra (US zóna). Co kde sedí přes noc — a co když cover přijde na <strong>jinou částku</strong>?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>ještě poddotaz:
+takže u cover plateb customer neplatí žádné poplatky? ani kreditor ani debitor?</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Ne tak docela — platí, jen <strong>jinou cestou a jiné částky</strong>.</p>
+<p>Rozliš dvě věci, které se u serialu slévají:</p>
+<p><strong>1) Poplatky z principalu cestou</strong> — ukusování korespondentů (1M → 998 700). Tohle u covera <strong>mizí</strong>: principal doletí celý.</p>
+<p><strong>2) Poplatky bank svým klientům</strong> — debtor platí své bance za odeslání (dle ceníku, klidně i "OUR" — vše na účet plátce), creditor bance může platit za inward platbu. Tohle <strong>zůstává</strong>: banka příjemce si klidně strhne inward fee při připsání (pokud charge model SHA), banka plátce si naúčtuje odchozí poplatek. A do cen obou bank se propíšou i jejich náklady na korespondentskou síť — billing z nostro vztahů někdo zaplatit musí, takže skončí v cenících.</p>
+<p>Rozdíl proti serialu tedy není "zadarmo vs. placené", ale <strong>kontrola a předvídatelnost</strong>: u covera jsou všechny poplatky ve <strong>známých, smluvních vztazích</strong> (klient–jeho banka, banka–její korespondent) — žádné překvapení od třetí banky uprostřed, kterou sis nevybral a jejíž ceník neznáš. U serialu je částka rukojmím řetězu.</p>
+<p>Proto koncept z lekce 2 zněl: charges nejsou zlo, nedokumentované charges jsou zlo. Cover posouvá poplatky tam, kde je vidí smlouva.</p>
+<p>A teď otázka 6: MT103 večer, cover zítra. Co kde sedí přes noc u vás — a co když cover dorazí na jinou částku?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>mt103 prostě visí v systému a čeká na spárování 
+
+když bude jiná částka tak se to nespáruje</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Půlka správně — MT103 visí v pending frontě, klient nic nevidí (ot. 2), nostro se nehnulo, takže <strong>přes noc nesedí nikde nic</strong>: žádný booking, jen otevřená položka v párovacím systému. To je správná odpověď na první část — "nikde nic" je legitimní účetní stav, protože žádný fakt (settlement) zatím nenastal. (Jakmile cover ráno dorazí: nostro +, suspense +, pár s MT103, kredit klientovi — kaskáda z lekce 6.)</p>
+<p>Ale "nespáruje se" nesmí být konec odpovědi — to je začátek problému. Co dál? Rozdvoj si to:</p>
+<p><strong>Cover &lt; avízo</strong> (přišlo 999 980 místo 1M): nejčastěji korespondent cestou strhl fee z principalu (poslal to čistým 202 režimem, nebo smluvní odchylka). Systém potřebuje <strong>toleranční pásmo</strong>: rozdíl do X (např. desítky USD) s reason "correspondent charges" → automatický pár, kredit klientovi snížené částky, rozdíl zaúčtovat jako charges. Tvrdé "přesně nebo nic" by ti zablokovalo tisíce legitimních plateb — přesně pravidlo z lekce 4: tvrdě matchuj jen to, co někdo garantuje. U covera přes cizí korespondenty <strong>nikdo negarantuje halířovou přesnost</strong>.</p>
+<p><strong>Cover &gt; avízo, nebo mimo pásmo</strong>: investigace. Možná dva covery k jedné platbě (duplicita), možná cover k jinému MT103, možná chyba. Nepárovat silou, nekreditovat nic, dotaz k protistraně (MT n95/camt.026 svět).</p>
+<p>A třetí větev, na kterou se zapomíná: <strong>cover dorazil, avízo ne</strong> (opačné pořadí — klidně běžné, časové zóny). Peníze na nostru bez informace, komu patří → suspense, čekání na MT103, stárnutí, inquiry. Symetrie: pending fronta avíz čeká na peníze, suspense peněz čeká na avíza — dvě zrcadlové čekárny, obě se stárnutím a eskalací.</p>
+<p>Poslední otázka 7 — kdyby cover půl roku neexistoval (vše serial): koho by to bolelo nejvíc a proč právě treasury a FX desky?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>&gt;&gt;Tvrdé "přesně nebo nic" by ti zablokovalo tisíce legitimních plateb
+
+vždyť jsi mi před chvílí vysvětlil že se to nemůže stát ;)
+že charges si všichni vypořádají bokem podle ceníku</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Dobrá rána — a zasloužená. Ale rozpor je zdánlivý, a stojí za to ho rozmotat, protože je to přesně místo, kde teorie potkává provoz:</p>
+<p>V otázce 5 jsem popsal <strong>jak cover funguje, když všichni hrají čistě</strong>: prostředníci jedou bank-to-bank režim, principal netknutý. To je návrhový záměr a převažující praxe — proto FX desky coveru věří.</p>
+<p>Jenže "převažující praxe" není garance. Reálný svět dodá odchylky: korespondent, jehož condition sheet říká "z převodů pod X si strhávám lift fee z částky" (smluvní, legální — jen sis to nepřečetl ty, ale tvoje treasury před pěti lety). Banka uprostřed, která COV zpracuje svou standardní 202 linkou včetně poplatkové logiky. Exotický koridor, kde local practice ukusuje vždycky. Nic z toho není podvod — je to <strong>rozptyl smluvních režimů v řetězu, který sis nevybral celý</strong>.</p>
+<p>A teď ta pointa, kvůli které to rozmotávám: rozdíl mezi <strong>garancí a konvencí</strong>. SLEV v SEPA je <em>garance</em> — rulebook, vymahatelnost, tvrdý match je správně (lekce 4). Cover principal-intact je <em>konvence</em> — silná, ale bez vymahatele nad celým řetězem. A párovací systém se staví na garance, ne na konvence: proto SEPA větev smí matchovat přesně, kdežto correspondent větev potřebuje toleranční pásmo + reason kódy.</p>
+<p>Tvoje námitka je mimochodem přesně ten typ myšlení, který chci: chytáš mě za konzistenci. Odpověď zní — oba výroky platí, každý v jiné vrstvě: <strong>ekonomika říká "poplatky bokem", provoz říká "důvěřuj, ale toleruj a dokumentuj".</strong></p>
+<p>A teď už poslední otázka 7: půl roku bez coverů, vše serial — koho to bolí nejvíc a proč právě treasury a FX?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>bolí to zákazníky kteří nikdy netuší kolik nakonec bude poplatků 
+
+bolí to banky protože neumí zákazníkovi říct kde se platba zrovna nachází a kdo to brzdí 
+
+treasury nikdy neví kdy platba dorazí takže neví kdy může investovat a kdy musí čekat jako blbec</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Všechny tři zásahy — klienti (nepredikovatelné částky), investigace (kde to vězí), treasury (nejistota času). Doplním jen to, co z treasury bodu dělá <strong>systémovou</strong> bolest, ne jen nepohodlí:</p>
+<p><strong>FX settlement přestane fungovat spolehlivě.</strong> FX obchod = dvě nohy: já pošlu EUR, protistrana USD, obě strany čekají <strong>přesnou částku v přesný den</strong>. Serial tomu rozbije obě dimenze: částka doletí ohlodaná (settlement break, ruční dohledávání rozdílů u milionů obchodů denně) a čas se stane loterií N hopů s N cut-offy. A protože mezitím držíš expozici na protistranu (poslal jsi, nedostal), roste <strong>settlement risk</strong> — Herstatt riziko, pojmenované po bance, jejíž krach 1974 uprostřed FX settlementů málem strhl systém. Přesně proti tomuhle vzniklo CLS — a CLS i celý moderní FX svět stojí na tom, že mezibankovní noha jede čistě a předvídatelně, tedy cover-style.</p>
+<p><strong>Intraday likvidita zdraží pro všechny.</strong> Lekce 7: treasury řídí den na projekci příchozích. Serial svět = příchozí s rozptylem hodin a dní → projekce k ničemu → větší polštáře, víc kolaterálu, dražší provoz — zaplatí to nakonec klientské ceníky. Trojúhelník likvidita–čas–riziko: serial posouvá systém do dražšího rohu ve všech třech osách najednou.</p>
+<p>A investigační bod, kterýs trefil, má historickou tečku: přesně tahle bolest ("kde to je a kdo to brzdí") porodila <strong>gpi</strong> — UETR tracking napříč hopy. Což je ideální můstek na příští lekci.</p>
+<hr>
+<p><strong>PROBRÁNO (lekce 8 — cover vs. serial):</strong></p>
+<ul><li>Cover = informace (pacs.008/MT103 přímo) + peníze (pacs.009 COV/MT202 COV řetězem); N hopů = N zpráv, pár proti poslednímu (ot. 1 ✓)</li><li>Avízo bez krytí nesmí ke klientovi; pending fronta se stárnutím; booking proti faktu, ne tvrzení (ot. 2 — půlka: "nic" ✗)</li><li>Zpráva ≠ settlement; cover má řetěz lokálních finalit, žádný jediný okamžik (ot. 3 ✗ + tvá oprávněná reklamace zkratky "zpráva=platba" — rozlišovat vrstvy hovor/návrh)</li><li>Stripping: v MT202 chyběla pole klientů (50/59), ne bank; COV = sekce B; struktura ≠ pravda, zbytek řeší compliance a de-risking (ot. 4 — blízko, vedle)</li><li>Serial: fee z principalu na každém hopu; cover: principal netknutý, poplatky bokem — ale jako konvence, ne garance → toleranční pásma (ot. 5 ✗ "práce jako práce" + tvůj dobrý catch konzistence)</li><li>Přes noc "nikde nic" je správný stav; tři větve párování: pásmo/investigace/peníze-bez-avíza (ot. 6 — půlka)</li><li>Serial svět: rozbité FX settlement (Herstatt, CLS), dražší likvidita, slepé investigace → gpi (ot. 7 ✓✓✓ — nejlepší odpověď dne)</li></ul>
+<p><strong>OTEVŘENÉ:</strong></p>
+<ul><li>MT vs. MX ekvivalence (103↔pacs.008, 202 COV↔pacs.009 COV) — zatím jen letmo, prohloubit</li><li>CLS a PvP settlement — nová zmínka, kandidát na lekci</li><li>Z kurikula: <strong>gpi/gSRP</strong> (příště — investigace, UETR tracking, "nejdřív pravda" z lekce 6), reference chain do hloubky</li></ul>
+<p>Příště: <strong>gpi a gSRP</strong> — jak SWIFT přišil trackování na svět, který jsme dnes popsali, a co je stop &amp; recall. Sedí?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>&gt;&gt;roste settlement risk — Herstatt riziko, pojmenované po bance, jejíž krach 1974 uprostřed FX settlementů málem strhl systém. Přesně proti tomuhle vzniklo CLS — a CLS i celý moderní FX svět stojí na tom, že mezibankovní noha jede čistě a předvídatelně, tedy cover-style.
+
+
+vyrob mi nyní podrobný výklad!
+jak to tehdy bylo
+formát:  HTML 
+nezapomeň tam odpovědět na otázku zda cover metoda není vlastně trik, kdy Customer money jedou přes kvalitnější a spolehlivější B2B cestu!</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Hotovo — podrobný výklad je v HTML výše. Obsahuje:</p>
+<ul><li><strong>Kdo byl Herstatt</strong> a jak se z maskovaných FX ztrát stala spirála (~470–480 mil. DM),</li><li><strong>časovou osu 26. 6. 1974</strong> ve dvou zónách vedle sebe — Köln vs. New York, aby bylo vidět, že vražednou zbraní bylo šest hodin časového rozdílu, ne krach sám,</li><li><strong>řetězovou reakci</strong> (liquidity hoarding, gridlock) a vznik Basilejského výboru,</li><li><strong>CLS a PvP</strong> — obě nohy atomicky, nebo žádná,</li><li>a <strong>odpověď na tvou otázku</strong>: není to trik, je to dekompozice — klientské peníze <em>nikdy</em> žádnou vlastní cestou nejely, B2B settlement vrstva je jediná, která existuje; cover jen přestal předstírat, že s penězi musí cestovat klientská obálka. S dvěma poctivými výhradami: „kvalitnější" je konvence bez garanta, a před rokem 2009 to trik skutečně byl (stripping).</li></ul>
+<p>Tvoje účetní paralela tam je taky: faktura poštou, úhrada bankou — a párování dokladu s platbou je přesně to, co váš engine dělá s MT103 a coverem.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>řekni mi ještě jednou ten scénář 
+
+co se stane když banku odstaví z provozu ve správný čas vs. špatný, jak se to tehdy stalo 
+
+kdo komu posílá peníze a proč je to tak klíčové 
+
+sorry nepochopil jsem to</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>V pořádku, zpomalíme — je to jádro celé věci, tak si to zaslouží konkrétní čísla a jména.</p>
+<p><strong>Výchozí situace: jeden FX obchod, dvě platby</strong></p>
+<p>Dresdner Bank si s Herstattem dohodla obchod: prodá mu marky za dolary. Kurz nechme stranou, řekněme 100 mil. DEM za 40 mil. USD. Z toho plynou <strong>dvě zcela samostatné platby, dva různé systémy, dvě časové zóny</strong>:</p>
+<ul><li><strong>Noha 1:</strong> Dresdner posílá Herstattu <strong>100 mil. DEM</strong> — v Německu, německým clearingem, který jede v německých hodinách (dopoledne).</li><li><strong>Noha 2:</strong> Herstatt posílá Dresdner <strong>40 mil. USD</strong> — v Americe, přes svého korespondenta (Chase v New Yorku), který jede v amerických hodinách (o 6 hodin později).</li></ul>
+<p>Nikdo nic neporušuje — takhle prostě FX settlement fungoval. Každá měna se vypořádává „doma" a domy mají různé otvírací doby. Mezi nohama tedy <strong>vždycky zeje několikahodinové okno</strong>, kdy jedna strana už zaplatila a druhá ještě ne.</p>
+<p><strong>Špatný čas (to, co se stalo):</strong></p>
+<ol><li>Dopoledne: Dresdner odešle 100 mil. DEM. Settlement proběhne, <strong>finalita</strong> — marky jsou nevratně Herstattovy (lekce 3: vypořádané se neodpáře).</li><li>15:30 Köln = 9:30 New York: dohled Herstatt <strong>zavře</strong>. Newyorský den sotva začal, dolary ještě neodešly.</li><li>Chase okamžitě zamrazí Herstattův účet — banka je v likvidaci, kdo by teď za ni platil, platil by z majetku, který patří všem věřitelům.</li><li>Výsledek pro Dresdner: <strong>marky pryč (finálně), dolary nikdy nepřijdou.</strong> Není už obchodní protistrana — je věřitel konkurzu, s nárokem kdesi ve frontě, na zlomek, za roky.</li></ol>
+<p><strong>Správný čas (co se stát mohlo):</strong></p>
+<p>Kdyby dohled banku zavřel <strong>večer předchozího dne</strong> — tedy PŘED tím, než kdokoli zaplatil první nohu — stalo by se tohle: Dresdner ráno vidí „Herstatt zavřen", marky <strong>neodešle</strong>. Obchod se prostě nevypořádá. Dresdner nepřišla o nic — má dál svých 100 mil. DEM. Zmizel jí obchod (nepříjemné, musí si dolary koupit jinde, možná za horší kurz), ale <strong>nezmizela jí jistina</strong>.</p>
+<p><strong>A to je celá pointa:</strong></p>
+<ul><li>Zavřeno <strong>před oběma nohama</strong> → obchody umřou nevypořádané, nikdo nepřišel o jistinu. Ekvivalent rejectu: platba se nekonala.</li><li>Zavřeno <strong>po obou nohách</strong> → obchody jsou hotové, taky žádný problém.</li><li>Zavřeno <strong>MEZI nohama</strong> → jedna strana zaplatila vše a nedostala nic. Ztráta = <strong>celá jistina</strong>, ne kurzový rozdíl.</li></ul>
+<p>Německý dohled udělal to, co by udělal u domácí banky — zavřel ji během svého pracovního dne. Nikoho nenapadlo, že „během německého dne" znamená „uprostřed rozkročeného settlementu s Amerikou". Ta hodina na hodinách v Kolíně byla nevinná; vražedná byla na hodinách v New Yorku.</p>
+<p>Proto CLS: obě nohy <strong>atomicky, obě nebo žádná</strong> — okno „mezi" se nedá zavřít opatrností, jen konstrukcí. A proto zní tvoje mantra z kurzu i tady: hranice settlementu určuje, kdo bojuje u soudu. Dresdner stála o milimetr na špatné straně té hranice.</p>
+<p>Sedí to teď?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>takhle to vypadá že obě banky jsou německé !?
+Dresner i Herstadt</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Ano, obě německé — a je to schválně, protože přesně tenhle zmatek stojí za rozbití: <strong>národnost bank je irelevantní. Rozhoduje domov měny, ne domov banky.</strong></p>
+<p>FX obchod DEM/USD mezi dvěma kolínskými bankami přes ulici pořád znamená:</p>
+<ul><li><strong>DEM noha:</strong> vypořádá se v Německu — obě banky mají účty u Bundesbanky/v německém clearingu. Domácí záležitost, dopoledne hotovo.</li><li><strong>USD noha:</strong> dolary <strong>neexistují v Německu</strong>. Dolar žije jen na účtech amerického systému — u Fedu a v knihách amerických bank (lekce 7: Fed nedá účet cizí bance jen tak; proto nostro svět). Herstattovy „dolary" byly zůstatek na jeho nostru u Chase v New Yorku. Zaplatit dolary = instruovat Chase, aby je přepsala na nostro Dresdner u <em>jejího</em> amerického korespondenta.</li></ul>
+<p>Takže i čistě německý obchod má jednu nohu, která <strong>fyzicky bydlí v New Yorku a řídí se newyorským časem</strong>. Dvě banky přes ulici v Kolíně si dolary posílají oklikou přes Manhattan — jinak to nejde, dolar se nikdy „nedotkne" Německa, jen se přepisuje mezi americkými knihami.</p>
+<p>Obecné pravidlo, které tím máš navždy: <strong>peníze nikdy neopouštějí svou zemi.</strong> Eura žijí v T2, dolary ve Fedwire/na knihách US bank, jeny v Japonsku. „Poslat dolary do Německa" znamená přepsat dolary mezi dvěma americkými účty a poslat do Německa jen <em>informaci</em>. (Ozvěna lekce 8: hodnota a informace jsou dvě vrstvy — tady vidíš, že vrstva hodnoty je navíc <strong>geograficky uvězněná</strong> v zemi měny.)</p>
+<p>A proto bylo Herstattovo okno neodstranitelné opatrností: nemůžeš srovnat otvírací hodiny Frankfurtu a New Yorku — časový posun je vlastnost planety. Dokud se obě nohy vypořádávají každá doma, okno existuje. CLS ho zrušila jedině tak, že obě nohy stáhla na <strong>jedny knihy</strong> (svoje) a s domovskými systémy měn se vyrovnává v úzkém okně, kdy mají otevřeno všechny najednou.</p>
+<p>Mimochodem — Herstattovy protistrany byly z celého světa, německé i americké i britské; Dresdner jsem vzal jako ilustraci. Bolelo to všechny stejně, protože všichni stáli na stejné straně stejné hranice: DEM zaplaceno, USD nikdy.</p>
+<p>Jasnější?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>diky moc</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Rádo se stalo — tohle byla dobrá odbočka, "peníze nikdy neopouštějí svou zemi" je jeden z těch principů, co ti zpětně vysvětlí půlku nostro světa.</p>
+<p>Příště podle plánu <strong>gpi a gSRP</strong> — jak se do cover/serial džungle přišilo trackování přes UETR, a co dělá stop &amp; recall. Měj se!</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>ještě poslední otázka k minulému tématu 
+
+řekla jsi:
+&gt;&gt;Banky si přestaly být jisté, kdo další má na knihách herstattovský problém — a začaly zdržovat dolarové platby, dokud neuvidí příchozí. Nikdo nechtěl být ten, kdo zaplatí první...
+
+
+nemělo tam být spíše "začaly zdržovat DEM platby"  ??</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Dobrá otázka — a odpověď je: <strong>ne, dolarové, a důvod je poučný.</strong></p>
+<p>Tvoje logika je správná v rámci <strong>jednoho FX obchodu</strong>: v páru DEM/USD platí první ten s markami, takže "herstattovské okno" nese plátce DEM. Kdyby šlo jen o strach z tohoto konkrétního vzorce, váhali by plátci marek.</p>
+<p>Ale panika se nešířila po ose jednoho obchodu — šířila se po <strong>infrastruktuře</strong>. A ta se koncentruje v dolaru:</p>
+<p><strong>1) Dolar je vehicle currency.</strong> Většina světových FX obchodů má (tehdy i dnes) jednu nohu v USD — i pár GBP/CHF se často dělal přes dolar. Takže "kde se potkávají závazky všech vůči všem" = newyorský clearing (CHIPS). Když ztratíš důvěru v protistrany obecně, projeví se to tam, kde s nimi máš nejvíc nevypořádaných pozic — a to byl pro každou mezinárodní banku dolarový den.</p>
+<p><strong>2) Zamrzlé peníze všichni viděli v New Yorku.</strong> Chase zmrazila Herstattův účet — banky sledovaly, jak cizí peníze uvízly v <em>dolarovém korespondentském řetězu</em>. Důvěra se láme tam, kde vidíš past sklapnout.</p>
+<p><strong>3) Gridlock uvnitř dolarového dne.</strong> Nezapomeň na cover platby a korespondentské řetězy z lekce 8: banka v NY přes den vyplácí dolary v očekávání, že jí tentýž den přitečou dolary odjinud (krytí, jiné obchody). Když každá začne čekat "nejdřív příchozí, pak odchozí", zadrhne se to <strong>uvnitř jednoho systému během jednoho dne</strong> — bez ohledu na to, která noha FX obchodu je první. To je přesně vzorec z lekce 7 (nikdo nechce jít první) — a v roce 1974 se odehrál naostro v CHIPS, kde objemy na několik dní dramaticky spadly.</p>
+<p>Takže obě věci jsou pravda na různých patrech: <strong>expozice z jednoho obchodu</strong> nesl plátce první nohy (DEM) — a evropské banky si na FX settlement s pochybnými protistranami skutečně začaly dávat pozor. Ale <strong>systémová zácpa</strong> vznikla v dolarovém clearingu, protože tam se sbíhají řetězy všech.</p>
+<p>Dobrý catch — rozlišení "riziko jednoho obchodu vs. riziko sítě" se nám bude hodit u gpi.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>díky 
+pojďme na GPI</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><h2>Lekce 9: gpi a gSRP — jak se do džungle přišila okna</h2>
+<p>Navazujeme přesně tam, kde bolelo: cover/serial svět, kde "kde jsou peníze?" znamenalo obvolávat hop po hopu (lekce 8) a kde stav "nevím" byl legitimní, ale neřešitelný (lekce 6).</p>
+<p><strong>Výklad</strong></p>
+<p><strong>Problém:</strong> korespondentský řetěz nemá centrum. Každá banka vidí jen svého souseda; platba mezi hopy mizí do tmy. Investigace = MT n95 dotazy štafetou, dny až týdny. SWIFT gpi (2017) na to odpověděl chytře: <strong>nepostavil novou kolej, postavil rozhlednu.</strong></p>
+<p><strong>gpi Tracker:</strong> centrální databáze u SWIFTu, do které každá banka v řetězu <strong>reportuje stav</strong> platby: přijal jsem, poslal dál (komu, kdy), připsal jsem, strhnul jsem fee X, konvertoval kurzem Y. Klíč, pod kterým se to skládá dohromady? <strong>UETR</strong> — přesně proto muselo být end-to-end neměnné (lekce 2, ot. 6: "publikum je celý řetězec včetně trackeru"). Zprávy dál tečou stejnými cestami; tracker je paralelní vrstva <em>viditelnosti</em>, ne peněz.</p>
+<p><strong>gpi SLA:</strong> členové se navíc smluvně zavazují k pravidlům nad rámec pouhého SWIFTu: připsat ve stejný den (v rámci cut-offů), <strong>transparentně reportovat fees a kurzy</strong> do trackeru, nemazat remittance info. Všimni si vzorce z lekce 8: to, co bylo u covera jen <em>konvence</em> (principal-intact jako dobré mravy), gpi povyšuje na <em>smluvní závazek s měřením</em>. Ne rulebook jako SEPA — ale už ne jen dobré mravy.</p>
+<p><strong>Universal Confirmations (2020):</strong> SWIFT zavázal <strong>všechny</strong> banky (i ne-gpi členy): kdo dostane MT103, musí do trackeru potvrdit finální stav (připsáno/odmítnuto) do dvou pracovních dnů. Tím se zaplnila poslední tma: i platba končící u malé banky v exotice dostane tečku.</p>
+<p><strong>gSRP — gpi Stop and Recall.</strong> Tady pozor na přesnost: klasický recall (lekce 1) je <em>žádost doručená s platbou nebo za ní</em> — často dorazí, až když peníze dávno odtekly dál. gSRP využívá tracker jako <strong>stopku v reálném čase</strong>: iniciátor pošle stop request s UETR, tracker ho okamžitě rozsvítí u toho hopu, kde platba právě je — a banka, která ji drží, ji <strong>nesmí poslat dál</strong>, dokud se to nevyřeší. Platbu chytáš <em>v letu</em>, ne doháníš.</p>
+<p>Klíčové limity, ať nepřeceníš:</p>
+<ul><li>gSRP zastaví platbu <strong>jen dokud je v řetězu</strong>. Po připsání příjemci jsi zpět v klasickém recallu — prosbě (lekce 1: peníze u klienta banka jednostranně nebere).</li><li>Stop není reverse: zastavená platba se vrací standardním returnem, se vším všudy.</li><li>Tracker ukazuje pravdu jen tak dobrou, jak dobré je reportování — confirmations jsou povinné, ale stavy mezi nimi závisí na disciplíně členů.</li></ul>
+<p>A ozvěna "nejdřív pravda, pak booking" (lekce 6): gpi je institucionalizace přesně tohoto principu. Timeout, nejasný stav, podezření na duplicitu? Dřív inquiry štafetou a dny čekání — dnes se <strong>podíváš do trackeru na fakta</strong> a bookuje se podle nich.</p>
+<p><strong>Kvíz</strong></p>
+<ol><li>Který existující atribut platby umožnil gpi postavit, aniž se změnil formát zpráv — a proč by to bez něj nešlo? (Snadná, rozehřívací.)</li></ol>
+<ol><li>Tracker vs. zprávy: když gpi banka strhne fee, kde všude se ta informace objeví — a kdo ji vidí dřív, další hop, nebo banka plátce?</li></ol>
+<ol><li>Chyták: gSRP stop dorazil bance C, která platbu drží. Smí banka C platbu vrátit rovnou "protože stop"? Co jí k tomu chybí?</li></ol>
+<ol><li>Platba je připsaná příjemci před 2 hodinami. Plátce hlásí podvod. Co gSRP zmůže — a v čem je i tak lepší než svět před ním?</li></ol>
+<ol><li>Kdyby tracker půl roku lhal (banky reportují "připsáno" se zpožděním dnů): které konkrétní procesy z předchozích lekcí by se rozbily první?</li></ol>
+<ol><li>Z implementační perspektivy vašeho engine: inward gpi platba, vy jste poslední hop. Jaké povinnosti vůči trackeru máte — a v jakém okamžiku vůči bookingu je plníte?</li></ol>
+<ol><li>gpi SLA slibuje transparentnost fees a FX. Vzpomeň na lekci 4 (XchgRate) a lekci 2 (ChrgsInf): proč tahle data jedou do trackeru, když už pro ně zprávy pole mají? Co tracker přidává?</li></ol>
+<p>Po jedné.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>doplňující otázka 
+gSRP - čeho přesně je to zkratka</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p><strong>gpi Stop and Recall Payment</strong> service — v SWIFT dokumentaci se objevuje i delší podoba "Stop and Recall Payment service", zkracovaná gSRP (malé g = příslušnost k rodině gpi produktů, jako gCCT pro customer credit transfers, gCOV pro covery, gFIT pro financial institution transfers).</p>
+<p>Jméno je popisné a přesně odráží dvoufázovost z výkladu: <strong>Stop</strong> = zmraz v letu (nové, umožněné trackerem), <strong>Recall</strong> = vyžádej zpět (klasika, existovala vždy). Služba spojuje obojí do jednoho requestu pod UETR: nejdřív platbu zastav, kde právě je, pak se řeš, jestli půjde zpátky.</p>
+<p>A teď kvíz, otázka 1: který existující atribut umožnil gpi postavit bez změny formátu zpráv?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>uetr</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Samozřejmě — UETR. Rozehřívačka splněna, jen podtrhnu to "bez změny formátu": UETR už ve zprávách bylo (blok 3, pole 121 v MT; standardní element v MX), takže gpi nemusel čekat na dekádovou migraci formátů — stačilo přidat povinnost reportovat + databázi. Chytrá evoluce: nová funkce z existujícího pole. Bez globálně unikátního, neměnného klíče by tracker neměl pod čím skládat — per-hop reference (InstructionId) by mu rozpadly platbu na nespojitelné fragmenty (lekce 2, ot. 6).</p>
+<p>Otázka 2 — gpi banka strhne fee: kde všude se ta informace objeví a kdo ji vidí dřív — další hop, nebo banka plátce?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>banka plátce 
+přes trck.00x</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Správně, banka plátce — a dokonce znáš i to, že tracker mluví vlastní zprávovou rodinou (trck.xxx v MX světě; historicky to jely i MT199 gpi konfirmace). Přesnost detailu oceňuji.</p>
+<p>Mechanika, proč plátce vyhrává závod: fee informace jede <strong>dvěma kanály současně</strong>:</p>
+<ul><li><strong>ve zprávě</strong> dalšímu hopu (ChrgsInf/pole 71) — doputuje s platbou, hop po hopu, každý ji vidí, až na něj dojde řada,</li><li><strong>do trackeru</strong> okamžitě při zpracování — a tracker je hvězda, ne řetěz: banka plátce (a její klient přes gpi API/portál) vidí stržení <strong>v momentě, kdy se stalo</strong>, i když platba fyzicky teprv opustila hop 2 z 5.</li></ul>
+<p>To je tichá revoluce v topologii informace: <strong>zprávy tečou sériově, pravda paralelně.</strong> Před gpi měl nejlepší informaci o platbě vždy ten, kdo ji právě držel; dnes ji má iniciátor — a to obrací i tok klientského servisu: "kde jsou peníze a kolik cestou ubylo" už neřeší investigace přes řetěz, ale čtení z trackeru.</p>
+<p>(Ozvěna tvé otázky 7 z lekce 8 — "banky neumí říct, kde platba vězí" — gpi je přesně odpověď na tuhle bolest.)</p>
+<p>Otázka 3, chyták: gSRP stop dorazil bance C, která platbu drží. Smí ji rovnou vrátit "protože stop"? Co jí chybí?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>smí 
+nic</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Chyták zafungoval — <strong>nesmí, a chybí jí odpověď na recall.</strong></p>
+<p>Rozklad: stop a recall jsou <strong>dvě fáze s různou silou</strong> (proto se služba jmenuje Stop <em>and</em> Recall). Stop je okamžitý a závazný: banka C platbu <strong>nesmí poslat dál</strong>. Ale stop není instrukce k vrácení — je to zmrazení stavu. Platba u C leží (suspense — cílový stav nula, ale zatím drží) a čeká se na <strong>rozhodnutí recall procesu</strong>.</p>
+<p>Co chybí: recall je pořád žádost s adresátem. U platby v letu odpovídá typicky banka příjemce / další článek — a existují legitimní důvody recall <strong>zamítnout</strong> i u zastavené platby: kolize s vlastními povinnostmi (compliance hold — třeba ji mezitím chytil sanction screening a nesmí se hnout nikam, ani zpět!), podezření, že "podvod" hlásí podvodník (social engineering na vrácení legitimní platby existuje), právní režim jurisdikce.</p>
+<p>Kdyby C vrátila rovnou "protože stop": vrací peníze bez titulu — a když se ukáže, že recall byl neoprávněný, C poslala peníze osobě, která na ně neměla nárok, z pozice, kde je pouze <em>držela pro další článek</em>. Přesně vzorec z lekce 1: <strong>kdo drží peníze, rozhoduje o returnu — ale odpovědnost za rozhodnutí nese taky.</strong> Stop říká "nehýbej se", ne "otoč se".</p>
+<p>Sekvence tedy: stop (zmraz) → recall dotaz/odpověď (rozhodni) → return standardní cestou (proveď, pacs.004 se vším všudy — vlastní settlement, vlastní osa, může dostat vlastní reject, jak víš z vlastního chytáku po lekci 6).</p>
+<p>Otázka 4 — platba připsaná příjemci před 2 hodinami, plátce hlásí podvod. Co gSRP zmůže — a v čem je i tak lepší než svět před ním?</p>
+<p><em>(pokračujeme — otázka 4 výše čeká na tvou odpověď)</em></p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>zkusí chytit platbu za letu
+
+je lepší protože je aspoň šance</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Tady pozor — přečti si zadání ještě jednou: platba je <strong>připsaná příjemci před 2 hodinami</strong>. Let skončil. Není co chytat — peníze jsou u klienta a platí lekce 1: banka mu je jednostranně nevezme.</p>
+<p>Co tedy gSRP reálně zmůže po připsání:</p>
+<ul><li>doručí recall žádost <strong>okamžitě a přesně té bance, kde platba skončila</strong> (tracker ví kde — žádné pátrání řetězem),</li><li>banka příjemce může účet <strong>zmrazit dle vlastních AML/fraud povinností</strong> (to není gSRP pravomoc, ale rychlá informace ji spouští),</li><li>odpověď na recall běží v definovaných lhůtách přes tracker, ne měsíce korespondence.</li></ul>
+<p>A v čem je i tak lepší než starý svět — <strong>rychlost doručení žádosti je u podvodů všechno.</strong> Podvodník peníze po připsání okamžitě přehazuje dál (mule účty, kaskáda). Stará investigace: dny na zjištění, kde platba skončila → peníze dávno pryč. gSRP: minuty. Šance není v "chytit za letu" (ta zmizela připsáním), ale v tom, že <strong>žádost o zmrazení dorazí dřív, než podvodník stihne peníze rozprášit</strong>. Závod mezi recall žádostí a mule kaskádou — gpi ho nezaručí vyhrát, ale poprvé ho vůbec dovolí běžet.</p>
+<p>Přesná formulace rozdílu: před připsáním gSRP <strong>zastavuje platbu</strong> (moc nad platbou), po připsání <strong>zrychluje prosbu</strong> (žádná moc, jen čas). Tvoje odpověď platila pro první režim — zadání testovalo, jestli poznáš, že jsi ve druhém.</p>
+<p>Otázka 5 — kdyby tracker půl roku lhal (banky reportují "připsáno" se zpožděním dnů): které procesy z předchozích lekcí se rozbijí první?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>procesy které mají podezřelou platbu zastavit 
++ 
+klient by znova nevěděl kde přesně se jeho platba nachází</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Oba zásahy platí — gSRP střílí naslepo (stop letí k hopu, kde platba podle trackeru "je", ale ona už je o dva dál) a klientská viditelnost se vrací do roku 2016. Doplním třetí, který bolí nejvíc a je nejmíň vidět — <strong>booking a reconciliace, které se na tracker mezitím naučily spoléhat:</strong></p>
+<p>Vzpomeň na lekci 6, Inst timeout: "nejdřív pravda, pak booking" — a gpi tracker se stal <em>zdrojem té pravdy</em> pro correspondent svět. Treasury projekce příchozích (lekce 7: 17:45!) dnes čte očekávané kredity z trackeru: "pět plateb ve stavu 'poslední hop, připsáno bude dnes'". Tracker lhoucí o dny = projekce likvidity postavená na fikci → polštáře zpět nahoru, dražší den (trojúhelník likvidita–čas–riziko). Nostro reconciliace používá tracker stavy k třídění breaků: "výpis ukazuje kredit, tracker říká in-flight" = jasný případ položky na cestě — se lhoucím trackerem se každý break vrací do ruční investigace.</p>
+<p>A nejzákeřnější: <strong>duplicitní platby.</strong> Postup "pošli znovu až po ověření, že první nevznikla" (lekce 6, ot. 4) dnes v correspondent světě znamená "podívej se do trackeru". Tracker se zpožděním dnů = okno, ve kterém platba vypadá jako mrtvá, ale žije → resend → duplicita. Přesně ten bug, před kterým jsme tě varovali, jen institucionalizovaný.</p>
+<p>Meta-pointa, zapiš si ji: <strong>jakmile systém viditelnosti existuje, procesy se na něm stanou závislé — a jeho selhání je pak horší než jeho neexistence</strong>, protože staré obranné mechanismy (konzervativní čekání, ruční inquiry) mezitím atrofovaly. Proto SWIFT confirmations <em>vynucuje</em> (deadliny, měření kvality reportování, sankce za nedodržování SLA) — tracker si nesmí dovolit být "většinou pravdivý".</p>
+<p>Otázka 6 — vy jako poslední hop inward gpi platby: jaké povinnosti vůči trackeru, a v jakém okamžiku vůči bookingu?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>hlásit příjem 
+tuším trck.001
+
+"vůči bookingu"?
+nechápu</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>"Vůči bookingu" = <strong>v jakém okamžiku tvého zpracování</strong> má hlášení do trackeru odejít. Máš u sebe sekvenci kroků (lekce 6): zpráva přišla → kontroly → suspense → ... → kredit klientovi. Otázka zní: <strong>kde v té sekvenci stojí "teď hlásím do trackeru"?</strong> — a hlavně: co přesně hlásíš, když jsi platbu <em>přijal</em>, ale klientovi ještě <em>nepřipsal</em>?</p>
+<p>Konkrétně, tři situace z tvé praxe:</p>
+<p>a) Platba dorazila v 10:00, sanction screening ji chytil, sedí v suspense a compliance ji řeší tři dny. Co je v trackeru?</p>
+<p>b) Platba prošla, kredit klientovi zaúčtován v 10:05. Kdy a co hlásíš?</p>
+<p>c) Účet neexistuje, za dva dny pošleš return. Co vidí banka plátce v trackeru mezi 10:00 a returnem?</p>
+<p>Zkus aspoň b) — princip z "nejdřív pravda" ti odpověď dá sám.</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>aha už chápu: vždy až po bookingu</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Přesně — <strong>tracker reportuje fakta, a fakt vzniká zápisem, ne úmyslem.</strong> "Připsáno" smíš hlásit až poté, co kredit klientovi skutečně sedí v knihách (b: v 10:05, ne v 10:00 při přijetí). Hlásit dopředu = lhát trackeru — a lekce z otázky 5: na tvém hlášení staví cizí procesy. Banka plátce uzavře case, její klient řekne dodavateli "máte zaplaceno"… a ty pak screening hitem kredit nikdy neprovedeš. Tracker verze avíza bez krytí (lekce 8, ot. 2) — tvrzení vydávané za fakt.</p>
+<p>Doplnění zbylých dvou:</p>
+<p>a) <strong>Screening hold:</strong> v trackeru je platba "u tebe, pending" — gpi má i stavy/reason kódy pro zdrženo. Ale pozor na jemnost: <strong>nehlásíš "sanction hit"</strong> — sdělit odesílateli, že jeho platbu drží compliance screening, může být tipping-off (naváděl bys, jak příště screening obejít). Hlásíš neutrální pending. Transparentnost má compliance strop.</p>
+<p>b) ✓ — po zápisu, se skutečným časem, částkou po fees, kurzem (SLA data).</p>
+<p>c) <strong>Mezi 10:00 a returnem:</strong> "přijato posledním hopem, pending" — a pak return hlásíš taky: tracker sleduje i pacs.004 pod původním UETR (rodina transakcí, tvůj vlastní koncept z lekce 6!). Banka plátce vidí "vrací se" dřív, než jí return fyzicky doteče řetězem — zase: pravda paralelně, peníze sériově.</p>
+<p>Obecné pravidlo: <strong>tracker call patří do téže jednotky práce jako booking</strong> — po commitu zápisu, ideálně tak, aby nemohl nastat stav "zabookováno, nenahlášeno" ani "nahlášeno, nezabookováno" (outbox pattern, znáš z Oracle světa). Reportování není notifikace bokem, je to účetnictví viditelnosti.</p>
+<p>Poslední otázka 7 — fees a kurzy: proč jedou do trackeru, když ChrgsInf a XchgRate ve zprávách existují? Co tracker přidává?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>jdou tam kvůli rychlosti 
+aby všichni věděli všechno hned</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Rychlost ano — ale "všichni všechno hned" zaslouží zpřesnění, protože tracker přidává <strong>tři různé věci</strong> a rychlost je jen první:</p>
+<p><strong>1) Rychlost + adresát.</strong> Znáš z otázky 2: ChrgsInf ve zprávě putuje sériově a čte ji ten, kdo zprávu drží. Tracker doručí fee informaci <strong>iniciátorovi okamžitě</strong> — tomu, kdo ji potřebuje pro klienta a koho se zpráva dotkne až za tři hopy. Nejde jen o "hned", jde o "hned <em>tomu správnému</em>".</p>
+<p><strong>2) Agregaci.</strong> Zprávy nesou fees <strong>po legech</strong> — každý hop vidí svůj kus. Tracker skládá <strong>celkový účet platby</strong>: součet všech fees všech hopů + použité kurzy + čas každého kroku, pod jedním UETR. To žádná jednotlivá zpráva neumí z principu — je to pohled, který existuje jen nad řetězem. (Předtím tenhle pohled neexistoval <em>nikde</em> — ani banka plátce nevěděla, kolik cestou celkem ubylo, dokud nepřišla stížnost příjemce.)</p>
+<p><strong>3) Vymahatelnost.</strong> A tohle je to hlavní: SLA slib "transparentní poplatky" je měřitelný jen tehdy, když data leží <strong>u třetí strany, strukturovaně, srovnatelně</strong>. SWIFT nad trackerem měří: kdo připisuje ve stejný den, čí fees vybočují, kdo reportuje pozdě. Data ve zprávách jsou rozptýlená po archivech tisíců bank — data v trackeru jsou <strong>evidence, nad kterou lze vynucovat pravidla</strong>. Vzorec z lekce 8/9: konvence → smluvní závazek vyžaduje měření → měření vyžaduje centrální data. Tracker je to měřidlo.</p>
+<p>Takže: zprávy nesou data pro <em>zpracování</em>, tracker pro <em>accountability</em>. Stejná čísla, jiný účel — proto existují dvakrát a není to redundance.</p>
+<hr>
+<p><strong>PROBRÁNO (lekce 9 — gpi/gSRP):</strong></p>
+<ul><li>gpi = rozhledna nad existující kolejí; UETR jako klíč, bez změny formátů (ot. 1 ✓)</li><li>Zprávy tečou sériově, pravda paralelně; trck.xxx, plátce vidí fee dřív než další hop (ot. 2 ✓✓ včetně zprávové rodiny)</li><li>Stop ≠ instrukce k vrácení: zmraz → rozhodni recall → return standardní cestou; C nese odpovědnost za rozhodnutí (ot. 3 ✗ chyták)</li><li>Po připsání gSRP nezastavuje, jen zrychluje prosbu; závod s mule kaskádou (ot. 4 ✗ — přehlédnuté zadání "připsaná")</li><li>Lhoucí tracker: slepý gSRP, slepý klient + rozbité projekce likvidity, reconciliace, duplicate check; závislost na viditelnosti &gt; její neexistence (ot. 5 — půlka ✓, systémová vrstva doplněna)</li><li>Tracker hlášení až po zápisu, v téže jednotce práce (outbox); pending bez tipping-off; return pod týmž UETR (ot. 6 — po dovysvětlení ✓)</li><li>Fees/FX v trackeru: adresát + agregace + vymahatelnost; zprávy = zpracování, tracker = accountability (ot. 7 — třetina)</li></ul>
+<p><strong>OTEVŘENÉ:</strong></p>
+<ul><li>Čtení zadání! Dvě chyby dnes (ot. 3, 4) nebyly znalostní, ale z rychlosti — chyták příště zopakovat v jiném hávu</li><li>Compliance vs. transparentnost (tipping-off) — jen nakousnuto</li><li>Z kurikula zbývá: reference chain do hloubky (EndToEndId/UETR/TxId systematicky — hodně už pokryto průběžně), MT↔MX mapování, CLS/PvP detailněji, SCT vs. Inst filozofie souhrnně</li></ul>
+<p>Máme za sebou 9 lekcí a kurikulum se blíží dnu. Návrh na příště: <strong>reference chain jako syntéza</strong> — vzít jednu platbu s returnem, recallem a coverem a projít VŠECHNY reference, kdo je tvoří, kdo páruje. Byla by to zároveň velká opakovací lekce. Nebo chceš radši MT↔MX mapování?</p></div></div>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>raději bych velkou opakovací lekci 
+
+MT MX mapování už doufám nebude potřeba 
+snad už MT brzo zmizí ze světa 😬😁</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Malá korekce naděje, ať nečekáš marně: pro <strong>platby</strong> už se to stalo — listopad 2025 ukončil MT/MX koexistenci v CBPR+, mezibankovní platební zprávy (MT103/202 svět) jsou v cross-border provozu oficiálně minulostí. Ale MT jako takové jen tak nezmizí: kategorie 3 (FX konfirmace), 5 (securities), 7 (trade finance) žádný sunset nemají. Takže v payments engine se dočkáš, v bance jako celku ne. 😉</p>
+<h2>Lekce 10: Velká opakovací — jedna platba, všechny reference, celý kurz</h2>
+<p>Formát dnes jinak: <strong>žádný nový výklad.</strong> Místo toho jeden souvislý příběh a otázky, které z něj vytahují látku všech devíti lekcí. Příběh si drž před očima, budu se na něj odkazovat čísly kroků.</p>
+<p><strong>Příběh:</strong></p>
+<p>Německá firma <strong>Miele</strong> (účet u Commerzbank) platí <strong>500 000 USD</strong> japonskému dodavateli <strong>Kyocera</strong> (účet u MUFG Tokyo). Commerzbank nemá přímý vztah s MUFG — jede <strong>coverem</strong>: informační zpráva přímo MUFG, krytí přes Citi New York (nostro Commerzbank) → JPMorgan NY (nostro MUFG v USD).</p>
+<ol><li>Miele podává platbu (pain.001) — EndToEndId <code>MIELE-INV-2026-0847</code></li><li>Commerzbank vytváří pacs.008 přímo pro MUFG + pacs.009 COV pro Citi</li><li>Citi zpracovává, posílá pacs.009 COV dál na JPMorgan</li><li>JPMorgan připisuje nostro MUFG</li><li>MUFG páruje avízo s krytím... ale účet Kyocery je den předtím zrušen (firma změnila banku)</li><li>MUFG posílá return</li><li>Mezitím Miele zpanikařila (myslela, že platí podvodníkovi) a Commerzbank vyslala gSRP stop + recall — dorazil až po odeslání returnu</li><li>Return doteče, Commerzbank vrací Miele peníze</li></ol>
+<p><strong>Kvíz — reference a vlastnictví:</strong></p>
+<ol><li>Vyjmenuj, kolik různých UETR v celém příběhu existuje. Pozor, chyták — rozmysli si kroky 2 (dvě zprávy!) a 6.</li></ol>
+<ol><li>EndToEndId <code>MIELE-INV-2026-0847</code>: ve kterých zprávách příběhu se objeví a ve kterých ne? (Projdi pacs.008, oba pacs.009 COV, pacs.004.)</li></ol>
+<ol><li>Krok 3: Citi posílá pacs.009 dál. Které reference z Commerzbank zprávy <strong>zaniknou</strong> a které <strong>přežijí</strong>? Proč — pravidlo, ne výčet.</li></ol>
+<ol><li>Krok 5: MUFG páruje avízo s krytím. Podle čeho konkrétně? A proč nesmí párovat podle EndToEndId?</li></ol>
+<p><strong>Kvíz — taxonomie a osy:</strong></p>
+<ol><li>Krok 6: MUFG posílá return. Vůči komu — Commerzbank, nebo JPMorgan? Kudy tečou peníze a kudy informace? (Nápověda: return coveru je taky cover.)</li></ol>
+<ol><li>Krok 7: gSRP dorazil po odeslání returnu. Co s ním MUFG udělá — a je to porušení gSRP pravidel?</li></ol>
+<ol><li>V kroku 5–6 seděly USD na nostru MUFG u JPMorgan. Z pohledu MUFG bookingu: kde přesně ty peníze "byly" mezi settlementem coveru a settlementem returnu — a čí byly?</li></ol>
+<p><strong>Kvíz — filozofie napříč kurzem:</strong></p>
+<ol><li>Miele volá Commerzbank v kroku 7: "Zastavte to, je to podvod!" Commerzbank odpoví: "Uvidíme, co půjde." Vyjmenuj všechny důvody z kurzu, proč Commerzbank <strong>nemůže nic slíbit</strong> — od finality přes vlastnictví až po gSRP limity.</li></ol>
+<ol><li>Kdo v celém příběhu nese kurzové riziko EUR/USD — Miele platila z EUR účtu? (Doplň si: ano, Miele má EUR účet, platba šla v USD.) A ve kterém kroku se riziko realizuje?</li></ol>
+<ol><li>Závěrečná syntéza: v příběhu se vyskytly VŠECHNY tři "smrti platby" z lekce 6? Pokud ne, které ano, které ne — a kde by se ta chybějící mohla schovat?</li></ol>
+<p>Po jedné, klidně pomalu — je to maraton.</p></div></div>
+<div class="msg claude"><div class="label">Poznámka</div><div class="bubble"><p><em>Zde publikovaná část kurzu končí. Pokračování se opíralo o interní projektovou dokumentaci, a proto není zveřejněno.</em></p></div></div>
+</body></html>
