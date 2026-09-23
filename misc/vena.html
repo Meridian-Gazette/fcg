@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bankovní limity – přehled pro Air Bank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2F5F3;
+  --panel:#FFFFFF;
+  --panel-2:#F8FAF9;
+  --ink:#1B2430;
+  --ink-2:#4B5661;
+  --line:#D9E0DC;
+  --c1:#3453CF; --c1-bg:#E7ECFA;
+  --c2:#9A5F06; --c2-bg:#FBEFD9;
+  --c3:#0B7A51; --c3-bg:#DCF3E9;
+  --c4:#BF1F5F; --c4-bg:#F9E0EA;
+  --font:"Bricolage Grotesque","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:1.0625rem;line-height:1.55;font-optical-sizing:auto}
+.wrap{max-width:1040px;margin:0 auto;padding:clamp(24px,4vw,56px) clamp(16px,4vw,40px) 80px}
+
+h1,h2,h3{margin:0;line-height:1.1;letter-spacing:-.015em}
+h1{font-size:clamp(2.7rem,7vw,4.8rem);font-weight:800;font-variation-settings:"wdth" 88}
+h2{font-size:clamp(1.55rem,3vw,2.1rem);font-weight:700;margin-bottom:.6rem}
+h3{font-size:1.15rem;font-weight:700}
+p{margin:0 0 1rem}
+ul{margin:0;padding-left:1.1em}
+li{margin-bottom:.3em}
+em{font-style:italic}
+
+.kicker{color:var(--ink-2);margin:0 0 .6rem;font-size:.98rem}
+.lede{font-size:clamp(1.12rem,2vw,1.32rem);max-width:36em;color:var(--ink-2);margin-top:1.1rem;line-height:1.45}
+.intro{max-width:44em;color:var(--ink-2)}
+
+/* kategorie: barva = informace, drží se celým dokumentem */
+.r1,.t1,.k1,.p1{--c:var(--c1);--cbg:var(--c1-bg)}
+.r2,.t2,.k2,.p2{--c:var(--c2);--cbg:var(--c2-bg)}
+.r3,.t3,.k3,.p3{--c:var(--c3);--cbg:var(--c3-bg)}
+.r4,.t4,.k4,.p4{--c:var(--c4);--cbg:var(--c4-bg)}
+
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin:1.6rem 0 3.6rem}
+.chip{display:inline-flex;align-items:center;gap:.55em;padding:.4em .9em .4em .65em;border-radius:999px;font-weight:600;font-size:.96rem;color:var(--c);border:1.5px solid var(--c);background:var(--panel)}
+.chip::before{content:"";width:.7em;height:.7em;border-radius:50%;background:var(--c);flex:none}
+.chip small{font-weight:500;font-size:.9em;color:var(--ink-2)}
+
+.tag{display:inline-block;padding:.18em .6em;border-radius:6px;font-weight:700;background:var(--cbg);color:var(--c);white-space:nowrap}
+
+section{margin-bottom:4.2rem}
+
+/* hlavní tabulka */
+.tbl-wrap{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-top:1.4rem}
+table{width:100%;border-collapse:collapse}
+.main table{min-width:860px}
+th,td{text-align:left;vertical-align:top;padding:18px 16px;border-bottom:1px solid var(--line)}
+th{font-weight:600;color:var(--ink-2);font-size:.9rem;padding-top:13px;padding-bottom:13px;background:var(--panel-2)}
+tbody tr:last-child td{border-bottom:0}
+td.cat{border-left:6px solid var(--c);padding-left:14px;min-width:190px}
+td.cat strong{display:block;font-size:1.2rem;font-weight:700;letter-spacing:-.01em;line-height:1.2;margin-bottom:.35rem}
+td.cat .sub{color:var(--ink-2);font-size:.92rem;display:block}
+td.what{max-width:280px}
+.limit{display:inline-block;padding:.22em .7em;border-radius:6px;background:var(--cbg);color:var(--c);font-weight:700;font-size:1.02rem}
+.note{display:block;margin-top:.55rem;color:var(--ink-2);font-size:.92rem;line-height:1.45}
+td.where{color:var(--ink-2);font-size:.95rem;min-width:160px}
+td.where b{color:var(--ink);font-weight:600}
+
+/* rozhodovací posloupnost – jediné místo, kde má číslování smysl */
+.steps{list-style:none;padding:0;margin:1.2rem 0 0;counter-reset:s}
+.steps li{display:grid;grid-template-columns:3.4rem 1fr;gap:.6rem 1rem;padding:1.15rem 0;border-top:1px solid var(--line);counter-increment:s}
+.steps li:last-child{border-bottom:1px solid var(--line)}
+.steps li::before{content:counter(s);font-size:2.4rem;font-weight:800;line-height:.9;color:var(--ink);opacity:.22;font-variation-settings:"wdth" 78}
+.steps .q{font-weight:600;font-size:1.12rem;margin:0 0 .3rem;line-height:1.35}
+.steps .a{margin:0;color:var(--ink-2)}
+.callout{background:var(--panel);border:1px solid var(--line);border-left:6px solid var(--c4);border-radius:12px;padding:16px 20px;margin-top:1.6rem;max-width:52em}
+.callout p{margin:0}
+
+/* Google Pay – dvě tváře */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:1.3rem}
+.pane{background:var(--panel);border:1px solid var(--line);border-top:7px solid var(--c);border-radius:14px;padding:22px 22px 12px}
+.pane h3{margin-bottom:.7rem}
+.pane .verdict{color:var(--ink-2);margin-top:.2rem}
+.after{max-width:46em;margin-top:1.3rem}
+
+/* kvíz */
+.quiz-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:.6rem}
+.quiz-head h2{margin-bottom:0}
+.btn{font:inherit;font-weight:600;font-size:.98rem;padding:.55em 1.1em;border-radius:8px;border:1.5px solid var(--ink);background:var(--panel);color:var(--ink);cursor:pointer}
+.btn:hover{background:var(--ink);color:#fff}
+.btn:focus-visible{outline:3px solid var(--c1);outline-offset:2px}
+.quiz tr.q{cursor:pointer}
+.quiz tr.q td{transition:background .15s}
+.quiz tr.q:hover td{background:var(--panel-2)}
+.quiz tr.q:focus-visible{outline:3px solid var(--c1);outline-offset:-3px}
+.quiz td.sit{width:56%}
+.quiz td.ans{border-left:6px solid transparent;padding-left:14px}
+.quiz tr[aria-expanded="true"] td.ans{border-left-color:var(--c)}
+.quiz .placeholder{color:var(--ink-2);font-size:.95rem}
+.quiz .reveal{display:none}
+.quiz tr[aria-expanded="true"] .reveal{display:block}
+.quiz tr[aria-expanded="true"] .placeholder{display:none}
+.quiz .why{display:block;margin-top:.4rem;color:var(--ink-2);font-size:.93rem;line-height:1.45}
+.quiz .period{color:var(--ink-2);font-size:.93rem;margin-left:.4em}
+
+/* detaily */
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:22px 32px;margin-top:1.3rem}
+.notes h3{font-size:1.08rem;margin-bottom:.35rem}
+.notes p{color:var(--ink-2);margin:0;font-size:.98rem}
+.fine{margin-top:2.4rem;color:var(--ink-2);font-size:.9rem;max-width:52em}
+
+@media (max-width:720px){
+  .main table{min-width:0}
+  thead{display:none}
+  tbody tr{display:block;border-bottom:1px solid var(--line);border-left:6px solid var(--c);padding:6px 0 10px}
+  tbody tr:last-child{border-bottom:0}
+  td{display:block;border-bottom:0;padding:8px 16px}
+  td.cat{border-left:0;padding-left:16px;padding-top:16px;min-width:0}
+  td.what{max-width:none}
+  td[data-label]::before{content:attr(data-label);display:block;font-size:.8rem;font-weight:600;color:var(--ink-2);margin-bottom:.25rem}
+  .quiz td.sit{width:auto;padding-bottom:4px}
+  .quiz td.ans{border-left:0;padding-left:16px;padding-top:2px}
+  .quiz tr[aria-expanded="true"] td.ans{border-left:0}
+  .duo{grid-template-columns:1fr}
+  .steps li{grid-template-columns:2.6rem 1fr}
+  .steps li::before{font-size:2rem}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .quiz tr.q td{transition:none}
+}
+
+@media print{
+  body{background:#fff;font-size:10.5pt}
+  .wrap{padding:0;max-width:none}
+  .btn{display:none}
+  .tbl-wrap{overflow:visible;border-color:#bbb}
+  .main table{min-width:0}
+  .quiz tr[aria-expanded] .reveal{display:block!important}
+  .quiz tr[aria-expanded] .placeholder{display:none!important}
+  .quiz tr[aria-expanded] td.ans{border-left-color:var(--c)}
+  section{break-inside:avoid}
+  tr{break-inside:avoid}
+  .chip,.tag,.limit{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="kicker">Přehled pro účet u Air Bank</p>
+  <h1>Bankovní limity</h1>
+  <p class="lede">Peníze odchází z účtu čtyřmi různými cestami a každá má svůj vlastní strop, který se počítá jinak. Tenhle přehled je o tom, jak cestu poznat dřív, než ti platba neprojde.</p>
+  <div class="legend" aria-label="Čtyři kategorie">
+    <span class="chip k1">Platba z účtu v aplikaci <small>denní limit</small></span>
+    <span class="chip k2">Výběr z bankomatu <small>týdenní limit</small></span>
+    <span class="chip k3">Karta u terminálu <small>týdenní limit</small></span>
+    <span class="chip k4">Karta na internetu <small>týdenní limit</small></span>
+  </div>
+</header>
+
+<section class="main">
+  <h2>Čtyři kategorie, čtyři limity</h2>
+  <p class="intro">Banka nerozlišuje platby podle toho, <em>co</em> kupuješ, ale podle toho, <em>jak</em> technicky proběhnou. Proto může úplně stejný nákup spadnout do dvou různých kategorií podle toho, kterým tlačítkem ho zaplatíš.</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Způsob placení</th>
+        <th>Co se přitom fyzicky děje</th>
+        <th>Typické příklady</th>
+        <th>Limit</th>
+        <th>Kde ho změníš</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr class="r1">
+        <td class="cat"><strong>Platba z&nbsp;účtu v&nbsp;aplikaci</strong><span class="sub">převod, QR platba, trvalý příkaz</span></td>
+        <td class="what" data-label="Co se děje">Otevřeš aplikaci Air Bank a zadáš, komu a kolik posíláš. Peníze jdou přímo z&nbsp;tvého účtu na cizí účet; karta v&nbsp;tom nehraje žádnou roli. QR kód jen předvyplní číslo účtu a částku, pořád je to převod.</td>
+        <td data-label="Příklady">
+          <ul>
+            <li>Pošleš kamarádce 200&nbsp;Kč za pizzu.</li>
+            <li>Naskenuješ QR kód z&nbsp;faktury za kroužek.</li>
+            <li>V&nbsp;e‑shopu zvolíš „platba převodem“ místo karty.</li>
+            <li>Trvalý příkaz na spoření.</li>
+          </ul>
+        </td>
+        <td data-label="Limit"><span class="limit">Denní</span><span class="note">Součet všeho, co za jeden den zadáš z&nbsp;mobilní aplikace. Když zadáš platbu nad limit, aplikace ti rovnou nabídne ho upravit.</span></td>
+        <td class="where" data-label="Kde ho změníš">Aplikace → Menu → Nastavení a banka → <b>Limity plateb</b></td>
+      </tr>
+
+      <tr class="r2">
+        <td class="cat"><strong>Výběr z&nbsp;bankomatu</strong><span class="sub">hotovost</span></td>
+        <td class="what" data-label="Co se děje">Vložíš nebo přiložíš kartu, zadáš PIN, bankomat vydá hotovost. Jediná kategorie, kde z&nbsp;účtu odchází fyzické peníze.</td>
+        <td data-label="Příklady">
+          <ul>
+            <li>Výběr 500&nbsp;Kč v&nbsp;bankomatu Air Bank.</li>
+            <li>Výběr v&nbsp;bankomatu cizí banky nebo v&nbsp;zahraničí.</li>
+            <li>Pozor: hotovost od pokladní (CashBack) sem <em>nepatří</em>, viz další řádek.</li>
+          </ul>
+        </td>
+        <td data-label="Limit"><span class="limit">Týdenní</span><span class="note">Součet výběrů od pondělí do neděle.</span></td>
+        <td class="where" data-label="Kde ho změníš">Aplikace → detail karty → <b>Upravit limity</b></td>
+      </tr>
+
+      <tr class="r3">
+        <td class="cat"><strong>Karta u&nbsp;terminálu</strong><span class="sub">obchod, automat, čtečka v&nbsp;MHD</span></td>
+        <td class="what" data-label="Co se děje">Karta, telefon s&nbsp;Google Pay, nálepka nebo hodinky se přiloží k&nbsp;terminálu. Ten si s&nbsp;kartou vymění data přes čip nebo NFC; u&nbsp;větších částek (obvykle nad 500&nbsp;Kč) zadáš PIN. Banka to vidí jako platbu <em>s&nbsp;přítomností karty</em>.</td>
+        <td data-label="Příklady">
+          <ul>
+            <li>Nákup v&nbsp;Lidlu, ať kartou nebo telefonem.</li>
+            <li>Káva z&nbsp;automatu.</li>
+            <li>Jízdenka přiložením karty k&nbsp;čtečce v&nbsp;tramvaji.</li>
+            <li>Samoobslužná kasa v&nbsp;McDonald’s.</li>
+            <li>CashBack: hotovost od pokladní k&nbsp;nákupu.</li>
+          </ul>
+        </td>
+        <td data-label="Limit"><span class="limit">Týdenní</span><span class="note">Pondělí až neděle. CashBack se počítá sem, ne k&nbsp;bankomatům.</span></td>
+        <td class="where" data-label="Kde ho změníš">Aplikace → detail karty → <b>Upravit limity</b></td>
+      </tr>
+
+      <tr class="r4">
+        <td class="cat"><strong>Karta na internetu</strong><span class="sub">web, aplikace, G&nbsp;Pay tlačítko, uložená karta</span></td>
+        <td class="what" data-label="Co se děje">Kartu nikam nepřikládáš. Obchodník dostane její údaje digitálně: číslo karty, platnost a CVC. Buď je opíšeš sama, nebo je za tebe odešle Google Pay, Apple Pay nebo aplikace, kde máš kartu uloženou. Banka to vidí jako platbu <em>bez přítomnosti karty</em> a často si ji nechá potvrdit v&nbsp;aplikaci Air Bank.</td>
+        <td data-label="Příklady">
+          <ul>
+            <li>Nákup na Zalandu, Vinted nebo Temu.</li>
+            <li>Skin ve hře přes Google Play.</li>
+            <li>Netflix nebo Spotify strhne předplatné.</li>
+            <li>Bolt strhne jízdu z&nbsp;uložené karty.</li>
+            <li>Kliknutí na tlačítko G&nbsp;Pay v&nbsp;e‑shopu.</li>
+          </ul>
+        </td>
+        <td data-label="Limit"><span class="limit">Týdenní</span><span class="note">Pondělí až neděle. Oddělený od limitu u&nbsp;terminálu.</span></td>
+        <td class="where" data-label="Kde ho změníš">Aplikace → detail karty → <b>Upravit limity</b></td>
+      </tr>
+
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section>
+  <h2>Jak to poznat za tři sekundy</h2>
+  <p class="intro">Ptej se v&nbsp;tomhle pořadí. První otázka, na kterou odpovíš ano, rozhoduje.</p>
+  <ol class="steps">
+    <li>
+      <p class="q">Otevřela jsi aplikaci Air Bank, abys sama zadala nebo naskenovala platbu?</p>
+      <p class="a"><span class="tag t1">Platba z účtu</span> &nbsp;denní limit</p>
+    </li>
+    <li>
+      <p class="q">Stojíš u&nbsp;bankomatu a chceš hotovost?</p>
+      <p class="a"><span class="tag t2">Výběr z bankomatu</span> &nbsp;týdenní limit</p>
+    </li>
+    <li>
+      <p class="q">Přikládáš kartu, telefon nebo hodinky k&nbsp;terminálu či čtečce?</p>
+      <p class="a"><span class="tag t3">Karta u terminálu</span> &nbsp;týdenní limit</p>
+    </li>
+    <li>
+      <p class="q">Opisuješ údaje karty, nebo klikáš na G&nbsp;Pay, Apple Pay či „zaplatit uloženou kartou“ na webu nebo v&nbsp;aplikaci?</p>
+      <p class="a"><span class="tag t4">Karta na internetu</span> &nbsp;týdenní limit</p>
+    </li>
+  </ol>
+  <div class="callout">
+    <p><strong>Past:</strong> vyskočilo ti potvrzení v&nbsp;aplikaci Air Bank? To samo o&nbsp;sobě nic neznamená. Platby kartou na internetu se také potvrzují v&nbsp;aplikaci, jde jen o&nbsp;ověření, že jsi to ty. Rozhoduje, <em>kde platba vznikla</em>, ne kde jsi ji potvrdila.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Google Pay: jedna peněženka, dvě kategorie</h2>
+  <p class="intro">Google Pay není nový způsob placení. Je to peněženka, ve které máš uloženou svou kartu z&nbsp;Air Bank. Pokaždé, když přes ni platíš, platíš tou kartou, a kategorie se řídí tím, <em>kde</em> ji použiješ, ne tím, že jsi vzala do ruky telefon.</p>
+  <div class="duo">
+    <article class="pane p3">
+      <h3>Telefon přiložíš k&nbsp;terminálu</h3>
+      <p>Telefon se chová jako bezkontaktní karta. Terminál s&nbsp;ním komunikuje přes NFC úplně stejně jako s&nbsp;plastovou kartou; jen místo PINu se odemkneš otiskem nebo obličejem.</p>
+      <p class="verdict">Pro banku: platba kartou v&nbsp;obchodě.</p>
+      <p><span class="tag t3">Karta u terminálu</span></p>
+    </article>
+    <article class="pane p4">
+      <h3>Klikneš na tlačítko G&nbsp;Pay na webu nebo v&nbsp;aplikaci</h3>
+      <p>Google vytáhne tvoji uloženou kartu a odešle obchodníkovi její údaje za tebe. Neposílá pravé číslo karty, ale náhradní číslo (token) svázané s&nbsp;tvým telefonem. Pro banku i pro limit je to ale úplně stejná operace, jako kdybys číslo karty, platnost a CVC opsala ručně.</p>
+      <p class="verdict">Pro banku: platba kartou na internetu.</p>
+      <p><span class="tag t4">Karta na internetu</span></p>
+    </article>
+  </div>
+  <p class="after">Totéž platí pro Apple Pay a pro každou aplikaci, kde máš kartu uloženou: Bolt, Uber, Lítačka, Google Play, App Store. Uložená karta znamená platbu kartou na internetu, i když ti připadá, že jsi „jen klikla“.</p>
+</section>
+
+<section class="quiz">
+  <div class="quiz-head">
+    <h2>Kam to patří?</h2>
+    <button class="btn" id="toggleAll" type="button">Odhalit všechny odpovědi</button>
+  </div>
+  <p class="intro">Ťukni na řádek a ukáže se odpověď.</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <thead>
+      <tr><th>Situace</th><th>Kategorie a limit</th></tr>
+    </thead>
+    <tbody>
+
+      <tr class="q r1" role="button" tabindex="0" aria-expanded="false">
+        <td class="sit">V&nbsp;aplikaci Air Bank naskenuješ QR kód z&nbsp;faktury za tábor.</td>
+        <td class="ans"><span class="placeholder">ťukni pro odpověď</span><span class="reveal"><span class="tag t1">Platba z účtu</span><span class="period">denní limit</span><span class="why">QR kód jen předvyplnil převod za tebe.</span></span></td>
+      </tr>
+
+      <tr class="q r3" role="button" tabindex="0" aria-expanded="false">
+        <td class="sit">Zaplatíš telefonem u&nbsp;pokladny v&nbsp;Lidlu.</td>
+        <td class="ans"><span class="placeholder">ťukni pro odpověď</span><span class="reveal"><span class="tag t3">Karta u terminálu</span><span class="period">týdenní limit</span><span class="why">Telefon se u&nbsp;terminálu chová jako karta.</span></span></td>
+      </tr>
+
+      <tr class="q r4" role="button" tabindex="0" aria-expanded="false">
+        <td class="sit">Koupíš si skin ve hře přes Google Play.</td>
+        <td class="ans"><span class="placeholder">ťukni pro odpověď</span><span class="reveal"><span class="tag t4">Karta na internetu</span><span class="period">týdenní limit</span><span class="why">Uložená karta, nikam ji nepřikládáš.</span></span></td>
+      </tr>
+
+      <tr class="q r2" role="button" tabindex="0" aria-expanded="false">
+        <td class="sit">Vybereš 1&nbsp;000&nbsp;Kč z&nbsp;bankomatu na nádraží.</td>
+        <td class="ans"><span class="placeholder">ťukni pro odpověď</span><span class="reveal"><span class="tag t2">Výběr z bankomatu</span><span class="period">týdenní limit</span></span></td>
+      </tr>
+
+      <tr class="q r1" role="button" tabindex="0" aria-expanded="false">
+        <td class="sit">Kamarádka ti pošle číslo účtu a ty jí přepošleš 200&nbsp;Kč za lístek.</td>
+        <td class="ans"><span class="placeholder">ťukni pro odpověď</span><span class="reveal"><span class="tag t1">Platba z účtu</span><span class="period">denní limit</span><span class="why">Ruční převod v&nbsp;aplikaci.</span></span></td>
+      </tr>
+
+      <tr class="q r4" role="button" tabindex="0" aria-expanded="false">
+        <td class="sit">Objednáš Bolt a jízda se strhne sama po dojetí.</td>
+        <td class="ans"><span class="placeholder">ťukni pro odpověď</span><span class="reveal"><span class="tag t4">Karta na internetu</span><span class="period">týdenní limit</span><span class="why">Karta uložená v&nbsp;aplikaci Boltu.</span></span></td>
+      </tr>
+
+      <tr class="q r3" role="button" tabindex="0" aria-expanded="false">
+        <td class="sit">Káva z&nbsp;automatu přiložením karty.</td>
+        <td class="ans"><span class="placeholder">ťukni pro odpověď</span><span class="reveal"><span class="tag t3">Karta u terminálu</span><span class="period">týdenní limit</span><span class="why">Automat je jen terminál bez prodavače.</span></span></td>
+      </tr>
+
+      <tr class="q r4" role="button" tabindex="0" aria-expanded="false">
+        <td class="sit">V&nbsp;e‑shopu klikneš na tlačítko G&nbsp;Pay.</td>
+        <td class="ans"><span class="placeholder">ťukni pro odpověď</span><span class="reveal"><span class="tag t4">Karta na internetu</span><span class="period">týdenní limit</span><span class="why">Google odeslal údaje karty za tebe.</span></span></td>
+      </tr>
+
+      <tr class="q r1" role="button" tabindex="0" aria-expanded="false">
+        <td class="sit">Ve stejném e‑shopu zvolíš „platba převodem“ a zaplatíš QR kódem z&nbsp;aplikace.</td>
+        <td class="ans"><span class="placeholder">ťukni pro odpověď</span><span class="reveal"><span class="tag t1">Platba z účtu</span><span class="period">denní limit</span><span class="why">Stejný nákup, jiná cesta peněz.</span></span></td>
+      </tr>
+
+      <tr class="q r3" role="button" tabindex="0" aria-expanded="false">
+        <td class="sit">U&nbsp;pokladny si necháš k&nbsp;nákupu vyplatit 500&nbsp;Kč hotově (CashBack).</td>
+        <td class="ans"><span class="placeholder">ťukni pro odpověď</span><span class="reveal"><span class="tag t3">Karta u terminálu</span><span class="period">týdenní limit</span><span class="why">Počítá se k&nbsp;platbám v&nbsp;obchodech, ne k&nbsp;bankomatu.</span></span></td>
+      </tr>
+
+      <tr class="q r4" role="button" tabindex="0" aria-expanded="false">
+        <td class="sit">Netflix si strhne měsíční předplatné.</td>
+        <td class="ans"><span class="placeholder">ťukni pro odpověď</span><span class="reveal"><span class="tag t4">Karta na internetu</span><span class="period">týdenní limit</span><span class="why">Opakovaná platba z&nbsp;uložené karty.</span></span></td>
+      </tr>
+
+      <tr class="q r3" role="button" tabindex="0" aria-expanded="false">
+        <td class="sit">Jízdenka přiložením karty k&nbsp;čtečce v&nbsp;tramvaji.</td>
+        <td class="ans"><span class="placeholder">ťukni pro odpověď</span><span class="reveal"><span class="tag t3">Karta u terminálu</span><span class="period">týdenní limit</span><span class="why">Čtečka je terminál jako každý jiný.</span></span></td>
+      </tr>
+
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section>
+  <h2>Detaily, které se hodí znát</h2>
+  <div class="notes">
+    <div>
+      <h3>Limit je součet, ne strop jedné platby</h3>
+      <p>Máš třeba na platby u&nbsp;terminálu 2&nbsp;000&nbsp;Kč týdně. V&nbsp;pondělí utratíš 800&nbsp;Kč, ve středu 900&nbsp;Kč. Do neděle půlnoci ti zbývá 300&nbsp;Kč, i kdyby na účtu leželo pět tisíc. V&nbsp;pondělí ráno máš zase celé dva tisíce.</p>
+    </div>
+    <div>
+      <h3>Týden začíná v&nbsp;pondělí</h3>
+      <p>Týdenní limity karty Air Bank počítá od pondělí do neděle a o&nbsp;půlnoci z&nbsp;neděle na pondělí je vynuluje.</p>
+    </div>
+    <div>
+      <h3>Tři limity karty jsou oddělené</h3>
+      <p>Vyčerpaný limit na internet ti nebrání zaplatit v&nbsp;obchodě nebo vybrat z&nbsp;bankomatu. Každý má svůj vlastní strop.</p>
+    </div>
+    <div>
+      <h3>Dočasná změna vydrží jen do neděle</h3>
+      <p>Když si limit karty zvýšíš dočasně, na konci týdne se sám vrátí na původní hodnotu. Trvalá změna zůstane.</p>
+    </div>
+    <div>
+      <h3>Aplikace a počítač mají každý svůj denní limit</h3>
+      <p>Platby z&nbsp;účtu zadané v&nbsp;mobilní aplikaci a v&nbsp;internetovém bankovnictví na počítači se počítají zvlášť.</p>
+    </div>
+    <div>
+      <h3>U&nbsp;dětského účtu mění limity karty rodič</h3>
+      <p>Pokud je účet vedený jako účet pro dítě, limity karty nastavuje majitel účtu ve svém internetovém bankovnictví (Účty a karty → Účet pro dítě). Disponent si limity plateb sám může jen snížit.</p>
+    </div>
+  </div>
+  <p class="fine">Aktuální hodnoty svých limitů vidíš v&nbsp;aplikaci Air Bank u&nbsp;karty a v&nbsp;Limitech plateb. Zpracováno podle nápovědy Air Bank, stav září 2026.</p>
+</section>
+
+</div>
+
+<script>
+(function(){
+  var rows=document.querySelectorAll('.quiz tr.q');
+  var btn=document.getElementById('toggleAll');
+  var all=false;
+  function toggle(r){r.setAttribute('aria-expanded',r.getAttribute('aria-expanded')==='true'?'false':'true');}
+  rows.forEach(function(r){
+    r.addEventListener('click',function(){toggle(r);});
+    r.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle(r);}});
+  });
+  btn.addEventListener('click',function(){
+    all=!all;
+    rows.forEach(function(r){r.setAttribute('aria-expanded',all?'true':'false');});
+    btn.textContent=all?'Skrýt odpovědi':'Odhalit všechny odpovědi';
+  });
+  window.addEventListener('beforeprint',function(){rows.forEach(function(r){r.setAttribute('aria-expanded','true');});});
+})();
+</script>
+</body>
+</html>
