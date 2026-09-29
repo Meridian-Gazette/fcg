@@ -1,0 +1,944 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Henry Kissinger a islamismus</title>
+  <style>
+    :root {
+      --ink: #17212b;
+      --muted: #586474;
+      --paper: #fbfaf7;
+      --panel: #ffffff;
+      --line: #d9d7d0;
+      --accent: #7b3f2a;
+      --accent-soft: #f3e9e3;
+      --blue: #2d526f;
+      --blue-soft: #eaf0f4;
+      --green: #375f4a;
+      --green-soft: #e8f0eb;
+      --warn: #7b5a18;
+      --warn-soft: #f6f0df;
+      --shadow: 0 10px 30px rgba(23, 33, 43, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      line-height: 1.68;
+    }
+
+    a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 0.16em; }
+    a:hover { color: var(--accent); }
+
+    .hero {
+      background:
+        linear-gradient(120deg, rgba(25,35,45,.94), rgba(63,44,36,.90)),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,.08), transparent 35%);
+      color: #fff;
+      padding: 5.5rem 1.5rem 4.5rem;
+      border-bottom: 6px solid #b78668;
+    }
+
+    .hero-inner, main, .footer-inner {
+      width: min(1120px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      margin: 0 0 .8rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .82rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #e7cbb9;
+    }
+
+    h1 {
+      max-width: 900px;
+      margin: 0;
+      font-size: clamp(2.45rem, 6vw, 4.8rem);
+      line-height: 1.05;
+      font-weight: 600;
+      letter-spacing: -.025em;
+    }
+
+    .subtitle {
+      max-width: 850px;
+      margin: 1.5rem 0 0;
+      color: #ece8e4;
+      font-size: clamp(1.08rem, 2.3vw, 1.35rem);
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem 1.4rem;
+      margin-top: 2rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .88rem;
+      color: #d8d2cd;
+    }
+
+    main { padding: 3.5rem 0 5rem; }
+
+    .lede {
+      padding: 1.7rem 1.9rem;
+      border-left: 5px solid var(--accent);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      font-size: 1.15rem;
+      margin-bottom: 2.3rem;
+    }
+
+    .lede strong { color: var(--accent); }
+
+    .method-note {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1.3rem 1.5rem;
+      background: #f6f4ef;
+      color: #38434e;
+      margin: 1.7rem 0 2.5rem;
+      font-size: .98rem;
+    }
+
+    .method-note p { margin: .4rem 0; }
+
+    nav.toc {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1.5rem 1.7rem;
+      box-shadow: var(--shadow);
+      margin: 2rem 0 3.2rem;
+    }
+
+    nav.toc h2 {
+      margin-top: 0;
+      font-size: 1.25rem;
+      border: 0;
+      padding: 0;
+    }
+
+    nav.toc ol {
+      columns: 2;
+      column-gap: 2.6rem;
+      margin: .8rem 0 0;
+      padding-left: 1.35rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .95rem;
+    }
+
+    nav.toc li { margin: .42rem 0; break-inside: avoid; }
+
+    h2 {
+      margin: 4rem 0 1.35rem;
+      padding-bottom: .55rem;
+      border-bottom: 2px solid var(--line);
+      font-size: clamp(1.65rem, 3vw, 2.3rem);
+      line-height: 1.2;
+      font-weight: 600;
+    }
+
+    h3 {
+      margin: 2.4rem 0 .8rem;
+      font-size: 1.35rem;
+      line-height: 1.3;
+      color: var(--accent);
+    }
+
+    h4 {
+      margin: 1.8rem 0 .5rem;
+      font-size: 1.08rem;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--blue);
+    }
+
+    p { margin: .85rem 0; }
+
+    .source-ref {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .82rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .grid-2, .grid-3 {
+      display: grid;
+      gap: 1.2rem;
+      margin: 1.5rem 0 2rem;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1.35rem 1.45rem;
+      background: var(--panel);
+      box-shadow: 0 5px 18px rgba(23,33,43,.045);
+    }
+
+    .card h3, .card h4 { margin-top: 0; }
+    .card p:last-child { margin-bottom: 0; }
+    .card.fear { border-top: 5px solid var(--accent); }
+    .card.respect { border-top: 5px solid var(--green); }
+    .card.future { border-top: 5px solid var(--blue); }
+
+    .label {
+      display: inline-block;
+      margin-bottom: .7rem;
+      padding: .25rem .55rem;
+      border-radius: 999px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+    .label.red { background: var(--accent-soft); color: var(--accent); }
+    .label.green { background: var(--green-soft); color: var(--green); }
+    .label.blue { background: var(--blue-soft); color: var(--blue); }
+    .label.gold { background: var(--warn-soft); color: var(--warn); }
+
+    blockquote {
+      margin: 1.5rem 0;
+      padding: 1rem 1.25rem;
+      border-left: 4px solid #9b806e;
+      background: #f5f1ed;
+      color: #303b44;
+      font-size: 1.03rem;
+    }
+
+    blockquote p { margin: 0; }
+    blockquote cite {
+      display: block;
+      margin-top: .55rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .8rem;
+      color: var(--muted);
+      font-style: normal;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.4rem 0 2.2rem;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      font-size: .95rem;
+    }
+
+    caption {
+      text-align: left;
+      margin-bottom: .55rem;
+      color: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .84rem;
+    }
+
+    th, td {
+      text-align: left;
+      vertical-align: top;
+      padding: .9rem 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    th {
+      background: #ece9e3;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .82rem;
+      letter-spacing: .035em;
+      text-transform: uppercase;
+      color: #33404c;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .key-point {
+      margin: 2rem 0;
+      padding: 1.25rem 1.45rem;
+      border: 1px solid #c7d6df;
+      border-radius: 14px;
+      background: var(--blue-soft);
+    }
+
+    .key-point strong { color: var(--blue); }
+
+    .warning {
+      margin: 2rem 0;
+      padding: 1.25rem 1.45rem;
+      border: 1px solid #e0d0a7;
+      border-radius: 14px;
+      background: var(--warn-soft);
+    }
+
+    .theses {
+      counter-reset: thesis;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .thesis {
+      counter-increment: thesis;
+      position: relative;
+      padding: 1.2rem 1.25rem 1.2rem 3.4rem;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+
+    .thesis::before {
+      content: counter(thesis);
+      position: absolute;
+      left: 1rem;
+      top: 1.05rem;
+      width: 1.75rem;
+      height: 1.75rem;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .82rem;
+      font-weight: 700;
+    }
+
+    .thesis strong { display: block; margin-bottom: .25rem; color: #27333e; }
+    .thesis p { margin: 0; font-size: .95rem; }
+
+    details {
+      margin: .85rem 0;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+      overflow: hidden;
+    }
+
+    summary {
+      cursor: pointer;
+      padding: 1rem 1.2rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      color: #2f3d48;
+      background: #f1efea;
+    }
+
+    details[open] summary { border-bottom: 1px solid var(--line); }
+    .detail-body { padding: 1rem 1.25rem 1.2rem; }
+    .detail-body p:first-child { margin-top: 0; }
+    .detail-body p:last-child { margin-bottom: 0; }
+
+    .verdict {
+      margin: 3rem 0 1rem;
+      padding: 1.8rem 1.9rem;
+      border-radius: 16px;
+      background: #1d2a34;
+      color: #f4f2ef;
+      box-shadow: var(--shadow);
+    }
+
+    .verdict h2 {
+      margin-top: 0;
+      color: white;
+      border-bottom-color: rgba(255,255,255,.2);
+    }
+
+    .verdict strong { color: #f1cdb7; }
+
+    .source-list {
+      padding-left: 1.2rem;
+      font-size: .92rem;
+      color: #35414d;
+    }
+
+    .source-list li { margin: .55rem 0; }
+
+    footer {
+      border-top: 1px solid var(--line);
+      background: #efede8;
+      color: var(--muted);
+      padding: 2rem 1rem 2.5rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .82rem;
+    }
+
+    .smallcaps {
+      font-variant: small-caps;
+      letter-spacing: .04em;
+    }
+
+    @media (max-width: 860px) {
+      .grid-2, .grid-3, .theses { grid-template-columns: 1fr; }
+      nav.toc ol { columns: 1; }
+      body { font-size: 17px; }
+      th, td { padding: .75rem .7rem; }
+      table { display: block; overflow-x: auto; }
+    }
+
+    @media print {
+      body { background: white; font-size: 11pt; }
+      .hero { padding: 2rem 0; background: white; color: black; border-bottom: 2px solid black; }
+      .hero .eyebrow, .hero .subtitle, .hero .meta { color: #333; }
+      main { padding: 1rem 0; }
+      nav.toc, .card, .lede, .verdict { box-shadow: none; }
+      details { break-inside: avoid; }
+      details > .detail-body { display: block; }
+      a { color: black; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Henry Kissinger · World Order (2014)</p>
+      <h1>Henry Kissinger a islamismus</h1>      
+      <div class="meta">        
+        <span>Strany označují stránky PDF</span>      
+      </div>
+      <div class="meta">        
+        <span>Rozbor textu, nikoli výklad „pravého islámu“</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="lede" aria-label="Hlavní teze">
+      <strong>Summary:</strong> Kissinger se nebojí islámu jednoduše jako víry. Má však výraznou obavu z <em>islamismu</em> jako univerzalistického politického programu, který může odmítat trvalou legitimitu pluralitního systému států. Současně chová k islámu značný, byť převážně strategický respekt: obdivuje jeho historickou dynamiku, schopnost vytvořit nadnárodní loajalitu, civilizační vytrvalost i státnické tradice Persie, Osmanů a některých moderních muslimských států. Nečeká, že islám zmizí nebo zeslábne do bezvýznamnosti. Nevěří ale ani v nevyhnutelné vítězství jednotného islámského řádu. Spíše předpokládá dlouhý zápas <em>uvnitř</em> muslimského světa mezi státem, impériem a revoluční „kauzou“ — a soudí, že jeho nejpravděpodobnějším nebezpečím není jednotný chalífát, nýbrž rozpad států, sektářská válka a ozbrojené nestátní organizace.
+    </section>
+
+    <nav class="toc" aria-label="Obsah">
+      <h2>Obsah </h2>
+      <ol>
+        <li><a href="#mapa">Kde o islámu v knize píše</a></li>
+        <li><a href="#vychozi">Výchozí bod: islám jako otázka řádu</a></li>
+        <li><a href="#slovnik">Kissingerův pojmový slovník</a></li>
+        <li><a href="#historie">Historická interpretace islámu</a></li>
+        <li><a href="#islamismus">Od islámu k modernímu islamismu</a></li>
+        <li><a href="#iran">Írán: země, impérium, nebo kauza</a></li>
+        <li><a href="#arabsky-svet">Arabské jaro, stát a demokracie</a></li>
+        <li><a href="#odpovedi">Strach, respekt a budoucnost</a></li>
+        <li><a href="#myslenky">Hlavní myšlenky</a></li>
+        <li><a href="#kontroverze">Hlavní kontroverze</a></li>
+        <li><a href="#co-netvrdi">Co by bylo nepřesné mu přisuzovat</a></li>
+        <li><a href="#zaver">Syntéza</a></li>
+      </ol>
+    </nav>
+
+    <section id="mapa">
+      <h2>1. Kde o islámu v knize píše</h2>
+      <p>Jádro výkladu se nachází v kapitole 3, ale Kissingerův obraz islámu se skládá z několika vrstev rozptýlených po celé knize. Pro úplné pochopení nestačí přečíst jen pasáže o džihádu.</p>
+
+      <table>
+        <caption></caption>
+        <thead>
+          <tr>
+            <th>Část knihy</th>
+            <th>PDF strany</th>
+            <th>Proč je důležitá</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Úvod: <em>The Question of World Order</em></td>
+            <td>13–14</td>
+            <td>Zařazuje islámské pojetí mezi několik historických univerzálních koncepcí řádu a hned vymezuje současnou hrozbu rozpadu státu.</td>
+          </tr>
+          <tr>
+            <td>Kapitola 3: <em>Islamism and the Middle East: A World in Disorder</em></td>
+            <td>65–89</td>
+            <td>Hlavní výklad raného islámu, chalífátu, džihádu, Osmanů, koloniálních hranic, Muslimského bratrstva, Qutba, Arabského jara, Palestiny, Saúdské Arábie a rozpadu států.</td>
+          </tr>
+          <tr>
+            <td>Kapitola 4: <em>The United States and Iran</em></td>
+            <td>92–104</td>
+            <td>Nejucelenější analýza šíitského revolučního islamismu a zároveň nejzřetelnější projev Kissingerova respektu k perské civilizaci a státnictví.</td>
+          </tr>
+          <tr>
+            <td>Kapitola 5: Asie a Indie</td>
+            <td>107–124</td>
+            <td>Nepřímý korektiv: ukazuje muslimské společnosti v Asii uvnitř státocentrického, westfálského prostředí a Indii jako příklad překonávání náboženských rozdílů občanskou identitou.</td>
+          </tr>
+          <tr>
+            <td>Kapitola 8: Afghánistán a Irák</td>
+            <td>185–191</td>
+            <td>Praktické důsledky střetu islamistického a amerického univerzalismu; kritika jak džihádismu, tak vojenského exportu demokracie.</td>
+          </tr>
+          <tr>
+            <td>Závěr: <em>Where Do We Go from Here?</em></td>
+            <td>216–217</td>
+            <td>Radikální islamistický řád uvádí jako jednu z možných soupeřících sfér; řešením má být modernizovaná procedurální forma světového řádu.</td>
+          </tr>
+          <tr>
+            <td>Poznámka autora ke kapitole 3</td>
+            <td>243</td>
+            <td>Výslovně omezuje platnost své analýzy: konfrontační proudy nejsou totéž co islám všech muslimů.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="vychozi">
+      <h2>2. Výchozí bod: islám jako otázka světového řádu</h2>
+
+      <p>Kissinger není v této knize teolog ani religionista. Zajímá ho především otázka: <strong>Co určitá civilizace považuje za legitimní politické uspořádání a jak se toto pojetí snáší s existencí jiných uspořádání?</strong> Islám proto nečte primárně skrze modlitbu, mystiku, etiku, rodinný život, právo každodennosti, umění nebo filozofii. Čte ho jako historickou teorii legitimní moci.</p>
+
+      <p>Jeho základní měřítko je westfálský systém: soustava teritoriálních států, které si navzájem přiznávají suverenitu, právní rovnost a zásadu nevměšování, aniž by musely sdílet stejnou víru či vnitřní režim. Kissinger tento systém nepovažuje za morálně dokonalý; považuje ho za historicky nejpraktičtější mechanismus, jak umožnit koexistenci společností s neslučitelnými představami o pravdě. <span class="source-ref">[PDF s. 13–15]</span></p>
+
+      <p>V jeho konstrukci je tradiční islámský řád zásadně jiný. Není založen na rovnováze několika legitimních částí, nýbrž na představě jediné božsky sankcionované jednoty, která má přinést mír tím, že zahrne svět do správného řádu. Proto Kissinger v úvodu staví vedle sebe evropskou pluralitu, čínskou hierarchii, americký demokratický univerzalismus a islámský nábožensko-politický univerzalismus. <span class="source-ref">[PDF s. 13]</span></p>
+
+      <div class="key-point">
+        <strong>Klíč k jeho myšlení:</strong> Pro Kissingera není hlavní dělící čára „křesťanství versus islám“. Je to spíše <em>pluralitní procedurální řád versus univerzalismus, který pokládá jiný řád za <b>morálně nelegitimní</b></em>. Proto srovnává politický islamismus nejen s křesťanskými křížovými výpravami, ale také s Francouzskou revolucí, komunismem a <b>americkým sklonem vyvážet univerzální hodnoty.</b>
+      </div>
+
+      <p>Toto srovnání je důležité. Kissinger neprezentuje potřebu přetvářet svět podle jediné pravdy jako výlučně islámský problém. V kapitole o Francouzské revoluci píše, že její představa byla podobná islámu a později komunismu: trvalé soužití různých koncepcí pravdy se stává nemožným a mezinárodní politika se mění v celosvětový ideologický zápas. Jeho skutečným protivníkem je tedy <strong>absolutizovaný univerzalismus</strong>. V případě islamismu však vidí jeho zvláštní současnou vojenskou a geopolitickou podobu.</p>
+    </section>
+
+    <section id="slovnik">
+      <h2>3. Kissingerův pojmový slovník</h2>
+      <p>Kissinger používá několik blízkých pojmů. Pro porozumění jeho argumentu je nezbytné je rozlišit — a zároveň sledovat okamžiky, kdy je sám začíná směšovat.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Pojem</th>
+            <th>Jak funguje v knize</th>
+            <th>Čtenářská výhrada</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Islám</strong></td>
+            <td>Víra, civilizace a historické společenství, které v počátcích spojilo náboženskou a politickou autoritu a vytvořilo rozsáhlý nadnárodní prostor.</td>
+            <td>Kniha věnuje málo pozornosti islámu jako žitému náboženství mimo jeho vztah k moci.</td>
+          </tr>
+          <tr>
+            <td><strong>Islámský světový řád</strong></td>
+            <td>Idealizovaný historicko-právní model jednotného <em>dar al-Islam</em>, stojícího proti <em>dar al-harb</em>, s mírem dosaženým rozšířením správného řádu.</td>
+            <td>Jde o analytický ideální typ, nikoli věrný popis všech dob, právních škol a muslimských společností.</td>
+          </tr>
+          <tr>
+            <td><strong>Islamismus</strong></td>
+            <td>Moderní ideologie, která chce učinit muslimské Písmo hlavním arbitrem osobního, politického i mezinárodního života a překonat sekulární národní stát.</td>
+            <td>Toto je nejpřesnější označení skutečného objektu Kissingerovy obavy.</td>
+          </tr>
+          <tr>
+            <td><strong>Džihádismus</strong></td>
+            <td>Ozbrojená revoluční forma islamismu, reprezentovaná v knize zejména al-Káidou, Tálibánem, ISIL a částí šíitských milicí.</td>
+            <td>Je podmnožinou islamismu; není synonymem islámu ani všech islamistických hnutí.</td>
+          </tr>
+          <tr>
+            <td><strong>Muslimské státy</strong></td>
+            <td>Reální aktéři, kteří často jednají podle národního zájmu, uzavírají pragmatické aliance a přijímají mezinárodní systém, i když jejich společnost zůstává hluboce náboženská.</td>
+            <td>Právě jejich chování v mnoha pasážích zpochybňuje příliš jednoduchý obraz věčného střetu.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>Nejpřesnější formulace Kissingerovy otázky tedy nezní „Je islám slučitelný se světem?“, nýbrž: <strong>Mohou muslimské společnosti zachovat vlastní náboženskou a civilizační identitu a současně přijmout trvalou rovnost politických jednotek, jejichž hodnoty nepovažují za pravdivé?</strong> Jeho odpověď není kategoricky záporná. Historie podle něj ukazuje obě možnosti.</p>
+    </section>
+
+    <section id="historie">
+      <h2>4. Jak Kissinger historicky interpretuje islám</h2>
+
+      <h3>4.1 Raný islám: obdiv k energii, obava z univerzálního nároku</h3>
+      <p>Popis raného islámu je směsí obdivu a strategického poplachu. Kissinger označuje jeho rozšíření za jednu z nejdramatičtějších a nejvýznamnějších událostí světových dějin. Zdůrazňuje, že malá komunita z Arabského poloostrova během krátké doby překonala staré říše a vytvořila prostor sahající přes několik kontinentů. Islám nazývá „expanzivním“ a „v některých ohledech radikálně rovnostářským“. To není jazyk pohrdání; je to uznání mimořádné mobilizační schopnosti. <span class="source-ref">[PDF s. 65–67]</span></p>
+
+      <p>Současně tvrdí, že spojení víry a politické moci proměnilo imperiální expanzi v posvátnou povinnost. Raný islám podle jeho zkratky nebyl jen náboženstvím: byl zároveň mnohonárodním superstátem a návrhem světového řádu. Zde se rodí jeho centrální problém. Pokud mír znamená začlenění všech do jednotného božského systému, není politická pluralita trvalým principem, nýbrž dočasnou nedokonalostí.</p>
+
+      <blockquote>
+        <p>Kissingerův klíčový obraz raného islámu: víra, nadnárodní politická jednotka a světový řád v jednom.</p>
+        <cite>Parafráze argumentu z PDF s. 66–67</cite>
+      </blockquote>
+
+      <p>Na straně 67 je vedle výkladu <em>dar al-Islam</em>, <em>dar al-harb</em> a džihádu umístěna mapa „Expansion of Islam, 622–1700“. Vizuální rámování je významné: čtenář dostává islám především jako pohyb hranic, územní expanzi a geopolitický prostor. To přesně odpovídá Kissingerově perspektivě státníka, ale zároveň omezuje šíři obrazu náboženství.</p>
+
+      <h3>4.2 Džihád: Kissinger připouští více významů, ale sleduje jeho geopolitickou funkci</h3>
+      <p>Kissinger výslovně uvádí, že džihád není omezen na válku. Může označovat duchovní úsilí, působení slovem, skutkem nebo zbraní a důraz se v různých dobách a regionech měnil. Tím se vyhýbá nejhrubší redukci „džihád = terorismus“. Přesto jej v rámci knihy zajímá hlavně okamžik, kdy se džihád stává mechanismem rozšiřování politického řádu nebo mobilizační ideologií ozbrojených aktérů. <span class="source-ref">[PDF s. 67]</span></p>
+
+      <p>Jeho perspektiva je tedy funkční: neptá se primárně, co džihád znamená věřícímu, nýbrž co jeho určitý výklad dělá s hranicemi státu, pravidly války a uznáním protivníka.</p>
+
+      <h3>4.3 Kniha sama ukazuje, že doktrína nikdy plně neovládala praxi</h3>
+      <p>Nejdůležitější korektiv Kissingerova civilizačního schématu poskytuje jeho vlastní historické vyprávění. Univerzální jednota se rozpadla, sunnitsko-šíitský spor rozdělil nárok na legitimní vedení a vznikla samostatná arabská, perská, turecká a mughalská centra moci. Tato centra sice mohla teoreticky vyznávat jeden islámský řád, prakticky však jednala jako rivalové s odlišnými zájmy.</p>
+
+      <p>Kissinger výslovně připomíná mughalskou Indii jako období relativně ekumenického až synkretického přístupu, tolerance jiných náboženství a praktické zahraniční politiky. Když ji sunnitští spojenci vyzývali k džihádu proti šíitské Persii, odmítla s odkazem na přátelské vztahy a nepřítomnost důvodu k válce. <span class="source-ref">[PDF s. 69]</span></p>
+
+      <p>Stejný realismus vidí u Osmanů. Osmanská říše vystupovala univerzalisticky a protokolárně odmítala rovnost evropských panovníků, ale když narazila na hranice svých možností, vstupovala do pragmatické spolupráce s Francií. Habsburkové zároveň hledali oporu u šíitské safíjovské Persie. Kissinger uzavírá, že geopolitické imperativy dokázaly náboženskou ideologii obejít. <span class="source-ref">[PDF s. 70–71]</span></p>
+
+      <p>Ještě silnější je jeho interpretace osmanského vyhlášení džihádu za první světové války. Muslimové v britském impériu jej převážně neposlechli, indičtí muslimští představitelé se soustředili na protikoloniální politiku společně s hinduisty a Arabové sledovali vlastní národní cíle. Kissinger z toho vyvozuje realistickou zásadu: <strong>svatá válka může zesílit existující moc, ale selže, když ignoruje politickou a strategickou realitu.</strong> <span class="source-ref">[PDF s. 71–72]</span></p>
+
+      <div class="key-point">
+        <strong>Důsledek:</strong> Kissinger sice rekonstruuje islám jako univerzalistický řád, ale jeho vlastní dějiny zároveň dokazují, že muslimští aktéři opakovaně jednali jako běžné státy. Národní zájem, rivalita dynastií, obchod a mocenská rovnováha byly často silnější než abstraktní náboženská jednota.
+      </div>
+
+      <h3>4.4 Po roce 1918: problém není jen náboženství, ale krize legitimity</h3>
+      <p>Rozpad Osmanské říše podle Kissingera nevytvořil prosté vítězství moderního státu. Evropské mocnosti rozdělily region do nových hranic a mandátů, často bez hlubokých historických kořenů a přes sektářskou či etnickou různorodost. Zrušením chalífátu v Turecku roku 1924 byl muslimský svět podle jeho formulace ponechán mezi vítězným westfálským systémem a již nerealizovatelnou představou jednotného <em>dar al-Islam</em>. <span class="source-ref">[PDF s. 72–73]</span></p>
+
+      <p>Tato pasáž je zásadní, protože islamismus u něj není jen přežívající středověk. Je také <strong>moderní odpovědí na zkušenost koloniálního zásahu, umělých hranic, domácího selhání a pocitu ztracené velikosti</strong>. Kissinger dobře vystihuje jeho přitažlivost větou, že pro mnoho vzdělaných příslušníků nové střední třídy představoval možnost „být moderní, aniž by se museli stát západními“.</p>
+    </section>
+
+    <section id="islamismus">
+      <h2>5. Od islámu k modernímu islamismu</h2>
+
+      <h3>5.1 Sekulární stát se částečně prosadil — a pak ztratil legitimitu</h3>
+      <p>V éře studené války se podle Kissingera vztahy mezi muslimským a nemuslimským světem z velké části řídily westfálskou logikou. Egypt, Sýrie, Alžírsko a Irák se přikláněly k Sovětskému svazu; Jordánsko, Saúdská Arábie, Írán a Maroko k USA. Rozhodovalo, která supervelmoc lépe slouží zájmům režimu, nikoli jednotná islámská politika. <span class="source-ref">[PDF s. 74–75]</span></p>
+
+      <p>Problémem bylo, že autoritářské nacionalistické státy nedokázaly vytvořit dostatečně inkluzivní instituce, občanskou společnost, hospodářskou dynamiku ani přesvědčivou legitimitu. Když ztratily výhodu studenoválečného soupeření, otevřely prostor hnutím, která nabízela náboženskou obnovu jako alternativu domácí korupce, západního vlivu i sekulární modernity.</p>
+
+      <h3>5.2 Hasan al-Banná: globální ambice spojená s jazykem umírněnosti</h3>
+      <p>Kissinger představuje Hasana al-Bannu jako autora dvojznačného projektu. Na jedné straně má muslimova loajalita růst od vlastní země přes celý muslimský svět a obnovené islámské impérium až k celému lidstvu. Na druhé straně al-Banná hovoří o postupnosti, mírumilovnosti, ochraně nemuslimů, umírněnosti a spravedlnosti.</p>
+
+      <p>Kissinger tuto dvojznačnost nenechává otevřenou neutrálně. Ptá se, nakolik byla umírněnost taktickým jazykem používaným v době západní převahy a nakolik byla džihádistická rétorika mobilizační úlitbou. Přiznává, že al-Banná zemřel dříve, než mohl rozpor vyjasnit, ale jeho další vyprávění směřuje k názoru, že pozdější islamistická praxe vyřešila tento rozpor ve prospěch odmítnutí pluralismu. <span class="source-ref">[PDF s. 75–76]</span></p>
+
+      <h3>5.3 Sayyid Qutb: čistota proti stabilitě</h3>
+      <p>U Qutba Kissinger nachází nejčistší podobu revolučního islamismu. Národ, rasa, jazyk, teritoriální stát a člověkem vytvořené zákony jsou podle tohoto čtení falešné loajality; skutečné osvobození vyžaduje jejich nahrazení celosvětovým uskutečněním Koránu. Nástrojem má být ideologicky čistý předvoj, který odmítne stávající společnosti i vlády jako neislámské.</p>
+
+      <p>Kissinger shrnuje tento model formulací <strong>„čistota, nikoli stabilita“</strong>. To je téměř přesný opak jeho vlastního státnického temperamentu. Kissinger považuje legitimitu za nutnou, ale řád musí také omezovat konflikt a umožňovat soužití nedokonalých aktérů. Qutbovský projekt podle něj obětuje stabilitu absolutní pravdě a proměňuje politiku v permanentní revoluci. <span class="source-ref">[PDF s. 76–77]</span></p>
+
+      <h3>5.4 Islamismus jako rival, jehož slova je třeba brát vážně</h3>
+      <p>Jedna z Kissingerových opakovaných výtek Západu zní, že revoluční ideologie interpretuje jako nadsázku, metaforu nebo vyjednávací taktiku. On sám radí opačný přístup: radikální programové výroky mohou být skutečným přesvědčením a dlouhodobě formovat instituce i chování. To se týká Qutba, al-Káidy i íránských ajatolláhů.</p>
+
+      <p>Tento postoj je zdrojem jeho strategické síly i kontroverze. Chrání před naivitou, ale může vést k tomu, že maximalistická ideologická literatura získá v popisu celé civilizace větší váhu než každodenní kompromisy, veřejné mínění, sociální rozmanitost nebo proměnlivá politika.</p>
+    </section>
+
+    <section id="iran">
+      <h2>6. Írán: země, impérium, nebo kauza</h2>
+
+      <p>Kapitola o Íránu je nejlepším místem pro pochopení Kissingerovy směsi respektu a nedůvěry. Persii líčí jako jednu z nejstarších, kulturně nejodolnějších a diplomaticky nejsofistikovanějších civilizací. Zdůrazňuje její umění, poezii, mystiku, byrokracii, schopnost spravovat mnohonárodnostní prostor, absorbovat cizí vlivy a zachovat identitu i pod náporem dobyvatelů. Íránské státnictví podle něj oceňuje trpělivost, přesnou analýzu mocenské reality a psychologickou práci s protivníkem. <span class="source-ref">[PDF s. 93–95]</span></p>
+
+      <p>To je velmi vysoká forma realistického respektu. Kissinger Írán nepovažuje za iracionálního aktéra. Naopak jej vidí jako stát s mimořádně dlouhou pamětí, schopností kombinovat ideologii a taktiku a talentem využívat rozpory protivníků.</p>
+
+      <p>Khomeinistická revoluce však podle něj proměnila stát v nástroj širší náboženské kauzy. Írán současně využívá práva a instituce westfálského systému — členství v OSN, diplomacii, obchod a suverenitu — a podporuje hnutí, která tento systém podkopávají. Kissinger tomu říká dvojí postavení na průsečíku dvou řádů.</p>
+
+      <p>Jeho nejvýstižnější schéma rozeznává v íránských dějinách tři tradice:</p>
+      <div class="grid-3">
+        <article class="card">
+          <span class="label blue">Stát</span>
+          <h3>Írán jako země</h3>
+          <p>Chrání hranice, uznává svrchovanost druhých, uzavírá aliance a sleduje národní zájem v rámci mezinárodního systému.</p>
+        </article>
+        <article class="card">
+          <span class="label gold">Impérium</span>
+          <h3>Írán jako centrum</h3>
+          <p>Považuje se za civilizační střed a rozšiřuje vliv tak daleko, jak dovolí mocenské možnosti.</p>
+        </article>
+        <article class="card">
+          <span class="label red">Kauza</span>
+          <h3>Írán jako revoluce</h3>
+          <p>Usiluje o přetvoření regionálního řádu a nadřazuje nábožensko-revoluční poslání běžnému národnímu zájmu.</p>
+        </article>
+      </div>
+
+      <p>Kissingerova otázka nezní, zda je Írán „dobrý“ nebo „zlý“, nýbrž která z těchto tradic převládne. Jeho formulace, že Írán si musí vybrat, zda je „zemí, nebo kauzou“, vyjadřuje celou jeho filozofii islámu v politice. Náboženská identita mu sama o sobě nevadí; problém vzniká tehdy, když stát považuje vlastní hranice a závazky za pouhé taktické stadium univerzální revoluce. <span class="source-ref">[PDF s. 102–103]</span></p>
+
+      <p>Zároveň výslovně tvrdí, že tento stav není nevyhnutelně trvalý. Doporučuje být otevřen skutečnému smíření a geopolitické dohodě s Íránem na základě nevměšování. Připouští možnost, že džihádistický tlak časem zeslábne podobně, jako v Osmanské říši ustoupil změněným mocenským a domácím prioritám. To je důležitý důkaz, že Kissinger nevěří v metafyzicky věčný konflikt. <span class="source-ref">[PDF s. 97–103]</span></p>
+
+      <div class="warning">
+        <strong>Důležité rozlišení:</strong> Věta „budoucnost patří islámu“ není Kissingerova předpověď. Kissinger ji cituje z textu Alího Chameneího o Qutbovi jako doklad revolučního sebechápání íránského režimu. Je objektem jeho analýzy, nikoli jeho vlastním proroctvím.
+      </div>
+    </section>
+
+    <section id="arabsky-svet">
+      <h2>7. Arabské jaro, stát a demokracie</h2>
+
+      <h3>7.1 Kissinger se bojí institucionálního vakua více než absence voleb</h3>
+      <p>Arabské jaro pro něj odhalilo rozdíl mezi schopností svrhnout režim a schopností vytvořit legitimní stát. Sociální média mohou shromáždit dav, ale nevytvoří správu, soudy, bezpečnostní aparát, důvěru mezi skupinami ani zvyk přijmout porážku ve volbách. Organizované síly starého režimu a náboženská hnutí tak mohou přemoci liberální střední vrstvy, které protest původně zahájily. <span class="source-ref">[PDF s. 77–79]</span></p>
+
+      <p>Kissinger je zvlášť skeptický vůči stranám, jež chápou demokracii jako jednorázový plebiscit, po kterém lze náboženskou dominanci učinit nevratnou. Z toho plyne jeho známé napětí mezi bezpečností a demokratizací: přílišná podpora autoritářského pořádku blokuje legitimní budoucnost, ale rozbití státu bez náhradní instituce může vyvolat okamžitou katastrofu.</p>
+
+      <p>Jeho řešením není prosté schválení diktatury. Opakovaně píše, že udržitelná politika musí spojit realismus a idealismus, řád a svobodu. Prakticky však jeho důraz často vede k preferenci postupné evoluce před revolučním skokem — a tím otevírá spor, zda podceňuje cenu autoritářství a schopnost občanů regionu vytvářet vlastní pluralitní instituce.</p>
+
+      <h3>7.2 Sýrie a Irák: největším nebezpečím je rozpad politické jednotky</h3>
+      <p>V Sýrii a Iráku Kissinger nevidí jen spor o režim, ale konflikt skupin, které se obávají o fyzické přežití a proto neusilují o neutrální pravidla, nýbrž o kontrolu státu. Jakmile se centrální autorita rozpadne, hranice se začnou překrývat se sektářskými a kmenovými vazbami, vnější mocnosti podporují své klienty a nestátní milice získávají větší sílu než vlády.</p>
+
+      <p>Právě zde je jeho jazyk nejvíce naplněn obavou. Píše o „zónách nevládnutí nebo džihádu“, o návratu k širší obdobě evropských předwestfálských náboženských válek a o náboženství „vyzbrojeném“ pro geopolitické cíle. Hrozbou pro světovou stabilitu je podle něj řetězec rozpadlých států spojený s terorismem, sebevražedným násilím a šířením zbraní hromadného ničení. <span class="source-ref">[PDF s. 87–89]</span></p>
+
+      <h3>7.3 Saúdská Arábie: spojenec, teokracie a zdroj vlastního problému</h3>
+      <p>Kissingerův obraz Saúdské Arábie je velmi vzdálen představě jednotného „islámského tábora“. Království je současně západním bezpečnostním partnerem, strážcem nejsvětějších míst, konzervativní monarchií, šiřitelem wahhábistické ortodoxie a cílem sunnitských i šíitských revolučních proudů.</p>
+
+      <p>Jeho zahraniční politiku popisuje s respektem k opatrnosti, nepřímosti a schopnosti maskovat zranitelnost. Zároveň tvrdí, že financování puristického náboženského školství v zahraničí pomohlo vytvořit džihádistickou energii, která se obrátila proti samotné monarchii a jejím spojencům. Saúdská politika tak v jeho očích dokládá, že stát může islamismus současně využívat, omezovat a být jím ohrožen. <span class="source-ref">[PDF s. 83–87]</span></p>
+
+      <h3>7.4 Palestina: střet legitimity, ale také asymetrické vyprávění</h3>
+      <p>Izraelsko-palestinský konflikt interpretuje jako střet dvou pojetí legitimního řádu: Izrael je pro něj klasický teritoriální stát westfálského typu, zatímco část arabských a islamistických aktérů chápe území jako neodcizitelné muslimské dědictví. Vyzdvihuje Anvara Sadata, který uzavřel mír na základě egyptského národního zájmu, a v závěru kapitoly připomíná jeho představu mešity, kostela a synagogy na hoře Sinaj jako symbolu míru. <span class="source-ref">[PDF s. 81–82, 103–104]</span></p>
+
+      <p>Tato konstrukce však patří k nejspornějším částem textu, protože může působit tak, že izraelský stát představuje procedurální racionalitu, kdežto muslimská strana především náboženský absolutismus. Kissinger sice zmiňuje bezpečnostní dilemata, uprchlíky, zdroje a palestinské sebeurčení, ale analytické těžiště klade na problém islámského uznání Izraele. Tím zmenšuje viditelnost nacionalismu, okupace, nerovnosti moci a sekulárních palestinských tradic.</p>
+    </section>
+
+    <section id="odpovedi">
+      <h2>8. Má z islámu strach? Má k němu respekt? Čeká jeho úspěch?</h2>
+
+      <div class="grid-3">
+        <article class="card fear">
+          <span class="label red">Strach</span>
+          <h3>Ano — ale jeho předmětem je hlavně politický universalismus a rozpad řádu</h3>
+          <p>Kissinger se zřetelně obává radikálního islamismu, který pokládá stát, hranice a nevměšování za nelegitimní; džihádistických organizací bez pevného území; sektářské války; rozpadu států a možného propojení extremismu se zbraněmi hromadného ničení.</p>
+          <p>Text neposkytuje oporu pro tvrzení, že se bojí muslimů jako lidí nebo běžné náboženské praxe. Jeho vlastní poznámka výslovně uznává pluralistickou většinu v mnoha muslimských společnostech. Problémem je, že hlavní kapitola někdy přechází od „islamismu“ k „islámskému světu“ natolik rychle, že čtenář může získat širší dojem civilizačního strachu.</p>
+        </article>
+
+        <article class="card respect">
+          <span class="label green">Respekt</span>
+          <h3>Ano — jde o realistický respekt k historické síle, nikoli o teologický obdiv</h3>
+          <p>Obdivuje rychlost a rozsah raného islámského vzestupu, jeho částečně rovnostářský impuls, schopnost spojit víru s loajalitou a mimořádnou trvanlivost. Velmi vysoko hodnotí perskou kulturní kontinuitu a státnické umění; vážně bere osmanskou, saúdskou i íránskou schopnost manévrovat.</p>
+          <p>Jeho respekt se projevuje také tím, že protivníkovy ideje nepovažuje za pouhou propagandu. Radikální islamismus vnímá jako intelektuálně a strategicky závažný projekt. V kissingerovském světě je brát protivníka vážně jednou z hlavních podob respektu.</p>
+        </article>
+
+        <article class="card future">
+          <span class="label blue">Budoucnost</span>
+          <h3>Očekává trvalou sílu islámu, nikoli jisté vítězství islamismu</h3>
+          <p>Kissinger nepředpovídá sekularizační zánik islámu. Počítá s jeho pokračující schopností poskytovat identitu a legitimitu a s tím, že islamismus zůstane silným soupeřem tam, kde státy selhávají.</p>
+          <p>Současně jeho vlastní historie naznačuje, že globální jednotný chalífát nepovažuje za pravděpodobný: islámská univerzita se opakovaně rozštěpila, sunnitsko-šíitský konflikt ji oslabuje, státy sledují vlastní zájmy a výzvy ke globálnímu džihádu selhávají, pokud odporují realitě. Budoucnost vidí jako otevřenou soutěž, ne jako lineární triumf.</p>
+        </article>
+      </div>
+
+      <h3>Přesnější formulace jeho prognózy</h3>
+      <p>Kdybychom Kissingerův implicitní výhled převedli do jediné věty, zněl by asi takto:</p>
+      <blockquote>
+        <p>Islám zůstane významnou civilizační silou; islamismus bude prospívat tam, kde stát postrádá legitimitu, ale jeho pokus o jednotný světový řád bude brzdit národní zájem, vnitřní rozdělení a mocenská realita.</p>
+        <cite>Interpretace celkového argumentu knihy, nikoli přímý citát</cite>
+      </blockquote>
+
+      <p>Kissinger tedy rozlišuje dva druhy „úspěchu“:</p>
+      <ul>
+        <li><strong>Úspěch islámu jako víry a identity:</strong> ten považuje za trvalý a pravděpodobný.</li>
+        <li><strong>Úspěch revolučního islamismu jako světového řádu:</strong> ten považuje za nebezpečně možný na regionální úrovni, ale nikoli za historicky nevyhnutelný ani stabilně univerzální.</li>
+      </ul>
+
+      <p>Jeho největší obava není, že islamismus bez odporu dobude celý svět. Je to možnost, že získá dost moci k rozbití regionálních států a vytvoří trvalé pásmo konfliktu, do něhož budou vtaženy velmoci.</p>
+    </section>
+
+    <section id="myslenky">
+      <h2>9. Hlavní myšlenky Kissingerova pojetí islámu</h2>
+
+      <div class="theses">
+        <article class="thesis">
+          <strong>Islám je v knize především pojetím legitimního řádu.</strong>
+          <p>Kissinger se ptá, kdo má právo vládnout, jaký je vztah víry a státu a zda jsou jiné politické jednotky trvale legitimní.</p>
+        </article>
+        <article class="thesis">
+          <strong>Raný islám spojil náboženství, stát a univerzální poslání.</strong>
+          <p>Toto spojení vysvětluje jeho mimořádnou mobilizační energii i napětí s pluralitním systémem států.</p>
+        </article>
+        <article class="thesis">
+          <strong>Doktrinální univerzalismus není totéž co skutečné chování muslimských mocností.</strong>
+          <p>Persie, Osmané, Mughalové i moderní arabské státy opakovaně jednají podle raison d’état.</p>
+        </article>
+        <article class="thesis">
+          <strong>Národní zájem často poráží panislámskou solidaritu.</strong>
+          <p>Neúspěšný osmanský džihád v první světové válce je pro něj paradigmatickým důkazem.</p>
+        </article>
+        <article class="thesis">
+          <strong>Islamismus je moderní reakce na krizi legitimity.</strong>
+          <p>Vyrůstá nejen z tradice, ale z koloniálních hranic, selhání sekulárních režimů a touhy po modernitě bez westernizace.</p>
+        </article>
+        <article class="thesis">
+          <strong>Radikální ideologii je nutné brát doslovněji, než ji Západ obvykle bere.</strong>
+          <p>Kissinger varuje před předpokladem, že revoluční rétorika je jen metafora nebo vyjednávací pozice.</p>
+        </article>
+        <article class="thesis">
+          <strong>Největší současnou hrozbou je zánik státu, ne síla jedné centralizované říše.</strong>
+          <p>Nestátní milice, sektářské zóny a prázdná území ruší pravidla i možnost odpovědnosti.</p>
+        </article>
+        <article class="thesis">
+          <strong>Sunnitsko-šíitský spor je současně teologický i geopolitický.</strong>
+          <p>Írán a Saúdská Arábie podle něj převádějí starý rozkol do soupeření bloků, klientů a nestátních aktérů.</p>
+        </article>
+        <article class="thesis">
+          <strong>Volby samy nevytvářejí pluralismus.</strong>
+          <p>Bez institucí, ochrany menšin a ochoty akceptovat střídání moci může demokracie posloužit k nevratné dominanci.</p>
+        </article>
+        <article class="thesis">
+          <strong>Americký univerzalismus může konflikt zhoršit.</strong>
+          <p>Vojenský export demokracie podle něj reagoval na islamistický univerzalismus vlastním univerzalismem a podcenil místní dějiny.</p>
+        </article>
+        <article class="thesis">
+          <strong>Smíření je možné, pokud se revoluční kauza promění v národní politiku.</strong>
+          <p>Nejvýrazněji to formuluje u Íránu: spolupráce je možná, jestliže stát přijme reciprocitu a nevměšování.</p>
+        </article>
+        <article class="thesis">
+          <strong>Budoucí řád musí umožnit rozdílným civilizacím zachovat vlastní hodnoty a současně sdílet pravidla.</strong>
+          <p>Jeho cílem není úplná westernizace, ale „druhá“, globální procedurální kultura nad vlastní identitou každé společnosti.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="kontroverze">
+      <h2>10. Hlavní kontroverze a slabá místa</h2>
+      <p>Následující výhrady nejsou tvrzením, že Kissingerův argument je bezcenný. Ukazují, kde jeho strategická optika osvětluje moc a řád, ale zároveň zužuje předmět.</p>
+
+      <details open>
+        <summary>1. Přechod od „islamismu“ k „islámu“ je někdy příliš hladký</summary>
+        <div class="detail-body">
+          <p>Název kapitoly správně mluví o islamismu, ale historický úvod často formuluje věty o „islámu“ jako celku. Z klasických právních kategorií a imperiálního období pak přechází k Íránu, al-Káidě nebo ISIL. To může vytvořit dojem přímé kontinuity mezi vírou čtrnácti století a současným revolučním násilím.</p>
+          <p>Kissinger tuto námitku částečně předjímá poznámkou na straně 243, kde uznává pluralistické výklady a omezuje svou ambici. Problém je, že tato zásadní pojistka stojí až na samém konci knihy, zatímco hlavní narativ je vystavěn kolem konfrontačních proudů.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>2. Z idealizovaného právního modelu se může stát nadčasová podstata</summary>
+        <div class="detail-body">
+          <p>Kissinger používá <em>dar al-Islam</em>, <em>dar al-harb</em>, omezené příměří a povinnost expanze jako klíč k „islámskému světovému řádu“. Taková konstrukce je analyticky přehledná, ale může přecenit jednotu klasické jurisprudence a podcenit jiné kategorie, právní spory, proměny doktríny i skutečnost, že politická praxe se od právního ideálu často odchylovala.</p>
+          <p>Jeho vlastní příklady Mughalské říše, osmansko-francouzské spolupráce a studenoválečných aliancí dokazují, že reálný svět byl podstatně pluralističtější. Kritický čtenář proto může říci, že ideální typ vysvětluje radikální programy lépe než běžné dějiny muslimské diplomacie.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>3. Výběr reprezentativních hlasů je posunut k maximalistům</summary>
+        <div class="detail-body">
+          <p>Al-Banná, Qutb, Chomejní, Chameneí, bin Ládin a militantní organizace dostávají velký interpretační prostor. Pluralističtí muslimští teologové, reformisté, liberálové, feministky, nenásilná politická hnutí, běžní voliči a právní myslitelé adaptující islám na ústavní stát se objevují jen okrajově nebo vůbec.</p>
+          <p>To odpovídá tématu knihy — hrozbám světovému řádu — ale znamená to, že text není neutrálním úvodem do islámského politického myšlení. Je úvodem do těch proudů, které jsou z hlediska bezpečnosti a mezinárodní legitimity nejkonfliktnější.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>4. Křesťanský Západ dostává teleologickou výhodu</summary>
+        <div class="detail-body">
+          <p>Kissinger připouští křesťanské křížové výpravy, nucené konverze i evropské koloniální násilí. Přesto tvrdí, že křesťanské rozlišení mezi „Božím“ a „císařovým“ usnadnilo cestu k sekulárnímu pluralismu, zatímco muslimský vývoj byl „složitější“.</p>
+          <p>Kontroverze spočívá v tom, že evropský výsledek může vypadat jako přirozené naplnění křesťanského potenciálu, kdežto islám je poměřován podle toho, nakolik se k tomuto výsledku přiblížil. Historické násilí, nacionalismus a imperialismus Západu se pak jeví jako překonaná etapa, zatímco islámské násilí jako stále aktivní náboženský problém.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>5. Westfálský stát funguje jako norma, i když byl regionu částečně vnucen</summary>
+        <div class="detail-body">
+          <p>Kissinger dobře popisuje umělé hranice, mandáty, manipulaci sektářských rozdílů a koloniální dvojznačnost. Nakonec však stabilitu stále měří schopností těchto států přežít jako suverénní jednotky.</p>
+          <p>Vzniká paradox: systém, který byl zčásti vnucen vnějšími mocnostmi, se stává kritériem legitimity, a hnutí odmítající jeho hranice jsou hodnocena primárně jako zdroj nepořádku. To může podcenit oprávněné otázky sebeurčení, identity a spravedlnosti, i když jeho obava z násilného rozpadu je realistická.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>6. Důraz na řád může sklouzávat k přílišné toleranci autoritářství</summary>
+        <div class="detail-body">
+          <p>Kissinger správně varuje, že svržení režimu není totéž co vybudování institucí. Jeho skepse k rychlé demokratizaci však může prakticky zvýhodnit bezpečnostní aparáty a monarchie, které se prezentují jako jediná hráz proti islamismu.</p>
+          <p>Kniha uznává brutalitu sekulárních režimů a jejich podíl na absenci občanské společnosti. Přesto je logika „horší než autoritářský stát je rozpad státu“ natolik silná, že čtenář může postrádat podrobnější cestu, jak z autoritářského pořádku přejít k legitimnímu pluralismu bez nekonečného odkládání reformy.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>7. „Tisíciletý“ sunnitsko-šíitský konflikt může působit příliš prvotně</summary>
+        <div class="detail-body">
+          <p>Kissinger často vysvětluje dnešní soupeření jako obnovení velmi starého sporu. To vystihuje sílu symbolů, mučednictví a historické paměti, ale může zamlžit moderní příčiny: státní kolaps, bezpečnostní dilemata, ropu, zahraniční intervence, režimní přežití a strategické využívání sektářské identity.</p>
+          <p>Samotná kniha přitom na jiném místě říká, že náboženství je „weaponized“ — používáno jako zbraň geopolitických cílů. Mezi těmito dvěma tvrzeními existuje napětí: je konflikt především starou teologií, nebo moderní mocenskou politikou, která teologii mobilizuje?</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>8. Izraelsko-palestinský konflikt je rámován asymetricky</summary>
+        <div class="detail-body">
+          <p>Kissinger představuje Izrael jako westfálský stát a část jeho protivníků jako nositele islámského pojetí neodcizitelného území. Tím osvětluje reálnou ideologickou překážku uznání, ale zároveň hrozí, že izraelská politika bude působit jako technická otázka bezpečnosti, zatímco arabská politika jako otázka absolutní víry.</p>
+          <p>Takový rámec oslabuje viditelnost sekulárního palestinského nacionalismu, sporů o okupaci, osady, nerovnost moci, vysídlení a mezinárodní právo. Kissinger tyto rozměry nezcela popírá; jednoduše je nepokládá za hlavní předmět své kapitoly.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>9. Kolonialismus a západní intervence jsou uznány, ale nejsou hlavním kauzálním centrem</summary>
+        <div class="detail-body">
+          <p>Kniha zmiňuje mandáty, Sykesovu–Picotovu dohodu, dvojznačné britské sliby, americké a britské zásahy v Íránu, Irák i Libyi. Přesto při vysvětlování současného střetu přesouvá těžiště k odlišným představám legitimity a k islamistické doktríně.</p>
+          <p>Kritik může namítnout, že ideologie nelze oddělit od konkrétní zkušenosti okupace, podpory režimů, války, sankcí a sociální nerovnosti. Kissingerova odpověď by pravděpodobně zněla, že křivdy samy nevysvětlují specifický univerzalistický program. Spor je tedy o relativní váhu příčin, nikoli o jejich úplné popření.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>10. Jeho řešení je výrazně americkocentrické</summary>
+        <div class="detail-body">
+          <p>V mnoha pasážích má být Spojenými státy zajištěna rovnováha mezi Íránem, sunnitskými státy, Izraelem a dalšími aktéry. Amerika se má přibližovat ke všem stranám, bránit extrémům a pomáhat vytvářet regionální řád.</p>
+          <p>To odpovídá Kissingerově celoživotnímu přesvědčení o nezastupitelné roli USA, ale může podceňovat místní vlastnictví řádu, nedůvěru vyvolanou předchozími zásahy a možnost, že americké balancování samo formuje konflikty, které má řídit.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>11. Text je časově zakotven v roce 2014</summary>
+        <div class="detail-body">
+          <p>Kniha vznikala během vrcholu Arabského jara, syrské války, vzestupu ISIL a jednání o íránském jaderném programu. Proto má mimořádně silný tón hrozícího rozpadu a možná přeceňuje okamžik jako dlouhodobou civilizační trajektorii.</p>
+          <p>Jeho užitečnost je největší jako mapa Kissingerova myšlení a bezpečnostních dilemat dané doby, nikoli jako automaticky aktuální popis každé muslimské společnosti nebo pozdějšího vývoje.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>12. O islámu jako civilizaci víme z knihy méně než o islámu jako výzvě</summary>
+        <div class="detail-body">
+          <p>Perské umění, poezie a mystika získávají obdivné pasáže, ale širší islámská věda, filozofie, obchodní sítě, městská kultura, právní pluralita, charity, každodenní etika nebo náboženské reformy nehrají významnou roli.</p>
+          <p>Výsledkem je ostrý a často pronikavý úvod do geopolitiky islamismu, nikoli vyvážený úvod do islámu. To není skrytá chyba, nýbrž důsledek zvoleného tématu — problém vzniká, když se první zamění za druhé.</p>
+        </div>
+      </details>
+    </section>
+
+    <section id="co-netvrdi">
+      <h2>11. Co by bylo nepřesné Kissingerovi přisuzovat</h2>
+
+      <div class="grid-2">
+        <article class="card">
+          <h3>„Všichni muslimové jsou džihádisté.“</h3>
+          <p>Ne. Výslovně uvádí, že mnoho muslimů — často většina — zastává méně konfrontační a pluralističtější výklad.</p>
+        </article>
+        <article class="card">
+          <h3>„Muslimské státy neumějí pragmatickou diplomacii.“</h3>
+          <p>Ne. Osmanské, mughalské, perské, egyptské, saúdské i studenoválečné příklady ukazují opak.</p>
+        </article>
+        <article class="card">
+          <h3>„Islám nevyhnutelně ovládne svět.“</h3>
+          <p>Ne. „Budoucnost patří islámu“ cituje jako Chameneího přesvědčení. Sám zdůrazňuje fragmentaci a limity univerzálních projektů.</p>
+        </article>
+        <article class="card">
+          <h3>„Konflikt islámu a Západu je věčný.“</h3>
+          <p>Ne. U Íránu výslovně připouští smíření a možnost, že revoluční tlak zeslábne se změnou priorit a mocenské reality.</p>
+        </article>
+        <article class="card">
+          <h3>„Demokracie je v muslimském světě nemožná.“</h3>
+          <p>Ne. Je skeptický k rychlému vojenskému exportu a k volbám bez institucí; ponechává otevřenu možnost participativního řádu spojeného s tolerancí a kompromisem.</p>
+        </article>
+        <article class="card">
+          <h3>„Jediným problémem je islám.“</h3>
+          <p>Ne. Kritizuje také americký univerzalismus, evropskou slabost, koloniální hranice, autoritářské režimy, západní intervence a selhání mezinárodního systému.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="zaver" class="verdict">
+      <h2>12. Syntéza: jaký je tedy Kissingerův islám?</h2>
+
+      <p><strong>Je to islám viděný očima teoretika státnictví.</strong> Kissinger jej interpretuje jako jednu z nejmocnějších historických odpovědí na otázku, kdo smí vládnout a jak má vypadat mír. Respektuje jeho energii, rovnostářský impuls, civilizační trvanlivost a schopnost vytvářet loajalitu přesahující národ. Zvlášť obdivuje perskou strategickou kulturu a muslimské státníky, kteří dokázali přeložit náboženské a historické vědomí do omezené, praktické diplomacie.</p>
+
+      <p><strong>Jeho strach se soustřeďuje na přechod od víry k absolutní politické legitimitě.</strong> Jakmile hnutí prohlásí všechny sekulární státy, hranice a zákony za dočasné či nelegitimní, vzniká podle něj revoluční síla, s níž nelze zacházet jako s běžným zájmovým sporem. Tento strach zesiluje možnost rozpadu států, nestátních armád, sektářské mobilizace a jaderného šíření.</p>
+
+      <p><strong>Budoucnost však nevidí jako nevyhnutelnou „válku civilizací“ ani jako jistý úpadek islámu.</strong> Předpokládá, že islám zůstane živou a významnou civilizační silou. O výsledku rozhodne, zda muslimské státy dokážou spojit vlastní identitu s pravidly reciprocity, zda islamisté přijmou trvalou pluralitu, zda se podaří obnovit legitimní státní instituce a zda vnější mocnosti přestanou zaměňovat demokratickou aspiraci za rychle exportovatelný institucionální model.</p>
+
+      <p><strong>Jeho nejpřesvědčivější vhled</strong> spočívá v rozlišení ideologické doktríny a reálného státního chování: univerzalistická rétorika může být autentická, ale mocenská realita ji opakovaně omezuje. <strong>Jeho největší slepé místo</strong> je opačné: protože hledá hrozby řádu, nechává maximalistické texty a násilné okamžiky reprezentovat islám více, než by odpovídalo jeho každodenní pluralitě.</p>
+
+      <p>Proto je nejpřesnější číst tuto část <em>World Order</em> jako <strong>pronikavý, ale záměrně úzký úvod do Kissingerova chápání politického islamismu a muslimské geopolitiky</strong> — nikoli jako úplnou interpretaci islámu.</p>
+    </section>
+
+    <section aria-labelledby="prameny">
+      <h2 id="prameny">Pramenná orientace</h2>
+
+      <h3>Henry Kissinger - WORLD ORDER - Reflections on the Character of Nations and the Course of History</h3> 
+<br>
+
+      <ul class="source-list">
+        <li><strong>PDF s. 13–14:</strong> islám jako univerzální koncepce světového řádu; současná výzva džihádistů státu.</li>
+        <li><strong>PDF s. 65–72:</strong> raný islám, <em>dar al-Islam</em>/<em>dar al-harb</em>, džihád, sunnitsko-šíitské rozdělení, Mughalové, Osmané a neúspěšný džihád roku 1914.</li>
+        <li><strong>PDF s. 72–77:</strong> poválečný stát, panarabismus, politický islám, al-Banná a Qutb.</li>
+        <li><strong>PDF s. 77–89:</strong> Arabské jaro, Sýrie, Palestina, Saúdská Arábie a rozpad státu.</li>
+        <li><strong>PDF s. 92–104:</strong> Írán, Khomeiniho revoluce, jaderná otázka, tři íránské tradice a možnost smíření.</li>
+        <li><strong>PDF s. 107–124:</strong> muslimské populace v Asii, převaha státocentrického modelu a Indie.</li>
+        <li><strong>PDF s. 185–191:</strong> džihádismus, Afghánistán, Irák a kritika vojenského exportu demokracie.</li>
+        <li><strong>PDF s. 216–217:</strong> radikální islamistická sféra versus modernizovaný společný světový řád.</li>
+        <li><strong>PDF s. 243:</strong> autorovo výslovné omezení a uznání pluralistických muslimských interpretací.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+
+  </footer>
+</body>
+</html>
