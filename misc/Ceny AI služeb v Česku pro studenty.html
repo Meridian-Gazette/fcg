@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ceny AI služeb v Česku pro studenty</title>
+<style>
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { font-family: -apple-system, "Segoe UI", sans-serif; font-size: 17px; max-width: 900px; margin: 2em auto; padding: 0 1em; background:#fff; color:#1a1a1a; }
+  h1 { font-size: 1.3em; border-bottom: 2px solid #ddd; padding-bottom: .5em; overflow-wrap: break-word; }
+  h2, h3, h4 { margin: 1em 0 .4em; line-height: 1.3; }
+  h2 { font-size: 1.15em; } h3 { font-size: 1.05em; } h4 { font-size: 1em; }
+  .msg { margin: 1.5em 0; }
+  .label { font-size: .75em; font-weight: 600; color: #888; margin-bottom: .3em; }
+  .bubble { border-radius: 10px; padding: .8em 1.1em; font-size: 1em; line-height: 1.55; overflow-wrap: break-word; min-width: 0; }
+  .bubble p { margin: .6em 0; }
+  .bubble :first-child { margin-top: 0; } .bubble :last-child { margin-bottom: 0; }
+  pre { white-space: pre-wrap; word-wrap: break-word; margin: 0; font-family: inherit; }
+  pre.code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: .85em; background: #1e1e1e; color: #d4d4d4; padding: .8em 1em; border-radius: 6px; overflow-x: auto; margin: .6em 0; max-width: 100%; }
+  code { font-family: ui-monospace, Consolas, monospace; font-size: .88em; background: #ececea; padding: .1em .35em; border-radius: 4px; overflow-wrap: break-word; }
+  pre.code code { background: none; padding: 0; }
+  blockquote { margin: .6em 0; padding: .3em .9em; border-left: 3px solid #93c5fd; background: #eff6ff; border-radius: 0 6px 6px 0; }
+  ul, ol { margin: .5em 0; padding-left: 1.5em; }
+  li { margin: .25em 0; }
+  .tablewrap { overflow-x: auto; max-width: 100%; margin: .8em 0; -webkit-overflow-scrolling: touch; }
+  table { border-collapse: collapse; font-size: .92em; margin: 0; }
+  th, td { border: 1px solid #d4d4d0; padding: .4em .7em; text-align: left; }
+  th { background: #ececea; }
+  a { color: #1d4ed8; overflow-wrap: anywhere; }
+  hr { border: 0; border-top: 1px solid #ddd; margin: 1em 0; }
+  .user { text-align: right; }
+  .user .bubble { display: inline-block; text-align: left; background: #dbeafe; border: 1px solid #bfdbfe; max-width: 75%; }
+  .claude .bubble { background: #f7f7f5; border: 1px solid #e5e5e2; }
+  @media (max-width: 600px) {
+    body { margin: 1em auto; font-size: 18px; }
+    .user .bubble { max-width: 92%; }
+  }
+  @media print { body { margin: 0; max-width: none; } .bubble { border: 1px solid #ccc; } pre.code { background: #f3f3f3; color: #111; border: 1px solid #ccc; } }
+</style></head><body>
+<h1>Ceny AI služeb v Česku pro studenty</h1>
+<div class="msg user"><div class="label">User</div><div class="bubble"><pre>najdi mi aktuální stav cen za umělou inteligenci pro Českou republiku, říjen 2026 
+ udělej mi srovnávací tabulku 
+ základní tarify 
+
+ hlavně mě zajímá které modely jsou pod kterým tarifem dostupné a jaké jsou kvóty
+
+uživatelem bude 19 letý člověk používající Ai hlavně pro studijní účely (matematika, historie, občanská nauka...)</pre></div></div>
+<div class="msg claude"><div class="label">Claude</div><div class="bubble"><p>Stav k 5. 10. 2026. Ceny v Kč jsou oficiální, kde existují (OpenAI, Google), u Claude přepočet – Anthropic účtuje v eurech a bez DPH.</p>
+<p><strong>Srovnávací tabulka – základní tarify</strong></p>
+<div class="tablewrap"><table><thead><tr><th>Služba / tarif</th><th>Cena</th><th>Modely v chatu</th><th>Kvóty</th></tr></thead><tbody><tr><td><strong>ChatGPT Free</strong></td><td>0 Kč</td><td>GPT-5.6 Luna</td><td>Neomezený textový chat, kontext 27K, reklamy v Evropě, omezený deep research</td></tr><tr><td><strong>ChatGPT Go</strong></td><td>249 Kč</td><td>GPT-5.6 Luna (stejný jako Free)</td><td>Neomezený text, kontext 54K / 256K pro reasoning, plné kvóty na soubory, obrázky, paměť; stále reklamy</td></tr><tr><td><strong>ChatGPT Plus</strong></td><td>499 Kč</td><td>GPT-5.6 Sol (Instant/Medium/High); GPT-6 Astra jen ve Work a Codex, ne v chatu</td><td>Kontext 54K / 256K, rozšířený deep research, bez reklam</td></tr><tr><td><strong>Claude Free</strong></td><td>0 Kč</td><td>Sonnet a Haiku</td><td>Malý příděl na 5h okno</td></tr><tr><td><strong>Claude Pro</strong></td><td>18 € měs. (15 € při ročním), bez DPH ≈ 530 Kč s DPH</td><td>Opus, Sonnet, Haiku; Fable jen přes dokoupené kredity</td><td>Min. 5× Free na 5h okno + týdenní limit; kontext až 1M tokenů</td></tr><tr><td><strong>Gemini Free</strong></td><td>0 Kč</td><td>Od 9. 10. jen Flash-Lite</td><td>Standardní limit</td></tr><tr><td><strong>Google AI Plus</strong></td><td>149,99 Kč</td><td>Flash-Lite, Flash (Pro odebrán)</td><td>2× Free, kontext 128K, 400 GB úložiště</td></tr><tr><td><strong>Google AI Pro</strong></td><td>549,99 Kč</td><td>Flash-Lite, Flash, Pro + nově Deep Think</td><td>4× Free, kontext 1M, 5 TB úložiště, reset po 5 h do týdenního stropu</td></tr></tbody></table></div>
+<p><strong>Studentské nabídky (platí pro 18+ vysokoškoláky v ČR)</strong></p>
+<ul><li>Google: AI Plus na rok za 0 Kč, do 31. 12. 2026, nutná platební karta, pak 149,99 Kč/měs. Háček: bezplatný AI Pro mají jen USA, Češi dostanou jen Plus – a ten po 9. 10. ztrácí model Pro.</li><li>Perplexity: Education Pro za 10 $/měs. s ověřením přes SheerID – vhodné na rešerše k historii/ZSV.</li><li>ChatGPT: OpenAI už studentskou slevu na Plus nenabízí, promo skončilo 2025.</li><li>Claude: žádná veřejná studentská sleva.</li></ul>
+<p><strong>Pro 19letého studenta (matika, dějepis, ZSV)</strong></p>
+<p>Pořadí podle poměru cena/užitek:</p>
+<ol><li><strong>Zdarma kombinace</strong>: ChatGPT Free (neomezený text, ale slabší Luna) + Claude Free (Sonnet je na výklad a argumentaci silný) + studentský Google AI Plus (hlavně NotebookLM a studijní sešity, ne kvůli modelu).</li><li><strong>Jedno placené</strong>: ChatGPT Plus (499 Kč) nebo Claude Pro (~530 Kč). Go za 249 Kč nedoporučuju – jede na stejném modelu jako Free, kupuješ jen kvóty na soubory a kontext, což pro matematiku nic nepřidá; rozdíl Luna vs. Sol je právě v reasoningu.</li><li>Google AI Pro za 550 Kč dává smysl jen pokud chce 1M kontext na dlouhé PDF skript nebo Deep Think.</li></ol>
+<p>Nevím přesná čísla zpráv za 5 hodin u Claude Pro ani u GPT-5.6 Sol – OpenAI je publikuje nepravidelně, Anthropic jen jako násobky. Ceny v tabulce jsou převážně ze sekundárních srovnávacích webů, před platbou ověř na claude.com/pricing, chatgpt.com/pricing a gemini.google/subscriptions.</p></div></div>
+</body></html>
