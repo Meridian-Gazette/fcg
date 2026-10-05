@@ -1,11 +1,80 @@
-V Pitere pit
-Вояж 
-Ч.П.Х
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leningrad — texty</title>
+<style>
+  :root {
+    --bg: #fbfaf7;
+    --fg: #1d1d1f;
+    --muted: #6b6b70;
+    --line: #dddad2;
+    --btn-bg: #ffffff;
+    --btn-hover: #ececea;
+    --accent: #8a2b2b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17171a; --fg: #e9e8e4; --muted: #9a9aa0;
+      --line: #35353a; --btn-bg: #222227; --btn-hover: #2e2e35; --accent: #e0756f;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #17171a; --fg: #e9e8e4; --muted: #9a9aa0;
+    --line: #35353a; --btn-bg: #222227; --btn-hover: #2e2e35; --accent: #e0756f;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.6 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 32px 16px 80px; }
+  h1 { font-size: 1.5rem; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .sub { color: var(--muted); font-size: .9rem; margin: 0 0 24px; }
+  nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 40px; }
+  .btn {
+    display: inline-block; padding: 8px 14px;
+    background: var(--btn-bg); color: var(--fg); text-decoration: none;
+    border: 1px solid var(--line); border-radius: 0;
+    font-size: .95rem; transition: background .15s;
+  }
+  .btn:hover { background: var(--btn-hover); }
+  .song { border-top: 1px solid var(--line); padding-top: 24px; margin-top: 40px; }
+  .song:first-of-type { border-top: none; margin-top: 0; }
+  h2 {
+    font-size: 1.2rem; margin: 0 0 12px; color: var(--accent);
+    scroll-margin-top: 16px;
+  }
+  .song { scroll-margin-top: 16px; }
+  .top { font-size: .8rem; text-decoration: none; color: var(--muted); margin-left: 6px; }
+  .lyrics, .prompt {
+    white-space: pre-wrap; word-wrap: break-word;
+    font: inherit; margin: 0;
+  }
+  .promptbox {
+    margin-top: 64px; padding: 20px;
+    border: 1px dashed var(--line); border-radius: 8px;
+    background: var(--btn-bg); color: var(--muted); font-size: .92rem;
+  }
+  .promptbox h2 { font-size: .85rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  @media (max-width: 480px) { .wrap { padding: 20px 16px 60px; } }
+</style>
+</head>
+<body>
+  <div class="wrap" id="top">
+    <nav>
+      <a class="btn" href="#v-pitere-pit">V Pitere pit</a>
+      <a class="btn" href="#вояж">Вояж</a>
+      <a class="btn" href="#ч-п-х">Ч.П.Х</a>
+    </nav>
 
-
-## V Pitere pit
-
-Много городов у нас в России
+    <section class="song" id="v-pitere-pit">
+      <h2>V Pitere pit <a class="top" href="#top" title="Nahoru">&#8593;</a></h2>
+      <pre class="lyrics">Много городов у нас в России
 А нету пальцев столько на ногах
 С каждым годом всё они красивей
 А утопают в солнце и в снегах
@@ -39,14 +108,62 @@ V Pitere pit
 В Питере тире — пить
 А в Питере — пить, в Питере — пить
 В Питере тире — пить (just so on!)
-...
+...</pre>
+
+<pre>
+**Много городов у нас в России**
+Začíná to jako klasická, až stereotypní vlastenecká píseň oslavující velikost a rozlohu Ruska.
+
+**А нету пальцев столько на ногах**
+První ironický zvrat. Místo vznešeného básnického obratu (např. „nelze je ani spočítat“) přichází absurdní a groteskní přirovnání – „nemáme tolik prstů na nohou“. Záměrné sražení patosu na zem.
+
+**С каждым годом всё они красивей / А утопают в солнце и в снегах**
+Čistá parodie na oficiální státní propagandu a televizní zprávy, které neustále opakují, jak se regiony rozvíjejí a vše je krásnější. Fráze o městech "utápějících se ve slunci a sněhu" je absolutní klišé z ruských čítanek, které má navodit pocit falešné idyly.
+
+**В Ростове шикарные плюхи**
+Tady začíná hlavní motiv písně – fiktivní průvodce ruskou „substanční turistikou“. Rostov na Donu má historicky pověst drsného, kriminálního města (říká se mu „Rostov-papa“, obdoba mafiánského Chicaga). *Плюхи* (pljuchy) je slangový výraz pro hašiš (doslova „plácnutí“ nebo „kaňka“, v drogovém slangu uplácaná kulička či placička pryskyřice).
+
+**Размером с большую печать**
+„O velikosti velkého razítka.“ Nadsázka zdůrazňující kvalitu a množství rostovského hašiše, ale zároveň vtipná narážka na ruskou byrokracii, kde je oficiální firemní či státní razítko (*pečať*) naprostou modlou.
+
+**В Москве охуительно нюхать**
+Moskva je centrem peněz, tvrdého byznysu, spěchu a pozlátka. *Нюхать* znamená šňupat, v tomto kontextu jasně kokain – drogu bohatých a rychlých, která se k moskevskému tempu a korporátní kultuře hodí. *Охуительно* je vulgární superlativ (od slova *chuj*) znamenající „kurevsky skvělé“.
+
+**В Челябинске лучше торчать**
+Čeljabinsk je naopak drsné industriální město plné továren, proslulé smogem a drsným životem (odkud pochází ruský meme o „drsných čeljabinských mužích“). *Торчать* (torčať) sice doslovně znamená trčet nebo vyčnívat, ale v narkoslangu to znamená být těžce sjetý tvrdými drogami, typicky nitrožilně (heroin nebo levné syntetické drogy jako "krokodil"). Reflektuje to temnou a bezvýchodnou realitu chudých průmyslových oblastí, kde lidi na rozdíl od Moskvy „nepaří“, ale spíše se snaží úplně utéct od reality.
+
+**А в Питере — пить, в Питере — пить**
+Petrohrad (Piter). Bývalé hlavní město, kulturní a intelektuální srdce Ruska, město Dostojevského, ale také město věčného deště, bažin, melancholie a deprese. Sergej Šnurov (lídr Leningradu, sám z Petrohradu) zde staví pointu: zatímco jiná města jedou v různých specifických drogách, v melancholickém a promoklém Petrohradu se prostě musí chlastat. Je to jediný způsob, jak tamní existenciální tíhu a sychravo přežít.
+
+**В Питере тире — пить (пау)**
+„V Piteru pomlčka pít.“ Zde si autor hraje s mluveným slovem a ruskou interpunkcí. Nahlas vyslovuje interpunkční znaménko (*тире* = pomlčka), které do věty gramaticky patří. Z hesla se tím stává jakýsi zafixovaný reklamní slogan, který umocní zvukem výstřelu/klapnutí (pau).
+
+**Я поездил, в общем-то, немало / А есть что вспомнить, есть чего забыть**
+Archetyp zcestovalého Rusa, který už „viděl život“. Fráze „je na co vzpomínat, je co zapomínat“ je běžným životním povzdechem, ale v kontextu této písně je to naprosto jasná narážka na drogová a alkoholová okna (blackouty).
+
+**Добирался даже до Ямала**
+Poloostrov Jamal leží na dalekém severu Sibiře, kde se těží plyn. Extrémní mráz, věčná zima a naprostá izolace. V ruském vnímání je to synonymum pro absolutní konec světa.
+
+**И видел то, чё не может быть**
+„A viděl jsem to, co nemůže být.“ Znamená to buď každodenní těžko uvěřitelné absurdity ruské reality daleko od Moskvy, nebo (a to pravděpodobněji s ohledem na refrén) silné halucinace vyvolané mixem mrazu, drog a těžkého deliria tremens.
+
+**И при всём при внешнем похуизме**
+*Похуизм* (pochuismus) je klíčový ruský fenomén a filozofický postoj. Odvozuje se od fráze „по хуй“ (doslova „po pyj“, v překladu „je mi to u prdele“). Znamená to absolutní apatii, fatalismus a stoický nezájem o to, jak špatně věci fungují nebo co se děje kolem.
+
+**А сердцем я люблю страну свою**
+Obrat o 180 stupňů a hlavní myšlenka tvorby kapely Leningrad. Přes všechnu tu špínu, feťáky, chlast, byrokracii a lhostejnost svou zemi lyrický subjekt hluboce miluje. Tento paradox k ruské duši neodmyslitelně patří – vědomí vlastního marasmu, který je ale „náš“.
+
+**А эта песня, в целом, о туризме / И для туристов я её пою**
+Mistrovská sebeironická pointa na samotný závěr. Zatímco oficiální ministerstvo turistiky láká návštěvníky na chrám Vasila Blaženého v Moskvě, Zlatý kruh nebo muzea v Petrohradu, Šnurov zde prezentuje svou píseň jako toho skutečného průvodce pro turisty, protože právě takto poznají opravdového ducha jednotlivých ruských měst.
+
+</pre>
 
 
-<hr>
+    </section>
 
-## Вояж
-
-Все твои подруги - суки, часто ездят за границу
+    <section class="song" id="вояж">
+      <h2>Вояж <a class="top" href="#top" title="Nahoru">&#8593;</a></h2>
+      <pre class="lyrics">Все твои подруги - суки, часто ездят за границу
 Чтобы фоточки в Фэйсбуке залепить, как говорится
 В Инстаграме свои рожи похудевшие хуячат
 Мы с тобой поедем тоже, по путевке, по горящей
@@ -59,7 +176,7 @@ V Pitere pit
 А нахуя ж ещё нам наш вояж?
 Заебашим мы не хуже, чем твои эти паскуды
 Устриц будем жрать на ужин, в ресторане, из посуды
-Полетим на самолете, купим в "дьютике" напитки
+Полетим на самолете, купим в &quot;дьютике&quot; напитки
 Мол, не только вы, блять, пьёте джины с тоником по скидке
 
 На фоне Эйфелевой башни
@@ -95,23 +212,20 @@ V Pitere pit
 На фоне Эйфелевой башни
 С Айфона селфи заебашим
 А нахуя ж ещё нам наш вояж?
-Вояж!
+Вояж!</pre>
+    </section>
 
 
-
-
-<hr>
-
-## Ч.П.Х
-
-Официант, я здесь проездом
+    <section class="song" id="ч-п-х">
+      <h2>Ч.П.Х <a class="top" href="#top" title="Nahoru">&#8593;</a></h2>
+      <pre class="lyrics">Официант, я здесь проездом
 Из Москвы и сразу в Ниццу
 Заскочить я вдруг решила к вам
 В культурную столицу
 Я с дороги только что
 И я несколько устала
 Мне б шампанского бокал
-А не найдётся ли "Кристалла"?
+А не найдётся ли &quot;Кристалла&quot;?
 
 Что Вы, тётя, мнёте тити?
 Если выпить Вы хотите
@@ -126,7 +240,7 @@ V Pitere pit
 И скажу вам не стесняясь:
 Водка - это не моё
 На мой вкус резка немного
-Как шампанское "Моёт"
+Как шампанское &quot;Моёт&quot;
 Что Вы, тётя, мнёте тити?
 Если выпить Вы хотите
 То берите водки литер
@@ -140,7 +254,7 @@ V Pitere pit
 Чисто Питер!
 
 Аллё, Алёна? Это я, на!
-Что? Сама ты "пьяный"!
+Что? Сама ты &quot;пьяный&quot;!
 Я сегодня отмечаю День гранёного стакана
 В шумном зале ресторана
 Перестань. Какая пристань?
@@ -163,7 +277,7 @@ V Pitere pit
 
 Как же это охуенно, накатить с утра водчары!
 Будто попадаешь, сука, под волшебные, блять, чары!
-"Вишь в себе" , ебать мой хуй, - философия, блять, Канта!
+&quot;Вишь в себе&quot; , ебать мой хуй, - философия, блять, Канта!
 Слышь ты, дядя, дядя в кепке, позови-ка официанта!
 
 Что Вы, тётя, мнёте тити?
@@ -177,16 +291,17 @@ V Pitere pit
 То берите водки литер
 Это ж Питер, тётя!
 Ну что, берёте, а?
-Чисто Питер!
+Чисто Питер!</pre>
+    </section>
 
 
-
-
-
-==============
-PROMPT:
-Dám ti tu text jedné písničky od ruské skupiny Leningrad.
+<div class="promptbox">
+<h2>Prompt:</h2>
+<pre class="prompt">Dám ti tu text jedné písničky od ruské skupiny Leningrad.
 Tvůj úkol není přeložit to do češtiny (já běžné ruštině rozumím), ale každý řádek mi vysvětlit: skoro na každém řádku je nějaká aluze, parodie, slang, skrytá narážka či ironie, a nebo prostě nějaký ruský idiom, který já se svou jen základní znalostí ruštiny nepochopím.
-Prosím - řádek po řádce mě "uveď do všech internals" této písně.
-Díky.
-==============
+Prosím - řádek po řádce mě &quot;uveď do všech internals&quot; této písně.
+Díky.</pre>
+</div>
+</div>
+</body>
+</html>
