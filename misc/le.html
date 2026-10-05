@@ -61,6 +61,35 @@
     background: var(--btn-bg); color: var(--muted); font-size: .92rem;
   }
   .promptbox h2 { font-size: .85rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .notes {
+    margin-top: 28px; padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .notes h3 {
+    font-size: .8rem; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--muted); font-weight: 600; margin: 0 0 20px;
+  }
+  .notes h4 {
+    font-size: 1rem; font-weight: 600; margin: 28px 0 12px;
+    color: var(--fg);
+  }
+  .notes h3 + h4, .notes h3 + .lead { margin-top: 0; }
+  .notes .quote {
+    margin: 0 0 16px; padding: 10px 0 10px 14px;
+    border-left: 3px solid var(--line);
+    color: var(--muted); font-style: normal; line-height: 1.5;
+  }
+  .notes .lead { margin: 0 0 14px; color: var(--fg); }
+  .notes .lead + .note { margin-top: 24px; }
+  .note { margin: 0 0 22px; }
+  .note .cite {
+    margin: 0 0 6px; padding-left: 12px;
+    border-left: 3px solid var(--accent);
+    font-weight: 600; color: var(--accent); line-height: 1.45;
+  }
+  .note p { margin: 0 0 8px; }
+  .note p + p { margin-top: 8px; }
+  .tag { color: var(--muted); font-size: .85em; }
   @media (max-width: 480px) { .wrap { padding: 20px 16px 60px; } }
 </style>
 </head>
@@ -70,6 +99,7 @@
       <a class="btn" href="#v-pitere-pit">V Pitere pit</a>
       <a class="btn" href="#вояж">Вояж</a>
       <a class="btn" href="#ч-п-х">Ч.П.Х</a>
+      <a class="btn" href="#сиськи">Сиськи</a>
     </nav>
 
     <section class="song" id="v-pitere-pit">
@@ -110,55 +140,69 @@
 В Питере тире — пить (just so on!)
 ...</pre>
 
-<pre>
-**Много городов у нас в России**
-Začíná to jako klasická, až stereotypní vlastenecká píseň oslavující velikost a rozlohu Ruska.
-
-**А нету пальцев столько на ногах**
-První ironický zvrat. Místo vznešeného básnického obratu (např. „nelze je ani spočítat“) přichází absurdní a groteskní přirovnání – „nemáme tolik prstů na nohou“. Záměrné sražení patosu na zem.
-
-**С каждым годом всё они красивей / А утопают в солнце и в снегах**
-Čistá parodie na oficiální státní propagandu a televizní zprávy, které neustále opakují, jak se regiony rozvíjejí a vše je krásnější. Fráze o městech "utápějících se ve slunci a sněhu" je absolutní klišé z ruských čítanek, které má navodit pocit falešné idyly.
-
-**В Ростове шикарные плюхи**
-Tady začíná hlavní motiv písně – fiktivní průvodce ruskou „substanční turistikou“. Rostov na Donu má historicky pověst drsného, kriminálního města (říká se mu „Rostov-papa“, obdoba mafiánského Chicaga). *Плюхи* (pljuchy) je slangový výraz pro hašiš (doslova „plácnutí“ nebo „kaňka“, v drogovém slangu uplácaná kulička či placička pryskyřice).
-
-**Размером с большую печать**
-„O velikosti velkého razítka.“ Nadsázka zdůrazňující kvalitu a množství rostovského hašiše, ale zároveň vtipná narážka na ruskou byrokracii, kde je oficiální firemní či státní razítko (*pečať*) naprostou modlou.
-
-**В Москве охуительно нюхать**
-Moskva je centrem peněz, tvrdého byznysu, spěchu a pozlátka. *Нюхать* znamená šňupat, v tomto kontextu jasně kokain – drogu bohatých a rychlých, která se k moskevskému tempu a korporátní kultuře hodí. *Охуительно* je vulgární superlativ (od slova *chuj*) znamenající „kurevsky skvělé“.
-
-**В Челябинске лучше торчать**
-Čeljabinsk je naopak drsné industriální město plné továren, proslulé smogem a drsným životem (odkud pochází ruský meme o „drsných čeljabinských mužích“). *Торчать* (torčať) sice doslovně znamená trčet nebo vyčnívat, ale v narkoslangu to znamená být těžce sjetý tvrdými drogami, typicky nitrožilně (heroin nebo levné syntetické drogy jako "krokodil"). Reflektuje to temnou a bezvýchodnou realitu chudých průmyslových oblastí, kde lidi na rozdíl od Moskvy „nepaří“, ale spíše se snaží úplně utéct od reality.
-
-**А в Питере — пить, в Питере — пить**
-Petrohrad (Piter). Bývalé hlavní město, kulturní a intelektuální srdce Ruska, město Dostojevského, ale také město věčného deště, bažin, melancholie a deprese. Sergej Šnurov (lídr Leningradu, sám z Petrohradu) zde staví pointu: zatímco jiná města jedou v různých specifických drogách, v melancholickém a promoklém Petrohradu se prostě musí chlastat. Je to jediný způsob, jak tamní existenciální tíhu a sychravo přežít.
-
-**В Питере тире — пить (пау)**
-„V Piteru pomlčka pít.“ Zde si autor hraje s mluveným slovem a ruskou interpunkcí. Nahlas vyslovuje interpunkční znaménko (*тире* = pomlčka), které do věty gramaticky patří. Z hesla se tím stává jakýsi zafixovaný reklamní slogan, který umocní zvukem výstřelu/klapnutí (pau).
-
-**Я поездил, в общем-то, немало / А есть что вспомнить, есть чего забыть**
-Archetyp zcestovalého Rusa, který už „viděl život“. Fráze „je na co vzpomínat, je co zapomínat“ je běžným životním povzdechem, ale v kontextu této písně je to naprosto jasná narážka na drogová a alkoholová okna (blackouty).
-
-**Добирался даже до Ямала**
-Poloostrov Jamal leží na dalekém severu Sibiře, kde se těží plyn. Extrémní mráz, věčná zima a naprostá izolace. V ruském vnímání je to synonymum pro absolutní konec světa.
-
-**И видел то, чё не может быть**
-„A viděl jsem to, co nemůže být.“ Znamená to buď každodenní těžko uvěřitelné absurdity ruské reality daleko od Moskvy, nebo (a to pravděpodobněji s ohledem na refrén) silné halucinace vyvolané mixem mrazu, drog a těžkého deliria tremens.
-
-**И при всём при внешнем похуизме**
-*Похуизм* (pochuismus) je klíčový ruský fenomén a filozofický postoj. Odvozuje se od fráze „по хуй“ (doslova „po pyj“, v překladu „je mi to u prdele“). Znamená to absolutní apatii, fatalismus a stoický nezájem o to, jak špatně věci fungují nebo co se děje kolem.
-
-**А сердцем я люблю страну свою**
-Obrat o 180 stupňů a hlavní myšlenka tvorby kapely Leningrad. Přes všechnu tu špínu, feťáky, chlast, byrokracii a lhostejnost svou zemi lyrický subjekt hluboce miluje. Tento paradox k ruské duši neodmyslitelně patří – vědomí vlastního marasmu, který je ale „náš“.
-
-**А эта песня, в целом, о туризме / И для туристов я её пою**
-Mistrovská sebeironická pointa na samotný závěr. Zatímco oficiální ministerstvo turistiky láká návštěvníky na chrám Vasila Blaženého v Moskvě, Zlatý kruh nebo muzea v Petrohradu, Šnurov zde prezentuje svou píseň jako toho skutečného průvodce pro turisty, protože právě takto poznají opravdového ducha jednotlivých ruských měst.
-
-</pre>
-
-
+      <div class="notes">
+        <h3></h3>
+        <div class="note">
+          <p class="cite">Много городов у нас в России</p>
+          <p>Začíná to jako klasická, až stereotypní vlastenecká píseň oslavující velikost a rozlohu Ruska.</p>
+        </div>
+        <div class="note">
+          <p class="cite">А нету пальцев столько на ногах</p>
+          <p>První ironický zvrat. Místo vznešeného básnického obratu (např. „nelze je ani spočítat“) přichází absurdní a groteskní přirovnání – „nemáme tolik prstů na nohou“. Záměrné sražení patosu na zem.</p>
+        </div>
+        <div class="note">
+          <p class="cite">С каждым годом всё они красивей<br>А утопают в солнце и в снегах</p>
+          <p>Čistá parodie na oficiální státní propagandu a televizní zprávy, které neustále opakují, jak se regiony rozvíjejí a vše je krásnější. Fráze o městech &quot;utápějících se ve slunci a sněhu&quot; je absolutní klišé z ruských čítanek, které má navodit pocit falešné idyly.</p>
+        </div>
+        <div class="note">
+          <p class="cite">В Ростове шикарные плюхи</p>
+          <p>Tady začíná hlavní motiv písně – fiktivní průvodce ruskou „substanční turistikou“. Rostov na Donu má historicky pověst drsného, kriminálního města (říká se mu „Rostov-papa“, obdoba mafiánského Chicaga). <em>Плюхи</em> (pljuchy) je slangový výraz pro hašiš (doslova „plácnutí“ nebo „kaňka“, v drogovém slangu uplácaná kulička či placička pryskyřice).</p>
+        </div>
+        <div class="note">
+          <p class="cite">Размером с большую печать</p>
+          <p>„O velikosti velkého razítka.“ Nadsázka zdůrazňující kvalitu a množství rostovského hašiše, ale zároveň vtipná narážka na ruskou byrokracii, kde je oficiální firemní či státní razítko (<em>pečať</em>) naprostou modlou.</p>
+        </div>
+        <div class="note">
+          <p class="cite">В Москве охуительно нюхать</p>
+          <p>Moskva je centrem peněz, tvrdého byznysu, spěchu a pozlátka. <em>Нюхать</em> znamená šňupat, v tomto kontextu jasně kokain – drogu bohatých a rychlých, která se k moskevskému tempu a korporátní kultuře hodí. <em>Охуительно</em> je vulgární superlativ (od slova <em>chuj</em>) znamenající „kurevsky skvělé“.</p>
+        </div>
+        <div class="note">
+          <p class="cite">В Челябинске лучше торчать</p>
+          <p>Čeljabinsk je naopak drsné industriální město plné továren, proslulé smogem a drsným životem (odkud pochází ruský meme o „drsných čeljabinských mužích“). <em>Торчать</em> (torčať) sice doslovně znamená trčet nebo vyčnívat, ale v narkoslangu to znamená být těžce sjetý tvrdými drogami, typicky nitrožilně (heroin nebo levné syntetické drogy jako &quot;krokodil&quot;). Reflektuje to temnou a bezvýchodnou realitu chudých průmyslových oblastí, kde lidi na rozdíl od Moskvy „nepaří“, ale spíše se snaží úplně utéct od reality.</p>
+        </div>
+        <div class="note">
+          <p class="cite">А в Питере — пить, в Питере — пить</p>
+          <p>Petrohrad (Piter). Bývalé hlavní město, kulturní a intelektuální srdce Ruska, město Dostojevského, ale také město věčného deště, bažin, melancholie a deprese. Sergej Šnurov (lídr Leningradu, sám z Petrohradu) zde staví pointu: zatímco jiná města jedou v různých specifických drogách, v melancholickém a promoklém Petrohradu se prostě musí chlastat. Je to jediný způsob, jak tamní existenciální tíhu a sychravo přežít.</p>
+        </div>
+        <div class="note">
+          <p class="cite">В Питере тире — пить (пау)</p>
+          <p>„V Piteru pomlčka pít.“ Zde si autor hraje s mluveným slovem a ruskou interpunkcí. Nahlas vyslovuje interpunkční znaménko (<em>тире</em> = pomlčka), které do věty gramaticky patří. Z hesla se tím stává jakýsi zafixovaný reklamní slogan, který umocní zvukem výstřelu/klapnutí (pau).</p>
+        </div>
+        <div class="note">
+          <p class="cite">Я поездил, в общем-то, немало<br>А есть что вспомнить, есть чего забыть</p>
+          <p>Archetyp zcestovalého Rusa, který už „viděl život“. Fráze „je na co vzpomínat, je co zapomínat“ je běžným životním povzdechem, ale v kontextu této písně je to naprosto jasná narážka na drogová a alkoholová okna (blackouty).</p>
+        </div>
+        <div class="note">
+          <p class="cite">Добирался даже до Ямала</p>
+          <p>Poloostrov Jamal leží na dalekém severu Sibiře, kde se těží plyn. Extrémní mráz, věčná zima a naprostá izolace. V ruském vnímání je to synonymum pro absolutní konec světa.</p>
+        </div>
+        <div class="note">
+          <p class="cite">И видел то, чё не может быть</p>
+          <p>„A viděl jsem to, co nemůže být.“ Znamená to buď každodenní těžko uvěřitelné absurdity ruské reality daleko od Moskvy, nebo (a to pravděpodobněji s ohledem na refrén) silné halucinace vyvolané mixem mrazu, drog a těžkého deliria tremens.</p>
+        </div>
+        <div class="note">
+          <p class="cite">И при всём при внешнем похуизме</p>
+          <p><em>Похуизм</em> (pochuismus) je klíčový ruský fenomén a filozofický postoj. Odvozuje se od fráze „по хуй“ (doslova „po pyj“, v překladu „je mi to u prdele“). Znamená to absolutní apatii, fatalismus a stoický nezájem o to, jak špatně věci fungují nebo co se děje kolem.</p>
+        </div>
+        <div class="note">
+          <p class="cite">А сердцем я люблю страну свою</p>
+          <p>Obrat o 180 stupňů a hlavní myšlenka tvorby kapely Leningrad. Přes všechnu tu špínu, feťáky, chlast, byrokracii a lhostejnost svou zemi lyrický subjekt hluboce miluje. Tento paradox k ruské duši neodmyslitelně patří – vědomí vlastního marasmu, který je ale „náš“.</p>
+        </div>
+        <div class="note">
+          <p class="cite">А эта песня, в целом, о туризме<br>И для туристов я её пою</p>
+          <p>Mistrovská sebeironická pointa na samotný závěr. Zatímco oficiální ministerstvo turistiky láká návštěvníky na chrám Vasila Blaženého v Moskvě, Zlatý kruh nebo muzea v Petrohradu, Šnurov zde prezentuje svou píseň jako toho skutečného průvodce pro turisty, protože právě takto poznají opravdového ducha jednotlivých ruských měst.</p>
+        </div>
+      </div>
     </section>
 
     <section class="song" id="вояж">
@@ -213,6 +257,26 @@ Mistrovská sebeironická pointa na samotný závěr. Zatímco oficiální minis
 С Айфона селфи заебашим
 А нахуя ж ещё нам наш вояж?
 Вояж!</pre>
+      <div class="notes">
+        <h3>Rozbor</h3>
+        <p class="lead">Píseň „Вояж“ (Voyage) je brutální satirou na falešný, na dluh financovaný „instagramový životní styl“ a zoufalou potřebu sociálního uznání. Zatímco předchozí texty řešily existenciální hloubku nebo sny o zázracích, tady jde o čistý konzum a předstírání luxusního statusu, který hlavní aktéři ve skutečnosti nemají.</p>
+        <h4>Základní premisa a sociální sítě</h4>
+        <p class="lead">Hned v úvodu se definuje motivace: přítelkyně jezdí do zahraničí jen proto, aby si mohly „plácnout“ (<em>залепить</em>) fotky na sociální sítě s vyhublými obličeji (<em>рожи похудевшие</em> – narážka na křečovité „duck faces“ a pózy modelek). Závist nutí hlavního hrdinu jednat, ale protože nemá peníze, řeší to nákupem levného, zlevněného „last minute“ zájezdu (<em>по путевке, по горящей</em>).</p>
+        <h4>Refrén a smysl cesty</h4>
+        <blockquote class="quote">На фоне Эйфелевой башни<br>С Айфона селфи заебашим<br>А нахуя ж ещё нам наш вояж?</blockquote>
+        <p class="lead">Zde je shrnuta celá filozofie moderního turismu: cesta nemá vůbec žádný kulturní ani osobní přesah. Jediným účelem je „zajebat“ (vulgárně a agresivně pořídit) selfie s iPhonem (symbolem statusu) před Eiffelovkou. Závěrečná řečnická otázka „K čemu jinému nám ten výlet vlastně je?“ je z úst interpreta naprosto upřímná.</p>
+        <h4>Iluzorní luxus a Duty-Free</h4>
+        <p class="lead">Aby ukázali, že „nejsou o nic horší než ty bestie“ (kamarádky), plánují hrdinové jíst ústřice z opravdového nádobí v restauraci (<em>из посуды</em> – explicitní zdůraznění nádobí ukazuje, že doma jsou zvyklí jíst z papírových krabiček nebo rovnou z hrnce). Vrcholem ruského turistického stereotypu je nákup alkoholu v bezcelní zóně na letišti (<em>в &quot;дьютике&quot;</em>). I přes hru na vysokou společnost ale nakonec oslavují ginem s tonikem, který koupili ve slevě (<em>по скидке</em>).</p>
+        <h4>Pohled zvenčí (rapová vložka)</h4>
+        <p class="lead">Zde vstupuje do písně kamarád (v klipu interpretovaný raperem ST), který hlavnímu hrdinovi Serjogovi vyčítá, že svými gesty „kazí trh“ normálním chlapům. Serjoga bere ženy na výstavu Van Gogha (odkaz na jiný obří hit Leningradu <em>Экспонат / Na Labutenach</em>), pak do letoviska Gelendžik a teď dokonce do Paříže. Raper si stěžuje, že kvůli takto vysoko nastavené laťce teď jeho vlastní přítelkyně očekává ústřice a víno, přičemž on si může dovolit vzít ji maximálně do Jevpatorie (levnější, poněkud ošuntělé domácí letovisko na Krymu).</p>
+        <div class="note">
+          <p class="cite">«Седалище не треснет?»</p>
+        <p>Geniální jazyková hříčka. Běžný ruský vulgární idiom „жопа не треснет?“ (doslova „nepopraská ti z toho prdel?“, ve smyslu „nechceš toho trochu moc? / nejsi moc rozežraná?“) je zde ironicky uhlazen použitím slušnějšího, téměř lékařského slova pro pozadí (<em>седалище</em>). Následuje výzva <em>„проще рожа, реже песня“</em> – zjednodušeně „zklidni hormon a uber“, aby normální chlapi bez peněz nevypadali před svými ženami tak špatně.</p>
+        </div>
+        <h4>Kredit a válečná mentalita</h4>
+        <p class="lead">Závěr písně ukazuje krutou realitu: na tento falešný luxus si hrdina musí vzít půjčku v bance (<em>возьму кредит под это</em>), což je nejen v Rusku masivní společenský fenomén – jít do exekuce kvůli fotce na Instagram.</p>
+        <p class="lead">Vše vrcholí balením: <em>„присядем на дорожку“</em> je hluboce zakořeněná ruská pověra a tradice, kdy si celá rodina před dlouhou cestou musí se zavazadly na pár vteřin mlčky sednout, aby cesta dobře dopadla. Poslední verš <em>„На Париж! Как в 45-ом!“</em> (Na Paříž! Jako v pětačtyřicátém!) a označení Francouzů za „proklaté nepřátele“ je absurdní, komické spojení sovětských vojenských hesel z druhé světové války (Na Berlín!) s banálním turistickým výletem. Zoufale zadlužený turista jede do Evropy pro selfie, ale mentálně si to rámuje jako hrdinské vojenské tažení.</p>
+      </div>
     </section>
 
 
@@ -292,8 +356,140 @@ Mistrovská sebeironická pointa na samotný závěr. Zatímco oficiální minis
 Это ж Питер, тётя!
 Ну что, берёте, а?
 Чисто Питер!</pre>
+      <div class="notes">
+        <h3></h3>
+        <p class="lead">Tato píseň od kapely Ленинград se jmenuje <strong>Ч.П.Х.</strong>, což je zkratka pro <em>«Чисто питерская хуйня»</em> (čistě petrohradská magořina).</p>
+        <h4>Hlavní téma a příběh</h4>
+        <p class="lead">Píseň staví na věčném rivalství a kontrastu mezi Moskvou a Petrohradem. Moskevská snobka na cestě na francouzskou Riviéru (do Nice) udělala krátkou zastávku v Petrohradu („kulturní metropoli“). Na baru si zpočátku hraje na vysokou společnost a vyžaduje luxusní šampaňské, ale petrohradská bohémsko-alkoholická realita ji okamžitě pohltí. Během chvíle z ní opadne veškerá póza, přepne do těžkého opileckého stavu a začne míchat sprosté nadávky s citováním klasické poezie a německé filozofie. To je právě podstata „Č.P.Ch.“ – petrohradský paradox, kde se nejhrubší alkoholismus přirozeně prolíná s vysokou kulturou.</p>
+        <h4></h4>
+        <div class="note">
+          <p class="cite">«Культурная столица» (Kulturní metropole)</p>
+          <p>Tradiční, mírně ironický titul Petrohradu. Zatímco Moskva je centrem peněz a politiky, Petrohrad se považuje za srdce ruského duchovna, umění a architektury.</p>
+        </div>
+        <div class="note">
+          <p class="cite">«Кристалл» (Cristal) a «Моёт» (Moët &amp; Chandon)</p>
+          <p>Ikonické značky dražšího francouzského šampaňského. Symbol moskevské touhy po luxusu.</p>
+        </div>
+        <div class="note">
+          <p class="cite">«Дегустировала в Польше»</p>
+          <p>Její pokus vypadat jako světaznalá znalkyně. V ruském kontextu působí představa „degustace vodky v Polsku“ úsměvně a strojeně.</p>
+        </div>
+        <div class="note">
+          <p class="cite">«Мнять тити» (мять сиськи / титьки)</p>
+          <p>Vulgární idiom znamenající „váhat“, „otálet“, „cintat“, „ztrácet čas zbytečnými řečmi“ (doslova „mačkat si prsa/kozy“).</p>
+        </div>
+        <div class="note">
+          <p class="cite">«Водки литер»</p>
+          <p>Záměrná lidová zkomolenina slova <em>литр</em> (litr) na <em>литер</em>, která okamžitě navodí atmosféru obyčejné hospody čtvrté cenové skupiny.</p>
+        </div>
+        <div class="note">
+          <p class="cite">«День гранёного стакана»</p>
+          <p>Svátek ikonické sovětské broušené sklenice na vodku (neoficiálně se slaví 11. září). Sklenice s hraničeným sklem je v Rusku absolutním symbolem masového pití.</p>
+        </div>
+        <div class="note">
+          <p class="cite">«Тут куда не плюнешь... точно попадёшь в артиста»</p>
+          <p>Petrohradský stereotyp, že ve městě žije tolik bohémů, že ať plivneš kamkoliv, zasáhneš malíře, herce nebo básníka.</p>
+        </div>
+        <div class="note">
+          <p class="cite">«Плесни триста, два по двести, после — три по сто...»</p>
+          <p>Tradiční ruský způsob objednávání tvrdého alkoholu v gramech/mililitrech, zde s gradujícím tempem.</p>
+        </div>
+        <div class="note">
+          <p class="cite">«Московские пробки»</p>
+          <p>Narážka na legendární moskevské dopravní zácpy.</p>
+        </div>
+        <div class="note">
+          <p class="cite">«Колька Гумилёв» a akmeismus</p>
+          <p>Nikolaj Gumiljov byl významný petrohradský básník Stříbrného věku a zakladatel básnického směru <em>akmeismu</em>. Fráze <em>«без акмеистов даже срать не сядем рядом в поле чистом»</em> využívá drsné lidové přísloví („s tím bych si ani nesedl do jednoho pole kakat“), ale dává mu absurdní literární rozměr – v Petrohradu se bez básníků neudělá ani ta nejzákladnější potřeba.</p>
+        </div>
+        <div class="note">
+          <p class="cite">«Вещь в себе» (Ding an sich / Věc o sobě) &amp; Immanuel Kant</p>
+          <p>Hrdinka se ráno po těžkém tahu dostává do stavu opilecké filozofie a cituje Kantův klíčový pojem. Vykresluje to typický stav, kdy opilý člověk v Petrohradu získává pocit, že porozuměl celému vesmíru.</p>
+        </div>
+      </div>
     </section>
 
+
+    <section class="song" id="сиськи">
+      <h2>Сиськи <a class="top" href="#top" title="Nahoru">&#8593;</a></h2>
+      <pre class="lyrics"><span class="tag">[Куплет 1]</span>
+Весь мир преобразится сразу
+В нём станет больше красоты
+И засияют, словно стразы
+Улыбки, и сведут мосты
+Сойдутся наши берега
+Ты станешь мне родным и близким
+Растает лёд, сойдут снега
+Когда себе я вставлю сиськи
+
+<span class="tag">[Припев]</span>
+Когда себе, когда себе, когда себе я вставлю сиськи...
+Сиськи...
+
+<span class="tag">[Куплет 2]</span>
+И запоют зимою птицы
+Решат проблемы ЖКХ
+И грустный станет веселиться
+Бриллианты, золото, меха
+Подешевеют в одночасье
+И водка превратится в виски
+И будет свет, и будет счастье
+Когда себе я вставлю сиськи
+
+<span class="tag">[Припев]</span>
+Когда себе, когда себе, когда себе я вставлю сиськи...
+Сиськи...
+
+<span class="tag">[Куплет 3]</span>
+Сверлить соседи перестанут
+Приветливыми станут лица
+В пивных из кранов свежий стаут
+Почти бесплатно будет литься
+И санкции отменят тут же
+Магнитского все эти списки
+Придёт тепло, исчезнет стужа
+Когда себе я вставлю сиськи
+
+<span class="tag">[Припев]</span>
+Когда себе, когда себе, когда себе я вставлю сиськи...</pre>
+      <div class="notes">
+        <h3></h3>
+        <p class="lead">Základním principem této písně je budování obrovského kontrastu mezi patetickým, pohádkovým a celospolečenským očekáváním na jedné straně a naprosto přízemním, povrchním plastickým zákrokem na straně druhé. Zatímco v předchozím textu šlo o geografickou a existenciální sondu, zde se Sergej Šnurov trefuje do naivní (a často zlatokopecké) víry, že fyzický vzhled je magickým klíčem k vyřešení všech problémů vesmíru.</p>
+        <p class="lead">Zde jsou klíčové kulturní a jazykové narážky:</p>
+        <div class="note">
+          <p class="cite">«...словно стразы»</p>
+          <p>Štrasové kamínky (strasy). Symbol levného, křiklavého glamouru a pozlátka, na které si potrpí dívky toužící po životě v luxusu. Hned na začátku to sráží vznešená slova o kráse do laciné reality.</p>
+        </div>
+        <div class="note">
+          <p class="cite">«...сведyт мосты / Сойдутся наши берега»</p>
+          <p>Svedení mostů má v Rusku, a specificky v Šnurovově rodném Petrohradu, silný reálný i metaforický význam. V Petrohradu se v noci zvedají mosty přes řeku Něvu, aby mohly proplout lodě, což na celou noc fyzicky odřízne lidi na různých březích od sebe (časté téma rozdělených milenců). „Svedení“ mostů a břehů je tedy návratem spojení a romantickým klišé.</p>
+        </div>
+        <div class="note">
+          <p class="cite">«...вставлю сиськи»</p>
+          <p>Pointa celé písně. Po poetických obrazech (tání ledů, ptáci zpívající v zimě) přichází tvrdý pád. Slovo <em>сиськи</em> (kozy/cecky) je úmyslně vulgární slang. Není to lékařské „zvětšení prsou“, ale hrubé, spotřební „vražení si silikonů“, od kterého se absurdně očekává spása světa.</p>
+        </div>
+        <div class="note">
+          <p class="cite">«Решат проблемы ЖКХ»</p>
+          <p>Tohle je jeden z největších vtipů celého textu. ЖКХ (Žiliščno-komunalnoje chozjajstvo) jsou ruské komunální a bytové služby. Je to absolutní národní fenomén a synonymum pro korupci, rozpadající se paneláky, děravé střechy, netekoucí teplou vodu a zlodějské správce. Představa, že se tenhle obří byrokratický moloch zázračně opraví díky novému dekoltu, je čistá, kousavá satira.</p>
+        </div>
+        <div class="note">
+          <p class="cite">«И водка превратится в виски»</p>
+          <p>Parodie na biblický zázrak proměny vody ve víno. V ruském kontextu se obyčejná, všudypřítomná a „plebejská“ vodka zázrakem mění na „viski“ – v postsovětském prostoru stále vnímaný symbol západního úspěchu, peněz a elitního statusu.</p>
+        </div>
+        <div class="note">
+          <p class="cite">«Сверлить соседи перестанут»</p>
+          <p>„Soused s vrtačkou“ (сосед с перфоратором) je snad nejrozšířenější ruský meme o bydlení. Život v obrovských tenkostěnných panelácích zaručuje, že vždycky, zvlášť v neděli v osm ráno, se najde soused, který začne vrtat do zdi. Vyřešení tohoto nekonečného psychologického teroru je zde vykresleno jako utopie.</p>
+        </div>
+        <div class="note">
+          <p class="cite">«В пивных из кранов свежий стаут»</p>
+          <p>Stout (např. Guinness) je drahé, importované, západní pivo. Opět kontrast k běžnému, levnému ruskému čepovanému ležáku (<em>žiguljovskoje</em>), které se pije v běžných putykách (<em>pivnych</em>).</p>
+        </div>
+        <div class="note">
+          <p class="cite">«И санкции отменят тут же / Магнитского все эти списки»</p>
+          <p>Tady absurdita graduje z komunální a osobní roviny až na úroveň vysoké geopolitiky. „Seznamy Magnitského“ odkazují na americký zákon (Magnitsky Act) z roku 2012, který uvalil tvrdé mezinárodní sankce na ruské oligarchy a představitele moci v reakci na smrt právníka Sergeje Magnitského v moskevském vězení. Myšlenka, že americký Kongres zruší mezinárodní sankce, jakmile si hlavní hrdinka nechá udělat plastiku, dotahuje celou iluzi povrchního světa k dokonalosti.</p>
+        </div>
+      </div>
+    </section>
 
 <div class="promptbox">
 <h2>Prompt:</h2>
