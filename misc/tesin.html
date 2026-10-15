@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Průvodce dvojměstím: Český Těšín & Cieszyn</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            color: #2c3e50;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 35px 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        header p.note { font-size: 0.9em; opacity: 0.85; margin-bottom: 0; }
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.2em;
+        }
+        h2 {
+            color: #1e3c72;
+            border-bottom: 3px solid #e67e22;
+            padding-bottom: 8px;
+            margin-top: 40px;
+        }
+        h3 {
+            color: #d35400;
+            margin-top: 25px;
+        }
+        h4 { margin-bottom: 6px; }
+        .intro-box {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+            border-left: 5px solid #1e3c72;
+        }
+        .stop-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+            border-left: 5px solid #27ae60;
+        }
+        .stop-card.transit { border-left-color: #2a7f8e; }
+        .bonus-stop {
+            background: #fff8e7;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #f39c12;
+            margin: 20px 0;
+        }
+        .gossip-box {
+            background: #fdf2e9;
+            padding: 18px;
+            border-radius: 8px;
+            border: 1px dashed #e67e22;
+            margin: 15px 0;
+        }
+        .look-box {
+            background: #eef4fa;
+            padding: 18px;
+            border-radius: 8px;
+            border-left: 5px solid #2e5e8c;
+            margin: 15px 0;
+        }
+        .legend-box {
+            background: #edf5f0;
+            padding: 18px;
+            border-radius: 8px;
+            border-left: 5px solid #1f4d3a;
+            margin: 15px 0;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .badge-cz { background-color: #d6eaf8; color: #1b4f72; }
+        .badge-pl { background-color: #fadbd8; color: #78281f; }
+        .badge-x  { background-color: #d9ecef; color: #1d5c67; }
+        .badge-bonus { background-color: #fdebd0; color: #b9770e; }
+        ul, ol {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        dl.facts dt { font-weight: bold; margin-top: 10px; }
+        dl.facts dd { margin: 2px 0 0 0; }
+        .meta { color: #7f8c8d; font-size: 0.9em; margin-top: -6px; margin-bottom: 14px; }
+        .verify { color: #7f8c8d; font-style: italic; }
+
+        /* Schéma trasy a plán */
+        figure.schema { margin: 20px 0 0; }
+        figure.schema svg { display: block; width: 100%; max-width: 420px; height: auto; margin: 0 auto; }
+        figure.schema figcaption { font-size: 0.9em; color: #7f8c8d; text-align: center; margin-top: 6px; }
+        ol.plan { list-style: none; padding: 0; margin: 20px 0 0; border-top: 1px solid #d5dad4; }
+        ol.plan li { display: flex; align-items: baseline; padding: 7px 0; border-bottom: 1px solid #d5dad4; margin: 0; }
+        ol.plan li .n { font-weight: bold; flex: 0 0 2em; }
+        ol.plan li a { flex: 1 1 auto; padding-right: 10px; color: inherit; text-decoration: none; }
+        ol.plan li a:hover { text-decoration: underline; }
+        ol.plan li .t { margin-left: auto; color: #7f8c8d; font-size: 0.9em; white-space: nowrap; }
+        ol.plan li.cz .n { color: #1b4f72; }
+        ol.plan li.pl .n { color: #78281f; }
+        ol.plan li.x .n { color: #2a7f8e; }
+
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9em;
+            border-top: 1px solid #d5dad4;
+        }
+        footer ul { padding-left: 20px; }
+        footer .credits { text-align: center; margin-top: 20px; }
+        @media print {
+            body { background: #fff; color: #000; }
+            .stop-card, .intro-box { box-shadow: none; break-inside: avoid-page; }
+            .gossip-box, .bonus-stop, .look-box, .legend-box { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🗺️ Těšín a Cieszyn </h1>
+    <p>Pěší okruh od kostela Nejsvětějšího Srdce Ježíšova v Masarykových sadech přes Zámeckou horu, Głębokou a Rynek k Ježíšovu kostelu a zpět přes Nivy</p>
+    
+</header>
+
+<section class="intro-box">
+    <h2>Úvodem: Čí to vlastně bylo město a z čeho žilo?</h2>
+    <p>Zdar! Než vyrazíme k první zastávce, pojďme si nalít čistého vína (nebo radši těšínského piva) ohledně toho, kde to vlastně stojíme. Čí je Těšín? Spíše <strong>polský nebo český?</strong> Nejférovější historická odpověď zní: byl <strong>slezský, piastovský, habsburský a středoevropský</strong>. A otázka „polské, nebo české?“ je vlastně postavená špatně – právě to je na Těšíně nejzajímavější.</p>
+
+    <h3>Jméno, legenda, první zmínka</h3>
+    <p>Začněme tím, čemu v Cieszyně věří každý průvodce a žádný historik. Roku <strong>810</strong> se prý u pramene sešli tři bratři, <strong>Bolko, Leszko a Cieszko</strong>, synové knížete Leszka III., a z radosti ze shledání (polsky <em>„tak się cieszyli“</em>) založili hrad a město pojmenovali <strong>Cieszyn</strong>. Legenda je podle všeho dílem až 19. století; město podle ní nicméně v roce 2010 slavilo 1200 let a studnu tří bratří dnes uvidíme. Doložená historie je střízlivější: hradiště na Zámeckém vrchu stálo nejpozději v 10. století, kamenná rotunda v polovině 11. století a první písemná zmínka – „Tescin“ – je v bule papeže Hadriána IV. z roku <strong>1155</strong>, v seznamu kastelánií vratislavského biskupství.</p>
+
+    <h3>Polský, český, nebo německý?</h3>
+    <ul>
+        <li><strong>Raný středověk (okolo r. 1000–1327):</strong> Původně tu sídlil slovanský kmen Holasiců. Koncem 10. století oblast ovládli polští Piastovci a roku <strong>1290</strong> vzniklo samostatné <strong>Těšínské knížectví</strong> pro Měška I., kterému pak vládla místní větev Piastovců. Dynasticky tedy polské kořeny – Piastovci tu vládli až do roku 1653.</li>
+        <li><strong>Pod Českou korunou (od 1327 do 1918):</strong> Těšínský kníže Kazimír I. složil roku <strong>1327</strong> lenní slib českému králi <strong>Janu Lucemburskému</strong>. Od té chvíle – celých 600 let! – bylo Těšínsko nedílnou součástí <strong>Zemí Koruny české</strong>, lénem českých králů, od roku 1526 tedy Habsburků. Habsburkové tu nevládli jako „Rakousko“, ale jako čeští králové; po roce 1653 knížectví spravovali přímo, od 1766 je drželi jako apanáž vedlejší, „těšínské“ linie.</li>
+        <li><strong>Úředním jazykem čeština:</strong> Kancelář knížectví a zemské desky se od 15. století vedly česky – dokonce i polští Piastovci vydávali své listiny a zemské zřízení česky! Němčina převládla až v 18. století. Polština se jako úřední jazyk objevuje teprve s národním hnutím po roce 1848.</li>
+        <li><strong>Habsburská éra a „Malá Vídeň“:</strong> Když roku <strong>1653</strong> vymřela poslední piastovská kněžna Alžběta Lukrécie, připadlo knížectví přímo Habsburkům. V 18. a 19. století městu kulturně, ekonomicky a politicky dominovali <strong>Němci a bohatá židovská komunita</strong> (Židé tu byli od 17. století), zatímco okolní venkov mluvil slezským nářečím (<em>„po naszymu“</em> – směs polštiny, češtiny a němčiny). Rakouské sčítání z roku 1910 udává v samotném městě 61,5 % německy mluvících, 31,7 % polsky a 6,7 % česky. Šlo o „obcovací řeč“, ne o národnost, a okolní vsi měly výraznou polskojazyčnou většinu.</li>
+        <li><strong>A třetí cesta: Šlonzáci.</strong> Josef Koždoň a jeho Slezská lidová strana (1909) tvrdili, že Slezané nejsou ani Poláci, ani Češi. V roce 1920 se klonili spíš k Československu než k Polsku – a Koždoň byl pak v letech 1923–1938 starostou Českého Těšína. Německy orientovaný Slezan jako první dlouholetý starosta českého města: i to patří k místní logice.</li>
+    </ul>
+    <p>Jinými slovy: „polské město“ je stejně pravdivé a stejně zjednodušené jako „české město“. Do roku 1920 to bylo vícejazyčné habsburské město, kterému Poláci říkali Cieszyn, Němci Teschen a Češi Těšín – a žádný z těch názvů nelhal.</p>
+
+    <h3>Víra: země luteránů a jezuitů</h3>
+    <p>Druhá osa, bez níž Těšínsku neporozumíš, je konfesní. Kníže Václav III. Adam zavedl ve 40. letech 16. století luterství a knížectví bylo na tři generace evangelické; roku 1610 se Adam Václav vrátil ke katolictví a začala rekatolizace, kterou po roce 1653 Habsburkové dotáhli tvrdě (roku 1654 odebrali evangelíkům úplně všechny kostely a donutili je scházet se tajně po lesích – v Beskydech dodnes najdeš tzv. lesní kostely). Pak přišel zvrat, který Těšínu vtiskl tvář dodnes: roku <strong>1707</strong> vynutil švédský král <strong>Karel XII.</strong> na císaři Josefu I. altranstädtskou konvenci a slezští evangelíci směli postavit šest <strong>„milostivých kostelů“ (Gnadenkirchen, Kościoły Łaski)</strong>. Jeden z nich stojí v Cieszyně – a po roce 1742, kdy zbytek Slezska připadl Prusku, zůstal jediným evangelickým chrámem v celém habsburském Slezsku, až do tolerančního patentu 1781. Odtud dnešní paradox: Těšínsko je nejevangeličtějším koutem Česka a na české straně Těšína stojí dvě velké luterské věže proti jedné katolické. Uvidíš je ze Zámeckého vrchu.</p>
+
+    <h3>Habsburkové z Těšína: Albertina, Aspern, Custozza</h3>
+    <p>Když roku 1766 Marie Terezie provdala svou nejmilejší dceru Marii Kristinu za Alberta Saského, dala mladým do věna těšínské knížectví. Albert, vášnivý sběratel, chtěl svou sbírku kreseb a grafiky původně umístit do obnoveného těšínského zámku; smrt manželky roku 1798 plány zhatila a sbírka dnes stojí ve Vídni pod jeho jménem – <strong>Albertina</strong>. Po Albertovi zdědil Těšín adoptivní syn, arcivévoda Karel (vítěz od Aspern 1809), pak Albrecht (vítěz od Custozzy 1866, jezdecký pomník před Albertinou, jeden z nejbohatších mužů monarchie) a nakonec Bedřich, vrchní velitel rakousko-uherské armády v letech 1914–1916. Jejich správní aparát, <strong>Těšínská komora</strong>, byl největším podnikem regionu: lesy, železárny v Ustroni (1772) a Třinci (1839), pivovar (1846).</p>
+
+    <h3>Pustina? Průmyslové centrum?</h3>
+    <p>Rozhodně žádná pustina čekající na uhlí! Těšín ležel na křižovatce <strong>Jantarové a Měděné stezky</strong> (spojnice Baltu, Moravské brány a Uher) a na cestě z Vídně do Krakova. Už ve středověku tu kvetla řemesla – vyráběly se tu slavné lovecké pušky zvané <strong>„těšínky“</strong> (Cieszynki), zdobené perletí a kostí, se kterými lovili evropští králové.</p>
+    <p>Těšín sám přitom nikdy nebyl průmyslovým městem v ostravském smyslu – uhlí leželo severněji, v Karviné (Larischové) a na Ostravsku. Město žilo z řemesla, z obchodu a z úřadů; byla to <strong>„Malá Vídeň“</strong> Slezska, čisté, lázeňsky vyhlížející správní, školské a obchodní centrum, město škol a kostelů, od roku 1802 i jednoho z prvních veřejných muzeí střední Evropy (ex-jezuita Leopold Jan Szersznik). Dvě věci je ale změnily. Roku 1806 koupil Pražan Tomáš Prochaska místní tiskárnu a jeho potomci z ní udělali c. k. dvorní tiskárnu, jednu z největších v monarchii. A <strong>5. května 1869 přijel první vlak</strong>: Košicko-bohumínská dráha (celá zprovozněna 1871–72), jediná železnice spojující Slezsko s Uhrami. Nádraží postavili na levém, do té doby předměstském břehu, u Saské Kupy (Sachsenberg).</p>
+    <p>Zlom 19. století dokonali Habsburkové: z Těšínska udělali přes Těšínskou komoru <strong>průmyslové impérium</strong> – železárny v Třinci a Ustroni, v Karviné a Orlové se rozjelo masivní dolování černého uhlí. Kolem nádraží vyrostly fabriky, nová tiskárna, hotely; stavěla se divadla, kasárna, pivovar, továrny na nábytek (Kohn – konkurent Thonetu) a likérky, a roku 1911 vyjela tramvaj od nádraží na Rynek (jezdila 1911–1921). Tak vznikla osa, podle níž se město o půl století později rozlomí.</p>
+
+    <h3>Absurdní rozdělení 1918–1920</h3>
+    <p>V listopadu 1918, po pádu Rakouska-Uherska, si město nárokovaly dvě nové republiky. 5. listopadu se místní polská Rada Narodowa Księstwa Cieszyńskiego a český Zemský národní výbor pro Slezsko dohodly na provizorním rozdělení správy podle národnostní většiny obcí: Polákům připadl Těšín, Bílsko a většina Fryštátska včetně kontroly nad Košicko-bohumínskou dráhou, Čechům Frýdecko a část Fryštátska. Dohodu ale ani Praha, ani Varšava nepřijaly – Praha čekala, že celé bývalé knížectví jako historická země Koruny české připadne republice, Varšava region považovala za polský. Verze se liší, jak jinak: česká strana zdůrazňovala, že Košicko-bohumínská dráha byla jediným spojením se Slovenskem a karvinské uhlí že je nenahraditelné; polská strana mluví o úderu ve chvíli, kdy Polsko bojovalo o Lvov.</p>
+
+    <h4>Sedmidenní válka (23.–30. ledna 1919) podrobněji</h4>
+    <p><strong>Proč Češi zaútočili.</strong> Bezprostřední záminkou bylo, že Varšava vypsala volby do Sejmu na 26. ledna 1919 i na sporném, polsky spravovaném území, a začala tam odvody místních mužů do polské armády. Praha to brala jako pokus postavit mírovou konferenci před hotovou věc: kdo má na území volené poslance a odvedené vojáky, ten ho drží. Pod tím ležely tři tvrdší důvody. Za prvé Košicko-bohumínská dráha – v zimě 1919 jediná kapacitní trať z českých zemí na Slovensko, kde se zároveň bojovalo s Maďary; bez ní by Slovensko bylo vojensky nezásobovatelné. Za druhé karvinské černé uhlí a koks pro ostravský průmysl. Za třetí načasování: Polsko mělo armádu vázanou ve válce s Ukrajinci o Lvov a v povstání v Poznaňsku, takže Těšínsko bylo bráněné slabě. Československý protest proti volbám Polsko odmítlo.</p>
+    <p><strong>Kdo rozhodl a kdo vydal rozkaz.</strong> Rozhodnutí padlo 17. ledna 1919 na mimořádném zasedání vlády za účasti prezidenta Masaryka; podle literatury bylo jednomyslné a Masaryk vojenské řešení aktivně prosazoval (výrok, že si Poláci „zaslouží ťafku“, je převyprávěný, ne doložený citát). Jediný, kdo byl proti, byl ministr zahraničí Beneš, který v Paříži vyjednával a věděl, jak to Dohoda přijme – jenže Beneš byl v Paříži, ne v Praze. Rozkaz k vojenskému obsazení vydalo <strong>19. ledna ministerstvo národní obrany</strong> (ministr Václav Klofáč). 21. ledna Praha ještě oficiálně vyzvala Polsko ke stažení vojska a úřadů; Varšava výzvu ignorovala. Vrchní velení bylo nejdřív nabídnuto francouzskému podplukovníku Gillainovi, veliteli 21. pluku čs. legií z Francie – odmítl s tím, že Francie není s Polskem ve válce. Velení proto převzal <strong>podplukovník Josef Šnejdárek</strong>, Čech, který předtím sloužil ve francouzské cizinecké legii; operaci řídil z vojenského velitelství v Moravské Ostravě.</p>
+    <p><strong>Ultimátum v Těšíně.</strong> 23. ledna v 11 hodin se Šnejdárek ohlásil v Těšíně u polského velitele, plukovníka <strong>Franciszka Ksaweryho Latinika</strong>. Přivedl s sebou britského, francouzského, italského a amerického důstojníka z dohodových misí – jejich uniformami se československá strana zaštiťovala, aby akce vypadala jako krok Dohody. Žádal, aby polské vojsko do dvou hodin vyklidilo Těšínsko až po řeku Bialou. Latinik neměl z Varšavy žádné instrukce, celé to považoval za podezřelé a odmítl. Ve 13 hodin ultimátum vypršelo a odpoledne padly první výstřely.</p>
+    <p><strong>Síly.</strong> Jádro československého útoku tvořil 21. střelecký pluk legionářů z Francie (tři prapory), k tomu prapory 54. pěšího pluku z Olomouce a 93. pluku ze Šumperka, 17. myslivecký prapor, dobrovolnické prapory z Bohumína a Orlové a místní národní gardy (udává se kolem 5 000 mužů); od Slovenska měl přes Jablunkovský průsmyk udeřit 35. pluk legionářů z Itálie. Od 25. ledna přibyla celá 2. brigáda domácího vojska, později další prapory z Prahy, Brna a Kroměříže. Polsko mělo na místě pět praporů (hlavně 12. pěší pluk z Wadowic), čtyři kulometné roty, jezdeckou četu, jednu baterii, asi 550 četníků a několik tisíc místních dobrovolníků a milice. Vojenský historický ústav odhaduje československou přesilu zhruba 5 : 3 po celou dobu bojů.</p>
+    <p><strong>Kde se střílelo.</strong> Útok šel po železnicích ve třech směrech. Severní proud z Ostravy přes Vrbici na <strong>Bohumín</strong> – ten padl hned první den v 16 hodin, klíčový železniční uzel byl v českých rukou. Střední proud od Šenova na <strong>Horní Suchou, Karvinou, Orlovou a Albrechtice</strong>, kde se bojovalo nejtvrději, včetně bojů v dolech a průmyslových areálech; Karviná a Orlová byly obsazeny do 24. ledna. Jižní proud od Čadce přes Jablunkov uvízl na zatarasené trati. 26. ledna se bojovalo u <strong>Stonavy</strong> a u <strong>Zebrzydowic a Kończyc Małych</strong>: ve Stonavě podle polské strany českoslovenští vojáci zabili zajaté polské vojáky 12. wadowického pluku (uvádí se dvacet obětí, dnes tam stojí pomník); česká strana tvrzení zpochybňuje nebo počty snižuje a spor o Stonavu trvá dodnes. U Kończyc padl kapitán <strong>Cezary Haller</strong>, bratr generála Józefa Hallera; polský tisk pak psal, že mu Češi vypíchli oči – Šnejdárek to ve vzpomínkách odbyl slovy „byla to ovšem lež“ a i polský historik Daniel Korbel dnes uvádí, že Haller padl v boji. 27. ledna polské jednotky vyklidily <strong>Těšín</strong> a československé vojsko do něj večer vstoupilo bez boje. Šnejdárek dostal rozkaz překročit Vislu a zajistit trať Bohumín–Těšín–Jablunkov. 28.–30. ledna se bojovalo u <strong>Skočova</strong> (Skoczów) na Visle, v mrazech kolem −20 °C; Šnejdárek vzpomínal, že mužstvu kvůli tomu povolil čaj s rumem. Útok na Skočov plánovaný na 31. ledna se už neuskutečnil: v noci na 31. ledna ministerstvo rozkázalo boje zastavit. Polská tradice tomu říká „vítězství u Skočova“, česká „zastavení z Paříže“ – pravda je, že do toho vstoupila Dohoda.</p>
+    <p><strong>Paříž a konec.</strong> Beneš 27. ledna telegrafoval Masarykovi, že akce v Paříži zanechala „zlý dojem“. Mírová konference si zástupce obou zemí předvolala před Radu deseti (27.–29. ledna) a vynutila příměří. 3. února 1919 podepsali Beneš a Roman Dmowski v Paříži dohodu o demarkační čáře, garantovanou podpisy Wilsona, Lloyda George, Clemenceaua a Orlanda: volby i odvody v celém knížectví zakázány až do rozhodnutí konference, 26. února se československé vojsko stáhlo na novou linii stanovenou dohodovou komisí. Většina uhelné pánve zůstala pod československou správou, Těšín a úsek dráhy přes něj pod polskou. Praha tím dosáhla okamžitého cíle (volby se nekonaly, dráha šla zásobovat Slovensko), ale ztratila šanci na celé Těšínsko – velmoci od té chvíle hledaly, jak území rozdělit.</p>
+    <p><strong>Ztráty</strong> (prameny se rozcházejí): československá strana 44 až 55 padlých, 124 raněných, 7 nezvěstných, třetina ztrát připadla na legionáře; polská strana 92 padlých, 855 raněných, 813 nezvěstných či zběhlých (hlavně z krakovského kontingentu) a přes 500 zajatých. Civilní oběti nikdo spolehlivě nespočítal. Obě strany po válce internovaly: československá 251 osob v Olomouci, Lipníku a Moravské Třebové; podle českých údajů Polsko internovalo v Dąbie u Krakova 551 lidí české národnosti, z nichž 39 zemřelo – Polsko ta čísla popírá.</p>
+    <div class="gossip-box">
+        <strong>📰 Co psaly dobové noviny:</strong>
+        <ul>
+            <li>Polský těšínský týdeník <em>Gwiazdka Cieszyńska</em> (podle rozboru v odborném článku): 3. ledna 1919 „Czeskie apetyty“ (České choutky), 7. ledna „Czeski raj“, 24. ledna – den po útoku – <strong>„Śląsk pod najazdem czeskim“</strong> (Slezsko pod českým vpádem), 28. ledna „Ważne wypadki“ (Důležité události), 7. února „Pod okupacyą czeską“, 18. února znovu „Śląsk pod najazdem czeskim“ a 25. února „Bohaterska obrona Śląska“ (Hrdinská obrana Slezska). 11. února přinesl list zprávu o smrti kapitána Hallera, z níž vyrostla legenda o vypíchnutých očích.</li>
+            <li>Vedle Gwiazdky vycházely na polské straně <em>Dziennik Cieszyński</em>, <em>Robotnik Śląski</em> a <em>Głos Ludu Śląskiego</em>; polský tisk podle historika Vladimíra Černého události zveličoval a tvrdil, že českoslovenští vojáci páchají zločiny na civilistech.</li>
+            <li>Český tisk a oficiální místa slovo „válka“ nepoužívaly – psalo se o „obsazení Těšínska“ a o „vojenské akci“. Název <em>Sedmidenní válka</em> se vžil až později; Poláci říkají <em>wojna ośmiodniowa</em>, protože počítají i 31. leden. <span class="verify">Konkrétní titulky Národních listů, Práva lidu nebo Lidových novin z ledna 1919 se nepodařilo z dostupných zdrojů ověřit; dohledat je lze v digitální knihovně Kramerius.</span></li>
+        </ul>
+    </div>
+    <p>Plebiscit, který měl rozhodnout, se nikdy nekonal. Místo něj rozhodla <strong>28. července 1920</strong> konference velvyslanců v belgickém Spa: hranice po Olze (Olši), přímo středem města. Dopadlo to bizarně: <strong>Polákům zůstalo celé historické jádro, hrad, Rynek, radnice i divadlo. Čechům připadlo levobřežní průmyslové předměstí Saská Kupa, uhelná pánev a životně důležité vlakové nádraží.</strong> Na levém břehu zbyl útvar o rozloze 2,66 km² s asi osmi tisíci obyvateli, bez náměstí, bez radnice, s jediným kostelem – Český Těšín, nejmladší město republiky. Tramvaj na mostě narazila na celní závoru a brzy zanikla, Češi si museli na zelené louce postavit úplně nové město (radnici, školy, banky) a Poláci zas nové nádraží. Stát Český Těšín příští dvě desetiletí stavěl prakticky od nuly, a proto je dnes nečekaně dobrou učebnicí meziválečné architektury. A jizva uprostřed města je znát dodnes.</p>
+
+    <h3>1938–1945 a potom</h3>
+    <p>Po Mnichovu, 2. října 1938, obsadila polská armáda Zaolzie; Český Těšín se stal „Cieszyn Zachodni“ a město bylo na jedenáct měsíců sjednoceno pod polskou vlajkou. 1. září 1939 ustupující polská armáda vyhodila do vzduchu Hlavní most, Němci město sjednotili podruhé, jako Teschen, a vypálili obě synagogy; židovská komunita skončila ve vyhlazovacích táborech. Roku 1945 se vrátila hranice z roku 1920, smlouva z roku 1958 ji potvrdila, Schengen v prosinci 2007 zrušil závory – a v březnu 2020 covid na víc než rok vrátil hranici do středu města.</p>
+
+    <h3>Dnes</h3>
+    <p>Český Těšín je centrem polské menšiny v Česku: Polskie Gimnazjum im. Słowackiego, Těšínské divadlo se dvěma soubory, českým a polským (Scena Polska je jediná stálá profesionální polská scéna mimo Polsko), Kongres Poláků, dvojjazyčné nápisy. Cieszyn je zase univerzitní (fakulty Slezské univerzity), designérský (Zamek Cieszyn) a trochu bohémský. Rozdělení dalo každému břehu jinou roli – „Poláci dostali historii, Češi nádraží“ – a ta věta je zároveň trasa, kterou dnes jdeme. Pokud znáš Nohavicovu <em>Těšínskou</em> (1996), budeš procházet jejími kulisami: Larischova zahrada u muzea, Sachsenberg na českém břehu, kavárna Avion u mostu. Je to píseň o městě, které si Čech představuje v roce 1910 jako trojjazyčné a židovské – tedy přesně o tom Těšíně, který o deset let později přestal existovat.</p>
+
+    <div class="gossip-box">
+        <strong>👑 Historický bulvár:</strong><br>
+        Těšín byl několikrát pupkem evropské politiky i drbů!
+        <ul>
+            <li><strong>Císařovna, car a mír (1779):</strong> Přímo v Těšíně se podepisoval <em>Těšínský mír</em>, který ukončil válku o bavorské dědictví mezi Marií Terezií a pruským králem Fridrichem II., a to za garance ruské carevny Kateřiny Veliké. Podrobnosti u Rynku (zastávka 4).</li>
+            <li><strong>Prchající car i císař (1805):</strong> Po drtivé porážce u Slavkova prchal přes Těšín jak rakouský císař František I., tak ruský car Alexandr I. V roce 1770 a 1777 (jiný pramen uvádí 1779) tu zase přespával císař Josef II.</li>
+            <li><strong>Hlavní stan války (1914–1916):</strong> Za 1. světové války sídlilo přímo v Těšíně vrchní velení celé rakousko-uherské armády (AOK)! Korzovali tu císař František Josef I., mladý císař Karel I. i německý císař Vilém II. Místní drby dodnes vyprávějí, jak vysocí důstojníci generálního štábu trávili víc času v těšínských salonech a s místními dámami než nad mapami fronty. Víc na Zámecké hoře (zastávka 2).</li>
+        </ul>
+    </div>
+</section>
+
+<h2>🚶‍♂️ Než vyrazíme: praktické věci a plán trasy</h2>
+<p>Okruh má zhruba pět kilometrů; s věží, pivem a dvěma kávami počítej tři a půl až pět hodin. Jediné stoupání je na Zámecký vrch (pár desítek schodů) a mírně do kopce k Ježíšovu kostelu. Na polském břehu se platí zlotými, karty berou prakticky všude – hotovost se hodí leda na věž nebo na trhu. Pokladna k Piastovské věži a rotundě je u Zamku Cieszyn (Zamkowa 3). Exkurze do pivovaru trvá hodinu a půl až dvě a jede v pevných časech, většinou s rezervací; bez ní zbývá podnikový obchod a výčep.</p>
+<p>A jedna věc, kterou budeš mít celou cestu pod nohama: od mostu nahoru po Głębokou až k Ježíšovu kostelu jdeš přesně po trase <strong>těšínské tramvaje (1911–1921)</strong>, nejmenší tramvajové sítě, jaká kdy jezdila na dnešním českém území. Vrátíme se k ní u mostu.</p>
+
+<figure class="schema">
+  <svg viewBox="0 0 360 560" role="img" aria-labelledby="schemaTitle" xmlns="http://www.w3.org/2000/svg">
+    <title id="schemaTitle">Schéma okruhu: sedm zastávek, dva mosty, mezi nimi řeka Olza</title>
+    <defs>
+      <style>
+        .riv { stroke: #2a7f8e; fill: none; }
+        .path { stroke: #3d4a42; stroke-width: 1.6; fill: none; stroke-dasharray: 4 4; }
+        .lab { font-family: 'Segoe UI', Roboto, Arial, sans-serif; font-size: 11px; fill: #2c3e50; paint-order: stroke; stroke: #f8f9fa; stroke-width: 4px; stroke-linejoin: round; }
+        .lab2 { font-family: 'Segoe UI', Roboto, Arial, sans-serif; font-size: 10px; fill: #7f8c8d; paint-order: stroke; stroke: #f8f9fa; stroke-width: 4px; stroke-linejoin: round; }
+        .hd { font-family: 'Segoe UI', Roboto, Arial, sans-serif; font-size: 13px; font-weight: 600; }
+        .num { font-family: 'Segoe UI', Roboto, Arial, sans-serif; font-size: 12px; font-weight: 700; fill: #fff; text-anchor: middle; }
+      </style>
+    </defs>
+    <path class="riv" d="M180 0 C 172 60, 190 110, 182 170 S 170 290, 180 350 S 190 470, 180 560" stroke-width="14" opacity=".28"/>
+    <path class="riv" d="M180 0 C 172 60, 190 110, 182 170 S 170 290, 180 350 S 190 470, 180 560" stroke-width="1.2"/>
+    <text class="lab2" transform="translate(195 185) rotate(90)">Olza / Olše – hranice od 1920</text>
+    <text class="hd" x="95" y="24" text-anchor="middle" fill="#1b4f72">Český Těšín</text>
+    <text class="hd" x="265" y="24" text-anchor="middle" fill="#78281f">Cieszyn</text>
+    <path class="path" d="M95 83 L95 100 L265 100 L265 115 M265 172 L265 195 M265 252 L265 275 M265 332 L265 355 M265 399 L265 418 L95 418 L95 435 M95 492 L95 505"/>
+    <rect x="150" y="94" width="60" height="12" rx="2" fill="#ffffff" stroke="#d5dad4"/>
+    <text class="lab2" x="180" y="88" text-anchor="middle">most Družby / Przyjaźni</text>
+    <rect x="150" y="412" width="60" height="12" rx="2" fill="#ffffff" stroke="#d5dad4"/>
+    <text class="lab2" x="180" y="438" text-anchor="middle">most Svobody / Wolności</text>
+    <circle cx="95" cy="70" r="13" fill="#1b4f72"/><text class="num" x="95" y="74">1</text>
+    <text class="lab" x="95" y="48" text-anchor="middle">kostel Nejsv. Srdce Ježíšova</text>
+    <circle cx="95" cy="448" r="13" fill="#1b4f72"/><text class="num" x="95" y="452">6</text>
+    <text class="lab" x="95" y="474" text-anchor="middle">kostel sv. Petra a Pavla</text>
+    <text class="lab2" x="95" y="487" text-anchor="middle">Na Nivách</text>
+    <circle cx="95" cy="518" r="13" fill="#1b4f72"/><text class="num" x="95" y="522">7</text>
+    <text class="lab" x="95" y="546" text-anchor="middle">nádraží → Ostrava</text>
+    <circle cx="265" cy="128" r="13" fill="#78281f"/><text class="num" x="265" y="132">2</text>
+    <text class="lab" x="265" y="154" text-anchor="middle">Góra Zamkowa</text>
+    <text class="lab2" x="265" y="167" text-anchor="middle">věž, rotunda, pivovar</text>
+    <circle cx="265" cy="208" r="13" fill="#78281f"/><text class="num" x="265" y="212">3</text>
+    <text class="lab" x="265" y="234" text-anchor="middle">ulica Głęboka</text>
+    <text class="lab2" x="265" y="247" text-anchor="middle">+ studna, Benátky, sledě</text>
+    <circle cx="265" cy="288" r="13" fill="#78281f"/><text class="num" x="265" y="292">4</text>
+    <text class="lab" x="265" y="314" text-anchor="middle">Rynek</text>
+    <text class="lab2" x="265" y="327" text-anchor="middle">radnice, Jeleń, káva</text>
+    <circle cx="265" cy="368" r="13" fill="#78281f"/><text class="num" x="265" y="372">5</text>
+    <text class="lab" x="265" y="394" text-anchor="middle">Kościół Jezusowy</text>
+  </svg>
+  <figcaption>Schéma, ne mapa: pořadí a strany řeky sedí, vzdálenosti ne.</figcaption>
+</figure>
+
+<ol class="plan">
+  <li class="cz"><span class="n">1</span><a href="#z1">Kostel Nejsvětějšího Srdce Ježíšova, Masarykovy sady</a><span class="t">15 min</span></li>
+  <li class="x"><span class="n">→</span><a href="#k-mostu">Hlavní třída, Prochaskova tiskárna, Avion/Noiva</a><span class="t">10–30 min</span></li>
+  <li class="x"><span class="n">→</span><a href="#most1">most Družby / Przyjaźni</a><span class="t">5 min</span></li>
+  <li class="pl"><span class="n">2</span><a href="#z2">Góra Zamkowa: rotunda, Piastovská věž, zámeček, pivovar</a><span class="t">45–90 min</span></li>
+  <li class="x"><span class="n">→</span><a href="#studna">Studnia Trzech Braci + Těšínské Benátky</a><span class="t">5–15 min</span></li>
+  <li class="pl"><span class="n">3</span><a href="#z3">ulica Głęboka, divadlo, muzeum, sleďové chlebíčky</a><span class="t">20–40 min</span></li>
+  <li class="pl"><span class="n">4</span><a href="#z4">Rynek, radnice, Pod Brunatnym Jeleniem, káva</a><span class="t">30–45 min</span></li>
+  <li class="pl"><span class="n">5</span><a href="#z5">Kościół Jezusowy</a><span class="t">20–40 min</span></li>
+  <li class="x"><span class="n">→</span><a href="#most2">most Svobody / Wolności</a><span class="t">10 min</span></li>
+  <li class="cz"><span class="n">6</span><a href="#z6">Kostel apoštolů Petra a Pavla Na Nivách</a><span class="t">15 min</span></li>
+  <li class="cz"><span class="n">7</span><a href="#z7">Nádraží</a><span class="t">10 min</span></li>
+</ol>
+
+<h2>🚶‍♂️ Jdeme na trasu! Krok za krokem</h2>
+
+<!-- ZASTÁVKA 1 -->
+<div class="stop-card" id="z1">
+    <span class="badge badge-cz">Český Těšín • Zastávka 1</span>
+    <h3>1. Kostel Nejsvětějšího Srdce Ježíšova (Masarykovy sady)</h3>
+    <p class="meta">Masarykovy sady 24 · římskokatolický farní kostel · 1892–1894 · asi 15 minut</p>
+    <p>Stojíme v příjemném stínu Masarykových sadů (kdysi Aleje arcivévody Albrechta) před monumentální cihlovou novogotickou bazilikou s asymetrickou, štíhlou věží a krásnou rozetou nad portálem. Je to nejvýraznější stavba českého břehu – a hned první těšínská ironie.</p>
+    <p><strong>Co je na něm zajímavého, když se podíváš blíž:</strong></p>
+    <ul>
+        <li><strong>Jezuitský „trucpodnik“ (1892–1894):</strong> Proč tenhle obří kostel stojí na „špatném“ (levém) břehu řeky mimo staré centrum? Postavili ho jezuité. Tovaryšstvo působilo v Těšíně od roku 1670 (kostel sv. Kříže u Rynku, gymnázium); když byl řád v roce 1773 zrušen, sebrali jim kostel na pravém břehu. Když se po obnově řádu v roce 1883 jezuité vrátili, městská rada v Cieszyně jim starý majetek odmítla vydat. Tak se jezuité naštvali, koupili pozemky tady za řekou, na předměstí v tehdejších Alejích arcivévody Albrechta, a v letech 1892–1894 (základní kámen 11. června 1892, posvěcení 10. října 1894) si podle návrhu vídeňského architekta <strong>Ludwiga Zatzky</strong> postavili vlastní chrám. Stavbu spolufinancovali vratislavský kníže-biskup Georg Kopp, který ji také světil, a arcivévoda Albrecht, vítěz od Custozzy. Svěcení předcházely třídenní slavnosti – farnost uvádí kolem sta kněží a deset tisíc věřících před kostelem. Když pak město v roce 1920 rozřízli, stal se z něj hlavní farní kostel nové české části! Dnešní farní kostel Českého Těšína se tedy zrodil ze sporu na druhém břehu.</li>
+        <li><strong>Asymetrie průčelí:</strong> Projekt počítal se dvěma věžemi, peníze stačily na jednu, západní. Východní zůstala pahýlem a dala kostelu siluetu, podle níž ho poznáš odkudkoli. Všimni si i rozety nad lomeným portálem a režného zdiva kombinovaného s omítkou.</li>
+        <li><strong>Tyrolské dřevořezby a košický mučedník:</strong> Pokud nakoukneš dovnitř (bývá otevřeno v rámci projektu Otevřené chrámy), všimni si nádherného vyřezávaného mobiliáře z dílny Ferdinanda Stuflessera ze St. Ulrichu v Tyrolsku (dodávala oltáře po celé monarchii). Varhany jsou od Karla Neussera z Nového Jičína (1895), věžní hodiny od vídeňského hodináře Richarda Liebinga (1894). Jsou tu také uloženy relikvie <strong>sv. Melichara Grodeckého</strong> – těšínského rodáka (kolem 1584) a jezuity, kterého v roce 1619 v Košicích krutě umučili kalvinističtí vojáci. Když ho roku 1905 blahořečili, sjelo se sem k parku 10 000 lidí a kázalo se tu zároveň česky, polsky, německy a slovensky. Ostatky sem přivezli z Trnavy roku 1906; svatořečil ho Jan Pavel II. v roce 1995.</li>
+    </ul>
+    <div class="gossip-box">
+        <strong>Kuriozita:</strong> Farnost tu vznikla až 8. června 1934 – čtrnáct let po vzniku města. Do roku 1938 se kázalo česky, polsky i německy; v říjnu 1938 převzali správu polští kněží, a bohoslužebný jazyk kostela tak kopíroval pohyb hranice.
+    </div>
+    <p><strong>Masarykovy sady</strong>, v nichž kostel stojí, jsou nejstarším parkem města: stromořadí lip, kaštanů a akátů dal roku 1813 na arcivévodův příkaz vysázet lesmistr Dünbier. Na čísle 18 stojí nejstarší nesakrální dům města, empírový z roku 1833. V parku je pomník T. G. Masaryka (2010), pomník obětem první války (1930) a barokní socha sv. Jana Nepomuckého. Je to dobré místo na první lavičku s výhledem přes řeku na Zámecký vrch – ale káva bude lepší o sto metrů dál.</p>
+</div>
+
+<!-- K MOSTU -->
+<div class="stop-card transit" id="k-mostu">
+    <span class="badge badge-x">Český Těšín • Cestou k mostu (cca 200 m)</span>
+    <h3>→ Hlavní třída, Prochaskova tiskárna a kavárna Avion</h3>
+    <p class="meta">10 minut, s kávou 30</p>
+    <p>Z parku sejdi k řece na <strong>Hlavní třídu</strong> – nejreprezentativnější ulici českého Těšína, kdysi hlavní tepnu předměstí Saská Kupa. U mostu, při nábřeží, stojí třípatrová budova <strong>Prochaskovy tiskárny</strong> z let 1886–1888 (křídla 1892 a 1909/10). Firma Karl Prochaska, k. u. k. Hofbuchdruckerei, tiskla noviny <em>Silesia</em>, učebnice pro půl monarchie, dokonce Korán. Po rozdělení zůstal závod Čechům a Český Těšín je dodnes jedním z největších knihtiskařských center Evropy: „Made in Český Těšín“ najdeš v tiráži knih, které máš doma, a historickou budovu nedávno obnovil majitel tiskárny Finidr. Místní legenda tvrdí, že právě tady, ve dvorní tiskárně Prochaska, vznikla císařova přezdívka „Starý Procházka“. Pražská verze – fotografie z roku 1901 s popiskem „Procházka na mostě“ – je lépe doložená; těšínská má lepší pointu.</p>
+
+    <div class="bonus-stop">
+        <span class="badge badge-bonus">☕ Zastávka navíc: kavárna Avion / Noiva (roh Hlavní třídy a Masarykových sadů, těsně před Mostem Družby)</span>
+        <p>Než přejdeme přes řeku Olši do Polska, mrkni hned u mostu na funkcionalistickou budovu <strong>kavárny Avion (oficiálně Noiva)</strong>. V roce 1933 ji tu nechala postavit židovská hoteliérka Rosalie Wiesnerová vedle svého hotelu, podle návrhu Michala Maximiliána Scheera. Byla to vyhlášená prvorepubliková kavárna pašeráků, úředníků a básníků: hrál tu orchestr a v boxech u oken sedávali <strong>pašeráci</strong> a pozorovali celníky na mostě.</p>
+        <p>Kavárna žila jen šest let. Dne 1. září 1939 ustupující polská armáda vyhodila most do povětří a tlaková vlna Avion zdemolovala; nacisté pak trosky židovského podniku rozebrali a srovnali se zemí jako židovský majetek. Paní Wiesnerová zahynula v koncentračním táboře (před vchodem najdeš její Kámen zmizelých – <em>Stolperstein</em>). Nohavica dostal kavárnu do písně a básnířka Renata Putzlacher léta pořádala večery nazvané „V kavárně Avion, která není“. V roce 2010 ji město znovu postavilo jako literární čítárnu a kavárnu; protože si název Avion zaregistroval místní podnikatel, jmenuje se oficiálně Noiva, tedy Avion pozpátku. Z terasy je famózní výhled přes řeku přímo na náš další cíl – Zámeckou horu s Piastovskou věží! A před vchodem se můžeš vyfotit s koštětem <em>Bláznivé Markéty</em> z Nohavicovy písničky. <span class="verify">(Dřív mívala v neděli zavřeno, ověř.)</span></p>
+    </div>
+</div>
+
+<!-- MOST 1 -->
+<div class="stop-card transit" id="most1">
+    <span class="badge badge-x">Hranice • Most Družby / Most Przyjaźni</span>
+    <h3>→ Přes Olši: Most Družby</h3>
+    <p class="meta">5 minut, ale zastav se uprostřed</p>
+    <p>Přecházíme Most Družby přes řeku Olši. Most, po kterém jdeš, je z roku 1953 – odtud „Družby“. Jeho předchůdce, Hlavní most, vyhodili 1. září 1939 ustupující Poláci; Němci ho kvůli dráze rychle nahradili, dřevěné provizorium pak vzala povodeň v roce 1946. Uprostřed mostu míjíš neviditelnou státní hranici: do prosince 2007 tu byly celnice, fronty a razítka.</p>
+    <p>Na polském břehu, přesně tam, kde stávala celnice, dnes stojí <strong>replika červené tramvaje Ringhoffer</strong>. Tudy jezdila od 12. února 1911 jediná těšínská linka: 1,8 km, čtyři vozy, metrový rozchod, od nádraží přes Hlavní třídu a most po Głębokou a Szersznikově ulici na Wyższou Bramu. Po rozdělení se z ní stala mezinárodní tramvaj s pasovou kontrolou uprostřed cesty a 2. dubna 1921 vyjela naposled; vozy prodali do Lodže. Byla první obětí hranice – a sto let poté ji obě města společně postavila alespoň jako sochu.</p>
+    <div class="gossip-box">
+        <strong>Březen 2020:</strong> Pár dní po uzavření hranic, 20. března 2020, pověsili lidé z polského břehu na břeh osmimetrový transparent „Stýská se mi po tobě, Čechu“. Češi týž den odpověděli „I ja za tobą, Polaku“ a ráno přidali „Chybíte nám, Poláci!“. Na jaře 2020 se pak mezi tímto mostem a mostem Svobody chodily tiché protestní procházky iniciativy „Otwórzcie granicę“ s heslem „jeden Cieszyn, nie ma granic“. Olza je tu široká jako potok; stačilo se zavolat přes vodu.
+    </div>
+</div>
+
+<!-- ZASTÁVKA 2 -->
+<div class="stop-card" id="z2">
+    <span class="badge badge-pl">Cieszyn (Polsko) • Zastávka 2</span>
+    <h3>2. Góra Zamkowa (Piastovská věž, rotunda sv. Mikuláše, zámeček)</h3>
+    <p class="meta">Zamkowa 3 · 45–60 minut, s pivovarem víc</p>
+    <p>Hned za mostem vlevo se zvedá zelený kopec – <strong>Góra Zamkowa (Zámecká hora)</strong>, kolébka celého Těšína. Je to nejstarší místo celého Těšínska a zároveň nejvíc přestavované. Od roku 1290 do roku 1918 to bylo sídlo těšínských knížat – nejdřív Piastovců, pak Habsburků, kteří sem ovšem jezdili zřídka a hrad nechali chátrat.</p>
+
+    <p><strong>Co tu vidíme a proč je to pecka:</strong></p>
+    <dl class="facts">
+        <dt>Rotunda sv. Mikuláše (a sv. Václava)</dt>
+        <dd>Tahle kamenná románská orientovaná rotunda z poloviny 11. století, původně hradní kaple, patří k úplně nejstarším křesťanským stavbám v celém Polsku i Slezsku a je nejstarší stojící památkou Těšínska. Kornhäusel z ní v 19. století udělal klasicistní pavilon s velkými okny; archeologové v letech 1941–42 a 1947–55 odkryli zasypanou spodní část a roku 1955 jí vrátili románskou podobu. <strong>Tip:</strong> Má ji v peněžence každý Polák – pokud máš v kapse <strong>polskou dvacetizlotovku (20 PLN)</strong>, vytáhni ji! Přímo na rubové straně bankovky je tahle rotunda vytištěná. Můžeš si udělat klasickou fotku bankovky s originálem v pozadí.</dd>
+        <dt>Piastovská věž (Wieża Piastowska)</dt>
+        <dd>Vysoká kamenná gotická věž ze 14. století, nejspíš z doby Přemysla I. Nošáka; 29 metrů (jeden z průvodců uvádí 24 m), jediná neporušená věž piastovského hradu. Na rozích pod cimbuřím uvidíš čtyři kamenné erby s piastovskou orlicí – tesali je kameníci z pražské huti <strong>Petra Parléře</strong>! Věž je poslední zbytek obřího gotického hradu (v roce 1454 se do něj vešel průvod 2 300 rytířů doprovázejících nevěstu polského krále!). Rozhodně vylez nahoru – uvidíš celé dvojměstí jako na dlani a na východě Beskydy. Podívej se i na západ, přes řeku: dvě špičaté věže, obě evangelické, Na Rozvoji a Na Nivách. K té druhé dnes dojdeme.</dd>
+        <dt>Věž poslední obrany</dt>
+        <dd>Válcová bašta z konce 13. století, dnes zřícenina; vedle ní částečně rekonstruované zbytky hradních kuchyní.</dd>
+        <dt>Zánik hradu a Lovecký zámeček Habsburků (1838–1840)</dt>
+        <dd>Za třicetileté války hrad rozstříleli Švédové. V 19. století Habsburkové zbytek zbořili: na místě dolního hradu (stáje, zbrojnice) nechal arcivévoda Karel postavit podle Josefa Kornhäusela – vídeňského klasicisty, autora Stadttempelu, divadla v Josefstadtu a zámku Weilburg u Badenu – strohý klasicistní letní palác. Horní hrad dal rozebrat (až na rotundu a věž) a celý vrch proměnil v romantický anglický park. Zámeček byl sídlem Těšínské komory; dnes hudební škola a Zamek Cieszyn, centrum designu – všimni si růžového jelena před vchodem. Oranžerii zbourali roku 1966.</dd>
+        <dt>Romantický podvrh na konec</dt>
+        <dd>V parku narazíš i na „gotickou zříceninu“ bašty. Nenech se napálit – v roce 1914 ji tam nechal postavit arcivévoda Bedřich Habsburský jako umělou romantickou ruinu, aby park vypadal malebněji! Pod tímhle sentimentálním výmyslem se ovšem našla skutečná středověká věž.</dd>
+        <dt>Pomník Měška I. (1931, Jan Raszka)</dt>
+        <dd>Stojí tam, kde v letech 1908–1918 stál pomník Františka Josefa I. Výměna soch je tu stručnější dějepis než leckterá kniha.</dd>
+    </dl>
+
+    <div class="gossip-box">
+        <strong>👑 Drby ze dvora (podle historika těšínského muzea Mariusze Makowského):</strong>
+        <ul>
+            <li>V červnu 1846 hrál v oranžerii Franz Liszt. Koncem 80. let 19. století tu arcivévoda Evžen pořádal wagnerovské večery s umělci vídeňské dvorní opery.</li>
+            <li>František Josef I. tu byl třikrát – 1880, 1890 a 1906 – a vždy bydlel v prvním patře zámečku: pracovna, salon, přijímací pokoj, šatna a „velmi skromná ložnice“. Za zámečkem stál Custozský stan, dar arcivévody Albrechta, v němž císař hostil.</li>
+            <li>1914–1916 tu sídlilo AOK, vrchní velitelství rakousko-uherské armády; Těšín byl na dva roky „druhým hlavním městem říše“. Arcivévoda Bedřich tu přijímal Viléma II., bulharského cara Ferdinanda i Hindenburga. Náčelník štábu Conrad von Hötzendorf se během těšínských let, v říjnu 1915, konečně oženil s Ginou von Reininghaus – dvanáct let čekal na její rozvod a vídeňská společnost se pohoršovala; podle životopisců s ním Gina v Těšíně i bydlela.</li>
+            <li>Poslední císař ve městě: Karel I., 3. prosince 1916, tři dny po pohřbu Františka Josefa. Přijel velitelství přestěhovat do Badenu u Vídně.</li>
+            <li>1918 v zámečku zasedla Rada Narodowa Księstwa Cieszyńskiego – polské prameny ji označují za první polskou vládu nad Těšínskem „po více než šesti stech letech cizí vlády“. Česká čtenářka či čtenář si u slova „cizí“ smí odkašlat.</li>
+        </ul>
+    </div>
+
+    <div class="legend-box">
+        <strong>🏰 Hororová legenda o Černé kněžně:</strong> Říká se, že na hradě kdysi žila krutá Černá kněžna, která ze své věže shazovala nepohodlné nápadníky. Když do věže udeřil blesk, propadla se do podzemí. Dodnes prý pod Zámeckou horou vede tajná chodba pod korytem řeky Olše až na českou stranu a kněžna v ní hlídá poklad.
+    </div>
+
+    <div class="bonus-stop">
+        <span class="badge badge-bonus">🍺 Zastávka navíc: Zámecký pivovar (Browar Zamkowy Cieszyn, Dojazdowa 2, pod vrchem)</span>
+        <p>Přímo v areálu Zámecké hory sídlí nejdéle nepřetržitě fungující pivovar v Polsku. Založil ho roku <strong>1846</strong> z iniciativy arcivévody Karla (Karla Ludvíka) a vaří nepřetržitě dodnes – v otevřených kvasných kádích a na historickém zařízení. Sám o sobě tvrdí, že jako první v této části Evropy vařil pivo plzeňského typu. Jisté je něco jiného: Żywiec (1856) založili titíž Habsburkové a první żywiecké sládky poslali z Těšína. Cieszyn je tedy „starší bratr“ Żywce, který ho ve 20. století pohltil; pod jménem Brackie se těšínské pivo prodávalo po celém Polsku. Na podzim 2020 chtěla Grupa Żywiec (Heineken) pivovar zavřít, město se vzbouřilo a koupila ho rodina Ledů z Ustroně.</p>
+        <p>Piva: Pilsner Cieszyński, Lager, Mastne (jantarový ale), skvělý <em>Porter Bałtycki / Cieszyński Porter</em>, spousta řemeslných speciálů, a pro Żywiec dál vaří Brackie. Exkurze 1,5–2 h s rezervací; jinak obchod a výčep. <span class="verify">(Stav k roku 2024–25, ověř.)</span></p>
+    </div>
+</div>
+
+<!-- STUDNA -->
+<div class="stop-card transit" id="studna">
+    <span class="badge badge-x">Cieszyn • Odbočka (ul. Trzech Braci / ul. Przykopa)</span>
+    <h3>→ Studna tří bratří a Těšínské Benátky</h3>
+    <p class="meta">5–15 minut</p>
+
+    <h4>A) Studna tří bratří (Studnia Trzech Braci)</h4>
+    <p>Sejdi z vrchu na Zamkową a hned zahni do krátké dlážděné uličky <strong>Trzech Braci</strong> (mezi Zamkowou a Rynkem, tři minuty; z ulice Głęboka je to zhruba v polovině stoupání odbočka doprava). Najdeš tu litinový novogotický altánek z roku <strong>1868</strong> kryjící starobylou studnu – tu, u níž se podle nejslavnější městské legendy roku 810 po dlouhém putování lesem setkali tři synové polského krále Leška III., <strong>Bolko, Leško a Cieszko</strong>, a z radosti založili město. Besídku odlili v třineckých železárnách, desky jsou polsky, latinsky a německy; roku 2023 ji po restaurování vrátili do původní tmavě zelené – předchozí křiklavý odstín rozděloval město deset let víc než Olza.</p>
+    <div class="legend-box">
+        <strong>Legenda vs. fakta – jak to bylo doopravdy?</strong> Studna je středověká klášterní studna dominikánů („Studnia Bracka“ – bratrská), jejichž klášter stál pár kroků odtud; tři bratři z roku 810 jsou pravděpodobně romantická konstrukce 19. století postavená na slovní hříčce. Když v roce 1817 přijel do města rakouský císař František I., místní purkmistr Alois Kaufmann mu tuhle romantickou báchorku odvyprávěl jako fakt a od té doby je ze studny symbol města! Město to ví a slaví dál – v červnu Święto Trzech Braci, společně s Českým Těšínem.
+    </div>
+
+    <h4>B) Těšínské Benátky (Wenecja Cieszyńska – ul. Przykopa)</h4>
+    <p>Pokud máš deset minut navíc, odboč hned na začátku pod Zámeckou horou doprava do uličky <strong>Przykopa</strong>. Podél umělého mlýnského náhonu (Młynówka) tu stojí malebné domky z 18. a 19. století, kde pracovali koželuhové, soukeníci a kováři – voda poháněla kola a odnášela to, co po řemesle zbylo. Do domků se vchází přes dřevěné a kamenné můstky přímo nad vodou. Říká se tomu <strong>Cieszyńska Wenecja</strong> a je to nejfotogeničtější kout města, ráno ještě bez lidí.</p>
+</div>
+
+<!-- ZASTÁVKA 3 -->
+<div class="stop-card" id="z3">
+    <span class="badge badge-pl">Cieszyn (Polsko) • Zastávka 3</span>
+    <h3>3. Ulice Głęboka (a pár parádních odboček u ní!)</h3>
+    <p class="meta">od Zámeckého vrchu nahoru k Rynku · 20–40 minut s odbočkami</p>
+    <p>Scházíme ze Zámecké hory na hlavní tepnu starého města – ulici <strong>Głęboka (Hluboká)</strong>. Jméno je doslovné: ve středověku to byl skutečně hluboký úvoz vyjetý staletími mezi hradem a trhem, kterým tekla dešťová voda i splašky z horního města dolů k řece. Tudy jezdila tramvaj a tudy prošli všichni, od Josefa II. po Viléma II. Dnes je to živá korzovní třída lemovaná měšťanskými domy z 18. a 19. století s renesančními a barokními základy – fasády jsou habsburské 19. století, „Malá Vídeň“ v měřítku okresního města. Zastav se u čísla, které tě chytne – za většinou z nich byl obchod, hospoda nebo tiskárna, a mnohé mají ještě německé firemní nápisy pod omítkou.</p>
+
+    <div class="bonus-stop">
+        <span class="badge badge-bonus">🎭 Pár kroků stranou</span>
+        <ul>
+            <li><strong>Teatr im. Adama Mickiewicza</strong> (Plac Teatralny 1): otevřeno 24. září 1910, projekt vídeňského ateliéru Fellner &amp; Helmer – autorů Státní opery v Praze, Mahenova divadla v Brně, oper v Záhřebu, Oděse či Curychu. 630 míst, otáčivé jeviště, pozdně barokní tvarosloví v secesním podání. Postavil ho spolek Theaterbauverein jako „centrum německé kultury“ uprostřed národnostního zápasu, a pak ho z ekonomických důvodů pronajímal i polským souborům. Stojí na místě prvního farního kostela (shořel 1789) a pozdějších kasáren. Wajda tu točil <em>Zemi zaslíbenou</em>.</li>
+            <li><strong>Kościół św. Marii Magdaleny</strong> (plac Dominikański): gotický dominikánský kostel, nekropole těšínských Piastovců s náhrobkem Přemysla I. Nošáka, po požáru 1789 barokně přestavěný a povýšený na farní.</li>
+            <li><strong>Kościół św. Krzyża</strong> (ul. Szersznika): bývalý jezuitský. Přesně ten, který městská rada roku 1883 jezuitům odmítla vrátit – a proto stojí novogotický kostel, u něhož jsme začínali, na českém břehu.</li>
+            <li><strong>Muzeum Śląska Cieszyńskiego</strong> (Regera 6): v <strong>Larischově paláci</strong> (1789–1796), muzeum od roku 1931 s kořeny roku 1802 u pátera Leopolda Jana Szersznika (Šerschnika) – vůbec nejstarší veřejné muzeum v celém Polsku a jedno z prvních ve střední Evropě. Před ním krásný tichý <strong>Park Pokoju (Park Míru)</strong> s lavičkami: v těchto zahradách se roku 1779 vyjednával a slavil těšínský mír, na jaře tu kvetou magnolie. V bývalých stájích paláce bývala Muzeum Café s klasicistním interiérem – káva „po vídeňsku“ číslo dvě, <span class="verify">pokud ještě funguje</span>. Pokud sem nezajdeš teď, můžeš muzeum a park vzít cestou od Ježíšova kostela zpátky k řece (viz zastávka 5).</li>
+        </ul>
+    </div>
+
+    <div class="gossip-box">
+        <strong>🎩 Večer 16. března 1912:</strong> Pár měsíců po svatbě přijeli do Těšína arcivévoda Karel František Josef a Zita Bourbonsko-Parmská, budoucí poslední císařský pár, cestou k pluku do Kolomyje. Po večeři na zámečku si přáli Lehárovu operetu <em>Eva</em>; ředitel divadla jim do lóže podal program vytištěný zlatem na bílém hedvábí a před půlnocí jim arcivévoda poděkoval za „opravdu vídeňský večer“. O čtyři roky později byl Karel císařem, o šest let později exulantem.
+    </div>
+
+    <div class="bonus-stop">
+        <span class="badge badge-bonus">🐟 Povinná gastro zastávka na rohu Głęboké a Rynku!</span>
+        <h4>Kultovní „Kanapka ze śledziem“ (Těšínský chlebíček se sleděm)</h4>
+        <p>Těsně než vyjdeš z ulice Głęboka na Rynek (na adrese <strong>Głęboka 1</strong> nebo <strong>Rynek 4</strong> v lahůdkářství <em>Społem</em>), narazíš na naprostý gastronomický fenomén Cieszyna: <strong>Cieszyńskie Kanapki</strong>.</p>
+        <p>Od 60. let minulého století (kdy Polsko měnilo zboží s Islandem za sledě) tu podle přísně tajné receptury dělají otevřené chlebíčky na křupavé vece s domácí majonézou, cibulkou, vajíčkem, petrželkou a kouskem lahodného sledě bez kostí. Stojí pár zlotých, místní i turisté je kupují po desítkách a často bývají brzy odpoledne vyprodané. Pokud mají otevřeno, dej si aspoň jednu do ruky!</p>
+    </div>
+</div>
+
+<!-- ZASTÁVKA 4 -->
+<div class="stop-card" id="z4">
+    <span class="badge badge-pl">Cieszyn (Polsko) • Zastávka 4</span>
+    <h3>4. Rynek (Hlavní náměstí)</h3>
+    <p class="meta">radnice, Pod Brunatnym Jeleniem, káva · 30–45 minut</p>
+    <p>Vcházíme na velkolepý <strong>Rynek</strong>, který Polákům v roce 1920 zůstal jako výkladní skříň někdejšího bohatého města. Dnešní obrys má od roku <strong>1496</strong>, kdy Kazimír II. zboural starou dřevěnou radnici uprostřed náměstí a postavil novou na jeho kraji – od té doby plocha zůstala prázdná. Obklopují ho měšťanské domy s renesančním podloubím a barokními či klasicistními fasádami.</p>
+    <p>Jméno náměstí je samo o sobě dějepis: roku 1885 plac Demla (po dlouholetém starostovi), 1920 Rynek, 1933 plac Sobieskiego (250 let od Vídně), za války Adolf-Hitler-Platz, 1949 plac Stalina, pak zase Rynek. Všichni mu celou dobu říkali Rynek.</p>
+    <p><strong>Na co se na Rynku zaměřit:</strong></p>
+    <ul>
+        <li><strong>Kašna se sv. Floriánem:</strong> Uprostřed náměstí stojí barokní kašna z roku 1777 se sochou patrona hasičů. A není divu – Těšín v historii několikrát strašlivě vyhořel (nejhůř 6. května 1789, kdy lehlo popelem skoro celé město).</li>
+        <li><strong>Radnice (Ratusz):</strong> Honosná budova s věží v jižním rohu náměstí. Hořela v letech 1552, 1720 a 1789 (největší požár v dějinách města); dnešní klasicistní podobu má z roku 1800 a z přestavby 1840–1845 podle Kornhäusela a stavitele Kmenta. Latinský nápis z barokní obnovy roku 1661 říká, že tento dům nenávidí nepravost, miluje mír, trestá zločiny, chrání spravedlivé a ctí počestné. V roce 1805 v ní úřadoval prchající rakouský císařský dvůr. V zasedací síni visí portréty sedmi vyslanců, kteří roku 1779 podepsali těšínský mír, a sedmi Habsburků-těšínských knížat; od roku 2014 se tu oddává. V poledne hraje z věže hejnał, složený k 1150. výročí legendárního založení (1960).</li>
+        <li><strong>Hotel Pod Brunatnym Jeleniem (Pod Hnědým jelenem, Rynek 20):</strong> Velká secesně-neobarokní budova na západní straně Rynku. Tady to žilo vysokou politikou! Hostinec tu stál už v 18. století: v roce 1770 a 1777 (podle jiného pramene 1779, během mírového kongresu) tu nocoval císař <strong>Josef II.</strong> (dokonce tu měl tajnou schůzku), pobýval tu car <strong>Alexandr I.</strong>, maršál Kutuzov a v roce 1817 i císař František I. V letech 1910–1912 ho stavitel Ludwik Kametz se spolkem měšťanů nahradil secesním hotelem, na svou dobu luxusním: 67 pokojů s „anglickými koupelnami“, výtah, ústřední topení, elektřina, dámský salon, vídeňská kuchyně, zimní kuželna ve sklepě a salon c. k. dvorního holiče Franze Hermanna. V letech 1914–1916 v něm bydleli důstojníci AOK. Hotel fungoval do roku 1990, dnes jsou nahoře byty a od roku 2020 dole obnovená restaurace se sálem.</li>
+    </ul>
+
+    <div class="gossip-box">
+        <strong>📜 Těšínský mír, 13. května 1779:</strong> Skončil válku o bavorské dědictví mezi Rakouskem a Pruskem. Dva měsíce tu seděli vyslanci sedmi stran a dva zprostředkovatelé – baron Breteuil za Francii a kníže Repnin za Rusko (mír garantovala carevna Kateřina Veliká); datum podpisu vybrali jako dárek k 62. narozeninám Marie Terezie. Následoval ples, na který si těšínské měšťanky poprvé nechaly přivézt šaty přímo z Vídně. Saský kurfiřt, hlavní vítěz smlouvy, věnoval Breteuilovi stůl z drážďanských polodrahokamů od zlatníka Neubera; „Table de Teschen“ koupil roku 2014 Louvre. Těšín byl na dva měsíce diplomatickým středem Evropy – a pak už nikdy.
+    </div>
+
+    <div class="bonus-stop">
+        <span class="badge badge-bonus">☕ Zastávka navíc: káva a zákusek u Rynku</span>
+        <p><strong>Kornel i Przyjaciele</strong> (ul. Sejmowa, minutu od Rynku směrem k divadlu): útulná kavárna s knihami, knihkupectví a antikvariát pojmenované po Kornelu Filipowiczovi – mistru povídky, který vyrůstal v Cieszyně a byl jednadvacet let tajnou láskou Wisławy Szymborské. <strong>Cafe Arkady</strong> přímo na Rynku je cukrárna; tradiční polské cukrárny s větrníky a <em>szarlotkou</em> najdeš přímo v podloubí. Co ochutnat: <em>kołocz cieszyński</em>, plochý koláč s tvarohem, mákem nebo povidly a drobenkou (slezský kołocz má od roku 2011 chráněné zeměpisné označení EU); <em>kiełbasa cieszyńska</em>; a kdybys přijel v adventu, <em>ciasteczka cieszyńskie</em> – desítky druhů drobného cukroví, které tu rodiny pečou v množství, jež jinde nemá obdoby.</p>
+    </div>
+</div>
+
+<!-- ZASTÁVKA 5 -->
+<div class="stop-card" id="z5">
+    <span class="badge badge-pl">Cieszyn (Polsko) • Zastávka 5</span>
+    <h3>5. Kościół Jezusowy (Ježíšův kostel na Wyższé Bramě)</h3>
+    <p class="meta">Plac Kościelny, Wyższa Brama · evangelický a. v. · 1709–1750 · 20–40 minut</p>
+    <p>Z Rynku pokračujeme mírně do kopce – Szersznikovou a Wyższou Bramou, stále po stopách tramvaje (případně ulicí Szeroka kolem divadla nebo Horního trhu) – až k obrovskému baroknímu chrámu s vysokou, zeleně zastřešenou věží. Tohle je <strong>Kościół Jezusowy</strong>, největší luterský kostel v Polsku a jeden z nejneuvěřitelnějších protestantských chrámů ve střední Evropě.</p>
+    <p><strong>Proč je tenhle kostel světový unikát:</strong></p>
+    <ul>
+        <li><strong>Švédský král vydírá císaře (Kostel milosti):</strong> Těšínsko bylo v 16. století silně luteránské. Jenže po třicetileté válce katoličtí Habsburkové protestantům sebrali úplně všechny kostely a donutili je scházet se tajně po lesích. Obrat přišel v roce <strong>1707</strong>: protestantský švédský král <strong>Karel XII.</strong> táhl se svou neporaženou armádou přes Slezsko a pohrozil vídeňskému císaři Josefovi I. válkou, pokud evangelíkům nepovolí svobodu vyznání. Císař musel ustoupit (Altranstädtská konvence) a povolil ve Slezsku postavit šest tzv. <strong>„Kostelů milosti“ (Kościoły Łaski)</strong>. Tenhle v Cieszyně je jediný z nich, který dodnes nepřetržitě slouží evangelíkům a nikdy nebyl přestavěn na katolický!</li>
+        <li><strong>Proč stojí právě tady:</strong> Milostivé kostely směly podle konvence stát jen mimo hradby, na dostřel děla, a evangelická šlechta skoupila zahrady na tomto návrší. 24. května 1709 vyměřili místo; nejdřív stál dřevěný kostel, od roku 1710 zděný, podle plánů Jana Jiřího Hausruckera z Opavy. Loď dokončili roku 1723, dvaasedmdesátimetrovou věž přistavěli 1750.</li>
+        <li><strong>Kapacita jako menší stadion:</strong> Protože to byl na dlouhá desetiletí jediný povolený protestantský kostel pro celé Těšínsko, pojal ho stavitel giganticky. Pětilodní bazilika má uvnitř třípatrové dřevěné galerie (empory) a pojme kolem <strong>3 500 sedících</strong>; celkem se uvádí až <strong>7 000 až 8 000 věřících</strong> (prameny se liší). Luteráni z celého Těšínska sem chodili pěšky desítky kilometrů, z Visly, Ustroně i z dnešní české strany, a když se v neděli sjeli lidé ze široka daleka, stály kolem kostela stovky bryček a vozů.</li>
+        <li><strong>Mateřský kostel luteránů monarchie:</strong> Po roce 1742, kdy Prusko zabralo zbytek Slezska, to byl jediný evangelický kostel v celém habsburském Slezsku, až do roku 1781. Ve 20. letech 18. století tu kázal Johann Adam Steinmetz, napojený na pietistické Halle; těšínský pietismus bývá uváděn mezi impulsy, z nichž vyrostl Ochranov (Herrnhut). A ještě jedno jméno patří k tomuto návrší, byť se narodil o sto let dřív: Jiří Třanovský, „slovanský Luther“, rodák z Těšína (1592), jehož kancionál <em>Cithara sanctorum</em> (1636) zpívali slovenští evangelíci tři sta let.</li>
+    </ul>
+    <div class="look-box">
+        <strong>📚 Pokladnice v patře – uvnitř a nahoře:</strong>
+        <ul>
+            <li>Nad kostelem sídlí <em>Tschammerova knihovna</em> – nejstarší a největší historická knihovna na Těšínsku, 23 000 svazků, z toho 5 000 starých tisků.</li>
+            <li><em>Muzeum Protestantyzmu</em> (2009), tři sály k dějinám luterství na Těšínsku; prohlídky na objednání na faře, Plac Kościelny 6.</li>
+            <li>Uvnitř chrámu je vystavena bronzová busta švédského krále Karla XII., kterému místní za tento kostel dodnes vděčí.</li>
+            <li>Kuriozita: 12. října 2008 sem přijel Lech Kaczyński – první polský prezident, který kdy oficiálně navštívil protestantský kostel.</li>
+        </ul>
+    </div>
+    <p>A vazba na naši předposlední zastávku: rozdělením roku 1920 ztratili evangelíci z levého břehu tenhle kostel. Německý sbor si postavil Na Rozvoji (1927), polský Na Nivách (1932). Tam právě jdeme.</p>
+
+    <div class="bonus-stop">
+        <span class="badge badge-bonus">🌳 Tip na cestu zpátky k řece</span>
+        <p>Od Ježíšova kostela můžeš klesat zpátky k Olši přes <strong>Most Wolności / Most Svobody</strong>, abys nešel dvakrát stejnou cestou. Cestou k řece mineš <strong>Plac Wolności</strong> s pomníkem slezských legionářů – ženskou figurou „Ślązaczka“ od Jana Raszky (1934, zničen 1939, obnoven 2008; <span class="verify">data z paměti, ověř na tabulce</span>). Pokud jsi vynechal <strong>Palác Larischů</strong> s Muzeem Śląska Cieszyńskiego a tichým <strong>Parkem Pokoju</strong> u ulice Głęboka, teď je ideální chvíle na krátké vydechnutí před přechodem zpátky do Čech.</p>
+    </div>
+</div>
+
+<!-- MOST 2 -->
+<div class="stop-card transit" id="most2">
+    <span class="badge badge-x">Hranice • Most Svobody / Most Wolności</span>
+    <h3>→ Zpět přes Olši: Most Svobody</h3>
+    <p class="meta">10 minut od kostela</p>
+    <p>Od kostela sejdi ulicí 3 Maja k Olze. I tahle ulice je dějepis: roku 1920 přejmenovaná na 3. května, za války Wehrmachtstraße, za komunismu 1. května, od roku 1990 zase 3. května. Most je z přelomu 19. a 20. století (prameny uvádějí 1898 i 1903; původně nejspíš Jubilejní na počest Františka Josefa – <span class="verify">neověřeno</span>) a ještě nedávno na něm stála torza celnic – tady si uvědomíš, jak dlouho hranice v tomhle městě trvala: 1920–1938, 1945–2007, 2020–2021. Z mostu je nejlepší pohled zpět na Zámecký vrch. Na českém břehu vystoupíš na Střelniční.</p>
+</div>
+
+<!-- ZASTÁVKA 6 -->
+<div class="stop-card" id="z6">
+    <span class="badge badge-cz">Český Těšín • Zastávka 6</span>
+    <h3>6. Evangelický kostel apoštolů Petra a Pavla Na Nivách</h3>
+    <p class="meta">Na Nivách 1 · Slezská církev evangelická a. v. (SCEAV) · 1932 · 15 minut</p>
+    <p>Jsme zpátky na českém břehu. Ze Střelniční zahni na jih do ulice Na Nivách; věž uvidíš dřív než ulici. A tady se ti nádherně spojí příběh předchozí zastávky s historií rozdělení města!</p>
+    <p><strong>Proč tenhle kostel vznikl a čím je zvláštní:</strong></p>
+    <ul>
+        <li><strong>Dítě rozděleného města (1932):</strong> Jakmile v roce 1920 spadly hraniční závory na řece Olši, tisíce evangelíků, kteří zůstali na československém břehu, byly najednou odříznuty od svého milovaného Ježíšova kostela v Polsku. Museli přes celnici s pasem nebo propustkou! Polský luterský sbor zůstal bez chrámu a dvanáct let se scházel v pronajaté zrušené továrně na Tovární ulici. A tak se rozhodli postavit si na české straně vlastní chrám, dnes patřící Slezské církvi evangelické augsburského vyznání (SCEAV).</li>
+        <li><strong>Architektonický rebel proti době:</strong> Kostel se stavěl koncem 20. let a vysvěcen byl v roce <strong>1932</strong>; postavila ho firma Pluskal a Riedel podle návrhu místního architekta <strong>Eduarda (Edwarda) Davida</strong> – autora i synagogy Schomre Schabos v Božkově ulici, jediné dochované na Těšínsku, a řady meziválečných domů ve městě. Zatímco celé prvorepublikové Československo v té době stavělo přísně moderní, hladké funkcionalistické budovy (Fragnerův dům na Frýdecké 30 vzniká ve stejných letech), David navrhl chrám Na Nivách v <strong>novogotickém stylu</strong>: půdorys řeckého kříže, průčelí přes 24 metrů, věž 50 metrů.</li>
+        <li><strong>Interiér a pamětní deska:</strong> Hlavní oltář vyřezal místní sochař Henryk Nitra z Dolních Bludovic; první bohoslužby sloužil pastor Józef Berger, teolog a zakladatel sboru, který si sbor i kostel u úřadů vyvzdoroval – najdeš tu jeho pamětní desku. V roce 2020 prošel interiér velkou, svěží rekonstrukcí a byl barevně proměněn.</li>
+    </ul>
+    <div class="look-box">
+        <strong>Proč zrovna novogotika:</strong> Už v roce 1932 to architekti považovali za totální anachronismus (návrat do 19. století). Dívej se na to spíš jako na záměr. Sbor, který právě přišel o svůj třísetletý kostel na druhém břehu, nechtěl stavbu nového města – místní farníci prostě chtěli, aby kostel vypadal „jako pořádný tradiční kostel“, jako by tu stál odjakživa.
+    </div>
+    <div class="legend-box">
+        <strong>Sociální mapa místa:</strong> Na Těšínsku dnes působí tři luterské církve: SCEAV (tenhle kostel), ČCE (Na Rozvoji, původně německý sbor) a LECAV, která v letech 1995–2011 tenhle kostel sdílela. Sociolog Zdeněk Nešpor píše o paradoxu, že „sblížení“ těšínských evangelíků s českými a moravskými souvěrci v jednom státě vedlo ke konfesnímu štěpení, ne ke sjednocení. Dvě velké evangelické věže proti jedné katolické: to, co jsi viděl z Piastovské věže, je demografie vytesaná do siluety.
+    </div>
+</div>
+
+<!-- ZASTÁVKA 7 -->
+<div class="stop-card" id="z7">
+    <span class="badge badge-cz">Český Těšín • Cílová zastávka 7</span>
+    <h3>7. Vlakové hlavní nádraží Český Těšín</h3>
+    <p class="meta">Nádražní · 1869 / 1889 · 10 minut, než přijede vlak</p>
+    <p>Od kostela Na Nivách se vracíme kousek na sever (severozápadně, asi čtvrt hodiny) podél kolejí k <strong>Hlavnímu nádraží v Českém Těšíně</strong>. Není to ledajaké nádraží – nádražní budova z roku 1889 patří k nejhezčím v Česku, a hlavně: právě tady stojíš v samotném <strong>epicentru důvodu, proč dnes existuje Český Těšín</strong>.</p>
+    <p><strong>Co si říct na peróně při čekání na vlak:</strong></p>
+    <ul>
+        <li><strong>Nádraží, kvůli kterému se válčilo:</strong> Tahle monumentální neorenesanční budova z roku <strong>1889</strong> leží na strategické <em>Košicko-bohumínské dráze</em>. První vlak sem přijel 5. května 1869 – úsek Bohumín–Těšín byl prvním hotovým kusem dráhy; do Žiliny dojela roku 1871, do Košic 1872. V roce 1919 to byla jediná kapacitní dvoukolejná trať, která spojovala české země se Slovenskem. Kdyby připadla Polsku, mladá Československá republika by byla dopravně přeříznutá. Právě kvůli této trati a nádraží poslala vláda s Masarykovým souhlasem (Beneš v Paříži byl proti) v lednu 1919 československé legionáře do Sedmidenní války a právě kvůli těmto kolejím vedli spojenci v roce 1920 hranici po řece Olši.</li>
+        <li><strong>Nádražní ulice:</strong> Vyměřili ji roku 1887 kvůli odbočce Kojetín–Bílsko a nové budově; roku 1900 ji vydláždili až k mostu za 80 tisíc zlatých. Dlažbu našli pod asfaltem při rekonstrukci v roce 2021 a kostky se mají vrátit na Hlavní třídu.</li>
+        <li><strong>Císařské salónky a orientální vlak:</strong> Na tomhle nádraží vystupoval císař František Josef I., německý císař Vilém II. a zastavovaly tu luxusní vlaky mezi Vídní, Krakovem a Lvovem. Informační centrum tvrdí, že tu v letech 1889–90 stavěl Orient Express – <span class="verify">druhý zdroj se nenašel, ber to jako místní pýchu</span>. Od nádraží vedla od roku 1911 elektrická tramvaj přes most až na Rynek v Cieszyně – tu jsi dnes celou prošel v protisměru jejího jízdního řádu; po kolejích už dnes není ani památky, ale samotná nádražní budova je krásně opravenou kulturní památkou.</li>
+    </ul>
+    <p>A hlavně: tohle je důvod, proč stojíš v Česku. Když ve Spa v roce 1920 kreslili čáru, tahle budova a koleje za ní vážily víc než Rynek, radnice a sedm set let Piastovců dohromady. Češi dostali nádraží a průmysl, Poláci historii – a Český Těšín, město z 2,66 kilometru čtverečního, si musel za dvacet let postavit všechno, co město dělá městem. Sto let poté se obě poloviny snaží tu čáru přešít zpátky: společné parky, replika tramvaje, festivaly bez hranic. Vlak do Ostravy jede čtyřicet až padesát minut; z této budovy odjížděl i v roce 1920, jen to tehdy bylo do jiné země než z Rynku.</p>
+    <p>Šťastnou cestu! Snad se ti tenhle okruh dvojměstím, kde se na pár kilometrech mísí habsburská Vídeň, polští Piastovci, švédští králové, židovští kavárníci i českoslovenští železničáři, líbil, a budeš se vracet.</p>
+</div>
+
+<section class="intro-box">
+    <h2>Místo závěru</h2>
+    <p>Jedna věc ti možná během dne dojde sama. Český Těšín je město, které vzniklo řezem – jeho identita je nejdřív čistě negativní („ta část, která není Cieszyn“) a teprve pak si našlo vlastní tvář: funkcionalismus, dvě divadelní scény, polské gymnázium, tiskárny. Cieszyn naopak dostal celou paměť a ztratil nádraží, tedy pohyb. Rozdělilo se to, co město drží pohromadě: na jednom břehu paměť, na druhém provoz. Hranice tu v hegelovském smyslu není mez, kde něco končí, ale místo, kde se obě strany teprve určují – každá ví, čím je, díky tomu, co jí po roce 1920 chybí. Proto se k sobě ty dvě poloviny pořád vracejí, ne z nostalgie, ale protože jedna bez druhé nefunguje. Transparent z března 2020 to říká přesněji než jakákoli teorie.</p>
+</section>
+
+<footer>
+    <p class="credits">Gemini 4 Argon, Claude Fable 5.1</p>
+</footer>
+
+</body>
+</html>
