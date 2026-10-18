@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Účtování – scénáře</title>
+<style>
+body{margin:0;background:#fff;color:#111}
+pre{font-family:"Courier New",Courier,monospace;font-size:14px;line-height:1.45;max-width:1000px;margin:32px auto;padding:0 16px;white-space:pre}
+b{font-weight:700}
+.g{font-weight:700;text-decoration:underline}
+.n{color:#666}
+@media (prefers-color-scheme: dark){body{background:#1d1c1a;color:#e8e5dd}.n{color:#a49f92}}
+</style>
+</head>
+<body>
+<pre>
+ÚČTOVÁNÍ – SCÉNÁŘE 
+(vlevo = DR, vpravo = CR)
+
+
+<span class="g">SEPA SCT</span>
+
+==========================================================================================
+<b>Scénář 1: Příchozí platba – Lindemann je příjemce (pacs.008)</b>
+
+  Nostro Mirror     // Suspense                          100 EUR
+  Suspense          // Lindemann                         100 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 2: Odchozí platba – Lindemann platí (pain.001 → pacs.008)</b>
+
+  Lindemann         // Suspense                          100 EUR
+  Suspense          // Nostro Mirror                     100 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 3: Náš poplatek za odchozí platbu (BOF_STP, samostatná charge transakce)</b>
+
+  Lindemann         // Suspense                            2 EUR
+  Suspense          // Profit                              2 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 4: In-house – Lindemann platí Kruspemu (oba naši klienti, nostro se nedotkne)</b>
+
+  Lindemann         // Suspense                          100 EUR
+  Suspense          // Kruspe                            100 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 5: Příchozí platbu nelze připsat – return immediate (klient netknut, vrací se ze Suspense)</b>
+
+  Suspense          // Nostro Mirror                     100 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 6: Interní reject odchozí platby před distribucí (klient už byl odepsán)</b>
+
+  Suspense          // Lindemann                         100 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 7: Příchozí return na naši odchozí platbu (pacs.004)</b>
+
+  Nostro Mirror     // Suspense                          100 EUR
+  Suspense          // Lindemann                         100 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 8: Vracíme platbu připsanou Lindemannovi po settlementu (pacs.004 ven)</b>
+
+  Lindemann         // Suspense                          100 EUR
+  Suspense          // Nostro Mirror                     100 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 9: Recall naší odchozí platby – kladná odpověď, banka příjemce si strhla fee 5 EUR (my = banka plátce)</b>
+
+  Nostro Mirror     // Suspense                           95 EUR
+  Suspense          // Lindemann                          95 EUR
+<span class="n">  varianta: klient dostane plnou částku, fee nese banka</span>
+  Suspense          // Lindemann                         100 EUR
+  Loss              // Suspense                            5 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 10: Cizí recall na platbu připsanou Lindemannovi – odpovídáme kladně a účtujeme si fee 5 EUR (my = banka příjemce)</b>
+
+  Lindemann         // Suspense                          100 EUR
+  Suspense          // Nostro Mirror                      95 EUR
+  Suspense          // Profit                              5 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 11: Status reject z CSM na naši odchozí platbu (pacs.002 RJCT po distribuci) – storno</b>
+
+  Nostro Mirror     // Suspense                          100 EUR
+  Suspense          // Lindemann                         100 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 12: Cizí banka se ptá na platbu, my odpovíme a účtujeme si fee (camt.027 → camt.029 → pacs.008 FCOL)</b>
+
+  Nostro Mirror     // Suspense                          100 EUR
+  Suspense          // Profit                            100 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 13: My jsme se ptali, banka příjemce chce fee nebo úrok (camt.029 → pacs.008 FCOL/INTE ven)</b>
+
+  Loss              // Suspense                            5 EUR
+  Suspense          // Nostro Mirror                       5 EUR
+<span class="n">  varianta: fee přeúčtováno klientovi</span>
+  Lindemann         // Suspense                            5 EUR
+  Suspense          // Nostro Mirror                       5 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 14: Zprávy bez peněz: camt.056 request, camt.029 negativní odpověď / ROI bez fee, pacs.028, camt.027/087, pain.002</b>
+
+  žádný zápis
+==========================================================================================
+
+
+
+<span class="g">SEPA SDD – MY JSME BANKA VĚŘITELE (REDAKCE FAZ INKASUJE PŘEDPLATNÉ)</span>
+
+==========================================================================================
+<b>Scénář 15: Naše inkaso – FAZ inkasuje předplatitele Hanse u Sparkasse (pacs.003 ven)</b>
+
+  Nostro Mirror     // Suspense                          100 EUR
+  Suspense          // FAZ                               100 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 16: Reject / refusal na naše inkaso před settlementem (pacs.002 dovnitř) – storno</b>
+
+  Suspense          // Nostro Mirror                     100 EUR
+  FAZ               // Suspense                          100 EUR   <span class="n">(jen pokud už byl věřitel kreditován)</span>
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 17: Return / refund na naše inkaso po settlementu (pacs.004 dovnitř); K = refund kompenzace, F = interbank fee</b>
+
+  Suspense          // Nostro Mirror             100 + K + F EUR
+  FAZ               // Suspense                  100 + K + F EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 18: Reversal – FAZ inkaso vrací (pacs.007 ven)</b>
+
+  FAZ               // Suspense                          100 EUR
+  Suspense          // Nostro Mirror                     100 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 19: Reversal immediate – klientská noha inkasa v den settlementu selhala (BKC/TOT), storno nostra</b>
+
+  Suspense          // Nostro Mirror                     100 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 20: Cancellation našeho inkasa před settlementem (camt.056 ven) – klient nic, storno nostra z distribuce</b>
+
+  Suspense          // Nostro Mirror                     100 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 21: Status reject z CSM na naše inkaso, reject/refusal nebo return/refund (pacs.002 S2, 1183xx) – storno</b>
+
+  Suspense          // Nostro Mirror                     100 EUR
+  FAZ               // Suspense                          100 EUR   <span class="n">(jen pokud už proběhla klientská noha)</span>
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 22: Status reject z CSM na naši cancellation nebo reversal (pacs.002 S2, 1193xx) – storno</b>
+
+  Nostro Mirror     // Suspense                          100 EUR
+  Suspense          // FAZ                               100 EUR
+==========================================================================================
+
+
+
+<span class="g">SEPA SDD – MY JSME BANKA DLUŽNÍKA (LINDEMANN JE INKASOVÁN)</span>
+
+==========================================================================================
+<b>Scénář 23: Cizí inkaso – Lindemann (dlužník) platí Vattenfallu (pacs.003 dovnitř)</b>
+
+  Suspense          // Nostro Mirror                     100 EUR
+  Lindemann         // Suspense                          100 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 24: Odmítáme cizí inkaso před settlementem (pacs.002 ven) – klient nic, storno nostra</b>
+
+  Nostro Mirror     // Suspense                          100 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 25: Vracíme cizí inkaso po settlementu – return (pacs.004 ven); F = interbank fee</b>
+
+  Suspense          // Lindemann                         100 EUR
+  Nostro Mirror     // Suspense                      100 + F EUR
+  Suspense          // Profit                              F EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 26: Refund – Lindemann chce peníze zpět (autorizovaný 8 týdnů, neautorizovaný 13 měsíců); K = kompenzace €STR</b>
+
+  Suspense          // Lindemann                         100 EUR
+  Nostro Mirror     // Suspense                  100 + K + F EUR
+  Suspense          // Profit                          K + F EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 27: Kompenzace dlužníkovi u neautorizovaného refundu (zvláštní R-transakce)</b>
+
+  Profit            // Lindemann                          K&#x27; EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 28: Příchozí reversal – věřitel vrací Lindemannovi (pacs.007 dovnitř)</b>
+
+  Nostro Mirror     // Suspense                          100 EUR
+  Suspense          // Lindemann                         100 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 29: Věřitel ruší inkaso na Lindemanna před settlementem (camt.056 dovnitř) – storno</b>
+
+  Nostro Mirror     // Suspense                          100 EUR
+  Suspense          // Lindemann                         100 EUR   <span class="n">(jen pokud už byl dlužník odepsán)</span>
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 30: In-house inkaso – FAZ inkasuje předplatitele Lindemanna (oba u nás, nostro se nedotkne)</b>
+
+  Lindemann         // Suspense                          100 EUR
+  Suspense          // FAZ                               100 EUR
+==========================================================================================
+
+
+
+<span class="g">VOSTRO A LORO (BANK X MÁ U NÁS VOSTRO = NÁŠ ÚČET LORO BANK X)</span>
+
+==========================================================================================
+<b>Scénář 31: Bank X si posílá 500 000 USD na své vostro u nás (MT202 / pacs.009)</b>
+
+  Nostro Mirror USD // Suspense USD                  500 000 USD
+  Suspense USD      // Loro Bank X                   500 000 USD
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 32: Bank X platí z vostra našemu klientovi (MT103 / pacs.008, book transfer)</b>
+
+  Loro Bank X       // Suspense USD                   10 000 USD
+  Suspense USD      // Lindemann                      10 000 USD
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 33: Bank X platí z vostra třetí bance (MT202 / MT103 serial)</b>
+
+  Loro Bank X       // Suspense USD                   10 000 USD
+  Suspense USD      // Nostro Mirror USD              10 000 USD
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 34: Poplatek 100 USD za investigaci stržený z lora (application method „Charge to the loro account“)</b>
+
+  Loro Bank X       // Suspense USD                      100 USD
+  Suspense USD      // Profit                            100 USD
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 35: Totéž od banky, která u nás vostro nemá (MT191 ven → MT202 dovnitř na náš nostro)</b>
+
+  Nostro Mirror USD // Suspense USD                      100 USD
+  Suspense USD      // Profit                            100 USD
+==========================================================================================
+
+
+
+<span class="g">POPLATKY, INTERBANK CHARGES, FX</span>
+
+==========================================================================================
+<b>Scénář 36: Fee strženo z příchozí platby (BEN/SHA, svět SWIFT, 71F)</b>
+
+  Nostro Mirror USD // Suspense USD                    1 000 USD
+  Suspense USD      // Lindemann                         990 USD
+  Suspense USD      // Profit                             10 USD
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 37: OUR odchozí platba – interbank fee navyšuje settlement (71G), fee přeúčtována klientovi</b>
+
+  Lindemann         // Suspense USD                    1 000 USD
+  Suspense USD      // Nostro Mirror USD               1 000 USD
+  Suspense USD      // Nostro Mirror USD                  20 USD
+  Lindemann         // Suspense USD                       20 USD
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 38: Korespondent si strhl charges z našeho nostra (MT900 / MT191 dovnitř)</b>
+
+  Suspense USD      // Nostro Mirror USD                  15 USD
+  Loss              // Suspense USD                       15 USD
+<span class="n">  varianta: přeúčtováno klientovi</span>
+  Lindemann         // Suspense USD                       15 USD
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 39: Vracíme klientovi poplatek</b>
+
+  Profit            // Suspense                            2 EUR
+  Suspense          // Lindemann                           2 EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 40: Ostatní klientské fee eventy (BOF_URGP, BOF_NSTP, BOF_CANC, BOF_RECALL, BOF_ENI, BOF_DBTRAUTH_*, BOF_STORD_*)</b>
+
+  Lindemann         // Suspense                            x EUR
+  Suspense          // Profit                              x EUR
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 41: FX – příchozích 100 EUR na USD účet Lindemanna (kurz 0,83); FX účty neúčtujeme</b>
+
+  Nostro Mirror EUR // Suspense EUR                      100 EUR
+  Suspense EUR      // Lindemann USD        100 EUR = 120,48 USD
+==========================================================================================
+
+==========================================================================================
+<b>Scénář 42: FX – Lindemann platí z EUR účtu 1 000 USD do zahraničí (kurz 0,862)</b>
+
+  Lindemann EUR     // Suspense USD       862,07 EUR = 1 000 USD
+  Suspense USD      // Nostro Mirror USD               1 000 USD
+==========================================================================================
+
+</pre>
+</body>
+</html>
