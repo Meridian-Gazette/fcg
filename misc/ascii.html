@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Soustavy a ASCII tabulka – tahák pro 8. třídu</title>
+<style>
+  :root {
+    --paper: #ffffff;
+    --ink: #1c2230;
+    --muted: #5b6577;
+    --line: #d7dde8;
+    --grid: #e9eef6;
+    --accent: #1f4fd8;
+    --accent-soft: #e8eefc;
+    --warn: #b23a2a;
+    --warn-soft: #fbe9e5;
+    --ok: #1d7a4a;
+    --code-bg: #f3f5f9;
+    color-scheme: light;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #151923;
+      --ink: #e6e9f0;
+      --muted: #9aa4b8;
+      --line: #2d3545;
+      --grid: #1b2130;
+      --accent: #7ea2ff;
+      --accent-soft: #1e2a4a;
+      --warn: #ff8a76;
+      --warn-soft: #3a1f1b;
+      --ok: #5fcf8f;
+      --code-bg: #1e2433;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #151923; --ink: #e6e9f0; --muted: #9aa4b8; --line: #2d3545;
+    --grid: #1b2130; --accent: #7ea2ff; --accent-soft: #1e2a4a; --warn: #ff8a76;
+    --warn-soft: #3a1f1b; --ok: #5fcf8f; --code-bg: #1e2433; color-scheme: dark;
+  }
+  *, *::before, *::after { box-sizing: inherit; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body {
+    margin: 0;
+    background: var(--paper);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 28px 28px;
+    color: var(--ink);
+    font-family: "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+  }
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+  header {
+    border-left: 6px solid var(--accent);
+    padding-left: 18px;
+    margin-bottom: 44px;
+  }
+  h1 {
+    font-size: 2rem;
+    line-height: 1.15;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  header p { margin: 0; color: var(--muted); }
+  h2 {
+    font-size: 1.45rem;
+    margin: 48px 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--line);
+  }
+  h3 {
+    font-size: 1.1rem;
+    margin: 26px 0 8px;
+    color: var(--accent);
+  }
+  p { margin: 0 0 12px; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 12px 0 18px;
+    background: var(--paper);
+  }
+  th, td {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  th { font-weight: 600; background: var(--accent-soft); }
+  .scroll { overflow-x: auto; }
+  pre, code {
+    font-family: "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 0.95em;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 10px 0 16px;
+    line-height: 1.5;
+  }
+  code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+  pre code { background: none; padding: 0; }
+  .idea {
+    background: var(--accent-soft);
+    border-left: 4px solid var(--accent);
+    padding: 12px 16px;
+    margin: 16px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .idea p:last-child { margin-bottom: 0; }
+  .qa { margin: 18px 0; }
+  .qa dt {
+    font-weight: 600;
+    margin-top: 16px;
+  }
+  .qa dd {
+    margin: 4px 0 0 0;
+    padding-left: 18px;
+    border-left: 3px solid var(--line);
+  }
+  .fix {
+    background: var(--warn-soft);
+    border-left: 4px solid var(--warn);
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+  }
+  .fix ul { margin: 6px 0 0; padding-left: 20px; }
+  .fix li { margin-bottom: 8px; }
+  .ok { color: var(--ok); font-weight: 600; }
+  .bad { color: var(--warn); text-decoration: line-through; }
+  ul { padding-left: 22px; }
+  li { margin-bottom: 4px; }
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    main { max-width: none; padding: 0; }
+    h2 { break-after: avoid; }
+    pre, table, .idea, .fix { break-inside: avoid; }
+  }
+  @media (max-width: 520px) {
+    body { font-size: 16px; }
+    h1 { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <h1>Soustavy a ASCII tabulka</h1>
+  <p>Tahák k informatice, 8. třída – bity, bajty, převody, hex a odpovědi na zákeřné otázky.</p>
+</header>
+
+<h2>1. Soustavy – co to vlastně je</h2>
+
+<div class="idea">
+  <p><strong>Soustava = kolik máš cifer k dispozici na jednom místě.</strong></p>
+</div>
+
+<div class="scroll">
+<table>
+  <tr><th>Soustava</th><th>Cifry</th><th>Kolik možností na 1 pozici</th></tr>
+  <tr><td>desítková</td><td>0–9</td><td>10</td></tr>
+  <tr><td>dvojková (binární)</td><td>0, 1</td><td>2</td></tr>
+  <tr><td>šestnáctková (hex)</td><td>0–9, A, B, C, D, E, F</td><td>16</td></tr>
+</table>
+</div>
+
+<p><strong>Analogie – počítadlo kilometrů v autě:</strong> Každé kolečko má cifry 0–9. Když se dotočí na 9, přeskočí na 0 a kolečko vlevo se posune o 1. V binární soustavě by každé kolečko mělo jen 0 a 1 – takže se „přetočí“ už po jedničce. V hex má kolečko 16 políček, proto jsou tam i písmena: A&nbsp;=&nbsp;10, B&nbsp;=&nbsp;11, C&nbsp;=&nbsp;12, D&nbsp;=&nbsp;13, E&nbsp;=&nbsp;14, F&nbsp;=&nbsp;15. Prostě došly číslice, tak se půjčila písmena.</p>
+
+<div class="idea">
+  <p><strong>Klíčová myšlenka:</strong> Číslo je pořád stejné, mění se jen <em>zápis</em>. Dvanáct jablek je dvanáct jablek, ať to napíšu 12, 1100 nebo C.</p>
+</div>
+
+<h3>Proč zrovna binární?</h3>
+<p>Počítač je obrovská hromada vypínačů. Vypínač zná jen <strong>zapnuto / vypnuto</strong> → 1 / 0. Nic mezi. Proto dvojková.</p>
+
+<h3>Proč hex?</h3>
+<p>Binární zápis je <strong>dlouhý a nepřehledný</strong> (255 = 11111111). Hex je zkratka: <strong>4 bity = přesně 1 hex cifra.</strong> 11111111 → FF. Programátoři to čtou snáz, počítač uvnitř pořád pracuje binárně. Hex je „čitelná zkratka pro binárku“.</p>
+
+<h2>2. Převody – postupy ze sešitu</h2>
+
+<h3>Binárně → desítkově (váhy pozic)</h3>
+<p>Zprava: 1, 2, 4, 8, 16, 32, 64, 128. Sečti ty, kde je 1.</p>
+<pre><code>1   0   1   1   0   1   0   1
+128 .   32  16  .   4   .   1    →  128+32+16+4+1 = 181</code></pre>
+
+<h3>Desítkově → binárně (dělení dvěma)</h3>
+<p>Děl 2, piš zbytek, výsledek čti <strong>odspodu nahoru</strong>.</p>
+<pre><code>97 : 2 = 48  zb 1
+48 : 2 = 24  zb 0
+24 : 2 = 12  zb 0
+12 : 2 =  6  zb 0
+ 6 : 2 =  3  zb 0
+ 3 : 2 =  1  zb 1
+ 1 : 2 =  0  zb 1
+→ 1100001</code></pre>
+
+<h3>Hex → desítkově (váhy 1, 16, 256)</h3>
+<pre><code>11B = 1·256 + 1·16 + B(11)·1 = 283</code></pre>
+
+<h3>Hex ↔ binárně (po čtveřicích)</h3>
+<pre><code>A  = 1010
+F  = 1111
+2A = 0010 1010</code></pre>
+
+<h2>3. ASCII tabulka</h2>
+
+<p><strong>Problém:</strong> Počítač umí ukládat jen čísla (0 a 1). Ale my chceme psát písmena. Jak uložit „A“?</p>
+<p><strong>Řešení:</strong> Domluvíme se, že každé písmeno/znak má svoje číslo. Ta domluva je <strong>ASCII tabulka</strong>.</p>
+
+<p><strong>Analogie – šatna v divadle:</strong> Odevzdáš kabát (písmeno), dostaneš lísteček s číslem. Kabát se uloží pod číslem. Když přijdeš s lístečkem, dostaneš <em>ten samý</em> kabát zpět. ASCII je seznam „jaké číslo patří jakému kabátu“ – a hlavně <strong>všichni používají stejný seznam</strong>, jinak by ti vydali cizí kabát.</p>
+
+<p>Co si zapamatovat:</p>
+<ul>
+  <li><strong>A = 65, B = 66 … Z = 90</strong> (velká písmena jdou po sobě)</li>
+  <li><strong>a = 97, b = 98 … z = 122</strong> (malá jsou o 32 dál)</li>
+  <li><strong>0 = 48, 1 = 49 … 9 = 57</strong> (pozor: znak „5“ není číslo 5!)</li>
+  <li>mezera = 32</li>
+  <li>Celkem <strong>256 znaků</strong> (0–255), protože 1 bajt = 8 bitů = 2⁸ = 256 možností.</li>
+</ul>
+
+<p>Slovo <strong>„ahoj“</strong>:</p>
+<pre><code>a = 97  = 01100001
+h = 104 = 01101000
+o = 111 = 01101111
+j = 106 = 01101010</code></pre>
+
+<h2>4. Zákeřné otázky a odpovědi</h2>
+
+<dl class="qa">
+  <dt>„K čemu slouží ASCII tabulka?“</dt>
+  <dd>Aby se dalo písmeno uložit jako číslo. Počítač umí jen čísla, tak každému znaku přidělíme číslo a všichni používáme stejný seznam – jinak by se texty mezi počítači rozházely.</dd>
+
+  <dt>„Proč počítač nepoužívá desítkovou soustavu, když je nám přirozenější?“</dt>
+  <dd>Protože je postavený z vypínačů, které mají jen dva stavy. Deset stavů by se rozlišovalo hůř a nespolehlivě.</dd>
+
+  <dt>„Kolik je v bajtu bitů a proč zrovna 256 znaků?“</dt>
+  <dd>8 bitů. Každý bit má 2 možnosti, 8 bitů → 2·2·2·2·2·2·2·2 = 256.</dd>
+
+  <dt>„Jaký je rozdíl mezi bitem a bajtem?“</dt>
+  <dd>Bit = jedna 0 nebo 1. Bajt = 8 bitů = jeden znak z ASCII.</dd>
+
+  <dt>„Proč jsou v hexu písmena? Není to číslo?“</dt>
+  <dd>Je to číslo. Jen na jedno místo potřebuju 16 různých značek a číslic máme deset, tak se doplní A–F. A = 10, F = 15.</dd>
+
+  <dt>„K čemu je hex, když počítač počítá binárně?“</dt>
+  <dd>Pro lidi. Čtyři bity = jedna hex cifra, takže 8 jedniček se smrskne na FF. Kratší, přehlednější, bez chyb z přepočítávání nul.</dd>
+
+  <dt>„Je ‚A‘ a ‚a‘ v ASCII to samé?“</dt>
+  <dd>Ne. A = 65, a = 97. Proto počítač rozlišuje velikost písmen v hesle.</dd>
+
+  <dt>„Je znak ‚7‘ totéž co číslo 7?“</dt>
+  <dd>Ne. Znak „7“ má v ASCII kód 55. Číslo 7 je sedm. Proto se dá napsat „7“ + „7“ = „77“ (text), ale 7 + 7 = 14 (číslo).</dd>
+
+  <dt>„Kolik je 1 KiB a 1 kB? Je to stejné?“</dt>
+  <dd>Ne. 1 KiB = 1024 B (binární, 2¹⁰), 1 kB = 1000 B (desítkové). Proto má disk „v krabici“ víc GB než „v počítači“.</dd>
+
+  <dt>„Co jsou data a co informace?“</dt>
+  <dd>Data = samotná čísla/znaky bez významu (1603). Informace = data s kontextem (Sněžka má 1603 m n. m.).</dd>
+</dl>
+
+<h2>5. Co je v sešitě špatně</h2>
+
+<div class="fix">
+  <p>Ať se to nenaučí omylem:</p>
+  <ul>
+    <li><span class="bad">1 bit = jeden znak</span> → <span class="ok">1 bajt (8 bitů) = jeden znak.</span> Bit je jen 0 nebo 1.</li>
+    <li><span class="bad">ahoj = 65, 104, 111, 106</span> → 65 je velké <strong>A</strong>. Malé <strong>a</strong> je <span class="ok">97</span>. Správně: 97, 104, 111, 106.</li>
+    <li>65 binárně je <span class="ok">01000001</span> (8 cifer), ne <span class="bad">001000001</span> (9 cifer – jedna nula navíc).</li>
+    <li>Převod 104: 104 → 52 → 26 → <span class="ok">13</span> (ne 3) → 6 → 3 → 1. Výsledek 1101000 je správně, jen mezikrok je přepsaný.</li>
+    <li>Převod 111: 111 → 55 → 27 → <span class="ok">13 zb 1</span> → <span class="ok">6 zb 1</span> → 3 → 1. Výsledek 1101111 je správně.</li>
+  </ul>
+</div>
+
+<div class="idea" style="margin-top:24px">
+  <p><strong>Rychlá kontrola převodu:</strong> sudé číslo končí v binárce na 0, liché na 1. 97 je liché → končí 1 ✓. 104 sudé → končí 0 ✓.</p>
+</div>
+
+</main>
+</body>
+</html>
