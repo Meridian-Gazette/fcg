@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Západní Krkonoše: z Rokytnice na Dvoračky a kolem Labské louky — průvodce po lokalitách</title>
+<style>
+  :root {
+    --paper: #f2f3ef;
+    --card: #fbfbf8;
+    --ink: #1b221e;
+    --ink-soft: #3f4a44;
+    --muted: #6d776f;
+    --line: #d3d8d1;
+    --bouda: #6b4a2a;      /* rašelina, trámy bud */
+    --bouda-soft: #efe6dc;
+    --priroda: #4b6378;    /* žula, mlha */
+    --priroda-soft: #dfe6ec;
+    --misto: #2f5d45;      /* kleč */
+    --misto-soft: #dce8e0;
+    --voda: #2b7a8c;       /* Labe */
+    --voda-soft: #d8eaee;
+    --drb: #9a6b1f;        /* pikošky — jantar */
+    --drb-soft: #f3ead6;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --paper: #131816; --card: #1a201d; --ink: #e6e6de; --ink-soft: #c4c9c2; --muted: #96a098; --line: #2b332e;
+      --bouda: #d2a373; --bouda-soft: #2b221a; --priroda: #9db6c9; --priroda-soft: #1c262e; --misto: #8fc5a5; --misto-soft: #182820;
+      --voda: #72c5d3; --voda-soft: #15333a; --drb: #e2b25c; --drb-soft: #2e2516;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --paper: #131816; --card: #1a201d; --ink: #e6e6de; --ink-soft: #c4c9c2; --muted: #96a098; --line: #2b332e;
+    --bouda: #d2a373; --bouda-soft: #2b221a; --priroda: #9db6c9; --priroda-soft: #1c262e; --misto: #8fc5a5; --misto-soft: #182820;
+    --voda: #72c5d3; --voda-soft: #15333a; --drb: #e2b25c; --drb-soft: #2e2516;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { box-sizing: inherit; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: "Charter", "Bitstream Charter", "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", "Noto Serif", Georgia, serif;
+    font-size: 1.0625rem; line-height: 1.62; -webkit-text-size-adjust: 100%;
+  }
+  main { max-width: 42rem; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+  header.hero { padding: 1.5rem 0 1rem; border-bottom: 1px solid var(--line); }
+  header.hero h1 { font-size: clamp(1.9rem, 5.5vw, 2.6rem); line-height: 1.12; margin: 0 0 .6rem; font-weight: 600; letter-spacing: -0.01em; }
+  header.hero p.lead { font-size: 1.15rem; color: var(--ink-soft); margin: 0 0 .75rem; }
+  header.hero p.note { font-size: .95rem; color: var(--muted); margin: 0; }
+  h2 { font-size: 1.55rem; line-height: 1.2; margin: 2.6rem 0 .8rem; font-weight: 600; }
+  h3 { font-size: 1.15rem; line-height: 1.3; margin: 1.8rem 0 .5rem; font-weight: 600; }
+  p { margin: 0 0 1rem; }
+  ul, ol { padding-left: 1.3rem; margin: 0 0 1rem; }
+  li { margin-bottom: .35rem; }
+  a { color: var(--voda); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:focus-visible { outline: 2px solid var(--voda); outline-offset: 2px; }
+  em.v { font-style: italic; color: var(--muted); }
+  .sans { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif; }
+
+  figure.schema { margin: 1.5rem 0 0; }
+  figure.schema svg { display: block; width: 100%; max-width: 480px; height: auto; margin: 0 auto; }
+  figure.schema figcaption { font-size: .9rem; color: var(--muted); text-align: center; margin-top: .5rem; }
+
+  nav.toc { margin: 1.5rem 0 0; border-top: 1px solid var(--line); }
+  nav.toc ol { list-style: none; padding: 0; margin: 0; }
+  nav.toc li { display: flex; align-items: baseline; padding: .45rem 0; border-bottom: 1px solid var(--line); margin: 0; font-size: .98rem; }
+  nav.toc li .k { flex: 0 0 1.4rem; font-weight: 700; }
+  nav.toc li.bouda .k { color: var(--bouda); }
+  nav.toc li.priroda .k { color: var(--priroda); }
+  nav.toc li.misto .k { color: var(--misto); }
+  nav.toc li.voda .k { color: var(--voda); }
+  nav.toc li a { flex: 1 1 auto; color: inherit; text-decoration: none; }
+  nav.toc li a:hover { text-decoration: underline; }
+  nav.toc li .t { margin-left: auto; color: var(--muted); font-size: .85rem; white-space: nowrap; padding-left: .75rem; }
+  .legend { font-size: .9rem; color: var(--muted); margin: .75rem 0 0; }
+  .legend span { display: inline-block; width: .7em; height: .7em; border-radius: 2px; margin: 0 .25em 0 .6em; vertical-align: -1px; }
+
+  section.loc { margin-top: 3rem; padding-left: 1rem; border-left: 4px solid var(--line); }
+  section.loc.bouda { border-left-color: var(--bouda); }
+  section.loc.priroda { border-left-color: var(--priroda); }
+  section.loc.misto { border-left-color: var(--misto); }
+  section.loc.voda { border-left-color: var(--voda); }
+  section.loc h2 { margin: 0 0 .25rem; }
+  section.loc .meta { font-size: .9rem; color: var(--muted); margin: 0 0 1rem; }
+  section.loc .meta b { font-weight: 600; color: var(--ink-soft); }
+
+  .box { background: var(--card); border: 1px solid var(--line); border-left-width: 3px; border-radius: 4px; padding: .9rem 1rem .1rem; margin: 1.25rem 0; font-size: .98rem; }
+  .box p:last-child { margin-bottom: .9rem; }
+  .box ul { margin-bottom: .9rem; }
+  .box .lbl { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif; font-size: .8rem; font-weight: 600; margin: 0 0 .35rem; }
+  .box.drb { border-left-color: var(--drb); background: var(--drb-soft); border-color: var(--drb-soft); }
+  .box.drb .lbl { color: var(--drb); }
+  .box.leg { border-left-color: var(--misto); }
+  .box.leg .lbl { color: var(--misto); }
+  .box.nar { border-left-color: var(--priroda); }
+  .box.nar .lbl { color: var(--priroda); }
+  .box.look { border-left-color: var(--voda); }
+  .box.look .lbl { color: var(--voda); }
+  .box.tip { border-left-color: var(--bouda); }
+  .box.tip .lbl { color: var(--bouda); }
+
+  dl.facts { margin: 0 0 1rem; }
+  dl.facts dt { font-weight: 600; margin-top: .6rem; }
+  dl.facts dd { margin: .1rem 0 0 0; color: var(--ink-soft); }
+  table { border-collapse: collapse; width: 100%; font-size: .95rem; margin: 0 0 1rem; }
+  .tw { overflow-x: auto; }
+  th, td { text-align: left; padding: .4rem .5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 600; color: var(--ink-soft); }
+  footer { margin-top: 3.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); font-size: .92rem; color: var(--muted); }
+  footer ul { padding-left: 1.2rem; }
+  .small { font-size: .9rem; color: var(--muted); }
+  hr { border: 0; border-top: 1px solid var(--line); margin: 2.5rem 0; }
+
+  @media (max-width: 480px) {
+    body { font-size: 1rem; }
+    section.loc { padding-left: .8rem; }
+    nav.toc li .t { font-size: .78rem; }
+  }
+  @media print {
+    body { background: #fff; color: #000; font-size: 11pt; }
+    main { max-width: none; padding: 0; }
+    .box { break-inside: avoid; }
+    a { color: inherit; text-decoration: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+<main>
+
+<header class="hero">
+  <h1>Západní Krkonoše: z Rokytnice na Dvoračky a kolem Labské louky</h1>
+  <p class="lead">Průvodce po lokalitách mezi Rokytnicí nad Jizerou, Kotlem, Zlatým návrším, prameny Labe a Sněžnými jámami — historie, příroda, lidé tří národů a pikošky, které v běžných průvodcích nejsou.</p>
+  <p class="note">Psáno v listopadu 2026 tak, jako bych šel vedle tebe. Pořadí kapitol neodpovídá žádné trase; každou lokalitu lze číst samostatně, odkazy mezi nimi tě provedou tam, kde se příběhy protínají. Otevírací doby a stav bud si ověř na místě; co jsem neověřil, je sepsáno na konci.</p>
+</header>
+
+<figure class="schema">
+  <svg viewBox="0 0 480 440" role="img" aria-labelledby="schemaTitle" xmlns="http://www.w3.org/2000/svg">
+    <title id="schemaTitle">Schéma západních Krkonoš: hraniční hřeben nahoře, český hřbet uprostřed, Rokytnice a Mísečky dole</title>
+    <defs>
+      <style>
+        .lab { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 11px; fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round; }
+        .lab2 { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 9.5px; fill: var(--muted); paint-order: stroke; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round; }
+        .hd { font-family: Charter, "Palatino Linotype", Palatino, Georgia, serif; font-size: 12px; font-weight: 600; fill: var(--muted); }
+        .ridge { fill: none; stroke: var(--priroda); stroke-width: 1.4; opacity: .55; }
+        .border { fill: none; stroke: var(--ink-soft); stroke-width: 1.2; stroke-dasharray: 6 3; opacity: .7; }
+        .river { fill: none; stroke: var(--voda); stroke-width: 2; opacity: .8; }
+        .road { fill: none; stroke: var(--bouda); stroke-width: 1.6; stroke-dasharray: 2 3; opacity: .9; }
+        .pt { stroke: var(--paper); stroke-width: 1.5; }
+      </style>
+    </defs>
+    <!-- state border (main ridge) -->
+    <path class="border" d="M0 118 C 60 112, 110 100, 160 96 S 250 92, 300 86 S 400 70, 480 74"/>
+    <text class="hd" x="12" y="24">Polsko / Śląsk</text>
+    <text class="hd" x="12" y="150">Čechy</text>
+    <!-- Czech inner ridge: Lysá hora - Kotel - Harrachovy kameny - Zlaté návrší - Medvědín -->
+    <path class="ridge" d="M95 300 C 140 265, 175 240, 210 232 S 270 220, 300 236 S 360 262, 400 300"/>
+    <!-- Labe: from Labská louka down through Labský důl to Špindl -->
+    <path class="river" d="M300 130 C 315 150, 335 160, 350 175 S 385 230, 405 285 S 430 360, 455 400"/>
+    <!-- Masaryk road: Horní Mísečky -> Zlaté návrší -->
+    <path class="road" d="M330 360 C 320 330, 310 300, 300 262"/>
+    <!-- Pančava -->
+    <path class="river" d="M335 200 C 345 205, 352 215, 358 225" opacity=".5"/>
+
+    <!-- Polish-side points -->
+    <circle class="pt" cx="300" cy="62" r="4.5" fill="var(--priroda)"/><text class="lab" x="300" y="50" text-anchor="middle">Sněžné jámy</text>
+    <text class="lab2" x="300" y="37" text-anchor="middle">Śnieżne Kotły · Wawel</text>
+    <circle class="pt" cx="345" cy="78" r="3.5" fill="var(--priroda)"/><text class="lab2" x="345" y="68" text-anchor="middle">Vysoké kolo 1509</text>
+    <circle class="pt" cx="262" cy="92" r="3.5" fill="var(--priroda)"/><text class="lab2" x="262" y="82" text-anchor="middle">Violík</text>
+    <!-- Czech ridge huts and meadows -->
+    <circle class="pt" cx="195" cy="118" r="4.5" fill="var(--bouda)"/><text class="lab" x="195" y="108" text-anchor="middle">Vosecká bouda</text>
+    <circle class="pt" cx="298" cy="128" r="4.5" fill="var(--voda)"/><text class="lab" x="290" y="145" text-anchor="middle">pramen Labe</text>
+    <text class="lab2" x="250" y="160" text-anchor="middle">Labská louka</text>
+    <circle class="pt" cx="340" cy="158" r="4.5" fill="var(--bouda)"/><text class="lab" x="388" y="156" text-anchor="middle">Labská bouda</text>
+    <circle class="pt" cx="352" cy="176" r="3.5" fill="var(--voda)"/><text class="lab2" x="402" y="179" text-anchor="middle">Labský vodopád</text>
+    <circle class="pt" cx="330" cy="200" r="4.5" fill="var(--priroda)"/><text class="lab" x="280" y="203" text-anchor="middle">Pančavská louka</text>
+    <circle class="pt" cx="360" cy="226" r="3.5" fill="var(--voda)"/><text class="lab2" x="414" y="230" text-anchor="middle">Pančavský vodopád</text>
+    <text class="lab2" x="446" y="296" text-anchor="middle">Labský důl</text>
+    <text class="lab2" x="428" y="419" text-anchor="middle">Špindlerův Mlýn</text>
+    <circle class="pt" cx="232" cy="200" r="4.5" fill="var(--misto)"/><text class="lab" x="210" y="190" text-anchor="middle">Růženčina zahrádka</text>
+    <circle class="pt" cx="258" cy="226" r="4.5" fill="var(--priroda)"/><text class="lab" x="258" y="245" text-anchor="middle">Harrachovy kameny</text>
+    <circle class="pt" cx="300" cy="258" r="4.5" fill="var(--bouda)"/><text class="lab" x="350" y="256" text-anchor="middle">Vrbatova bouda</text>
+    <text class="lab2" x="347" y="269" text-anchor="middle">Zlaté návrší</text>
+    <circle class="pt" cx="200" cy="236" r="4.5" fill="var(--priroda)"/><text class="lab" x="178" y="228" text-anchor="middle">Kotel 1435</text>
+    <circle class="pt" cx="222" cy="272" r="4" fill="var(--priroda)"/><text class="lab" x="236" y="288" text-anchor="middle">Kotelní jámy</text>
+    <circle class="pt" cx="120" cy="292" r="3.5" fill="var(--priroda)"/><text class="lab2" x="98" y="312" text-anchor="middle">Lysá hora 1344</text>
+    <circle class="pt" cx="152" cy="318" r="4.5" fill="var(--bouda)"/><text class="lab" x="140" y="322" text-anchor="end">Dvoračky</text>
+    <circle class="pt" cx="330" cy="362" r="4.5" fill="var(--misto)"/><text class="lab" x="330" y="380" text-anchor="middle">Horní Mísečky</text>
+    <circle class="pt" cx="62" cy="400" r="4.5" fill="var(--misto)"/><text class="lab" x="70" y="418" text-anchor="middle">Rokytnice n. J.</text>
+    <circle class="pt" cx="150" cy="412" r="4.5" fill="var(--misto)"/><text class="lab" x="150" y="430" text-anchor="middle">Rezek</text>
+    <!-- trails Rokytnice -> Dvoračky, Rezek -> Dvoračky -->
+    <path class="road" d="M68 394 C 90 370, 120 345, 148 324" opacity=".7"/>
+    <path class="road" d="M150 405 L151 326" opacity=".7"/>
+  </svg>
+  <figcaption>Schéma, ne mapa: polohy jsou přibližné, vzdálenosti zkreslené. Čárkovaně státní hranice po hlavním hřebeni a cesty, modře Labe s Pančavou.</figcaption>
+</figure>
+
+<nav class="toc sans" aria-label="Obsah">
+  <ol>
+    <li class="misto"><span class="k">■</span><a href="#kraj">Krkonoše v kostce: kraj, lidé, hranice</a><span class="t">úvod</span></li>
+    <li class="misto"><span class="k">■</span><a href="#rokytnice">Rokytnice nad Jizerou</a><span class="t">město</span></li>
+    <li class="voda"><span class="k">■</span><a href="#cesta">Cesta z Rokytnice na Dvoračky</a><span class="t">trasa</span></li>
+    <li class="misto"><span class="k">■</span><a href="#rezek">Rezek</a><span class="t">osada</span></li>
+    <li class="bouda"><span class="k">■</span><a href="#dvoracky">Dvoračky a Štumpovka</a><span class="t">bouda</span></li>
+    <li class="priroda"><span class="k">■</span><a href="#kotel">Kotel a Velká Kotelní jáma</a><span class="t">příroda</span></li>
+    <li class="priroda"><span class="k">■</span><a href="#harrachovy-kameny">Harrachovy kameny</a><span class="t">příroda</span></li>
+    <li class="misto"><span class="k">■</span><a href="#ruzencina">Růženčina zahrádka</a><span class="t">záhada</span></li>
+    <li class="bouda"><span class="k">■</span><a href="#vrbatova">Zlaté návrší a Vrbatova bouda</a><span class="t">bouda, tragédie 1913</span></li>
+    <li class="bouda"><span class="k">■</span><a href="#hanc-vrbata">Poslední závod: Hanč, Vrbata, Rath — fact-check</a><span class="t">FCG kapitola</span></li>
+    <li class="misto"><span class="k">■</span><a href="#misecky">Horní Mísečky a Masarykova silnice</a><span class="t">osada</span></li>
+    <li class="voda"><span class="k">■</span><a href="#labe">Prameny Labe a Labská louka</a><span class="t">voda</span></li>
+    <li class="bouda"><span class="k">■</span><a href="#labska">Labská bouda</a><span class="t">bouda</span></li>
+    <li class="voda"><span class="k">■</span><a href="#vodopady">Labské vodopády a Labský důl</a><span class="t">voda</span></li>
+    <li class="priroda"><span class="k">■</span><a href="#pancavska">Pančavská louka</a><span class="t">příroda</span></li>
+    <li class="bouda"><span class="k">■</span><a href="#vosecka">Vosecká bouda</a><span class="t">bouda</span></li>
+    <li class="priroda"><span class="k">■</span><a href="#snezne-jamy">Sněžné jámy</a><span class="t">Polsko</span></li>
+    <li class="misto"><span class="k">■</span><a href="#zaver">Místo závěru · zdroje · co jsem neověřil</a><span class="t"></span></li>
+  </ol>
+  <p class="legend"><span style="background:var(--bouda)"></span>boudy <span style="background:var(--priroda)"></span>hory a příroda <span style="background:var(--misto)"></span>sídla a místa <span style="background:var(--voda)"></span>voda a cesty</p>
+</nav>
+
+<h2 id="kraj">Krkonoše v kostce: kraj, lidé, hranice</h2>
+
+<h3>Co to vlastně je za hory</h3>
+<p>Nejvyšší pohoří Česka je geologicky dvojí. Jádro tvoří krkonošsko-jizerská žula, která před třemi sty miliony let vystoupila do starších břidlic a přetavila je na svory, ruly a fylity. Hlavní, hraniční hřeben je z velké části žulový; vnitřní, „český“ hřbet od Lysé hory přes Kotel a Zlaté návrší k Medvědínu je svorový, se žulovými ostrůvky, jako jsou Harrachovy kameny. Celé to pak ve čtvrtohorách přemodelovaly ledovce: ne velké údolní jako v Alpách, ale malé karové, které se usadily v závětrných svazích pod hřebenem a vyhlodaly do nich „jámy“ — Kotelní, Sněžné, Labské. Nad nimi zůstaly zarovnané náhorní plošiny s rašeliništi a tundrou. Krkonoše jsou tak nejjižnějším místem Evropy, kde v nadmořské výšce 1 300–1 400 metrů žije ostrov severské přírody: morušky, vrba laponská, kulík hnědý. Odborníci tomu říkají arkto-alpínská tundra a mluví o tom od 20. let minulého století; Josef Kunský to roku 1968 shrnul do obratu o tundře zbylé z dob ledových, která pomalu zarůstá.</p>
+<p>Pojmenování je samo o sobě historie. Německé <em>Riesengebirge</em> i české „Obří hory“ vycházejí z obra, který tu měl strašit; polské <em>Karkonosze</em> a české <em>Krkonoše</em> jsou starší a méně jasné. Jedna z verzí odvozuje jméno od kleče (kosodřeviny) na „nosu“ hory, jiná od obecného slova pro kamenitý vrch. Jisté je, že „Krkonoš“ byl původně název jedné konkrétní hory — svorového hřbetu nad Mísečkami, kterému dnes říkáme Zlaté návrší (německy Goldhöhe). Když se ve třicátých letech stavěla Masarykova silnice, v úředních seznamech figuruje jako „silnice Jilemnice–Krkonoš“. Název jediného kopce se časem přenesl na celé pohoří.</p>
+
+<h3>Krakonoš, Rübezahl, Liczyrzepa</h3>
+<p>Pán hor je společný všem třem jazykům. Poprvé ho nakreslil roku 1561 slezský kartograf Martin Helwig jako grifa s parohy na mapě Slezska, a to přesně do míst, kudy dnes půjdeš — nad prameny Labe. Německé jméno Rübezahl si vyložili lidé až dodatečně jako „počítač řep“ (odtud polské Liczyrzepa), česká podoba Krakonoš vznikla v 19. století úpravou staršího Krkonoš. Krakonoš je důlní duch, pán počasí a hlídač pokladů v jedné osobě, což dává smysl: první lidé, kteří sem šli, byli horníci a hledači, a to, co jim na hřebenech hrozilo, bylo počasí. V obou kapitolách o Kotli a o Růženčině zahrádce narazíš na místa, kde si ho lidové podání usadilo.</p>
+
+<h3>Kdo sem přišel a proč: horníci, skláři, budaři</h3>
+<p>Do 16. století byly vrcholové partie pustina. Osídlení přišlo ve třech vlnách a každá z nich mluvila německy. Nejdřív horníci: v údolí Huťského potoka u Rokytnice se dobývala měď, olovo a stříbro, nejvýš položený důl v Krkonoších (a nejspíš v celém Česku) byl „Vysoký hrad“ v Kotelních jámách ve 1 350–1 370 metrech. Pak skláři — rodina Schürerů, která v Rokytnici provozovala huť v letech 1574–1599 a dala jméno Huťskému potoku. A nakonec, především ve východní polovině hor, dřevaři z alpských zemí, kteří od poloviny 16. století přicházeli na pozvání vrchlabského pána Kryštofa Gendorfa a kutnohorského horního úřadu kácet dřevo pro stříbrné doly. Ti s sebou přinesli alpský způsob horského hospodaření: v létě nahnat dobytek na vysoko položené pastviny a bydlet s ním v jednoduchých srubech, v zimě svézt seno dolů. Těm srubům se říkalo <em>Bauden</em>, česky boudy, a lidem budaři. Dvoračky, Labská, Vosecká, Kotelská, Mísečné boudy — všechno začínalo jako salaš nebo seník. Z budního hospodářství zbylo dědictví, které dnes národní park chrání jako kulturní krajinu: horské louky, které bez kosení zarostou.</p>
+<p>V 18. století do toho vstoupila vrchnost. Jilemnické panství, k němuž západní Krkonoše patřily, koupili roku 1701 Harrachové, rakouský rod s jihočeskými kořeny (jméno odvozují od zaniklé vsi Harachy u Kaplice). Hrabě Arnošt Quido Harrach si v polovině 18. století najal agrárního odborníka hraběte Sweerts-Sporcka, aby na hřebenech založil síť nových bud; z plánu deseti bud na Labské louce vznikla jediná a shořela. Z téže doby je pojmenování Bedřichovy (Kotelské) boudy i „Růženčina zahrádka“, kterou Bedřich Harrach pojmenoval po své ženě.</p>
+
+<h3>Hranice: Čechy a Slezsko, Rakousko a Prusko</h3>
+<p>Hlavní hřeben byl odjakživa hranicí Čech a Slezska, ale přesný průběh se na horách dlouho vedl ve sporu. Slezští Schaffgotschové chtěli posunout hranici na jih, až k pramenům Labe; vrchlabští a jilemničtí páni se bránili. Roku 1684 do sporu vstoupil královéhradecký biskup Jan František Kryštof z Talmberka: 19. září vysvětil pramen Labe, čímž jej liturgicky přičlenil ke své diecézi — a protože hranice diecéze byly zároveň hranicemi země, byla tím Labská louka potvrzena jako česká. Spor definitivně skončil kolem roku 1710. Roku 1742 pak Marie Terezie prohrála Slezsko s Pruskem a z hřebene se stala hranice dvou mocností; v roce 1918 hranice Československa a Německa, od roku 1945 Československa (Česka) a Polska. Jedna a táž čára, tři různé významy — a přes ni po celou dobu chodili pašeráci. Z pruské strany se nosil cukr, sacharin, kořalka a tabák, financi je honili po hřebenech a od roku 1892 i na lyžích. V Rokytnici se tomu dodnes říká Pašerácká stezka a slaví se Pašeráckej vejkend.</p>
+
+<h3>Turistika, Harrach, lyže</h3>
+<p>Moderní dějiny západních Krkonoš jsou dějinami jednoho muže. Jan Nepomuk hrabě Harrach (1828–1909), český vlastenec, mecenáš Národního divadla i Erbenových sbírek, miloval Jilemnici a hory nad ní. Historik Jan Luštinec o něm říká, že se nabízí srovnání s Járou Cimrmanem — s tím rozdílem, že Harrach existoval. Roku 1876 začal stavět první značenou turistickou cestu v Krkonoších (Harrachova cesta Labským dolem, hotová 1879, mýto dva krejcary), roku 1877 koupil Labskou boudu, 1893 postavil nové Dvoračky, 1892 dal rozhlednu na Žalý, 1894 restauraci na Kozinci, kde se podávalo patnáct druhů sýra a sobí maso. V roce 1892 nechal pro své lesníky dovézt lyže — nebyl první Čech, který je ukázal (Josef Rössler-Ořovský to udělal o pět let dřív v Praze), ale byl první, kdo je dal do hor, a hraběcí lesní správa pak zadala jejich výrobu místním řemeslníkům. Z Jilemnice se lyžování rozšířilo do celé země; Český krkonošský spolek SKI (1894/95) je nejstarší lyžařský spolek na českém území. Roku 1904 vyhlásil Harrach v Labském dole první přírodní rezervaci v Krkonoších. Když v prosinci 1909 zemřel, přijel do Horní Branné zvláštní vlak z Prahy; Jan Neruda, který aristokracii v lásce neměl, o něm napsal, že je šlechtic nejen rodem, ale i srdcem.</p>
+<p>Harrach ale nebyl jen filantrop; byl stratég. Cestami a boudami vedl turisty tam, kam chtěl, a zároveň si přál, aby „česká turistika“ posílila národnostní postavení Čechů v převážně německých horách. Boudy dostávaly české nájemce a české cedule vedle německých, u Vosecké boudy se o „počeštění“ přel s nájemcem Endlerem. Krkonoše byly v té době národnostně rozdělené jinak, než si dnes představujeme: Jilemnice, Vítkovice, Štěpanice dole byly české, ale Rokytnice, Harrachov i samotné boudy na hřebenech byly německé. Německý turistický spolek (Riesengebirgsverein, 1880) a Klub českých turistů (1888, jilemnický odbor 1889) si vedle sebe značili cesty, stavěli rozhledny a sváděli zdvořilou válku o to, čí hory to jsou. V roce 1913 se v ní přihodila tragédie Hanče a Vrbaty — a také příběh Němce Emericha Ratha, který se do ní po roce 1945 nehodil; o tom na Zlatém návrší.</p>
+
+<h3>Opevnění, Mnichov, odsun, park</h3>
+<p>Ve třicátých letech se hřebeny opevňovaly: kolem Zlatého návrší a Labské louky dodnes stojí betonové řopíky, lehké pevnůstky vzoru 37, a Masarykova silnice z Jilemnice na Zlaté návrší (1931–1936) byla turistickým projektem i vojenskou komunikací zároveň. Po Mnichovu 1938 připadly Rokytnice, Harrachov i hřebenové boudy Německé říši; Jilemnice zůstala v okleštěné republice a nová hranice běžela horami těsně nad ní. Českého nájemce Labské boudy Bedřicha Hlouška zatklo gestapo a nepřežil to. Po roce 1945 byli němečtí obyvatelé Rokytnice vysídleni; z textilek směly zůstat dvě rodiny, Gernertovi a Gebertovi, protože Rudá armáda potřebovala, aby tkalcovna ložního prádla jela dál. Odsun vzal horám tři staletí budařské paměti; v mnoha boudách se vystřídali dosazení správci a stav, v jakém je rodina Starých v roce 1993 převzala na Dvoračkách — bez záchodů, bez podlahy — byl typický.</p>
+<p>Polská strana dostala svůj národní park roku 1959, česká 17. května 1963 (KRNAP, nejstarší český národní park). V roce 1961 se otevřela Cesta česko-polského přátelství po hřebeni; v 70. a 80. letech ji lemovaly umírající lesy, protože kyselé deště z elektráren „černého trojúhelníku“ (Turów, východoněmecké a severočeské pánve) zničily většinu horských smrčin. Od roku 1992 jsou Krkonoše biosférickou rezervací UNESCO, od 1993 jsou hřebenová rašeliniště (Pančavská a Labská louka, Úpské rašeliniště) mokřadem mezinárodního významu. Dnes tu panuje zvláštní rovnováha: boudy jsou soukromé, země je národní park, motor vozidel na hřebeny nesmí a řada míst, kam Wartburgy z NDR v 70. letech dojely až k Vrbatově boudě, je dnes uzavřena. Tím se dostáváme k jednotlivým místům.</p>
+
+<!-- ============ ROKYTNICE ============ -->
+<section class="loc misto" id="rokytnice">
+  <h2>Rokytnice nad Jizerou</h2>
+  <p class="meta"><b>Město, 520 m n. m.</b> · německy Rochlitz an der Iser · založeno kolem 1574 · části Dolní a Horní Rokytnice, Rokytno, Františkov, Hleďsebe, Hranice, Studenov</p>
+  <p>Dole v údolí Huťského potoka, pod hřebenem Studenova a Kotle, leží město, které se táhne po údolí tak dlouho, až se někdy chlubí, že je nejdelším sídlem v Čechách. Jméno má od potoka: „rokytná“ voda je voda tekoucí mezi rokytami, tedy vrbami; potoku se dnes říká Huťský podle první sklářské huti v Krkonoších. Ta vznikla ještě před rokem 1562 péčí majitele panství Arnošta z Újezdce a Kunic a pracovala v ní známá sklářská rodina Schürerů; sklárna běžela v letech 1574–1599 a pak, jak to u hutí bylo obvyklé, odešla za dřevem jinam.</p>
+  <p>Rokytnice je ale ještě starší vrstvou hornická. V údolí se dobývala měď, olovo a stříbro a roku 1625 nechal ložiska prozkoumat Albrecht z Valdštejna. Povolal odborníka z Jáchymova, odkryl starší důlní díla a vydal řád, v němž horníkům sliboval obydlí a výhodné selské usedlosti. Nejvýš položeným dolem byl „Vysoký hrad“ na Kotli, odkud se ruda snášela dolů do Rokytnice; roku 1630 se za jeden dopravený centýř (61,6 kg) platilo 12 krejcarů. Valdštejnova smrt znamenala úpadek: po třicetileté válce byly šachty zpustlé a zatopené, rokytničtí těžaři marně žádali stát o podporu k otevření stříbrné žíly. Roku 1814 se tu ještě prohlížely doly na kalamín, v letech 1853–1856 postavili v Horní Rokytnici úpravnu a třídírnu rud, která jen prodělávala, a poslední marný pokus je z roku 1909.</p>
+
+  <div class="box nar">
+    <p class="lbl">Protestanti, jezuita a oheň na Kotli</p>
+    <p>Po třicetileté válce bylo Rokytnicko téměř celé protestantské. Hejtman jilemnického panství Jiřík Hartmann z Hartenštejna neměl v soupisu poddaných z roku 1651 u jediného člověka poznámku, že je katolík, a jezuitský misionář Kašpar Dirig o pár let později konstatoval, že se s tím prakticky nedá nic dělat. Zkusil to a pár „zarytých kacířů“ získal — a tak se o svatém Janu roku 1680 rozhořel na Kotli velký oheň, který měl dokumentovat vítězství církve. Páter to neměl lehké: jeho rokytnické obydlí bylo během mise třikrát přepadeno. Evangelíci, kteří neodešli do exilu, se uchýlili do samot, jako je Rezek, kterému říkali Jeruzalém; z Hostinného sem roku 1629 přicházeli další, a naopak 120 exulantů bylo do roku 1708 úředně vráceno. Vznikaly i sekty, nejsilnější byli adamité. Dřevěný protestantský kostelík z roku 1598 nahradili katolíci zděným a v letech 1752–1759 na jeho místě vyrostl pozdně barokní kostel sv. Michaela, dekrety k němu vydal hrabě Arnošt Quido Harrach. Cínová křtitelnice je z roku 1793.</p>
+  </div>
+  <div class="box drb">
+    <p class="lbl">Pikošky z kronik</p>
+    <ul>
+      <li>Roku 1704 se poddaní vzbouřili při stavbě pivovaru. V roce 1776, když se po Čechách zvedalo selské povstání, se němečtí Rokytničtí k českým povstalcům <em>nepřidali</em> — naopak se postavili za panského úředníka a pomáhali povstání potlačit. V červnu téhož roku se pak ozbrojili vidlemi, puškami a šavlemi sami a zaútočili na panský dvůr a faru; odrazil je majitel bělidla s lesmistrem a pořádek zjednali husaři. Vůdci zemřeli v žaláři.</li>
+      <li>1. prosince 1839 zničili tkalci zařízení Grossmannovy mechanické přádelny — rokytnická verze luddismu. Domácké tkalcovství, kterým se tu v 18. století živila většina lidí, prohrávalo s továrnou. Roku 1873 vznikla nižší tkalcovská škola a textil zůstal hlavním průmyslem města až do konce 20. století.</li>
+      <li>Železnice z Martinic přes Jilemnici dojela 7. prosince 1899. Hrabě Jan Harrach byl prezidentem soukromé společnosti dráhy a chtěl ji napojit na jizerskohorské a pruské tratě; plány byly hotové, začalo se stavět — a jeho smrtí roku 1909 všechno ztroskotalo. Rokytnice je dodnes koncovou stanicí lokálky, po které jezdí nostalgické vlaky.</li>
+      <li>Secesní radnice s 37 m vysokou věží je z roku 1903. Horní a Dolní Rokytnice, Rokytno a Františkov byly čtyři samostatné obce; ze čtyř pečetí vznikl čtvrcený znak města.</li>
+      <li>Po roce 1945 nechala Rudá armáda tkalcovnu rodiny Gernertů jet dál — potřebovala ložní prádlo — a Gernertovi s Gebertovými jako jediní Němci směli natrvalo zůstat.</li>
+    </ul>
+  </div>
+  <div class="box look">
+    <p class="lbl">Rokytnice ve filmu</p>
+    <p>V roce 1980 tu Věra Plívová-Šimková tři měsíce točila dětský film <em>Krakonoš a lyžníci</em>, hlavně v Rokytnu: chudí skláři, financové honící pašeráky, pan učitel a čerchmantská prkénka zvaná ski. U chaloupky čp. 11 v Rokytnu kluci zjistili, že je předběhli jiní tříkráloví koledníci; kaplička „U Kostelíku“ nad Rokytnem se díky filmu stala poutním místem, zahrála si i stanice Horské služby na Dvoračkách. Rokytno a Horní Rokytnice se objevily už dřív v dramatu <em>Synové hor</em> (1956) o Hančovi a Vrbatovi. Rokytnický Pašeráckej vejkend s průvodem masek, výstupem na Lysou horu a sjezdem pašeráků se jede na melodii z Krakonoše a lyžníků; cukr a kořalka se do Rokytnice z pruské strany pašovaly skutečně, na lyžích a hlavně v zimě.</p>
+  </div>
+</section>
+
+<!-- ============ CESTA ============ -->
+<section class="loc voda" id="cesta">
+  <h2>Cesta z Rokytnice na Dvoračky</h2>
+  <p class="meta"><b>520 → 1 140 m n. m.</b> · 6–8 km podle varianty · 2–3 hodiny chůze · tři hlavní varianty, které jdou kombinovat</p>
+  <p>Z Rokytnice vedou nahoru tři klasické cesty a všechny se sbíhají u Dvoraček. Nejkratší a nejdivočejší je modrá údolím Huťského potoka, nejpohodlnější je kombinace lanovky a zelené Krakonošovy cesty přes Ručičky, nejpoučnější je žlutá Pašerácká stezka. A pak je tu čtvrtá, oklikou přes Rezek, po které dal hrabě Harrach v roce 1879 vybudovat „Exkurzní cestu“ pro účastníky velké lesnické exkurze — o ní v kapitole o Rezku.</p>
+
+  <dl class="facts">
+    <dt>Modrá: Horní náměstí → Huťský potok → Huťský vodopád → sedlo pod Dvoračkami → Dvoračky</dt>
+    <dd>Zhruba 6 km a 600 metrů převýšení. Prvních pár kilometrů jde silničkou nahoru Horní Rokytnicí, kolem hotelu Helena, pak se cesta zúží v lesní pěšinu podél potoka. Asi 3 km od náměstí je <strong>Huťský vodopád</strong>: 16–20 m vysoký, tenký jako nit, v zimě úplně schovaný pod ledem, v bukovém lese na podzim nejkrásnější. Potok, který ho napájí, pramení přímo pod Dvoračkami. Nad vodopádem je nejstrmější úsek celé cesty; v zimě po ní jezdí běžkaři i sjezdaři, kteří si zkracují cestu z Lysé hory. Nahoře se otevře odlesněná enkláva Dvorských bud. U vodopádu stojí Huťská bouda a Chata pod Dvoračkami, kde se dá přespat, a Hospůdka U Vocta kousek nad Rokytnicí je klasika pro první zastávku.</dd>
+    <dt>Lanovka + zelená: dolní stanice (Horní Domky) → Hoření Domky / Lovčenka → Ručičky → Krakonošova cesta → Dvoračky</dt>
+    <dd>Lanovka na Lysou horu jede v létě jen do mezistanice Horní Domky, na vrchol Lysé hory (1 344 m) až v zimě. Od mezistanice to je po modré asi 400 metrů na rozcestí <strong>Ručičky</strong> — křižovatku, kde se cesty rozbíhají do pěti stran, což jí prý vyneslo ten poetický název (ručičky rozcestníku); je tu kiosek, přístřešek a výhled dolů na Rokytnici. Od Ručiček vede na Dvoračky dva kilometry široká, skoro rovná cesta — v zimě rolbovaná běžkařská magistrála, s kočárkem sjízdná. Zelené značení nese jméno Krakonošova cesta a pokračuje od Dvoraček dál Kotelními jámami na Horní Mísečky.</dd>
+    <dt>Žlutá: Dolní náměstí → Pašerácká stezka → Studenov → Ručičky → Dvoračky</dt>
+    <dd>Naučná <strong>Pašerácká stezka</strong> začíná 400 metrů nad Dolním náměstím a na čtyřech zastaveních vypráví o pašování v Krkonoších — o tom, že pašeráci byli mezi horaly oblíbení a financové ne. Stoupá přes Studenov (bývalé lyžařské středisko se sjezdovkami, z rozcestí se jde po modré Janově cestě na Ručičky) a kolem Krásné vyhlídky. Kdo chce zpátky dolů jinudy, má z Ručiček „kostelní cestu“ ke kapličce U Kostelíku z filmu a po žluté zpět do města.</dd>
+  </dl>
+
+  <div class="box tip">
+    <p class="lbl">Co leží kolem a stojí za odbočku</p>
+    <ul>
+      <li><strong>Řopíky.</strong> Na trase od Dvoraček k Mohyle Hanče a Vrbaty, kolem Harrachových kamenů a na severním úpatí Kotle stojí betonové pevnůstky vz. 37 z let 1937–38. Nikdy nevystřelily; po Mnichovu zůstaly na území, které připadlo Říši.</li>
+      <li><strong>Lysá hora (1 344 m).</strong> Z Dvoraček na vrchol je to kousek; v zimě tu končí lanovka a začínají rokytnické sjezdovky, v létě je nahoře klid a výhled na Jizerské hory. Pod Dvoračkami je malá sjezdovka, kde se každou zimu staví skokánky — lyžařská tradice místa sahá k roku 1902, kdy se tu jelo sedmé mistrovství Čech.</li>
+      <li><strong>Sachrův hřeben a Stezka rokytnických rodáků.</strong> Na protější straně údolí; okruh „Okolo Rokytnice“ s kaplí Matky Terezy. Není to na cestě, ale je to ten hřeben, který tvoří panorama z Ručiček.</li>
+      <li><strong>Česká cesta.</strong> Kolem Dvoraček stoupá jedna z nejstarších stezek přes hory, zvaná Česká (jinde Slezská), kterou místní podání klade až do 10. století. Vedla z Rokytnice přes Labskou louku do Slezska a byla jednou z nejstarších solných stezek; 19. září 1684 po ní šel průvod biskupa Talmberka světit pramen Labe. Někde tady pod Dvoračkami prý zmožen stoupáním padl velbloud, který nesl biskupovy rekvizity — ale k velbloudovi se vrátíme u pramene.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ REZEK ============ -->
+<section class="loc misto" id="rezek">
+  <h2>Rezek</h2>
+  <p class="meta"><b>Horská osada v sedle, 893 m n. m.</b> · pod Vlčím hřebenem na silnici Rokytnice–Vítkovice · úředně část Horní Dušnice, tedy Jablonce nad Jizerou · 6 objektů, 2 restaurace, parkoviště, vlek</p>
+  <p>Rezek je sedlo, kterým se z údolí Jizery přejíždí do údolí Jizerky, a zároveň osada, která v něm vyrostla na křižovatce cest. Leží na jižní rozsoše Lysé hory pod Preislerovým kopcem (1 035 m), mezi Rokytnicí (6 km), Vítkovicemi (4 km) a Mísečkami, ve třetí zóně národního parku. Silnice přes sedlo se stavěla od roku 1902; předtím tu stála jen kamenná myslivna.</p>
+  <p>Jméno osady má zvláštní dvojí dno. Dávní evangeličtí osadníci, kteří se sem po Bílé hoře uchýlili před rekatolizací, jí říkali <strong>Jeruzalém</strong> — a jeden z penzionů tu dodnes nese jméno Rezek Jerusalem. V sedle vznikla myslivna, později „nezbytné hospody“, a ta „Na Rezku“ se proslavila modřínovou rezkovačkou, kterou pálil hostinský Škoda. V roce 1939 provoz restaurace skončil a dům sloužil jen k bydlení; noví majitelé ho roku 1993 obnovili. Když se v letech 1903–1906 do krkonošských bud poprvé rozdávaly „staniční knihy“ — pozorovací deníky, do nichž budaři zapisovali počasí a dění —, dostal jednu i Rezek. Díky tomu víme, že 20. září 1910 tu nasněžilo a sníh zůstal ležet.</p>
+  <div class="box nar">
+    <p class="lbl">Harrachova Exkurzní cesta</p>
+    <p>V roce 1879 se v Krkonoších konala slavná lesnická exkurze — sjezd lesníků z celé monarchie na jilemnickém panství, kvůli němuž hrabě Harrach spěchal s přestavbou Labské boudy a dokončením Harrachovy cesty. Při té příležitosti dal vybudovat ještě dvě cesty: z Rezku k Dvorským boudám (dodnes se jí říká Exkurzní) a od Dvoraček k Jizeře (Janova cesta, po hraběti). Dnes z Rezku vede na Dvoračky zelená značka; lesní cesta ke Kozí boudě (3 km) je lemovaná dřevěnými sochami z františkovského dřevosochání a od sedla jezdí v sezoně autobus na Zlaté návrší.</p>
+  </div>
+</section>
+
+<!-- ============ DVORAČKY ============ -->
+<section class="loc bouda" id="dvoracky">
+  <h2>Dvoračky a Štumpovka</h2>
+  <p class="meta"><b>Horská bouda, 1 140 m n. m.</b> · německy Hofbaude · jižní svah Lysé hory, pod Kotlem · křižovatka cest Rokytnice–Studenov–Harrachov–Mísečky–Špindlerův Mlýn–Rezek · vlastní „němá značka“: písmeno D</p>
+  <p>Dvoračky jsou nejznámější bouda západních Krkonoš a zároveň učebnice toho, jak boudy vznikaly. Kolem poloviny 17. století tu lesní správa odlesnila velkou plochu a vznikla horská enkláva — Dvorské boudy, pastvina jilemnického panství. První písemná zmínka je z urbáře roku 1688: „letní boudy, salaše pro 50 krav a 80 koz“. Na začátku 18. století tu hospodařila rodina Schierova (1707 je rok, který se uvádí jako založení), seno se v zimě sváželo na hrabačkách dolů do Rokytenského dvora — odtud „Dvorské“ boudy. Když v polovině 18. století hrabě Harrach povolal Sweerts-Sporcka, aby hospodaření na hřebenech zmodernizoval, byla hlavní z bud nazývána Velká bouda sv. Arnošta, po hraběti Arnoštu Quidovi.</p>
+  <p>Potenciál místa jako hostince byl využit roku 1790. Od roku 1883 měl boudu v nájmu Ignaz Gebert, kterému se říkalo <em>Quargnazerl</em> — Tvarohový Nácek — protože proslavil Dvoračky sýrem z místního tvarohu. A pak přišel 29. březen 1893: o Velikonocích vyhořela celá usedlost, v ohni zahynulo 22 kusů dobytka a jedna děvečka. Spáleniště koupil hrabě Jan Harrach a postavil hostinec: nejdřív se jmenoval Gasthaus zur Kesselkoppe (U Kotle), od roku 1900 Gasthaus zur Hofbaude. Byl menší než původní bouda, se třemi pokoji a devíti postelemi, velkým sálem a prosklenou verandou s krkonošskými specialitami; jednu místnost si hrabě nechal zařídit krkonošským selským nábytkem, jehož část je dnes v Krkonošském muzeu v Jilemnici. Hostinec se rychle stal střediskem zimního sportu — v únoru 1902 se tu konalo sedmé mistrovství Čech v lyžování.</p>
+  <div class="box nar">
+    <p class="lbl">Češi a Němci na jedné louce</p>
+    <p>Při pozemkové reformě roku 1921 přešly Dvoračky na stát, který je pronajal Elle Půhonné; roku 1928 je koupila. Byla to podle Martina Bartoše dáma s bohatými zkušenostmi z pohostinství a bouda za ní mimořádně prosperovala. Naproti stálo hospodářské stavení, které v roce 1930 koupil Němec Johann Stumpe — a tak v předvečer války vlastnili jednu z dvou bud na louce Češi a druhou Němci. Podle Stumpeho dcery Kristýny, později Bartoníčkové, sem za první republiky a znovu v roce 1945 jezdil Edvard Beneš s Hanou; v pamětní knize jsou podepsaní. V letech 1937–38 převzal Dvoračky od Půhonné Dr. Walter Heinzel, za války je rozšířil do podoby, jakou měly až do roku 2023, a chtěl z nich udržet lyžařské středisko. Po válce dostala boudu Půhonná zpět — na tři roky, do znárodnění. Dosazení správci hospodařili tak, že se původní majitelé mohli nakonec vrátit jako obyčejní zaměstnanci. Štumpovku komunisté po roce 1956 předělali na ubytovnu; roku 1990 z neznámých důvodů vyhořela.</p>
+  </div>
+  <div class="box drb">
+    <p class="lbl">Housky, strýc z Ameriky a dřevomorka</p>
+    <p>V roce 1991 koupil Dvoračky Jiří Justic, Čech žijící v USA, za peníze z restitucí; o rok později přikoupil i spáleniště Štumpovky. Jeho synovec Milan Starý, zaměstnanec pražských energetických závodů, sem v roce 1993 přijel „na rok“ zjistit tržní hodnotu — a po půl roce volal do práce, že se nevrátí. Nebyly tu záchody ani podlaha. Od téhož roku se na Dvoračkách pečou housky a rohlíky podle receptu pekařské rodiny Kalousových z Orlických hor, s nimiž Starý sousedil chalupou; borůvkové knedlíky a housky jsou dnes důvod, proč sem lidé chodí. Novou Štumpovku stavěla rodina svépomocí v letech 2002–2009 — a jako kuriozitu ti prozradím, že je to v podstatě kopie průčelí staré Labské boudy, té, která shořela v roce 1965, při pohledu od Labského dolu. Samotné Dvoračky napadla dřevomorka a celá dřevostavba „ujížděla ze svahu“; v červnu 2023 musely jít k zemi a na jejich místě vyrostla replika v původním stylu, otevřená na zimní sezonu 2025/26. Dnes jsou tedy obě boudy na Dvorské louce novostavby, které se tváří jako historie — což je v Krkonoších, kde skoro každá bouda několikrát vyhořela, vlastně ten nejautentičtější stav.</p>
+  </div>
+</section>
+
+<!-- ============ KOTEL ============ -->
+<section class="loc priroda" id="kotel">
+  <h2>Kotel a Velká Kotelní jáma</h2>
+  <p class="meta"><b>Kotel 1 435 m n. m.</b> (dříve Kokrháč, německy Kesselkoppe) · Velká a Malá Kotelní jáma 1 050–1 400 m · státní přírodní rezervace od 1952, 101 ha, dnes I. zóna KRNAP · nejvyšší hora Libereckého kraje</p>
+  <p>Kotel je hora s vykousnutým bokem. Jeho jihovýchodní svah utíná skalnatý amfiteátr, podle kterého hora dostala jméno; starší název Kokrháč přežívá v mapách. „Kotel“ jsou ve skutečnosti kotle dva: <strong>Velká Kotelní jáma</strong>, vyhloubená ledovcem v žule a spadající přímo od Harrachových kamenů, a <strong>Malá Kotelní jáma</strong> ve svoru pod samotným vrcholem. Odděluje je skalnatý Kotelský (nebo Liščí) hřebínek. Vertikální rozpětí je 350 metrů, svahy mají místy sklon 45 stupňů a na dně leží zbytky morén; odvodňuje je Kotelský potok, který teče do Jizerky. Je to učebnicový kar, pozůstatek po svahovém ledovci z poslední doby ledové, a zároveň rodiště krkonošských lavin: bezlesí jam i nápadně snížená horní hranice lesa na „dojezdových“ drahách jsou dílem sněhu, který každou zimu smete, co mu stojí v cestě. V zimě je Krakonošova cesta Kotelními jámami zavřená.</p>
+  <div class="box look">
+    <p class="lbl">Botanická zahrada Krkonoš</p>
+    <p>Pestré horninové podloží — žula, svor, a na kontaktu obou vápenaté vložky — dělá z Kotelních jam nejbohatší botanickou lokalitu české strany Krkonoš, srovnatelnou s Velkou kotlinou v Jeseníkách. Eviduje se tu kolem 230 druhů vyšších rostlin: sasanka narcisokvětá, hvozdík pyšný, lilie zlatohlavá, v podzimních loukách hořec tolitovitý, erbovní rostlina národního parku. Na úbočí jam uvidíš <strong>křivoles</strong>: změť polehlých bříz karpatských v lavinové dráze. Nejsou bělokoré, jsou šedavé, a rostou po svahu dolů, protože bříza, která by rostla rovně, nápor laviny nevydrží; polehne, a jak odtává sníh, zase se zvedne. Laviny je zbavují větví, takže vypadají jako bonsaje. U pramenů Kotelského potoka postavili strážci parku třístupňovou studánku: z horního korýtka pije člověk, z prostředního zvěř, dole se osvěžují ptáci.</p>
+  </div>
+  <div class="box drb">
+    <p class="lbl">Vysoký hrad: nejvýš položený důl v Česku</p>
+    <p>Na kontaktu žuly s krystalinikem vzniklo v Kotelních jámách polymetalické zrudnění — chalkopyrit, sfalerit, arsenopyrit, galenit, molybdenit, se sekundárním malachitem a azuritem. Právě tady, ve výšce 1 344 až 1 370 metrů, bylo důlní dílo „Vysoký hrad“, které Valdštejnovi horníci v 17. století otvírali a z něhož se ruda nosila dolů do Rokytnice. Je to nejvýš položený důl v Krkonoších a nejspíš i v celé republice. Třpytivé rudní minerály v suti, píše se v místopisech, mohly „živit“ pověsti o Krakonošových pokladech — a sem, na Kotel, zapálil jezuita Dirig roku 1680 svůj vítězný oheň, aby ho viděli protestanti z celého údolí.</p>
+  </div>
+  <div class="box nar">
+    <p class="lbl">Kotelská bouda, která nechtěla být česká</p>
+    <p>Na Krakonošově cestě z Míseček, zhruba v polovině cesty do jam, stojí u louky s hořci základy, které připomínají zříceninu hradu. To byla Kotelská, původně Bedřichova bouda, postavená roku 1748 a pojmenovaná po hraběti Bedřichu Harrachovi — tom, po jehož ženě se jmenuje Růženčina zahrádka. V době největšího rozmachu tu chovali 80 krav a 30 koz a sklízeli 60 horských fůr sena. Bouda zanikla po nikdy nevysvětleném požáru v roce 1910 — přesně ve chvíli, kdy ji chtěl koupit Pražský SKI klub a udělat z ní českou lyžařskou základnu. Nikdo nebyl obviněn. Louka kolem základů není přírodní výtvor: zkultivovaly ji generace horalů a dnes jsou to poslední zbytky kdysi rozsáhlých pastvin. Na svahu nad potokem stojí ještě osamělá bouda U Kotle.</p>
+  </div>
+  <p><strong>Jak k jámám.</strong> Nejlépe po zelené Krakonošově cestě z Horních Míseček (po Masarykově silnici, pak odbočka; do Velké Kotelní jámy asi 1,5 km, celkem k Dvoračkám 6,5 km) — procházíš bukovou smrčinou, kolem základů Kotelské boudy, křivolesem a dnem obou jam s výhledem na jejich stěny. Shora, od Harrachových kamenů, se díváš do Velké jámy přes její hranu. Na vrchol Kotle značená cesta nevede; nejblíž mu je červená mezi Vrbatovou boudou a Dvoračkami. Z Vrbatovy boudy po ní uvidíš nad skalními plotnami dva nápadné útvary: jeden přírodní — Harrachovy kameny —, druhý lidský — mohylu Hanče a Vrbaty.</p>
+</section>
+
+<!-- ============ HARRACHOVY KAMENY ============ -->
+<section class="loc priroda" id="harrachovy-kameny">
+  <h2>Harrachovy kameny</h2>
+  <p class="meta"><b>1 421 m n. m.</b> · německy Harrachsteine · žulový skalní suk na svorovém hřbetu mezi Kotlem a Vrbatovým návrším · desátý nejvyšší vrchol české strany Krkonoš · 1 km SZ od Vrbatovy boudy, 2 km SV od Dvoraček · červená, Bucharova cesta</p>
+  <p>Od severu nenápadná vyvýšenina, od jihu téměř kolmý sráz do Velké Kotelní jámy. „Kameny“ jsou v krkonošském místopisu obecný výraz pro skalky vyčnívající z plochých hřbetů; Harrachovy kameny jsou z nich nejznámější. Vznikly tam, kde do měkčího svorového hřbetu vystupuje odolnější žula: skalní suk, jako by naskládaný z kvádrů, až pět metrů vysoký, s nápadnými vyrostlicemi živců. Oblé tvary bloků jsou dílem chemického zvětrávání, ostré hrany a okolní suť naopak mrazového rozpadu; obojí trvalo statisíce let. Na plošině je geodetický bod.</p>
+  <div class="box look">
+    <p class="lbl">Co odtud uvidíš</p>
+    <p>Skoro kruhové panorama. Na dlani Kotel s Kotelní jámou, k severozápadu Jizerské hory (Ještěd a Lužické hory se schovají za Kotel), na sever Pančavská louka, prameny Labe, Violík a na polské straně bouda u Sněžných jam, které Poláci říkají Wawel — o ní v poslední kapitole. Na východ Sněžka, Luční a Studniční hora, kousek Kozích hřbetů a Černá hora; na jih Podkrkonoší a za jasného dne Trosky. Hned vedle se zelená kamenná mohyla na Vrbatově návrší.</p>
+  </div>
+  <div class="box leg">
+    <p class="lbl">Po kom se jmenují</p>
+    <p>Po rodu, ne po konkrétním hraběti — stejně jako Harrachov, Harrachova cesta a Harrachova jáma. Harrachové (Harrach zu Rohrau) se připomínají od 13. století v jižních Čechách a jméno odvozují od zaniklé vsi Harachy u Kaplice; západní Krkonoše drželi od roku 1701 do pozemkové reformy. Harrachova jáma, sousední kar, je nepřístupná; z jejího boku ční skalní výčnělek zvaný Krakonošova hlava, nejlépe viditelný zdola, z Harrachovy cesty na dně Labského dolu. Pokud bys chtěl pořádně rozkoukat, „kde všude je Harrach“, tak tady: kameny nad tebou, cesta pod tebou, jáma vedle tebe.</p>
+  </div>
+  <p>Kolem Harrachových kamenů prochází červeně značená Bucharova cesta z Rokytnice přes Dvoračky a Kotelské sedlo na Zlaté návrší a dál k Mísečkám, pojmenovaná po učiteli Janu Bucharovi, zakladateli české krkonošské turistiky. Podél cesty a na severním úpatí Kotle narazíš na řopíky z roku 1938. V zimě se Harrachovy kameny mění v návětrnou hranu s převějemi; v mlze je to jedno z míst, kde se v Krkonoších nejsnáz ztratíš, protože hřbet je plochý a stezka mizí pod sněhem — což je přesně to, co se 24. března 1913 stalo kousek odtud.</p>
+</section>
+
+<!-- ============ RŮŽENČINA ZAHRÁDKA ============ -->
+<section class="loc misto" id="ruzencina">
+  <h2>Růženčina zahrádka</h2>
+  <p class="meta"><b>1 370 m n. m.</b> · německy Rosengarten · nízký kamenný val na severním svahu Kotle · rozcestí mezi Dvoračkami, Vrbatovou boudou, Labskou boudou a pramenem Labe · v zimě pod sněhem, poznáš ji jen podle rozcestníku</p>
+  <p>Na plochém severním úbočí Kotle, kde se sbíhají cesty od Dvoraček, Vrbatovy boudy a Labské boudy, leží v trávě a kleči oválný val z naskládaných balvanů. Má tvar okvětí růže, nebo aspoň to tak lidé čtou; v létě je viditelný zdaleka, v zimě zmizí pod sněhem a zůstane jen sloupek s cedulemi. Je to nejpopulárnější rozcestí západního cípu Krkonoš a zároveň jedna z jejich nevyřešených záhad: nikdo neví, kdo ty kameny naskládal, kdy a proč.</p>
+  <div class="box leg">
+    <p class="lbl">Legenda vs. fakta: kdo zahrádku založil</p>
+    <ul>
+      <li><strong>Jméno je doložitelné.</strong> „Rosengarten“ se poprvé objevuje v legendě ke Grauparově mapě z roku 1765. Pojmenoval ji hrabě Bedřich Harrach na počest své ženy, hraběnky Rosy, s níž se tu zastavil na jaře roku 1743 (jiné prameny uvádějí 1734). Jde o téhož Bedřicha, po kterém se jmenovala Kotelská bouda.</li>
+      <li><strong>Starší jméno bylo lékárnické.</strong> Místu se říkalo Lung-Schwamm — „plicní houba“ — podle lidového názvu lišejníku pukléřky islandské, který se tu hojně vyskytoval a sbíral jako lék na plíce. Jedno z vysvětlení valu je proto docela prozaické: ohrada, v níž se pěstovaly a sušily léčivé byliny.</li>
+      <li><strong>Pravěká svatyně?</strong> Regionální badatel Waldhauser usoudil, že val mohl v pravěku sloužit jako kultovní místo se vztahem k blízkým pramenům Labe — a lidové podání tu umisťuje „Rýbrcálovu zahrádku“ i „Rýbrcálovo žertviště“, Krakonošovu zahradu a obětiště. Jiná verze mluví o místě setkání milenců v 10. století. Archeologové královéhradeckého muzea tu kopali a nenašli nic; val označili za novověký. Podporuje to i mapa Johanna Christiana z Wolfsburku z roku 1710, na níž zahrádka není vůbec. Hypotéza o lidu popelnicových polí byla výzkumem vyvrácena.</li>
+      <li><strong>Nejnudnější verze bývá pravdivá.</strong> Sekáči, kteří louku kosili, nechtěli mít v cestě kameny, tak je naskládali na hromadu — a protože byli z hor, udělali z toho růži. Nebo ji postavili v době velkých hospodářských projektů v západních Krkonoších, tedy právě za Harrachů v 18. století, jako ohradu pro dobytek. Mezi 1710 a 1765 se to časově hezky vejde.</li>
+    </ul>
+  </div>
+  <p>Ať je to jak chce, zahrádka přežila: roku 1994 se po svahu Kotle kousek odtud sesula zemní lavina (mura) a val zůstal. Dnes tu začíná naučná stezka Prameny Labe, která odtud vede k Vrbatově boudě, mohyle Hanče a Vrbaty, Pančavskému vodopádu, Labské boudě a prameni Labe a končí v Horních Mísečkách. Je to ten vzácný případ místa, které je zajímavější tím, co se o něm neví.</p>
+</section>
+
+<!-- ============ VRBATOVA BOUDA ============ -->
+<section class="loc bouda" id="vrbatova">
+  <h2>Zlaté návrší a Vrbatova bouda</h2>
+  <p class="meta"><b>Zlaté návrší 1 411 m n. m.</b> (Goldhöhe, starší česky Krkonoš) · Vrbatova bouda ~1 400 m, otevřena 1964, přestavba 2007–2015 · smyčka Masarykovy silnice · Mohyla Hanče a Vrbaty (1925) na Vrbatově návrší, pomník Hanče na cestě k Labské boudě · stanice Horské služby, sezonní infocentrum KRNAP · bez ubytování, jen občerstvení</p>
+  <p>Holý svorový hřbet mezi Kotlem a Medvědínem, na který ve třicátých letech dovedli nejvýš položenou silnici v Československu a kde o půl století dřív umrzli dva muži, kvůli kterým dnes 24. března slaví svátek Horská služba. Zlaté návrší je místo, kde se v Krkonoších nejvíc potkávají přírodní podmínky s lidskou vůlí je ignorovat.</p>
+
+  <h3>Velikonoční pondělí 1913</h3>
+  <p>Bohumil Hanč z Hrabačova byl nejlepší český lyžař své doby, tkadlec, držitel titulu Mistr lyžař, člen jilemnického Českého krkonošského spolku SKI. Jeho žena Slavěna čekala dítě — o jedno už předtím přišli — a Hanč jí slíbil, že na padesátikilometrový závod 24. března 1913 nepojede. Ráno bylo slunečno a teplo. Mezinárodní mistrovství v běhu na 50 km startovalo u Labské boudy a trať vedla přes Martinovu boudu, Vysoké kolo, Violík a Sokolník na Jínonoš (dnešní Szrenici) k Nové Slezské boudě a zpět, několik okruhů. Závodníci prý vyjeli v košilích a bez rukavic. Po prvním kole se počasí zlomilo: arktická fronta, vánice, mlha, prudký pokles teploty. Jeden po druhém vzdávali — všichni až na Hanče, který jel první a neměl se to jak dozvědět, a který se vzdát nehodlal.</p>
+  <p>Mezi těmi, kdo vzdali, byl i Emerich Rath, Hančův kamarád, broumovský Němec žijící v Praze, všestranný sportovec, olympionik a jediný Němec z Krkonoš, který se pravidelně účastnil českých závodů, zatímco ostatní je z nacionálních důvodů bojkotovali. Když se Hanč nevracel, vyrazil ho hledat a našel ho polomrtvého zhruba v místech dnešní mohyly. Nesl ho na zádech směrem k Labské boudě, sám už na pokraji sil, pak ho uložil do sněhu a běžel pro pomoc. Hanče dopravili na Labskou boudu, kde zemřel; pokusy o oživení selhaly. Do pamětní knihy Labské boudy Rath napsal, že mu osud nepřál zachránit život tak milého přítele.</p>
+  <p>Václav Vrbata z Mříčné, sokol a kamarád, nebyl závodník; přijel Hanče povzbudit. Když se počasí zlomilo, vydal se mu naproti a v místech, kde se potkali, mu dal svůj kabát, čepici a rukavice — polomrtvého Hanče pak skutečně našli oblečeného v cizím kabátě. Vrbata, který hřebeny neznal, se ve vánici ztratil. Našel ho až později jistý Fischer: zmrzlého u Hančových lyží zabodnutých ve sněhu, u směrovky na Spindelmühle, bez kabátu, bez čepice, bez rukavic — na lyže narazil obrovskou náhodou, krátce poté, co odtud Rath odešel s Hančem. Ředitel závodu se o mrtvém dozvěděl od náhodného pocestného, domnívali se, že nesou Hanče, a teprve na Horních Mísečkách zjistili, že je to někdo jiný. Vrbata byl identifikován druhý den v márnici. Pro české vlastence to byl, jak píše dobová literatura, černý den.</p>
+  <div class="box nar">
+    <p class="lbl">Němec, který se nehodil</p>
+    <p>Roku 1925 postavili členové ČKS SKI Jilemnice a Ski klubu Hradec Králové na místě, kde umrzl Vrbata, kamennou mohylu (po válce obnovenou 1947); na cestě k Labské boudě stojí Hančův pomník. Tragédie přispěla ke vzniku jednotné Horské služby v Krkonoších (1935) a 24. březen je dodnes Den Horské služby. Jenže v poválečném vyprávění chyběl jeden člověk. František Kožík napsal román <em>Synové hor</em> (1954), Čeněk Duba podle něj natočil film (1956) — a Rath, který dělal filmu poradce a dostal v něm malou roličku, při projekci se slzami v očích prohlásil, že takhle to vůbec nebylo. Jeho postava se ve filmu mihne, skoro se o ní nemluví: po Mnichovu, válce a únoru 1948 se nehodilo, aby hrdinný Němec zachraňoval Čecha. Rath sám byl za války dvakrát u výslechu, nikdy se nezřekl české národnosti, díky čemuž nebyl odsunut; po roce 1948 mu znárodnili obchod se sportovními potřebami na Příkopech a dostal se do hledáčku StB. Zemřel roku 1962 v 79 letech, pohřben je v Broumově. Jeho roli vrátil do příběhu až film Tomáše Hodana <em>Poslední závod</em> (2022), s Kryštofem Hádkem jako Hančem, natáčený na autentických místech hřebenů.</p>
+  </div>
+
+  <p class="small">Podrobná rekonstrukce dne po hodinách, hráči, zdroje a jejich motivy, sporné body a odpovědi na otázky, proč Hanč jel a proč nevzdal, jsou v samostatné kapitole <a href="#hanc-vrbata">Poslední závod: Hanč, Vrbata, Rath</a>.</p>
+
+  <h3>Masarykova horská silnice a Švehlova chata, která nikdy nevznikla</h3>
+  <p>V letech 1931–1936 (slavnostně zahájena 1934, otevřena 1936) vyrostla z Hrabačova u Jilemnice přes Vítkovice, Dolní a Horní Mísečky na Zlaté návrší silnice dlouhá 22,5 km s převýšením 900 metrů, podle projektu pražského architekta Jindřicha Moravce, původně dlážděná. Dostala jméno prezidenta Osvoboditele a byla nejvýš položenou silnicí republiky; oficiálním účelem bylo podpořit turistiku (pramen Labe, východiště na Sněžku), tím neoficiálním zpřístupnit hřeben pro opevnění. Dnes se jméno Masarykova silnice používá jen pro horní úsek z Horních Míseček k Vrbatově boudě; stoupání na Zlaté návrší patří k nejtěžším silničním výjezdům v Česku (22 km, tisíc metrů, průměr 4,3 %) a Vrbatova bouda byla několikrát cílem etapy Závodu míru.</p>
+  <p>Silnice měla končit u velké chaty. V září 1936 položili uprostřed obratiště základní kámen Švehlovy chaty, pojmenované po předsedovi agrárníků: téměř dvě stě lůžek, dvě restaurace pro 250 hostů, vlastní vodní elektrárna na Pančavě, garáže, parkoviště, pošta a četnická stanice. Kámen tam leží dodnes, uprostřed smyčky. Projekt zhatila blížící se válka a stavba opevnění kolem Zlatého návrší a Labské louky — krkonošská příroda, jak píše historie bud, získala nečekaného spojence v podobě historických událostí. Místo chaty tu po léta stál kiosek, který architekt Vladimír Šír později označil za ostudu Krkonoš.</p>
+  <div class="box drb">
+    <p class="lbl">Jak se stavěla Vrbatova bouda</p>
+    <p>Rozhodnutí padlo ve druhé polovině 50. let a důvodem nebyla turistika, ale potřeba pořádné stanice Horské služby pro západní Krkonoše. Stavělo se v letech 1959–1962 v „akci Z“ — oficiálně zvelebovací akci, ve skutečnosti s velkým podílem neplacených brigád — podle návrhu Vladimíra Šíra a Jiřího Bartoše, se stavbyvedoucím Kovaříkem z Jilemnice. Dělníci bydleli na dnes zaniklých Jestřábích boudách, jezdili sem ranním autobusem z Jilemnice a na konci týdne scházeli dolů na Mísečky; zaměstnaní dělníci měli oproti brigádníkům jedinou výhodu, pětidenní pracovní týden. Žula na staveništi byla tak zvětralá, že se základy kopaly krumpáčem a lopatou a výkopek posloužil jako písek do malty. Pak přišla střecha: jedna z firem položila plech v metrových pásech, ačkoli projekt předepisoval jiné rozměry; než stihli chybu napravit, zasáhl Krakonoš — poryv větru střechu sroloval a položil vedle boudy. Hory to rozebraly rychleji, než firma postavila. Otevřeno bylo roku 1964, rok po vyhlášení národního parku; Horská služba tu měla jednu místnost s nepřetržitou službou v týdenních cyklech. V 70. letech byla parkoviště kolem plná — stovky Wartburgů a Trabantů z NDR vyjížděly až sem nahoru. Dnes je vjezd zakázán, k boudě se chodí pěšky nebo jezdí na kole a v sezoně autobusem z Míseček. Přestavba z let 2007–2015 odstranila srostlici kiosku, skladu, čekárny a srubu infocentra a vložila všechny funkce do betonové podnože, která boudu obemyká ze tří stran; výsledkem je, slovy jednoho recenzenta, útulná hospůdka z betonu.</p>
+  </div>
+  <p><strong>Cestou od boudy.</strong> K mohyle a Hančovu pomníku vede necelý kilometr asfaltu, kolem mohyly prochází červená ze Špindlerova Mlýna na Harrachovy kameny, žlutá tě dovede k prameni Labe. Kolem jsou řopíky; v centru návrší je sezonní informační středisko KRNAP. Z Vrbatova návrší vidíš zároveň Harrachovy kameny, Kotel i Zlaté návrší — a pochopíš, proč se tu ve vánici dá zabloudit: všechno je plochá, holá, bezorientační planina.</p>
+</section>
+
+
+<!-- ============ HANČ A VRBATA: FCG ============ -->
+<section class="loc bouda" id="hanc-vrbata">
+  <h2>Poslední závod: Hanč, Vrbata, Rath — co se 24. března 1913 stalo a co se k tomu přimyslelo</h2>
+  <p class="meta"><b>Fact-checkingová kapitola.</b> Hráči, zdroje a jejich motivy, rekonstrukce dne po hodinách, sporné body, odpovědi na dvě otázky a analytické poznámky. Dvě hodiny mezi Violíkem a Zlatým návrším nezrekonstruoval nikdo za 113 let; všechno ostatní je doložené lépe, než by člověk čekal — díky tomu, že se hned v březnu 1913 vedlo úřední i svazové šetření.</p>
+
+  <h3>Hráči: kdo byl na hřebeni a kdo za ním</h3>
+  <dl class="facts">
+    <dt>Pořadatel: Svaz lyžařů v Království českém</dt>
+    <dd>Založen 21. listopadu 1903 jako první národní lyžařský svaz na světě; v roce 1913 sdružoval 61 klubů a 7 483 členů. Závod na 50 km pořádal od roku 1905 střídavě s Českým Ski klubem Praha a Českým krkonošským spolkem SKI Jilemnice jako „mistrovství zemí Koruny české“, vypisované vždy jako mezinárodní. Oficiální název: Mezinárodní lyžecký závod distanční na padesát kilometrů o věčně putovní cenu Českého zemského svazu ku povznesení návštěvy cizinců v Království českém. Ta poslední část názvu je důležitá: trofej věnovala česká turistická propagační organizace, tedy instituce, jejímž cílem bylo přivádět do „českých“ Krkonoš platící hosty a brát je „německým“ Riesengebirge. Závod byl sportovní, národní a marketingový projekt zároveň.</dd>
+    <dt>Šest závodníků hlavního závodu</dt>
+    <dd>Bohumil Hanč (ČKS SKI Jilemnice, 26 let, zedník a tkadlec z Hrabačova, mistr Království českého 1907–1909); Oswald Bartel („dlouhý Oswald“, Ski Klub Windsbraut Polaun, sklář z Dolního Polubného v Jizerských horách, 24 let, favorit); Emerich Rath (pražský Němec, startoval za Berliner Sport-Club pod pseudonymem Frank Walter — i to je detail, který se dnes zamlčuje); Josef „Južík“ Scheiner (Český Ski klub Praha, pozdější předseda svazu a člen předsednictva FIS); Karel Jarolímek (Český spolek pro zimní sporty, podle jednoho zdroje Praha, podle Kolářovy knihy Dvůr Králové; pozdější projektant skokanských můstků a vedoucí olympijských výprav); Josef Feistauer (ČKS SKI Jilemnice, pozdější mistr republiky). Sedmý přihlášený nedorazil. Za nimi vyjelo devět účastníků „turistického“ závodu, až na Reinholda z Polubného samí Pražané.</dd>
+    <dt>Divák: Václav Vrbata</dt>
+    <dd>Narozen 11. října 1885, podle jedné verze v Kruhu u Jilemnice v tkalcovské rodině se sedmi sourozenci, podle zprávy z roku 1913 syn rolníka ze Mříčné; tkadlec, náčelník Sokola v Mříčné. S Hančem se znali ze Sokola a sblížili se na vojně — sloužili spolu jako četaři v Sarajevu. Nebyl závodník a podle současníků ani zvlášť dobrý lyžař. Přijel Hanče povzbudit, protože mu to slíbil.</dd>
+    <dt>Organizátoři na trati</dt>
+    <dd>Ředitel závodu ing. Arnošt Fischer; závodní lékař dr. Šimer; kontroloři po jednom na stanovišti — mezi nimi Kamil Vladislav Muttich, akademický malíř a básník z Mladé Boleslavi (na Nové Slezské boudě), a JUDr. Vladimír Záboj Vaina, okresní hejtman (na Violíku). Oba se později zasloužili o Horskou službu; Muttich navíc o „němé značky“ a první lyžařskou mapu Krkonoš.</dd>
+    <dt>Nepřímí hráči</dt>
+    <dd>Na české straně Sokol a Klub českých turistů (stejný program jako Svaz: posílit český živel v „výsostně německém“ pohoří), jilemnický klub, který na Hanče naléhal, a česká regionální žurnalistika (Věstník krkonošský, Slavie). Na německé straně Krkonošský lyžařský svaz (Schneeschuhläuferverband Riesengebirge, 1903, Guido Rotter) a pozdější Hauptverband deutscher Wintersportvereine, Riesengebirgsverein, a regionální tisk (Der Bote aus dem Riesengebirge). Po roce 1945 československý stát a jeho kulturní průmysl (Kožíkův román 1954, Dubův film 1956), Horská služba, která si tragédii zvolila za svůj zakládající mýtus, Svaz lyžařů ČR (Síň slávy), a od roku 2022 Punk Film s Hodanovým Posledním závodem.</dd>
+  </dl>
+
+  <h3>Zdroje a co od nich čekat</h3>
+  <div class="tw"><table>
+    <tr><th>Zdroj</th><th>Co je zač</th><th>Motiv, zkreslení</th></tr>
+    <tr><td>Slavie, březen 1913 („Oběti lyžařského sportu“)</td><td>Zpráva vydaná z podkladů pořadatelů dva až tři dny po události</td><td>Pořadatelé vysvětlují sami sebe; přesto nejcennější chronologie záchrany, protože ji psali lidé, kteří tam byli.</td></tr>
+    <tr><td>Věstník krkonošský, 12. 4. 1913 („Hančovo číslo“)</td><td>Orgán českého krkonošského spolkového života, speciální číslo</td><td>Heroizace od první věty; zároveň hlavní zdroj časů z kontrol.</td></tr>
+    <tr><td>Anketa Svazu lyžařů, Praha 26. 3. 1913</td><td>Svazové šetření s účastníky, otištěno ve svazovém věstníku</td><td>Verdikt „vinu nelze nikomu přičítati“ — klasická sebeabsoluce pořadatele dva dny po pohřbu.</td></tr>
+    <tr><td>Policejní (četnické) vyšetřování</td><td>Úřední; zmiňují ho pozdější autoři</td><td>Nemám ho v ruce; podle Horydoly je díky němu zmapovaný každý okamžik závodu kromě osudných devadesáti minut.</td></tr>
+    <tr><td>České slovo, 1936 (autor W. W.)</td><td>Novinová rekonstrukce po 23 letech</td><td>Kritická: zmiňuje chybějící kafrovou injekci v lékárně „největšího krkonošského hotelu“ a nejistotu kolem Vrbaty; nepodléhá svazové loajalitě.</td></tr>
+    <tr><td>Der Bote aus dem Riesengebirge, 1913 č. 71 („Drei Schifahrer als Opfer des Schneesturms“)</td><td>Německý regionální list z Jelení Hory</td><td>Titulek mluví o třech obětech — k textu jsem se nedostal (digitalizát byl nedostupný). Historici shodně uvádějí, že německé popisy byly střízlivé a bez národní mytologie.</td></tr>
+    <tr><td>František Kožík, Synové hor (1954); Čeněk Duba, film Synové hor (1956)</td><td>Román a jeho filmová adaptace</td><td>Krásná literatura éry, kdy se nehodilo, aby Němec zachraňoval Čecha. Ratha vymazaly, Bartela udělaly nadutým padouchem, Hančovi připsaly vítězství v roce 1912, které patřilo Gustavu Franzlovi. Zdroj většiny toho, co „každý ví“.</td></tr>
+    <tr><td>Jan Luštinec, kapitola v reedici Synů hor (2006); František Kolář, K počátkům Horské služby (Studia Kinanthropologica 2013)</td><td>Historik Krkonošského muzea; akademický článek vycházející z Luštince a Hančova čísla</td><td>Nejspolehlivější rekonstrukce; Kolář psal ke 100. výročí jako hold Horské službě, což je znát v závěru, ne ve faktech.</td></tr>
+    <tr><td>Kuba Turek, Horydoly.cz (2011, 2015: „ambice – tragédie – mýtus“)</td><td>Outdoorový magazín, polemický text</td><td>Revizionistický: nacionalismus a Hančova tvrdohlavost jako příčina, mýtus jako výroba. Cenný tím, že cituje Jarolímkovo svědectví; slabý tím, že spekuluje o dobrovolnosti předání kabátu bez pramene. Diskuse pod článkem ukazuje, jak posvátný příběh v Podkrkonoší je.</td></tr>
+    <tr><td>Aleš Suk (Muzeum lyžování Dolní Branná) a Pavel Šmejkal, cit. Deník 2023</td><td>Regionální badatelé</td><td>Nejostřejší kritika pořadatelů (snídaně, start, kontroly, ztracený zápis) a jediný zdroj k Bartelovu konci. Suk je trenér, ne historik; jeho „to nemohlo dopadnout jinak“ je soud, ne pramen.</td></tr>
+    <tr><td>Film Poslední závod (2022), CNN Prima, Forbes, Radio Prague</td><td>Současná rehabilitace Ratha</td><td>Opačné zkreslení než v roce 1956: Rath jako „jediný Němec“ v českých závodech, ačkoli na startu stál i Bartel; Hančovo prvorozené dítě film udělal mrtvě narozeným, ve skutečnosti zemřelo po třech týdnech.</td></tr>
+  </table></div>
+
+  <h3>Co to vlastně bylo za závod</h3>
+  <p>České lyžování muselo od počátku bojovat o mezinárodní uznání a prestiž si budovalo mimořádnými akcemi; padesátka byla tou hlavní. Prvních sedm ročníků (1905–1912) byl ale závod „turistický“: závodníci jeli s tlumokem předepsané váhy, s mapou, s třiceti minutami na jídlo a odpočinek, trať nebyla projetá ani obsazená, čtyřicet kilometrů se jelo pohromadě a střídalo se v prošlapávání stopy, závodilo se až posledních deset. První ročník 1905 vyhrál Josef Kraus za jedenáct a půl hodiny; Hanč v letech 1907–1909 stlačil čas o dvě tři hodiny; roku 1912 zajel Pražan Gustav Franzl sedm hodin. Na základě toho svaz vypsal ročník 1913 poprvé jako čistě rychlostní — podle Koláře poprvé na světě, co se běželo 50 km jako závod na čas. Účastníci „turistické“ části jeli postaru, v družném kolektivu pro zdraví a zábavu; šestice hlavního závodu od startu jela naplno. Rozdíl mezi těmito dvěma režimy je klíč k celé tragédii: pravidla, kontroly a zvyklosti byly stavěné na turistický závod, ale jel se sprint na padesát kilometrů.</p>
+  <p>Trať se měnila den předem, protože původní směr ke Sněžce byl bez sněhu. Tyčemi a červenými pruhy látky bylo vyznačeno asi 20 km hřebenových cest a vytvořeny tři okruhy: první a druhý Labská bouda – sedlo nad Martinovkou – jižní úbočí Vysokého kola – Sněžné jámy – Violík – Nová Slezská bouda – Vosecká bouda – Tvarožník – Violík – Labská louka – Harrachovy kameny – Zlaté návrší – Labská bouda; třetí, zkrácený, Sněžné jámy – Violík – Labská louka – Zlaté návrší a dolů na Mísečky, kde byl cíl. Celé to leží v téhle brožuře: každá z lokalit, kterou jsi chtěl popsat, byla toho dne kontrolním bodem.</p>
+
+  <h3>Hanč v březnu 1913</h3>
+  <p>Fakta, na nichž se prameny shodují: narozen 19. listopadu 1886 na Benecku v tkalcovské rodině, žák Jana Buchara; 2. února 1907 vyhrál teprve druhou padesátku (Rath druhý) a získal titul Mistr lyžař; mistr Království českého na 10 a 50 km 1907, 1908, 1909; téhož roku 1907 vyhrál v saském Annabergu tak rychle, že pořadatelé zpochybnili jeho trasu a on nabídl, že ji projede znovu s kontrolorem; vojna jako četař v Sarajevu (s Vrbatou); po návratu svatba — žena Jaroslava, zvaná Slávka (ve filmech Slavěna) —, chalupa v Hrabačově, 1911 vítězství na 30 km pod Zvičinou, kurzy v Novém Městě na Moravě; podle současníků inteligentní, skromný, oblíbený. Živil se jako zedník a tkadlec a lyžováním si přivydělával — titul byl jeho jediný kapitál, kurzy a ceny jeho vedlejší příjem.</p>
+  <p>Fakta z rodinné tradice a svědectví spoluzávodníků: prvorozený syn zemřel tři týdny po narození; na jaře 1913 Slávka znovu čekala dítě a Hanč jí slíbil, že závodit přestane; chystal se na mistrovské zednické zkoušky; o víkendech dodělával chalupu. V předvečer závodu řekl na Labské boudě, že je o deset kilo lehčí, Jarolímkovi, s nímž sdílel pokoj, si postěžoval na bolesti zad a že se necítí dobře. V neděli 23. března se bez tréninku sbalil, a protože dole už nebyl sníh, šel 25 km na Labskou boudu pěšky s lyžemi v ruce. Původně se nepřihlásil. Přihlásil se, když se přihlásil Bartel.</p>
+  <div class="box drb">
+    <p class="lbl">Proč nakonec jel — čtyři svědectví, čtyři motivy</p>
+    <ul>
+      <li><strong>Luštinec (historik):</strong> místní ho přesvědčovali, že jedině on může porazit obávaného Bartela; lákala ho možnost změřit s ním síly; jilemnický spolek naléhal tak dlouho, až ustoupil.</li>
+      <li><strong>Jarolímek (spoluzávodník, spolubydlící):</strong> Hanč na něj v noci naléhal, že musí vyhrát Čech, za žádnou cenu Němec. Zároveň si všiml, že je pohublý, unavený a má starosti o ženu, která mu závod výslovně zakázala.</li>
+      <li><strong>Pravnuk Aleš Hanč:</strong> byl na něj vyvíjen velký tlak, protože se chystali dva výborní Němci; nechtěl „aby vyhráli Němci“.</li>
+      <li><strong>Kuba Turek (Horydoly):</strong> klesající forma — poslední dva roky bez vítězství, v 27 letech vedle Ratha nejstarší na startu, mladí „vlčáci“ ho předbíhali, vzdělaní a zajištění mladíci začínali trénovat, zatímco on musel vydělávat. Mistr, který ze špičky odchází, a nemůže si to dovolit.</li>
+    </ul>
+  </div>
+
+  <h3>Den po hodinách</h3>
+  <p>Časy pocházejí z kontrol (Hančovo číslo, Luštinec, Kolář); tam, kde se liší, to uvádím.</p>
+  <div class="tw"><table>
+    <tr><th>Čas</th><th>Místo</th><th>Co se stalo</th></tr>
+    <tr><td>23. 3. večer</td><td>Labská bouda</td><td>Lékařská prohlídka dr. Šimera, všech šest v pořádku. Bouda přeplněná (19 závodníků), kontroloři spí na stolech a židlích; některé kluby přes žádosti nikoho neposlaly, stanoviště proto obsazena po jednom místo plánovaných dvou až tří.</td></tr>
+    <tr><td>6:00–7:10</td><td>Labská bouda</td><td>+8 °C, řídká mlha, skoro slunce. Pořadatelé ze strachu z tání posouvají start dopředu (Kolář: ze 7:30 na 6:30; Věstník: start 7:10). Snídaně hotová není, Hanč sní jen buchtu a ještě se o ni rozdělí. Start v půlminutových intervalech, v košilích a kalhotách, bez čepic a rukavic; za nimi devět turistů.</td></tr>
+    <tr><td>7:54–7:55</td><td>Sněžné jámy</td><td>Hanč první, Feistauer +15 s, Jarolímek +15 s, pak Bartel, „Walter“ (Rath), Scheiner. Začíná pršet. Cestou Hanč potkává Josefa Aleše-Lyžce z Míseček, nejlepšího znalce krkonošského počasí, který se podivuje, že jede bez kabátu — varovat ho nestihne.</td></tr>
+    <tr><td>~9:00</td><td>Violík, Vosecká</td><td>Vítr, déšť přechází ve sníh, teplota padá pod nulu. Hanč při dlouhém sjezdu k Violíku vyjíždí z trati, na Vosecké je první Jarolímek, podle jiného údaje Bartel; Hanč ztrátu dohání. Rath vzdává pro odřeniny.</td></tr>
+    <tr><td>9:41</td><td>Labská bouda (konec 1. kola)</td><td>Hanč dojíždí dřív, než ho čekali: není připravené občerstvení, jede dál bez jídla a bez čaje. Jarolímek vzdává po dohodě s lékařem (stržená kůže na palci). Do druhého kola čtyři.</td></tr>
+    <tr><td>10:20</td><td>Vysoké kolo / Labská</td><td>Hřebenová vánice, mokrý sníh mrzne na těle. Bartel vzdává a vrací se na Labskou se slovy, že v tomhle jde o zdraví a možná o život. Hanč ho před tím u Violíku předjel.</td></tr>
+    <tr><td>10:37–10:43</td><td>Sněžné jámy</td><td>Hanč projíždí 10:37; promočený Feistauer padá vyčerpáním před boudou, o tři minuty později omrzlý Scheiner. Oba po ošetření sjíždějí na Labskou. Hanč je na trati sám a neví to.</td></tr>
+    <tr><td>11:03</td><td>Nová Slezská bouda</td><td>Kontrolor Muttich mu dává citron a půjčuje rukavice. Hanč jede dál s hlavou skloněnou proti větru.</td></tr>
+    <tr><td>11:52</td><td>Violík</td><td>Kontrolor Vaina volá a mává, že za ním už hodinu nikdo nejel a že všichni vzdali. Hanč ve vichřici nerozumí, mávne a jede směr Labská louka. Podle Vainy nevypadal unaveně. Vaina, promočený a promrzlý po třech hodinách na stanovišti, sjíždí na Labskou.</td></tr>
+    <tr><td>~12:00–13:00</td><td>Labská bouda</td><td>Kontroly se sjíždějí, závod je přerušen. Fischer nařizuje kontrole na Labské louce Hanče zastavit; zda se k ní pokyn dostal, není jasné. Hanč je očekáván kolem jedné.</td></tr>
+    <tr><td>11:52–13:45</td><td>Labská louka – Harrachovy kameny – Zlaté návrší</td><td><strong>Nezrekonstruovaných devadesát minut.</strong> Pravděpodobně: Hanč jede přes Labskou louku k Harrachovým kamenům, tam potkává Vrbatu, který šel z Mříčné přes Rezek, Dvoračky a Růženčinu zahrádku k cíli na Mísečkách a nevěděl o zkrácení trati ani o změně počasí. Vrbata mu dává kabát, čepici a rukavice. Hanč pokračuje — podle jedné verze proto, že ho přítomnost přítele povzbudila, podle jiné proto, že se bál, že ho Bartel správnou cestou předjede. Krátce nato vyjíždí z trati, padá do kleče, lyže se zaklesnou; už je nedokáže vyprostit.</td></tr>
+    <tr><td>13:15</td><td>Labská bouda</td><td>Odpočinutí, najedení a oblečení Rath a Jarolímek vyjíždějí hledat; Fischer pět minut po nich. Jarolímek na Labskou louku a Harrachovy kameny, Rath na Zlaté návrší, Fischer obloukem k Mísečkám. Fischer si u křižovatky na Krakonoši zkrátí cestu o čtyřicet metrů a v mlze mine Ratha nesoucího Hanče.</td></tr>
+    <tr><td>13:45</td><td>Pod Zlatým návrším, u směrovky na Spindelmühle</td><td>Rath nachází muže v bílé čepici a cizím kabátě, tváří k zemi, lyže špičkami zabodnuté a zkřížené, marně se pokoušejícího vstát. Nepozná ho; rozepne kabát a na košili uvidí startovní číslo 26. Hanč mumlá, nepoznává ho. Rath odepne jemu i sobě lyže, zabodne je do sněhu a nese ho na zádech půl kilometru (jiný pramen: kilometr) k Labské boudě. Síly mu dojdou nad Pančavským vodopádem; Hanče uloží zády k větru, tře ho, vrátí se pro lyže, a když ho míjí podruhé, vidí ho lézt po čtyřech do svahu.</td></tr>
+    <tr><td>14:30</td><td>Labská bouda</td><td>Rath vpadá dovnitř, oznámí polohu a zhroutí se. Vyráží na dvacet lidí s rohačkami. Hanče — ležel na boku, tvář ve sněhu, na rtu mu visela píšťalka — najde jako první Jarolímek: bezvědomí, tělo ještě teplé, prsty nezkřehlé, srdce netluče. Koňak, přikrývky, saně; za čtyřicet minut je v boudě.</td></tr>
+    <tr><td>~15:10</td><td>Labská bouda</td><td>Hodinu a půl oživování pod vedením dr. Šimera. Marně. Diagnóza: ne zmrznutí, ale ochrnutí srdečního svalu v důsledku naprostého vyčerpání. Kafrová injekce, jediné, co snad mohlo pomoci, v lékárně boudy chybí. Tělo horalé odnesou na Martinovku a večer rohačkami do Špindlerova Mlýna.</td></tr>
+    <tr><td>~15:15–16:30</td><td>Zlaté návrší, Mísečky</td><td>Kolem Vrbaty, sedícího u Hančových lyží, prochází horal mířící na Mísečky; Vrbata na něj česky volá, horal rozumí jen německy a ač dobře vybaven, jde dál (tak zpráva z roku 1913; Horydoly z něj dělají „dementního Němce“). Horal v boudě na Mísečkách vypráví o lyžaři bez kabátu; Fischer, který tam hledá Hanče, bere čutoru horkého čaje a se saněmi vyráží. Z Labské zároveň jde skupina turistů pod vedením Jana Havelky; cestou potkává promrzlé manžele Reinwartovy, kteří tělo našli a běží pro pomoc. Nahoře leží muž bez kabátu, holá hlava a ruce, obličej zmodralý, u něj dva páry lyží — horal, který předtím vezl zavazadla, je odepnul a zabodl vedle Hančových. Oživování marné. Tělo na Mísečky, pak do Vítkovic. Fischer si až tam uvědomí, že nemá Hanče, ale druhého mrtvého.</td></tr>
+    <tr><td>25. 3. večer</td><td>Vítkovice</td><td>Identifikace: Václav Vrbata ze Mříčné. V některých zprávách přijel identifikovat bratr.</td></tr>
+    <tr><td>26. 3.</td><td>Praha</td><td>Svaz lyžařů pořádá anketu účastníků. Závěr: všichni lékařsky prohlédnuti, trať řádně vytýčena, deset kontrol fungovalo, záchrana bez prodlení — vinu nelze nikomu přičítat, jen nepředvídatelnému počasí.</td></tr>
+    <tr><td>konec března</td><td>Jilemnice, Mříčná</td><td>Hančův pohřeb v Jilemnici (město má přes čtyři tisíce obyvatel, pohřbu se účastní na sedm tisíc lidí; hlavní řeč Jan Buchar; kondolence i z vídeňského dvora), téhož dne pohřeb Vrbaty ve Mříčné.</td></tr>
+  </table></div>
+
+  <h3>Sporné body</h3>
+  <ul>
+    <li><strong>Kde a jak se potkali.</strong> Pořadatelská verze (1913): Vrbata potkal vysíleného Hanče, dal mu věci, dovedl ho „na místo nejvíce navštěvované“ a šel pro pomoc; když se vrátil, našel jen lyže a klesl u nich. Verze 1936: Vrbata Hanče upozornil, že jede špatně, půjčil mu věci — a Hanč se ze strachu z Bartela hnal zpátky na Krakonoš, kde ho sklátil „plicní defekt“. Luštinec (2006): setkání u Harrachových kamenů, kabát jako morální vzpruha, Hanč pokračoval, Vrbata se snažil vrátit na Mísečky, zabloudil a chodil v kruhu, až se vrátil k lyžím. Turek (2015): nevíme ani, zda se potkali, ani zda byl kabát předán dobrovolně. Ta poslední pochybnost nemá v pramenech oporu; žádný z nich nenaznačuje násilí a Hanč na konci nebyl schopen ani vstát. Ale je pravda, že to, co se v hodině a půl stalo, je rekonstrukce, ne záznam.</li>
+    <li><strong>Čas startu</strong> (6:30 podle Koláře, 7:10 podle Věstníku a Horydoly) a <strong>pořadí na Vosecké</strong> (Jarolímek vs. Bartel) se liší podle zdroje. Pro vyznění to není podstatné.</li>
+    <li><strong>„Zmrznul.“</strong> Lékař zmrznutí výslovně vyloučil: tělo bylo teplé, bez omrzlin, prsty ohebné. Dnes by se mluvilo o podchlazení v kombinaci s totálním vyčerpáním a vyhladověním — mokré oblečení, vítr, hodiny bez jídla, a nakonec zástava srdce. Vrbata naopak nalezen „zcela tuhý“; u něj zmrznutí sedí. Formulace „umrzli“ je u Hanče nepřesná, u Vrbaty přesná.</li>
+    <li><strong>Kdo Hanče našel jako první.</strong> Rath ho našel a nesl; z pozdější záchranné výpravy ho jako první spatřil Jarolímek. Oba jsou pravda, a film z roku 1956 z toho vyrobil bezejmenného českého lyžaře (hraje ho Otakar Brousek st.), zatímco skutečný Rath si v témž filmu zahrál hajného Lenze a při projekci plakal, že takhle to nebylo.</li>
+    <li><strong>Třetí oběť?</strong> Německý list z Jelení Hory nadepsal zprávu „Tři lyžaři obětí sněhové bouře“. Nevím, zda jde o chybu, o Ratha na pokraji smrti, nebo o někoho dalšího; text se mi nepodařilo otevřít.</li>
+    <li><strong>Ztracený zápis.</strong> Podle Aleše Suka pořadatelé sepsali záznam, že organizačně bylo vše v pořádku; první zápis o události se druhý den ztratil a víme o něm jen z pozdější zmínky v tisku. Nemohu to ověřit, ale koresponduje to s tónem svazové ankety.</li>
+  </ul>
+
+  <h3>Otázka první: zmrzl jen proto, že Češi chtěli dokázat, že jsou lepší než Němci?</h3>
+  <p>Rozlož to na tři vrstvy, protože na každé z nich zní odpověď jinak.</p>
+  <p><strong>Vrstva instituce.</strong> Ano, bez národnostního zápasu by ten závod v té podobě neexistoval. Svaz lyžařů, Sokol i KČT si vzaly za program posílit český živel v německých horách; Kolář píše otevřeně, že české lyžování si muselo vybojovat mezinárodní uznání, a proto pořádalo akce ve své době mimořádné. Padesátka vznikla jako demonstrace schopnosti a prestiže, trofej věnoval český turistický propagační svaz a rok 1913 byl vypsán jako první rychlostní padesátka na světě — tedy jako rekord, jímž se malý národ zapíše. Německé krkonošské kluby měly vlastní svaz (od téhož roku 1903) a české závody vesměs bojkotovaly, Češi zase neměli zájem o německé. Bylo to zrcadlové. Do české padesátky se přesto přihlásili dva Němci: Rath, který jezdil české závody vždycky, a Bartel z Jizerských hor — a právě Bartelova přihláška, favorit z německého klubu, byla podle Luštince i rodinné tradice tím, co Hanče dostalo zpátky na start. V tomto smyslu je odpověď: ano, Hanč stál na startu proto, že Čech měl porazit Němce.</p>
+  <p><strong>Vrstva člověka.</strong> Jarolímkovo svědectví je nejsilnější přímý doklad: Hanč v noci před závodem trval na tom, že Němec vyhrát nesmí. Současně na něj působilo všechno ostatní, co se dá doložit — nátlak klubu, kterému byl zavázán; potřeba peněz (zedník, který si lyžováním přivydělává, a jehož hodnota je titul); klesající forma a vědomí, že je to naposled; vyhladovění a nemoc; a to, čemu Luštinec říká okouzlení lyžemi — první generace lyžařů prostě nevěřila, že se na lyžích může umřít. Nacionalismus byl jedním z motivů a nejspíš tím, který se nejsnáz vyslovoval nahlas; nebyl jediný. Ale pozor na formulaci „dokázat, že Češi jsou lepší“: Hanč to v roce 1913 už dokázal — v Annabergu 1907 ho Sasové podezřívali z podvodu, tak rychle jel. V roce 1913 nedokazoval, že je lepší; bránil, aby to přestalo platit.</p>
+  <p><strong>Vrstva události.</strong> Zemřel na řetězec selhání, který s národností nesouvisí vůbec: start ve +8 °C v košili, bez snídaně, bez občerstvení v 9:41, bez druhého kontrolora na Violíku, který by ho dokázal zastavit, bez jakéhokoli mechanismu, jak zastavit vedoucího závodníka, když pořadatelé rozhodnou závod přerušit, bez kafrové injekce v lékárně. Všechno to bylo známé osm let: po první padesátce 1905 napsal Alfons Kubát svazu rozhořčený dopis — cíl opuštěný, trať neprojetá, nikdo nevyjel naproti, žádné ohně pro orientaci — a nic z toho se do roku 1913 systémově nevyřešilo. Z téhle vrstvy je odpověď: ne, nezmrzl proto, že Češi chtěli být lepší než Němci. Zmrzl proto, že pořadatelé uspořádali rychlostní závod s organizací turistického výletu a on sám v okamžiku, kdy všichni rozumní vzdali, vzdát odmítl.</p>
+  <p><strong>Padni komu padni:</strong> strukturální odpovědnost nese Svaz lyžařů a jilemnický klub — za formát, za kontroly, za snídani, za start, za anketu, která dva dny po pohřbu konstatovala, že vinen není nikdo. Osobní odpovědnost nese Hanč — za to, že jel nemocný a bez tréninku, že si v 9:41 nevzal nic k jídlu, a že nevzdal; k tomu ho ale nikdo nenutil, naopak Vaina se ho snažil zastavit. Bartel žádnou vinu nenese: vzdal správně, včas a s větou, kterou si měl vzít k srdci každý. Rath nese zásluhu, ne vinu. Vrbata nese zásluhu a je zároveň druhou obětí téhož řetězce — divák bez informací, bez kontroly, bez zabezpečení. A „Němci“ jako kolektiv nenesou nic: jediným doloženým německým selháním toho dne je horal, který kolem Vrbaty prošel; a jediným doloženým činem, který dával naději, je Rathův.</p>
+
+  <h3>Otázka druhá: odešel od těhotné ženy jen proto, aby polaskal své ego?</h3>
+  <p>Nejdřív co je doloženo a odkud. Slib ženě, že přestane závodit, pochází z rodinné tradice (pravnuk, Suk) a ze svědectví Jarolímka („závod mu výslovně zakázala“); nevzniká v Kožíkově románu, ten ho jen zpopularizoval. Těhotenství je doložené pohrobkem — syn Bohumil se narodil po otcově smrti. Smrt prvorozeného tři týdny po narození uvádí Suk z rodinných pramenů. Takže ano: muž, jehož první dítě zemřelo, slíbil těhotné ženě, že už nepojede, a v neděli večer odešel z domu s lyžemi na rameni. Jedna verze říká, že doslova utekl.</p>
+  <p>Teď motivy, bez ozdob. „Ego“ je slovo, pod které se dá schovat pět různých věcí, a u Hanče se dají doložit všechny:</p>
+  <ul>
+    <li><strong>Pýcha mistra.</strong> Titul Mistr lyžař byl jeho identita od roku 1907. Vlčáci ho předbíhali, dva roky nevyhrál, Franzl zajel sedm hodin. Poslední start byl pokus odejít jako vítěz, ne jako ten, koho předjeli. To ego je.</li>
+    <li><strong>Živitel.</strong> Zedník a tkadlec, který si lyžováním přivydělává k chudé obživě, s hypotékou v podobě chalupy, kterou dodělává o víkendech. Titul znamenal kurzy, ceny a jméno. Odejít poražen mělo cenu, která se dala počítat v korunách. To ego není; to je rodinný rozpočet.</li>
+    <li><strong>Dluh klubu a kraji.</strong> Jilemnický spolek, který z něj udělal hvězdu, Buchar, který ho učil, a lidé, kteří mu říkali, že jedině on může Bartela porazit. Hanč jim dlužil a oni to věděli. Nátlak na něj byl kolektivní a vytrvalý; to není „polaskal si ego“, to je neschopnost říct ne komunitě, která z tebe udělala symbol.</li>
+    <li><strong>Národní povinnost.</strong> Jarolímkem doložená věta o tom, že Němec vyhrát nesmí. Tady se osobní a kolektivní ego kryjí: národ si vybral Hanče a Hanč si vybral národ.</li>
+    <li><strong>Okouzlení.</strong> Luštincova diagnóza celé generace: důvěra v lyže tak velká, že na možnost smrti nikdo nepomyslel. Hanč nešel na smrt; šel na závod, který znal nazpaměť, do hor, kde vyrostl, s jistotou, že se vrátí. Slib ženě porušil s vědomím rizika, které odhadoval na nulu.</li>
+  </ul>
+  <p><strong>Soud.</strong> Rozhodnutí jet bylo sdílené: přijal ho pod tlakem lidí, kteří potřebovali českého vítěze, a kvůli penězům a jménu, které byly jediným, co měl. Rozhodnutí nevzdat bylo jeho vlastní, a to ho zabilo. Kdyby v 11:52 na Violíku rozuměl Vainovi, kdyby v 9:41 na Labské někdo nalil čaj, kdyby u kontroly stáli dva — byla by to jiná otázka. Takhle zůstává: ano, odešel od těhotné ženy na závod, který jí slíbil nejet; ne, nebylo to jen pro ego — bylo to pro ego, pro peníze, pro klub, pro národ a pro iluzi bezpečí, přičemž žádné z toho nevysvětluje, proč nevzdal, když vzdali všichni. Na tu poslední otázku odpověď neexistuje, a český kult z ní udělal ctnost. Vdova Slávka, pohrobek Bohumil a Hančova bouda na Benecku, kterou dodnes vedou potomci, jsou ta část příběhu, o které se v Synech hor nemluví; co se se Slávkou stalo po roce 1913, jsem nedohledal.</p>
+
+  <h3>Rath: Němec, kterého příběh potřeboval a pak vymazal</h3>
+  <p>Emerich Rath (narozen 5. listopadu 1883, podle Olympedie v Praze, podle českých zdrojů v Broumově; zemřel 21. prosince 1962 v Broumově) byl sportovec, jakého česká historie dvacátého století skoro nedokázala zařadit. Pražský Němec, vegetarián, maratonec na olympiádách 1908 v Londýně (25.) a 1912 ve Stockholmu (33.) za Rakousko, pochodový závodník s plnou polní (berlínský Gepäckmarsch 1906), mistr Německa v boxu v těžké váze, bobista, veslař, kanoista, hokejista vítězného českého týmu na mistrovství Evropy 1914, v roce 1924 na kajaku po Seině na olympiádu do Paříže, lyžař, který v roce 1907 skončil na padesátce druhý za Hančem. Jediný krkonošský Němec, který jezdil české závody vytrvale, zatímco jeho krajané je bojkotovali. V roce 1913 startoval pod cizím jménem za berlínský klub. Do pamětní knihy Labské boudy pak napsal, že mu osud nepřál zachránit tak milého přítele; přátelé mu říkali Šedivý vlk a podle Radia Liberec si do smrti vyčítal, že ze sebe nevydal víc.</p>
+  <p>Za války byl dvakrát u výslechu a nikdy se nezřekl české národnosti; ve skladu svého obchodu se sportovními potřebami v pražské pasáži ukrýval celou válku židovského přítele Borise Efenbergera a po válce mu pomohl do Švédska. Díky tomu nebyl odsunut — což se ukázalo jako nešťastné privilegium. Po roce 1948 mu obchod na Příkopech znárodnili, na rok ho zavřeli do „výchovného zařízení“ ve Svatém Janu pod Skalou za propagaci západního životního stylu, žena Františka zemřela, důchod měl 370 korun, živil se jako metař a pomocný dělník na stavbách. Na olympiádu do Říma 1960 ho pozval Mezinárodní olympijský výbor; chtěl tam jet na kole se stanem a přednášet po cestě, povolení nedostal. Umístili ho do domova důchodců v Benešově, odešel k bratranci do Broumova, po neshodách žil na ulici jako bezdomovec; policie ho odvezla do domova ve Stárkově a v broumovské nemocnici zemřel. Hrob má v Broumově. V Synech hor (1956) dělal poradce a hrál hajného. Do Síně slávy Svazu lyžařů ČR vstoupil v roce 2023 spolu s Hančem, Vrbatou a Jarolímkem — sto deset let po závodě.</p>
+
+  <h3>Bartel: padouch, který nebyl</h3>
+  <p>Oswald Bartel, „lange Oswald“, narozen 5. srpna 1888, sklář v Riedelově huti v Dolním Polubném, kterého v kariéře podporoval majitel huti; závodil za Ski Klub Windsbraut Polaun (Polubenská Vichřice — démon počasí z germánské mytologie), jehož byl později předsedou. V roce 1913 byl favorit; držel s Hančem krok, u Vosecké vedl, u Violíku ho Hanč předjel, a v 10:20 vzdal s poznámkou, že v tomhle počasí jde o život. Byl to nejrozumnější výrok toho dne. Film z roku 1956 z něj udělal povýšeného Němce, který Hančovi odmítá uvolnit stopu; v roce 1926 ve skutečnosti vedl partu polubenských pivařů, která se převlékla za „vládní komisi“ (on sám, bývalý vojenský policista, v originální uniformě) a obešla osadu Velká Jizera s tím, že přijela připravit stavbu přehrady — večer se to prozradilo a komise musela zaplatit útratu celé hospodě. Po válce žil v Karl-Marx-Stadtu v NDR; v roce 1958, dva dny před sedmdesátinami, ho v hospodské rvačce zasáhl půllitr zezadu do hlavy — neví se, zda ho zabila rána, nebo zlomený vaz při pádu ze židle. V české paměti tak zůstává ve dvou vzpomínkách, jedné tragické a jedné komické, a obě jsou pravdivější než ta filmová.</p>
+
+  <h3>Výroba mýtu a co z něj zbylo</h3>
+  <p>Sedm tisíc lidí na pohřbu ve čtyřtisícové Jilemnici, Bucharova řeč v sokolovně, kondolence z Vídně: tragédie byla od prvního dne národní manifestací. Svaz dva dny po pohřbu rozhodl, že vinen není nikdo. Roku 1914 se padesátka jela znovu (vyhrál Josef Kučera), válka ji přerušila, 1920 se obnovila jako mistrovství Československa a prvním vítězem se stal Jan Havelka, který v roce 1913 vedl skupinu, jež našla Vrbatu; od roku 1923, podle jiných 1925, se jezdí jako Hančův memoriál. Mohylu postavili lyžařské spolky v roce 1925 na místě, kde umrzl Vrbata, Hančův pomník stojí tam, kde ho našli. Z Hanče se stal symbol českého lyžování, z Vrbaty symbol oběti, z Ratha nikdo. Po roce 1945 se to zafixovalo: Kožíkův román (1954), Dubův film (1956) s Rathem vystřiženým a Bartelem jako padouchem, a Horská služba, která svůj Den slaví 24. března — ačkoli skutečným impulsem k jejímu založení byla až „černá noc“ 2. února 1935, kdy v jediné vánici zahynulo v Krkonoších šest lyžařů (mezi nimi dva důstojníci z Milovic mezi Martinovkou a Labskou), a celá zima 1934/35 stála osmnáct životů. Zakladatelská schůze proběhla 12. května 1935 ve Špindlerově Mlýně, do čela zvolili Vainu — kontrolora z Violíku —, průkazy nesly dvojjazyčný název Horská služba – Bergdienst, a mezi prvními dárci byl Riesengebirgsverein z Vrchlabí. Po Mnichovu zůstal jen Bergdienst, do něhož Češi nesměli. Po roce 1989 příběh přepisuje film Poslední závod (2022) — opačným směrem, ale stejnou metodou: Rath je tentokrát „jediný Němec“, ačkoli vedle něj stál Bartel.</p>
+
+  <div class="box leg">
+    <p class="lbl">--- Poznámky ---</p>
+    <p><strong>Poznámka č. 1 — sport jako náhradní bojiště.</strong> V Čechách před rokem 1914 neexistovala politika, která by nebyla zároveň národnostní, a sport nebyl výjimka: Sokol vs. Turnverein, KČT vs. Riesengebirgsverein, Svaz lyžařů vs. Schneeschuhläuferverband, vždy ve dvojicích a vždy s vlastní turistickou propagační centrálou. Padesátka 1913 byla produktem tohoto systému a Hanč jeho reprezentantem — „Mistr lyžař“ je titul, který uděluje národ, ne sportovní federace. Zdroje na obou stranách mluvily jazykem této rivality: české o boji malého národa, německé podle historiků střízlivě, což není ctnost, ale pozice silnějšího, který nic dokazovat nemusí. Interpretace: Hanč nezemřel na nacionalismus, ale nacionalismus rozhodl o tom, že jeho smrt bude mít smysl, a smysl je přesně to, co z nehody dělá mýtus.</p>
+    <p><strong>Poznámka č. 2 — instituce se učí jen z mrtvých, a i to pomalu.</strong> Kubátův dopis 1905 vypočítává totéž, co Suk vyčítá roku 1913, a co se opakuje v „černé noci“ 1935: žádné kontroly, žádný způsob, jak zastavit člověka na trati, žádné spojení. Odpověď svazu byla v roce 1913 anketa, která vinu nenašla; odpověď státu v roce 1935 byl statut Horské služby vydaný zemským úřadem — tedy ne sportovci, ale byrokracií, a s dvojjazyčným jménem, protože hory byly dvojjazyčné. Trvalo tři roky, než Mnichov ten dvojjazyčný experiment ukončil. Interpretace: Horská služba vznikla navzdory spolkům, které si Hanče a Vrbatu vzaly do znaku, ne díky nim.</p>
+    <p><strong>Poznámka č. 3 — paměť jako střídavý vymazávač.</strong> Rok 1956 vymazal Ratha, protože Němec nesměl být hrdina; rok 2022 vymazal Bartela, protože „jediný Němec“ je lepší věta než „dva Němci, z nichž jeden byl favorit a druhý zachránce“. Obě revize mají stejnou gramatiku: potřebují jednoho Němce, aby příběh fungoval. Paralela je širší — česká paměť 20. století pracuje s postavami Němců po jednom (Rath, Oskar Schindler, Sudetoněmci jako kolektiv) a špatně snáší, že v Krkonoších 1913 tvořili Němci většinu horalů, většinu turistů (o Vánocích 1910/11 jich bylo 700 proti 233 Čechům) i polovinu zachránců. Interpretace: každá generace si z toho závodu bere toho Němce, kterého právě potřebuje.</p>
+    <p><strong>Poznámka č. 4 — fyziologie proti mýtu.</strong> Lékař v roce 1913 zmrznutí vyloučil a to je nejpodceňovanější fakt celé historie. Hanč neumrzl jako romantický hrdina ve sněhu; selhal mu organismus zbavený paliva (buchta ráno, nic v 9:41, citron v 11:03), tepla (mokrá košile, vítr) a úsudku (podchlazení bere orientaci a soudnost, což vysvětluje, proč Vainu „neslyšel“ a proč lezl po čtyřech do svahu). Vrbatův kabát přišel ve chvíli, kdy už byl proces nevratný, a je docela možné, že ho jen prodloužil. Interpretace, ne fakt: kdyby se příběh vyprávěl jako lékařská kazuistika a ne jako sága, Horská služba by k němu měla přesnější vztah, než má kult. Den Horské služby by pak měl stejné datum, ale jiný obsah: ne „obětoval se za přítele“, ale „nikdo neměl čaj“.</p>
+  </div>
+</section>
+
+<!-- ============ HORNÍ MÍSEČKY ============ -->
+<section class="loc misto" id="misecky">
+  <h2>Horní Mísečky a Masarykova silnice</h2>
+  <p class="meta"><b>Nejvýš položená horská osada Krkonoš, ~1 000 m n. m.</b> · německy Ober Schüsselbauden · svahy Medvědína, správně část Vítkovic · první bouda 1642 · konec silnice II/286 z Jilemnice, začátek Masarykovy silnice · Jilemnická bouda · skiareál, lanovka Medvědín (Špindlerův Mlýn)</p>
+  <p>Mísečky jsou v překladu „misky“ — Schüsselbauden, boudy v miskách terénu pod Medvědínem. První horská bouda tu stála roku 1642 a první obyvatelé byli němečtí dřevaři a horníci; v 18. století se tu dělal rudný průzkum a haldy hlušiny jsou dodnes v terénu patrné. Enkláva Mísečných bud si dlouho zachovala ráz horské samoty na konci světa, dokud ji ve 30. letech nepřipojila na svět Masarykova silnice, a po válce z ní lyžařský rozvoj udělal nejvýš položenou osadu v Krkonoších, dnes součást skiareálu Špindlerův Mlýn s lanovkou na Medvědín.</p>
+  <div class="box drb">
+    <p class="lbl">Mísečná bouda, která shořela po Vánocích</p>
+    <p>Hlavní bouda osady, Mísečná, měla v roce 1940 po přestavbě 24 pokojů s 54 lůžky a velkou noclehárnu pro méně náročné. V prosinci 1940, těsně po Vánocích, vyhořela do základů. Obnovená bouda dostala po roce 1945 jméno Jilemnická a ubytovává dodnes; původní ráz enklávy, píše se v historii bud, se dávno ztratil a z bohaté historie se toho moc nedochovalo. S Žalým spojuje Mísečky jedna z prvních turistických cest, Bucharova, pojmenovaná po řídícím učiteli z Dolních Štěpanic, který byl organizátorem české turistiky v Krkonoších, jednatelem jilemnického odboru KČT (1889, druhého mimopražského) a prvním, kdo si od hraběte vypůjčil lyže a v roce 1895 psal, jak zájem o „ski, sněžnice či kusle“ po vlasti vzrůstá. V roce 1906 nechal KČT z Bucharova podnětu zřídit pod Martinovou boudou přírodní botanickou zahrádku.</p>
+  </div>
+  <div class="box nar">
+    <p class="lbl">Na hraně dvou světů</p>
+    <p>Mísečky byly a jsou vstupní branou do hor z české strany: z Jilemnice sem jezdí autobus, dál na Zlaté návrší smí v sezoně jen kyvadlová doprava, auta zůstávají na záchytném parkovišti. Je to ta hrana, o které byla řeč v úvodu — Jilemnicko bylo české, hřebeny německé, a Mísečky ležely mezi tím. V roce 1913 sem snesli Vrbatovo tělo v domnění, že nesou Hanče. V roce 1936 tudy jel první autobus na Zlaté návrší. Ve 30. letech se odtud stavělo opevnění. Na Mísečkách končí naučná stezka Prameny Labe; v Jilemnické boudě, Horském zátiší nebo chatě Stopa se dá najíst. Pod Šmídovou vyhlídkou na Medvědíně je rozcestník, od něhož červená vede přes Vrbatovu boudu k Labské boudě a prameni Labe, a na druhou stranu přes Rovinku a Přední Žalý dolů do Hrabačova — to je Bucharova cesta celá.</p>
+  </div>
+</section>
+
+<!-- ============ PRAMENY LABE ============ -->
+<section class="loc voda" id="labe">
+  <h2>Prameny Labe a Labská louka</h2>
+  <p class="meta"><b>Symbolický pramen 1 386–1 387 m n. m.</b> · Labská louka 1 350–1 400 m, vrcholové rašeliniště · necelý kilometr JZ od Violíku, 500 m od polské hranice, 800 m SZ od Labské boudy · skutečné prameniště 150–300 m západně, v katastru Rokytnice (Rokytno), nepřístupné</p>
+  <p>Labe začíná lží, a je to lež poctivá. To, u čeho se fotí tisíce lidí ročně — kamenná skruž s přítokem a odtokem, dlážděné okolí s lavičkami a zídka s barevnými znaky měst — je rozcestí nejvýznamnějších hřebenových cest na staré České stezce, které bylo v roce 1968 symbolicky upraveno jako počátek řeky. Skutečné prameniště leží o 150 až 300 metrů výš a západněji, ukryté v hřebenové rašelině mezi klečí a trávou, a z důvodu ochrany přírody je nepřístupné; voda z něj je do skruže přiváděna. Hranice okresů je tu vedena tak, že symbolický pramen je ve Špindlerově Mlýně (Královéhradecký kraj) a ten pravý v Rokytnici (Liberecký kraj). Na zídce z roku 1968, dílo Jiřího Škopka, bylo původně 24 znaků, dnes je jich 26 až 28 podle toho, kdo počítá: Špindlerův Mlýn, Vrchlabí, Hradec Králové, Pardubice, Kolín, Mělník, Litoměřice, Ústí, Děčín, Drážďany, Míšeň, Magdeburk, Hamburk, Cuxhaven a další. Řeka k Severnímu moři měří zhruba 1 100 km, čísla se různí podle toho, odkud se počítá. Žulu na dláždění vzali z harrachovského obchvatu; drcený žulový štěrk nahradil vápenec, kterým byla dřív zpevněná cesta k Vosecké boudě a který na kyselém rašelinném podloží škodil.</p>
+  <div class="box leg">
+    <p class="lbl">Biskup, velbloud a politika v roce 1684</p>
+    <p>Pramen je znám nejméně pět století; první zmínky jsou z 16. století. Dlouho ale nebylo jasné, který potok je vlastně „začátkem Labe“ — ještě v 19. století se myslelo, že je to Bílé Labe u Luční boudy, jehož pramen leží výš. A vedl se spor o hranici: slezský hrabě Schaffgotsch chtěl kousek území přidat, čeští majitelé vrchlabského panství ho bránili. Královéhradecký biskup Jan František Kryštof z Talmberka se 19. září 1684 vypravil po České stezce z Rokytnice na Labskou louku a pramen vysvětil; tím ho „přihodil“ ke své diecézi, a protože hranice diecéze byly zároveň hranicemi země, potvrdil, že louka patří do Čech. Byla to návštěva jen zčásti náboženská. Legenda dodává, že se biskup nechal nést na velbloudovi, kterého dostal darem od cizích vyslanců; velbloud došel jen do půli kopce — podle rokytnické verze padl zmožen stoupáním pod Dvoračkami — a zbytek cesty nesli biskupa členové doprovodu. Když ponořil kříž do vody, bouře prý utichla a vyjasnilo se. O druhé vysvěcení se roku 1884 postaral vrchlabský děkan Weber. V 19. a 20. století sem chodila procesí; u pramene byly dvě pamětní desky propagátora turistiky Jana Buchara a od roku 2006 stojí u potůčku dřevěná alegorie vody.</p>
+  </div>
+  <div class="box look">
+    <p class="lbl">Labská louka jako tundra</p>
+    <p>Větší část louky je kleč a smilka tuhá, část tvoří vrcholové rašeliniště se vzácnou květenou: ostružiník moruška (relikt z doby ledové, na jihu Evropy nikde jinde), vrba laponská, suchopýr. Louka je hnízdištěm tetřívka obecného a částí jednoho ze tří hřebenových rašelinných komplexů, které jsou od roku 1993 mokřadem mezinárodního významu. Pod ní prochází tzv. Labská rokle: Labe teče rašeliništěm 150–300 metrů jako potůček, u cesty se slije do skruže, a o kilometr dál se vrhne 35 metrů dolů Labským vodopádem do Labského dolu. Přes louku v roce 1913 běželi závodníci z Labské boudy k Vysokému kolu; roku 1938 se tu stavěly řopíky; za komunismu tudy vedla hranice, kde se zelené čepice a polská WOP hlídaly navzájem.</p>
+  </div>
+  <p><strong>Přístup.</strong> Po značených cestách z Rokytnice (přes Dvoračky a Růženčinu zahrádku), z Harrachova (přes Vosecká bouda), ze Špindlerova Mlýna (Labským dolem nebo přes Zlaté návrší) a z Polska (od Sněžných jam přes Violík). Autem nejdál na Horní Mísečky, pak 7,5 km pěšky nebo kyvadlovým autobusem na Zlaté návrší a odtud hodinu.</p>
+</section>
+
+<!-- ============ LABSKÁ BOUDA ============ -->
+<section class="loc bouda" id="labska">
+  <h2>Labská bouda</h2>
+  <p class="meta"><b>1 340 m n. m.</b> · německy Elbfallbaude · na hraně Labského dolu, nad Labským vodopádem, několik set metrů od pramene Labe · I. zóna KRNAP · dnešní budova 1969–1975, architekt Zdeněk Řihák · 79 pokojů, 120 lůžek, devět podlaží, hlavní vchod v nejvyšším</p>
+  <p>Nejkontroverznější stavba Krkonoš a zároveň přes sto let synonymum krkonošské turistiky. Obojí je pravda a obojí má jednoho jmenovatele: polohu. Labská bouda stojí tam, kde Labe skáče z náhorní plošiny do údolí, a tam, kde se od pramene Labe rozbíhají všechny hřebenové cesty. Kdo tu stojí, má hosty.</p>
+  <p>Historie začíná kolem roku 1830 ženou z Rokytnice přezdívanou <em>die Blasse</em> (Bledá), která si tu u Labského vodopádu postavila budku z kamení, kůry a roští a prodávala kolemjdoucím kozí sýr, mléko a kořalku. Další majitelé — Devátové a Šírové (Schierové) z Rokytnice — ji rozšířili, aby se dalo i přespat; za Dewaldové se bouda přesunula přibližně tam, kde stojí dnes, jako prkenná stavba obložená šindelem. Josef Schier, který ji držel v polovině století, vymyslel atrakci, o které bude řeč u vodopádů. Roku 1877 boudu koupil hrabě Jan Harrach a dal ji do roku 1879 zásadně přestavět, aby byla hotová k velké lesnické exkurzi; na jeho přání dostala tabule v češtině i němčině. Přístavby z let 1888–1889 a 1905 zvedly počet pokojů z deseti na 42; výborná kuchyně a vodopád z ní udělaly jeden z největších turistických magnetů západních hor. Hosty v hale prý vítaly české harfenistky — potulné harfenice z Nechanicka, které obcházely krkonošské boudy. Roku 1904 Harrach vyhlásil ve Strmé stráni pod boudou první krkonošskou rezervaci. Po roce 1918 byla bouda jako harrachovský majetek vyvlastněna a spravovali ji nájemci: od roku 1934 Bedřich Hloušek, milovník hor a vlastenec, jehož život skončil po zatčení gestapem, pak Josef Zapadlo.</p>
+  <div class="box drb">
+    <p class="lbl">6. listopadu 1965 a to, co vyrostlo z popela</p>
+    <p>Příčina byla hloupá: řemeslníci při opravě neopatrně zacházeli s benzinovou lampou. Stará Labská bouda shořela do základů. Základní kámen nové položili 12. června 1969 a 15. listopadu 1975 slavnostně otevřeli devítipatrový železobetonový panelový hotel pro 120 hostů, s vlastní úpravnou vody a kotelnou na lehké topné oleje, zasazený do svahu tak, že hlavní vchod je v úrovni nejvyššího patra. Navrhl ho Zdeněk Řihák — brněnský architekt bruselského stylu, autor hotelu Continental v Brně, nedávno zbouraného obchodního domu Prior a trojúhelníkového hotelu Patria na Štrbském plese. Je to tedy stavba z téže rodiny jako slovenské tatranské hotely: velký, sebevědomý, poválečný modernismus postavený do míst, kde se dosud stavělo ze šindele. Beton ve zdejším klimatu brzy začal odpadávat; v letech 1998–2004 prošla bouda rekonstrukcí za zhruba 15 milionů, při níž odstranili lodžie, nově ji opláštili a zateplili, prosklení restaurace nahradili běžnými okny. V říjnu 1996 byla privatizována; v letech 2007–2011 vážně jednala Správa KRNAP s ministerstvem životního prostředí o tom, že stát hotel koupí a zbourá. Nestalo se. Od roku 2018 ji provozuje společnost, která vlastní i Luční boudu (Klára Sovová a Stanislav Beneš); v samoobslužné restauraci točí pivo Paroháč, vařené na Luční boudě.</p>
+  </div>
+  <div class="box leg">
+    <p class="lbl">Betonové monstrum, nebo památka?</p>
+    <p>Debata o Labské boudě je stará jako ona sama a dnes se obrací. Pro generaci, která pamatuje dřevěnou boudu, je to „kolos“ a „monstrum“ v nejpřísněji chráněné zóně parku; pro část dnešních architektů je to jedna z mála velkých staveb pozdního modernismu v českých horách, která přežila, a Štumpovka na Dvoračkách je dnes postavená tak, aby připomínala průčelí té shořelé. Jsou tu zkrátka dvě Labské boudy — ta vzpomínaná a ta stojící — a každá má svou pravdu. Z betonové terasy je přitom nejlepší výhled do Labského dolu, jaký si bez výstupu na hřeben koupíš.</p>
+  </div>
+</section>
+
+<!-- ============ VODOPÁDY ============ -->
+<section class="loc voda" id="vodopady">
+  <h2>Labské vodopády a Labský důl</h2>
+  <p class="meta"><b>Labský vodopád</b> ~35 m, 1 250 m n. m., ~50 l/s · <b>Pančavský vodopád</b> 148 m (na jaře až 162 m), 1 298 → 1 150 m, nejvyšší v Česku · <b>Pudlavský vodopád</b> 122 m · Labský důl: ledovcové údolí od Labské boudy ke Špindlerovu Mlýnu, Harrachova cesta (modrá), nejstarší značená trasa Krkonoš</p>
+  <p>Z hrany náhorní plošiny padá do Labského dolu voda hned na několika místech. <strong>Labský vodopád</strong> je kilometr pod pramenem, přímo pod Labskou boudou: není nejvyšší (uvádí se 34,5 až 40 metrů), zato je jedním z nejstrmějších v horách a pod ním pokračuje dalších 200 metrů kamenitých peřejí — Labská rokle, začátek Labského dolu. <strong>Pančavský vodopád</strong> o kilometr jižněji je něco jiného: nejvyšší vodopád v Česku, 148 metrů ve čtyřech hlavních stupních (36, 39, 23 a 20 m), široký 4 až 8 metrů podle vody, s průměrným průtokem pouhých 25 litrů za sekundu. Nepadá kolmo, řítí se po skalní stěně karu zvaného Pančavská jáma, a při jarním tání se mu ve spodní části vytvoří jižní rameno, které ho prodlouží na 162 metrů. Horní hrana je ostrá, s typickou kvádrovou odlučností žuly; u paty není vývařiště, voda mizí v suti. Jméno je z německého <em>pantschen</em>, šplouchat. Z hrany Pančavské louky, z vyhlídky na červené Bucharově cestě po Labské hraně, uvidíš jen nejvyšší stupeň; celý vodopád s odstupem jen ze dna dolu, z Harrachovy cesty. Nad vodopádem je pamětní deska Otokara Štětky (1916–1975), náčelníka Horské služby Krkonoše.</p>
+  <div class="box drb">
+    <p class="lbl">Vodopád na objednávku</p>
+    <p>Od začátku turistiky patřil Pančavský vodopád k nejnavštěvovanějším místům hor, a protože většinu léta teče slabě, pomohl mu majitel Labské boudy Josef Schier (Šír) v roce 1859 technikou. Nad horní hranou nechal postavit malou nádrž se stavidlem a budku pro obsluhu. Když se u vyhlídky nahromadil dostatečný počet <em>platících</em> turistů, dostala obsluha signál, zvedla stavidlo a vodopád nárazově zmohutněl do podoby, jakou má jinak jen při tání. V údolí pod vodopádem bylo druhé pozorovací stanoviště s malou boudou: odtud dávala obsluha trubkou znamení personálu nahoře, aby vypustil vodu a ohromil návštěvníky dole. Nahoře fungovala vyhlídková terasa s občerstvením a stánky. Atrakce zanikla ve třicátých letech z důvodů ochrany přírody; zbytky nádrže jsou prý pod Labskou boudou dodnes patrné. Prameny se liší v tom, zda stavidlo stálo nad Pančavou, nad Labem, nebo nad oběma; jisté je, že v Krkonoších 19. století byl i vodopád provozovanou živností.</p>
+  </div>
+  <div class="box look">
+    <p class="lbl">Labský důl: údolí, kde to všechno začalo</p>
+    <p>Labský důl je ledovcový trog — údolí tvaru U — se závěrem tvořeným třemi kary: Navorskou, Pančavskou a Harrachovou jámou. V nejvýš položené ploché části dna se zachovaly relikty bazální a boční morény posledního zalednění a zbytky ledovcového jezera, z jehož usazenin paleobotanici čtou vývoj krkonošské vegetace za celý holocén. Dnem vede modrá <strong>Harrachova cesta</strong>: hrabě ji začal stavět roku 1876 a dokončil 1879 ke zmíněné lesnické exkurzi, s mýtem dva krejcary; úsek mezi Bílým mostem ve Špindlerově Mlýně a Labskou boudou je nejstarší značená turistická trasa v Krkonoších. Zdola je nejlépe vidět Pančavský i 122 metrů vysoký Pudlavský vodopád, Krakonošova hlava v Harrachově jámě a Strmá stráň, kde Harrach roku 1904 vyhlásil první rezervaci. Z Labské boudy dolů do Špindlerova Mlýna jsou to zhruba dvě hodiny; v zimě je údolí lavinové.</p>
+  </div>
+</section>
+
+<!-- ============ PANČAVSKÁ LOUKA ============ -->
+<section class="loc priroda" id="pancavska">
+  <h2>Pančavská louka</h2>
+  <p class="meta"><b>~1 340 m n. m.</b> · subarkticko-subalpínské rašeliniště na náhorní plošině mezi Labskou boudou, Zlatým návrším a hranou Labského dolu · 1,3 km SZ od Vrbatovy boudy · I. zóna KRNAP, součást Ramsarské lokality Krkonošská rašeliniště (1993) · prochází jí červená Bucharova cesta a naučná stezka</p>
+  <p>Rozlehlá subalpínská louka s rašeliništěm severského typu: rašelina až 3,5 metru hluboká, mezi klečí a suchopýrem desítky tůněk a jezírek, kolem nich morušky, vrba laponská, rosnatky, ptačí společenstva, která jinde ve střední Evropě nenajdeš. Pančavská louka je jedním ze dvou největších hřebenových rašelinišť západních Krkonoš (druhé je Jestřábí louka) a vůbec jedním z nejcennějších míst hor. Vědecky je to legenda: paleobotanici tu z pylových profilů zjistili, že rašeliniště se začalo tvořit v atlantiku, zhruba před 7 000 lety — mnohem dřív než Úpské rašeliniště na východě (asi před 4 000 lety). Je to nejstarší kus krkonošské tundry, který se dá datovat. V tůňkách tu badatelé napočítali 112 druhů sinic a řas, výrazně víc než v Úpském nebo Černohorském rašeliništi; voda má pH kolem 4,8, tedy méně kyselé než jinde, což bohatosti pomáhá.</p>
+  <div class="box leg">
+    <p class="lbl">Co je „subarktické rašeliniště“</p>
+    <p>Termín použili botanici Schustler a Firbas už v roce 1927 a od té doby se Krkonoše vykládají jako ostrov severu: hřebenová rašeliniště jsou typem vegetace, který má nejbližší obdobu ve Skandinávii a Laponsku, ne v Alpách. Vysvětlení je v poloze: Krkonoše byly v době ledové sevřeny mezi skandinávským ledovcem na severu a alpským na jihu, a to, co dnes roste na Pančavské louce, je zbytek flóry a fauny, která tenkrát obývala celý prostor mezi nimi. Ledovce ustoupily, tundra zůstala uvězněná nahoře. Proto se po louce chodí jen po cestě a proto jsou její okraje nejpřísněji hlídané: jedna sešlapaná stezka mimo značení tu zničí tisíce let.</p>
+  </div>
+  <p>Louka je zároveň rozvodí příběhů: na jejím východním okraji padá Pančava do Labského dolu, na jejím jižním konci stojí mohyla Hanče a Vrbaty, severně od ní je Labská louka s pramenem Labe. Z Harrachových kamenů ji máš celou pod sebou jako světle zelenou plochu s tmavými ostrůvky kleče a lesklými oky tůněk; za jasného rána je to nejsevernější krajina, jakou v Čechách uvidíš.</p>
+</section>
+
+<!-- ============ VOSECKÁ BOUDA ============ -->
+<section class="loc bouda" id="vosecka">
+  <h2>Vosecká bouda</h2>
+  <p class="meta"><b>1 260 m n. m.</b> · německy Wosseckerbaude, dříve Františkánská / Nová česká bouda · nejzápadnější bouda hraničního hřebene, půl kilometru od polské hranice, JV od skály Tvarožník, necelé 3 km od pramene Labe · Klub českých turistů · 43 lůžek · bez připojení na elektrickou síť · nikdy nevyhořela</p>
+  <p>Vosecká je bouda, jaké na hřebenech skoro nezbyly: dřevěná, sama, bez elektriky, s rohačkami u dveří. Leží na louce zvané Vosecká (jméno se nejspíš odvozuje od českého „osek“, vysekané místo) v sedle, kterým táhnou ptáci ze severu na jih — ornitologové sem jezdí sledovat podzimní tah. Z Harrachova je to osm kilometrů kolem Mumlavského vodopádu a Krakonošovy snídaně; z polské Szklarské Poręby lanovkou pod Szrenici a půl hodiny pěšky. V zimě je dostupná jen na lyžích.</p>
+  <p>Na místě dnešní boudy stál pravděpodobně od roku 1710 seník. První přímý doklad je Grauparova mapa z roku 1743, kde figuruje jako <em>Františkánská bouda</em>: podle františkánského mnicha, který se tu prý usadil poté, co kolem roku 1710 skončily hraniční spory mezi českou a slezskou šlechtou, a seník možná sám založil. Roku 1790 ji přestavěl Václav Kraus na přístřeší pro dřevaře a hospodářské stavení — <em>Nová česká bouda</em> — a kolem roku 1830 ji nájemce Jan Kraus rozšířil tak, že se tu během 19. století páslo až osmdesátihlavé stádo, v zimě ustájené dole na Krausových boudách. Bouda ležela mimo turistické cesty a žila z másla a kozích sýrů, které byly proslulé.</p>
+  <div class="box drb">
+    <p class="lbl">Vražda, podivín a balony na Sněžku</p>
+    <ul>
+      <li>24. září 1871 si nedaleko dnešní hranice u Svinských kamenů počkal lapka s nožem na Aloise Hollmanna, Krausova zetě, který na boudě žil s třinácti dětmi. Čtyřiadvacet bodných ran. Pachatel si odnesl boty a drobnou hotovost; nikdy nebyl dopaden a čin nebyl objasněn.</li>
+      <li>Nájemce Josef Erlebach sem přišel, aby utekl před lidmi. Hospodaření mu nešlo, zato oplýval učitelským talentem, stavěl modely strojů, botanizoval a vymýšlel projekty, které nikdy nerealizoval — například balonovou dopravu turistů od Sněžných jam na Sněžku nebo z Jínonoše (Szrenice) do Jelení Hory. Trpěl stihomamem, bál se otravy, jedl výhradně kávu, cukr a chléb a všechno si připravoval sám. Od jara do podzimu spával pod širým nebem — a to se mu v pokročilém věku stalo osudným: v jedné mrazivé květnové noci roku 1885 umrzl v kleči nedaleko boudy. Mezi horaly byl solitérní písmák; hostům nechal malou knihovnu „pro poučení i zábavu“.</li>
+      <li>Ve druhé polovině 19. století harrachovská vrchnost postupně (1865–1885) zakázala pastvu v lese a snažila se zbavit všech, kdo hospodařili na hřebenových loukách, včetně likvidace bud. Pudlova bouda zanikla, Martinovka i Vosecká unikly o vlásek. Endlerovi — Hollmannova dcera Ludmila s manželem Franzem — si roku 1890 vyprosili pastvu za roční poplatek, roku 1896 chátrající stavení strhli a postavili novou boudu s křížovou střešní nástavbou a několika pokoji; roku 1900 přibylo šest hostinských pokojů pro 14 hostů. Od roku 1901, kdy Harrach nechal vybudovat spojku z Labské boudy, se návštěvnost zvedla a oblíbenou atrakcí byla jízda na rohačkách údolím Mumlavy do Harrachova.</li>
+    </ul>
+  </div>
+  <div class="box nar">
+    <p class="lbl">Jak se bouda stávala českou</p>
+    <p>Hrabě Harrach usiloval o „počeštění“ Vosecké, nájemce Endler se bránil. Po roce 1918 vyvíjely české úřady na provozovatele tlak, aby upřednostňovali česky mluvící klientelu, a nakonec Endler neměl na výběr: pozemková reforma zestátnila harrachovské panství a bouda ležela na nové hranici Československa s Německem. S rodinou odešel — a našel nové útočiště v nově postavené boudě na Jínonoši těsně za hranicí, ve Slezsku; Szrenica se tak stala jeho Voseckou. Roku 1921 dostal boudu do nájmu český boudař, ruský legionář Jan Herčík. Za války ji zkonfiskovala Říše. Po válce dostala dnešní podobu, s kapacitou až sedmdesáti lidí, dvaceti ve společné noclehárně; po roce 1989 připadla při dělení majetku ČSTV Klubu českých turistů. Dnes 43 lůžek v pokojích pro dva až pět a jeden třináctilůžkový; kotel na uhlí a dřevo, proud z dieselagregátu doplněný fotovoltaikou na střeše, a protože z Harrachova je to osm kilometrů, probíhá jednání o připojení na — polskou — rozvodnou síť. Nová střecha je hotová, plášť se opravuje, v roce 2025 proběhla první etapa.</p>
+  </div>
+  <p><strong>Odtud dál.</strong> Vosecká je výchozí bod na Sněžné jámy (hodinu po hřebeni přes hranici), na Violík a Vysoké kolo, k prameni Labe a Labské boudě. V zimě je cesta k prameni Labe lyžařská magistrála, po které se chodí jen na běžkách.</p>
+</section>
+
+<!-- ============ SNĚŽNÉ JÁMY ============ -->
+<section class="loc priroda" id="snezne-jamy">
+  <h2>Sněžné jámy</h2>
+  <p class="meta"><b>Śnieżne Kotły, německy Schneegruben</b> · dva ledovcové kary pod Vysokým kolem (1 509 m) na polské straně hlavního hřebene · Velký (~250 m hluboký, stěny do 150 m) a Malý (~300 m, stěny do 100 m), oddělené 200 m širokou žulovou grzędou · na hraně bývalá Schneegrubenbaude, dnes vysílač „Wawel“ s 24 m věží, 1 490 m · vyhlídky na hraně, dno uzavřeno</p>
+  <p>Nejalpštější kout Krkonoš leží kousek za hranicí. Dva kotle vyhloubené do žuly pleistocenním ledovcem, který stékal z hřebene k severu, se stěnami rozrytými žleby a pod nimi sutové kužely; ledovec na předpolí navršil pět morénových valů a mezi nimi leží občas vysychající Sněžné stávky. Sníh tu v jámách leží do léta — odtud jméno. Po grzędě mezi oběma kotly vedla až do 60. let 20. století nejkrásnější a Alpám nejbližší stezka v Karkonoszích; z důvodů bezpečnosti a ochrany přírody je zavřená a dolní partie jam jsou přístupné jen na zvláštní povolení.</p>
+  <div class="box look">
+    <p class="lbl">Čedič, který nemá být tam, kde je</p>
+    <p>V žulové stěně Malého Sněžného kotle je odkrytá žíla čediče (dajka) z pozdního oligocénu, stará zhruba 26 milionů let, široká 30 až 60 metrů a viditelná v délce 120 metrů — jediný výskyt bazaltu v hlavním hřebeni. Na ní, a jen na ní, roste <em>Saxifraga nivalis</em>, lomikámen sněžný, jediné stanoviště ve střední Evropě, a <em>Saxifraga moschata subsp. basaltica</em>, lomikámen bazaltový, poddruh známý pouze z tohoto místa na celém světě. Dva stupně karu ukrývají řadu dalších chráněných druhů; není to hra na vzácnost, je to několik set metrů čtverečních, na nichž by stačil jeden horolezec s botami.</p>
+  </div>
+  <div class="box drb">
+    <p class="lbl">Od Krakonošovy kazatelny k radiomostu Moskva–Berlín</p>
+    <p>Na skalce Czarcia Ambona (Rübezahls Kanzel, Krakonošova kazatelna) stávala na začátku 19. století budka s jídlem pro pocestné. V roce 1837 tu hrabě Leopold Gotthard Schaffgotsch, majitel slezské strany hor, postavil skromné dřevěné přístřeší se strmou střechou — podle Poláků první skutečnou turistickou boudu v Krkonoších, protože na Sněžce v té době sloužila k přespání jen stará kaple. Vichřice ji po dvaceti letech zničila. V roce 1892 se Schaffgotschové rozhodli stavět větší a v letech 1895–1897 vyrostl na hraně Velkého kotle vícepodlažní horský hotel s vyhlídkovou věží a proskleným tarasem nad propastí: Schneegrubenbaude, jedna z nejslavnějších bud pruské strany. Roku 1944 v ní Luftwaffe zřídila radiolokační stanici. Po roce 1945 připadla Polsku a dostala jméno <strong>Wawel</strong>; roku 1960 do ní instalovali stanici radioreléových spojů, díky níž se do Jelení Hory přenášely olympijské hry v Římě — a v květnu 1961 byl Wawel pro veřejnost zavřen. Z boudy se stal uzel tajné radiové a televizní magistrály Moskva – východní blok, jejíž signály z 24 metrů vysoké věže mířily do Československa i Sovětského svazu; v seznamu bud z roku 1962 ještě figurovala, ale jen s bufetem, bez lůžek. Od poloviny roku 1969 odtud vysílá televize (TVP2 od 1976, TVP1 od 1981, Polsat 1996, digitál 2012, RMF FM 1994); objekt patří společnosti Emitel a turistům je nepřístupný — s výjimkou katastrofálního počasí, kdy jde o život. Polští místopisci doporučují lamentovat nad tím nejlépe z Czarciej Ambony.</p>
+  </div>
+  <div class="box drb">
+    <p class="lbl">Pád do jámy, který dobře dopadl (zima 1900)</p>
+    <p>Josef Rössler-Ořovský vedl v jednom zimním podvečeru roku 1900 čtyři lyžaře z Martinovky přes Vysoké kolo k boudě u Sněžných jam. Poslední ze skupiny si při sjezdu k boudě zkrátil cestu, lehce zahnul doprava, najel na sněhovou převěj — a ta se pod ním zlomila. Zřítil se do jámy, ostatní ho celou noc hledali, do Špindlerova Mlýna svolával roh dobrovolné hasiče, kteří prohledávali stráně pod Vysokým kolem. Lyžař přistál ve sněhové kouli na slezské straně bez vážného zranění, vyhrabal se, sjel k první chalupě, kde ho hostitel nakrmil, a ráno ho saněmi odvezl na Petrovku, kde došlo k radostnému shledání. Pro Rösslera-Ořovského to byl, jak píše historik Kolář, první impuls k myšlence, že záchranářství musí jít ruku v ruce s dobýváním hor. O třináct let později se na téže trati jel závod, při kterém to nikdo neměl.</p>
+  </div>
+  <div class="box nar">
+    <p class="lbl">Proč na to Češi koukali zdola</p>
+    <p>Sněžné jámy byly do roku 1945 pruské, německé, a česká turistika na ně hleděla přes hranici: ze Zlatého návrší, z Harrachových kamenů, z Labské louky je „polská bouda u Sněžných jam“ dominantou severního obzoru a Čechům na ni ukazuje každý rozcestník. Po válce vedla po hřebeni ostře hlídaná hranice dvou spřátelených států; teprve Cesta česko-polského přátelství (1961) umožnila na turistický průkaz chodit po hřebeni, a dojít od Vosecké boudy nebo od pramene Labe přes Violík k Sněžným jámám se stalo klasikou. Dnes se hranice nepozná; chodníky na hraně kotlů, vyhlídky a kamenné zídky jsou polské, výhled je společný. Když se na Zlatém návrší v roce 1913 vydávali závodníci k Vysokému kolu a na Jínonoš, běželi vlastně tudy — kolem Sněžných jam a přes dnešní hranici.</p>
+  </div>
+</section>
+
+<hr>
+
+<h2 id="zaver">Místo závěru</h2>
+<p>Pokud si z toho všeho máš odnést jednu věc, pak tuhle: v západních Krkonoších je skoro každé místo, které vypadá jako příroda, dílem lidí, a skoro každé, které vypadá jako historie, několikrát shořelo. Louky kolem Dvoraček, Vosecké a Kotelské boudy vysekali budaři; kameny na Růženčině zahrádce někdo naskládal; Zlaté návrší dostalo silnici kvůli válce; pramen Labe je rozcestí přemalované na pramen. A z bud, které dnes stojí, je původní jen Vosecká — ostatní jsou repliky, náhrady nebo beton. Hory samy — tundra na Pančavské louce, kary pod Kotlem a pod Vysokým kolem, čedič ve Sněžných jámách — jsou naopak tím, co lidská vůle nezlomila, i když to zkoušela kyselým deštěm. V tom je Krkonoše poctivý kraj: nepředstírají, že jsou divočina, a nepředstírají, že jsou kulisa.</p>
+<p>A tři národy? Němci tu žili na hřebenech, Češi dole v údolí, Poláci přišli až po roce 1945 na místa, odkud odešli Němci. Harrach se snažil Němce a Čechy sbližovat, úřady po roce 1918 Čechy upřednostňovat, Mnichov to rozťal, odsun uzavřel a film z roku 1956 vymazal jednoho Němce z příběhu, který bez něj nedává smysl. Dnes je hřeben bez závor, Vosecká bouda se chystá napojit na polskou elektřinu a na Sněžné jámy se chodí od pramene Labe. Je to lepší konec, než jaký ty hory dlouho čekaly.</p>
+
+<footer>
+  <p><strong>Z čeho jsem čerpal.</strong> Martin Bartoš, <em>Historie krkonošských bud</em> (KRNAP, 3. vyd. 2023), zprostředkovaně přes seriál Seznam Zpráv o krkonošských boudách (Labská, Vrbatova, Dvoračky, Vosecká, 2025) a web spindleruv-mlyn.com; Správa KRNAP (brožura <em>Po stopách Jana hraběte Harracha</em>, Radek Drahný pro Český rozhlas o Kotelních jámách); oficiální web Rokytnice nad Jizerou (historie města, Dvoračky); Klub českých turistů a web Vosecké boudy; kudyznudy.cz, turistika.cz, treking.cz, harrachov-info.cz, region-krkonose.cz (lokality, výšky, cesty); Česká geologická služba (Kotelní jámy, Vysoký hrad); Botanický ústav AV ČR, Opera Corcontica a Preslia (Pančavská louka, stáří rašeliniště, řasy); CNN Prima a Seznam Zprávy k Hančovi, Vrbatovi a Rathovi; Národní muzeum (fond Emerich Rath); PTTK, jelonka.com, fotopolska.eu, radiopolska.pl (Sněžné jámy, Schneegrubenbaude, vysílač); NTM a VUT Brno (Masarykova silnice); jablonec-krkonose.cz a penzionrezek.cz (Rezek); Wikipedie pro čísla (Vosecká bouda, Pančavský vodopád, Horní Mísečky, Rokytnice).</p>
+  <p><strong>Ke kapitole o závodu 1913:</strong> Slavie 1913 a České slovo 1936 (digitalizace Bejvávalo.cz); František Kolář, <em>K počátkům Horské služby</em>, Studia Kinanthropologica 14/2 (2013), vycházející z Hančova čísla Věstníku krkonošského (12. 4. 1913) a z kapitoly Jana Luštince v reedici Kožíkových <em>Synů hor</em> (2006); Deník 24. 3. 2023 (Aleš Suk, Pavel Šmejkal, kniha Františka Koláře <em>Červení andělé</em>); Horydoly.cz (Kuba Turek); Nové Regiony (Luštinec), Sport.cz, Stoplusjednička, CNN Prima, Radio Liberec; Národní muzeum (inventář fondu Emerich Rath, 2022; fond Rössler-Ořovský; brožura Lyžování); Olympedia a Wikipedia k Rathovi; Filmový přehled NFA (Synové hor 1956, Poslední závod 2022); Historický ústav AV ČR (biografický slovník, heslo Hanč); jbc.jelenia-gora.pl (titulek Bote aus dem Riesengebirge 1913 č. 71, text nedostupný).</p>
+  <p><strong>Co jsem neověřil nebo kde se prameny rozcházejí:</strong></p>
+  <ul>
+    <li>Rok návštěvy Harrachů u Růženčiny zahrádky (1743 vs. 1734) a rok první mapy s názvem (1765 Graupar); hraběnka „Rosa“ — nenašel jsem její plné jméno.</li>
+    <li>Stavidlo nad vodopádem: Wikipedie a KRNAP ho kladou nad Pančavský vodopád, jiné prameny mluví o Labském; datum 1859 a jméno Josef Schier/Šír se shodují.</li>
+    <li>Počet znaků měst u pramene Labe (24 původně, 26 nebo 28 dnes) a délka Labe (1 094–1 154 km podle zdroje a způsobu měření).</li>
+    <li>Trať závodu 1913 — popis vychází z Věstníku Krkonošského citovaného Seznam Zprávami; „Jínonoš“ ztotožňuji se Szrenicí (Reifträger) z vlastní znalosti.</li>
+    <li>Rok otevření Vrbatovy boudy: prameny uvádějí stavbu 1959–62 a otevření 1964; mohyla obnovena 1947.</li>
+    <li>Dvoračky: rok zestátnění po roce 1945 (uvádí se „po třech letech“, tedy 1948); přesný stav nové boudy v listopadu 2026 — otevření bylo plánováno na zimu 2025/26.</li>
+    <li>Rezek: nadmořská výška se v pramenech liší (880, 893, 920 m); „Jeruzalém“ je lokální tradice bez archivní citace.</li>
+    <li>Etymologii „Krkonoš“ uvádím jako jednu z verzí; že Zlaté návrší neslo jméno Krkonoš a dalo je pohoří, opírám o diplomovou práci FA ČVUT a seznam NTM („silnice Jilemnice–Krkonoš“), ne o jazykovědnou literaturu.</li>
+    <li>Helwigova mapa 1561 s Krakonošem nad prameny Labe — z vlastní znalosti, neověřeno rešerší.</li>
+    <li>Sněžné jámy: rok zřízení přenosové stanice (1960 vs. 1961 vs. 1969) se liší podle toho, zda jde o radioreléovou stanici, uzavření pro veřejnost, nebo televizní vysílání; uvádím všechny tři.</li>
+    <li>Harfenistky na Labské boudě — jedna zmínka v Seznam Zprávách, bez podrobností.</li>
+    <li>Závod 1913: čas startu (6:30 vs. 7:10), pořadí na Vosecké boudě (Jarolímek vs. Bartel), vzdálenost, na kterou Rath Hanče nesl (500 m vs. 1 km), Jarolímkův klub (Praha vs. Dvůr Králové), rok vzniku Hančova memoriálu (1923 vs. 1925), Rathovo rodiště (Praha vs. Broumov), jméno Hančova prvorozeného syna (HIU uvádí syna Vlastimila, rodinná tradice smrt prvorozeného po třech týdnech), osud vdovy Slávky po roce 1913, obsah německé zprávy „Drei Schifahrer“ a „ztracený zápis“ pořadatelů (jen Suk). Jarolímkovo svědectví o větě „Němec vyhrát nesmí“ znám pouze zprostředkovaně přes Horydoly.</li>
+    <li>Přesný průběh mnichovské hranice v západních Krkonoších (Vítkovice, Mísečky) — nedohledáno; uvádím jen, že Rokytnice, Harrachov a hřebenové boudy připadly Říši a Jilemnice zůstala v republice.</li>
+  </ul>
+  <p class="small">Západní Krkonoše, průvodce po lokalitách · listopad 2026</p>
+</footer>
+
+</main>
+</body>
+</html>
