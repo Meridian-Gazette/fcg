@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Články a rozhovory Břetislava Turečka</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=IBM+Plex+Serif:wght@500;600&amp;display=swap">
+<style>
+/* Layout: one reading column built as a register – each entry is a row with the date in a fixed mono column and the source, title and extra links beside it. */
+:root {
+  --bg: #F3F6F5;
+  --fg: #16211F;
+  --muted: #566764;
+  --rule: #D3DCDA;
+  --accent: #0A6A72;
+  --accent-soft: #DDEBEA;
+  --approx: #86560A;
+  --font-display: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1716;
+    --fg: #E3EBE9;
+    --muted: #9BABA7;
+    --rule: #2A3936;
+    --accent: #6FCBD1;
+    --accent-soft: #18302F;
+    --approx: #E2B45E;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1716;
+  --fg: #E3EBE9;
+  --muted: #9BABA7;
+  --rule: #2A3936;
+  --accent: #6FCBD1;
+  --accent-soft: #18302F;
+  --approx: #E2B45E;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.55;
+  -webkit-text-size-adjust: 100%;
+}
+.page {
+  max-width: 52rem;
+  margin-inline: auto;
+  padding-block: 2.5rem 4rem;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 2.75rem;
+}
+
+a { color: var(--accent); text-underline-offset: 0.2em; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+/* Header */
+.masthead { display: flex; flex-direction: column; gap: 0.9rem; }
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-data);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.65rem, 4.6vw, 2.3rem);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.period {
+  margin: 0;
+  font-family: var(--font-data);
+  font-size: 0.9375rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.5rem;
+  padding-block: 0.9rem;
+  border-block: 1px solid var(--rule);
+  font-size: 0.9375rem;
+}
+.counts a { color: var(--fg); text-decoration: none; }
+.counts a:hover { color: var(--accent); text-decoration: underline; }
+.counts b {
+  font-family: var(--font-data);
+  font-weight: 500;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.note {
+  margin: 0;
+  max-width: 65ch;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.note .cca, .date .cca { color: var(--approx); }
+
+/* Sections */
+.block { display: flex; flex-direction: column; gap: 0; }
+h2 {
+  margin: 0;
+  padding-bottom: 0.55rem;
+  border-bottom: 2px solid var(--fg);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.3rem;
+  line-height: 1.25;
+  text-wrap: balance;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+h2 .n {
+  font-family: var(--font-data);
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.lede {
+  margin: 0;
+  padding-block: 0.8rem;
+  max-width: 65ch;
+  font-size: 0.9375rem;
+  color: var(--muted);
+  border-bottom: 1px solid var(--rule);
+}
+.series {
+  padding-block: 1.4rem 0.7rem;
+  border-bottom: 1px solid var(--rule);
+}
+h3 {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+}
+.series p { margin: 0.15rem 0 0; font-size: 0.9rem; color: var(--muted); max-width: 65ch; }
+
+/* Register rows */
+.entries { list-style: none; margin: 0; padding: 0; }
+.entry {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  column-gap: 1.25rem;
+  padding-block: 0.95rem;
+  border-bottom: 1px solid var(--rule);
+}
+.date {
+  padding-top: 0.2rem;
+  font-family: var(--font-data);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.what { min-width: 0; }
+.src { font-size: 0.8125rem; color: var(--muted); line-height: 1.5; }
+.src strong { color: var(--fg); font-weight: 600; }
+.tag {
+  display: inline-block;
+  margin-left: 0.35rem;
+  padding: 0 0.4rem;
+  border-radius: 2px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: var(--font-data);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.6;
+  vertical-align: 0.05em;
+}
+.title {
+  margin: 0.2rem 0 0;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.title a {
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1px;
+}
+.title a:hover { color: var(--accent); }
+.more {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 1.1rem;
+  margin-top: 0.4rem;
+  font-size: 0.875rem;
+}
+.remark { margin: 0.35rem 0 0; font-size: 0.875rem; color: var(--muted); max-width: 65ch; }
+
+/* Open leads and method */
+.leads {
+  margin: 0;
+  padding: 0.9rem 0 0 1.15rem;
+  display: grid;
+  gap: 0.65rem;
+  max-width: 68ch;
+  font-size: 0.9375rem;
+}
+.leads strong { font-weight: 600; }
+.method { margin: 0; padding-top: 0.9rem; max-width: 65ch; font-size: 0.9375rem; }
+.method + .method { padding-top: 0.6rem; }
+.colophon {
+  margin: 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-data);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+@media (max-width: 560px) {
+  .entry { grid-template-columns: minmax(0, 1fr); row-gap: 0.2rem; }
+  .date { padding-top: 0; }
+  h2 { font-size: 1.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Rešerše médií</p>
+    <h1>Články a rozhovory Břetislava Turečka</h1>
+    <p class="period">11. 5. – 11. 11. 2026</p>
+    <nav class="counts" aria-label="Oddíly stránky">
+      <a href="#rozhovory"><b>15</b> rozhovorů a vystoupení</a>
+      <a href="#autorske"><b>6</b> autorských textů</a>
+      <a href="#citace"><b>7</b> článků s citacemi</a>
+      <a href="#akce"><b>2</b> veřejné akce</a>
+      <a href="#nepotvrzene">nepotvrzené stopy</a>
+    </nav>
+    <p class="note">Data označená <span class="cca">cca</span> jsou odhad z metadat vyhledávače a mohou se o den či dva lišit. Jak seznam vznikl a co v něm chybí, stojí na konci stránky.</p>
+  </header>
+
+  <section class="block" id="rozhovory">
+    <h2>Rozhovory a vystoupení <span class="n">15</span></h2>
+    <ol class="entries">
+      <li class="entry">
+        <div class="date"><span class="cca">cca</span> 26.&nbsp;5.</div>
+        <div class="what">
+          <div class="src"><strong>Český rozhlas Plus</strong> · Interview Plus <span class="tag">rozhlas</span></div>
+          <p class="title"><a href="https://plus.rozhlas.cz/turecek-trump-hraje-karty-iranci-sachy-nikdo-uz-nemluvi-o-padu-rezimu-usa-resi-9619164" target="_blank" rel="noopener noreferrer">Tureček: Trump hraje karty, Íránci šachy. Nikdo už nemluví o pádu režimu, USA řeší jak vycouvat</a></p>
+          <div class="more"><a href="https://www.youtube.com/watch?v=N8nWFmLKDaM" target="_blank" rel="noopener noreferrer">video na YouTube</a></div>
+          <p class="remark">Vysíláno 25. nebo 26. května.</p>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date">22.&nbsp;6.</div>
+        <div class="what">
+          <div class="src"><strong>Český rozhlas Dvojka</strong> · Jak to vidí… <span class="tag">rozhlas</span></div>
+          <p class="title"><a href="https://dvojka.rozhlas.cz/analytik-turecek-ekonomicka-valka-jako-zbran-proti-silnejsimu-trump-pristoupil-9625257" target="_blank" rel="noopener noreferrer">Analytik Tureček: Ekonomická válka jako zbraň proti silnějšímu? Trump přistoupil na memorandum kvůli Hormuzu</a></p>
+          <div class="more"><a href="https://www.irozhlas.cz/zpravy-svet/analytik-ekonomicka-valka-jako-zbran-proti-silnejsimu-trump-pristoupil-na_2606222250_med" target="_blank" rel="noopener noreferrer">přepis na iROZHLAS</a></div>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date"><span class="cca">cca</span> 15.&nbsp;7.</div>
+        <div class="what">
+          <div class="src"><strong>Český rozhlas Radiožurnál</strong> · nejspíš Vinohradská 12 <span class="tag">podcast</span></div>
+          <p class="title"><a href="https://radiozurnal.rozhlas.cz/hormuz-je-pro-iran-strategictejsi-zbran-nez-jaderny-program-strazcem-mohla-byt-9630305" target="_blank" rel="noopener noreferrer">Hormuz je pro Írán strategičtější zbraň než jaderný program. Strážcem by mohla být Čína, míní expert</a></p>
+          <div class="more"><a href="https://www.youtube.com/watch?v=b-dUOSY2POw" target="_blank" rel="noopener noreferrer">video „Írán, lodě a Trumpova válka“</a></div>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date"><span class="cca">cca</span> 22.&nbsp;7.</div>
+        <div class="what">
+          <div class="src"><strong>Český rozhlas Plus</strong> · zřejmě Interview Plus <span class="tag">rozhlas</span></div>
+          <p class="title"><a href="https://plus.rozhlas.cz/hamas-uz-neovlada-celou-gazu-ale-vladne-bez-oponentu-a-daleko-brutalneji-nez-9631917" target="_blank" rel="noopener noreferrer">Hamás už neovládá celou Gazu, ale vládne bez oponentů a daleko brutálněji než dřív, popisuje Tureček</a></p>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date"><span class="cca">cca</span> 24.&nbsp;7.</div>
+        <div class="what">
+          <div class="src"><strong>Týdeník Květy</strong> · rozhovor <span class="tag">tisk</span></div>
+          <p class="title"><a href="https://www.kvety.cz/lide/bretislav-turecek-novinar-odbornik-blizky-vychod-neklidny-region-rozhovor/" target="_blank" rel="noopener noreferrer">Břetislav Tureček, odborník na region Blízkého východu: Zbytečně nestraším, ale ani nechlácholím</a></p>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date">12.&nbsp;8.</div>
+        <div class="what">
+          <div class="src"><strong>Český rozhlas Dvojka</strong> · Jak to vidí… <span class="tag">rozhlas</span></div>
+          <p class="title"><a href="https://dvojka.rozhlas.cz/analytik-bretislav-turecek-izrael-je-pripraven-plnit-mirovy-plan-netanjahu-ho-9636020" target="_blank" rel="noopener noreferrer">Analytik Břetislav Tureček: Izrael je připraven plnit mírový plán. Netanjahu ho navenek odmítá kvůli volbám</a></p>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date">27.&nbsp;8.</div>
+        <div class="what">
+          <div class="src"><strong>Čestmír Strakatý</strong> · 64 minut <span class="tag">podcast</span></div>
+          <p class="title"><a href="https://www.forendors.cz/p/979799885748508529/" target="_blank" rel="noopener noreferrer">Břetislav Tureček. Izrael, Írán a konflikty bez konce, evropské nepochopení a pokřivená debata, extremisté jako mainstream</a></p>
+          <div class="more"><a href="https://www.youtube.com/watch?v=HS6qeWMjZIY" target="_blank" rel="noopener noreferrer">verze na YouTube</a></div>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date"><span class="cca">cca</span> 10.&nbsp;9.</div>
+        <div class="what">
+          <div class="src"><strong>Startitup.sk</strong> · Za hranicou <span class="tag">video</span><span class="tag">SK</span></div>
+          <p class="title"><a href="https://www.startitup.sk/videa/europa-uvaluje-sankcie-na-izrael-hovori-odbornik-na-blizky-vychod-preco-nan-neplatia-rovnake-pravidla-ako-na-rusko/" target="_blank" rel="noopener noreferrer">„Európa uvaľuje sankcie na Izrael,“ hovorí odborník na Blízky východ. Prečo naň neplatia rovnaké pravidlá ako na Rusko?</a></p>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date">22.&nbsp;9.</div>
+        <div class="what">
+          <div class="src"><strong>Český rozhlas Dvojka</strong> · Jak to vidí… <span class="tag">rozhlas</span></div>
+          <p class="title"><a href="https://dvojka.rozhlas.cz/analytik-bretislav-turecek-izraelsti-politici-si-preji-etnickou-cistku-celkove-9644751" target="_blank" rel="noopener noreferrer">Analytik Břetislav Tureček: Izraelští politici si přejí etnickou čistku. Celkové vysídlení Palestinců je ale nereálné</a></p>
+          <div class="more"><a href="https://www.irozhlas.cz/zpravy-svet/analytik-turecek-izraelsti-politici-si-preji-etnickou-cistku-celkove-vysidleni_2609222126_ntu" target="_blank" rel="noopener noreferrer">přepis na iROZHLAS</a></div>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date">6.&nbsp;10.</div>
+        <div class="what">
+          <div class="src"><strong>iROZHLAS</strong> · rozhovor pro Radiožurnál <span class="tag">rozhlas</span></div>
+          <p class="title"><a href="https://www.irozhlas.cz/zpravy-svet/turecek-aliance-z-mekky-planuje-husie-vojensky-zcela-zlikvidovat-nechteji-na-ne_2610061517_aru" target="_blank" rel="noopener noreferrer">Tureček: Aliance z Mekky plánuje Húsie vojensky zcela zlikvidovat. Nechtějí na ně ale útočit v Jemenu</a></p>
+          <p class="remark">Pořad, ve kterém rozhovor zazněl, se nepodařilo určit.</p>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date"><span class="cca">cca</span> 12.&nbsp;10.</div>
+        <div class="what">
+          <div class="src"><strong>Pravda.sk</strong> · Pravda vo svete <span class="tag">video</span><span class="tag">SK</span></div>
+          <p class="title"><a href="https://www.pravda.sk/tv/pravda-vo-svete/epizoda/2057459-turecek-netanjahu-je-zabou-na-prameni-izrael-cakaju-volby-ktore-mozu-zmenit-smer-krajiny" target="_blank" rel="noopener noreferrer">Tureček: Netanjahu je žabou na prameni. Izrael čakajú voľby, ktoré môžu zmeniť smer krajiny</a></p>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date">14.&nbsp;10.</div>
+        <div class="what">
+          <div class="src"><strong>Český rozhlas</strong> · Vinohradská 12 <span class="tag">podcast</span></div>
+          <p class="title"><a href="https://www.irozhlas.cz/zpravy-svet/okopavaci-kotniku-nastroj-iranu-husiove-dostali-saudy-pod-tlak-a-americane-se_2610140600_med" target="_blank" rel="noopener noreferrer">Okopávači kotníků, nástroj Íránu. Húsíové dostali Saúdy pod tlak a Američané se bojí nové fronty</a></p>
+          <div class="more">
+            <a href="https://radiozurnal.rozhlas.cz/okopavaci-kotniku-nastroj-iranu-husiove-dostali-saudy-pod-tlak-a-americane-se-9649672" target="_blank" rel="noopener noreferrer">stránka Radiožurnálu</a>
+            <a href="https://www.youtube.com/watch?v=y9ABOL_IKqI" target="_blank" rel="noopener noreferrer">video „Kdo jsou Húsíové a za co bojují“</a>
+          </div>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date"><span class="cca">cca</span> 20.&nbsp;10.</div>
+        <div class="what">
+          <div class="src"><strong>ta3</strong> · studio <span class="tag">TV</span><span class="tag">SK</span></div>
+          <p class="title"><a href="https://www.ta3.com/relacia/1078033/izrael-stoji-pred-klucovymi-parlamentnymi-volbami-o-tom-ako-mozu-prekreslit-politicku-mapu-hovori-expert-turecek" target="_blank" rel="noopener noreferrer">Izrael stojí pred kľúčovými parlamentnými voľbami. O tom, ako môžu prekresliť politickú mapu, hovorí expert Tureček</a></p>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date">29.&nbsp;10.</div>
+        <div class="what">
+          <div class="src"><strong>STVR Rádio Slovensko</strong> · Z prvej ruky <span class="tag">rozhlas</span><span class="tag">SK</span></div>
+          <p class="title"><a href="https://www.stvr.sk/televizia/archiv/18783/627395" target="_blank" rel="noopener noreferrer">Izraelské voľby nepriniesli jasného víťaza</a></p>
+          <p class="remark">Druhým hostem byl arabista Attila Kovács.</p>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date">30.&nbsp;10.</div>
+        <div class="what">
+          <div class="src"><strong>Český rozhlas Dvojka</strong> · Jak to vidí… <span class="tag">rozhlas</span></div>
+          <p class="title"><a href="https://dvojka.rozhlas.cz/analytik-bretislav-turecek-netanjahu-je-mistrem-politickeho-prezivani-izraelske-9653347" target="_blank" rel="noopener noreferrer">Analytik Břetislav Tureček: Netanjahu je mistrem politického přežívání. Izraelské volby mu mohou znovu nahrát</a></p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="block" id="autorske">
+    <h2>Autorské texty <span class="n">6</span></h2>
+    <p class="lede">Autorský komentář k Blízkému východu v českých médiích (Novinky a Právo, Deník N, Seznam Zprávy) se v tomto období nenašel.</p>
+    <ol class="entries">
+      <li class="entry">
+        <div class="date"><span class="cca">cca</span> 24.&nbsp;6.</div>
+        <div class="what">
+          <div class="src"><strong>Obrana a strategie</strong> · číslo 1/2026, s. 139–159 <span class="tag">studie</span></div>
+          <p class="title"><a href="https://www.obranaastrategie.cz/filemanager/files/5132555-en.pdf" target="_blank" rel="noopener noreferrer">Iranian Foreign Policy: Ideological Roots and Strategic Implications</a></p>
+          <p class="remark">Recenzovaná studie, jediný autor. Datum odpovídá zveřejnění čísla.</p>
+        </div>
+      </li>
+    </ol>
+    <div class="series">
+      <h3>Léto na kolejích</h3>
+      <p>Železniční reportáže s vlastními fotografiemi pro Radio Prague International.</p>
+    </div>
+    <ol class="entries">
+      <li class="entry">
+        <div class="date">7.&nbsp;7.</div>
+        <div class="what">
+          <div class="src"><strong>Radio Prague International</strong> <span class="tag">reportáž</span></div>
+          <p class="title"><a href="https://cesky.radio.cz/osoblazka-uzkorozchodka-v-kouzelnem-kraji-ktery-si-navstevnik-skoro-musi-8891078" target="_blank" rel="noopener noreferrer">Osoblažka – úzkorozchodka v kouzelném kraji, který si návštěvník skoro musí zasloužit</a></p>
+          <div class="more">
+            <a href="https://english.radio.cz/osoblazka-a-narrow-gauge-railway-through-a-magical-corner-czechia-straight-out-a-8892323" target="_blank" rel="noopener noreferrer">anglicky</a>
+            <a href="https://francais.radio.cz/osoblazka-un-petit-train-au-charme-fou-dans-une-region-meconnue-de-tchequie-8891559" target="_blank" rel="noopener noreferrer">francouzsky</a>
+          </div>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date">21.&nbsp;7.</div>
+        <div class="what">
+          <div class="src"><strong>Radio Prague International</strong> <span class="tag">reportáž</span></div>
+          <p class="title"><a href="https://cesky.radio.cz/kde-konci-motoraky-jezdi-podel-vytrhanych-koleji-stary-autobus-8892547" target="_blank" rel="noopener noreferrer">Kde končí motoráky, jezdí podél vytrhaných kolejí starý autobus</a></p>
+          <div class="more">
+            <a href="https://francais.radio.cz/tortillard-et-autocar-depoque-sur-les-hauts-plateaux-de-boheme-centrale-8895137" target="_blank" rel="noopener noreferrer">francouzsky</a>
+            <a href="https://ruski.radio.cz/bilet-v-proshloe-kak-cheshskie-fanaty-spasli-gluhuyu-vetku-i-vernuli-v-stroy-8895673" target="_blank" rel="noopener noreferrer">rusky</a>
+          </div>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date">28.&nbsp;7.</div>
+        <div class="what">
+          <div class="src"><strong>Radio Prague International</strong> <span class="tag">reportáž</span></div>
+          <p class="title"><a href="https://cesky.radio.cz/pobytem-ve-vagonu-hoste-prispivaji-k-obnove-horskeho-nadrazi-kovarska-8893125" target="_blank" rel="noopener noreferrer">Pobytem ve vagónu hosté přispívají k obnově horského nádraží Kovářská</a></p>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date"><span class="cca">cca</span> 4.&nbsp;8.</div>
+        <div class="what">
+          <div class="src"><strong>Radio Prague International</strong> <span class="tag">reportáž</span></div>
+          <p class="title"><a href="https://cesky.radio.cz/na-konci-lednicke-lokalky-ceka-uchvatne-nadrazi-a-hlavne-svetove-prosluly-zamek-8893785" target="_blank" rel="noopener noreferrer">Na konci lednické lokálky čeká úchvatné nádraží. A hlavně světově proslulý zámek</a></p>
+          <div class="more">
+            <a href="https://espanol.radio.cz/el-viaje-en-tren-que-termina-en-una-de-las-joyas-mas-visitadas-de-chequia-8895123" target="_blank" rel="noopener noreferrer">španělsky</a>
+            <a href="https://ruski.radio.cz/v-konce-lednickoy-vetki-passazhirov-zhdet-voshititelnyy-vokzal-a-glavnoe-8895082" target="_blank" rel="noopener noreferrer">rusky</a>
+          </div>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date"><span class="cca">cca</span> 11.–18.&nbsp;8.</div>
+        <div class="what">
+          <div class="src"><strong>Radio Prague International</strong> <span class="tag">reportáž</span></div>
+          <p class="title"><a href="https://cesky.radio.cz/krasy-a-ztraty-krusnohorskeho-semmeringu-8894376" target="_blank" rel="noopener noreferrer">Krásy a ztráty krušnohorského Semmeringu</a></p>
+          <p class="remark">Díl patří do seriálu, Turečkův podpis u něj se ale nepodařilo potvrdit.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="block" id="citace">
+    <h2>Články, které ho citují <span class="n">7</span></h2>
+    <ol class="entries">
+      <li class="entry">
+        <div class="date"><span class="cca">cca</span> 1.&nbsp;6.</div>
+        <div class="what">
+          <div class="src"><strong>Deník N</strong> <span class="tag">web</span></div>
+          <p class="title"><a href="https://denikn.cz/2080650/trumpova-hra-s-iranem-zatim-nevychazi-kupuje-si-cas-ktery-nevyhovuje-izraeli" target="_blank" rel="noopener noreferrer">Trumpova hra s Íránem zatím nevychází. Kupuje si čas, který nevyhovuje Izraeli</a></p>
+          <div class="more"><a href="https://dennikn.sk/5367082/trumpovi-hra-s-iranom-zatial-nevychadza-kupuje-si-cas-ktory-nevyhovuje-izraelu/" target="_blank" rel="noopener noreferrer">slovenská verze</a></div>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date"><span class="cca">cca</span> 22.&nbsp;7.</div>
+        <div class="what">
+          <div class="src"><strong>Denník N</strong> <span class="tag">web</span><span class="tag">SK</span></div>
+          <p class="title"><a href="https://dennikn.sk/5466778/americkych-obeti-pribuda-a-trump-zvazuje-co-dalej-v-teherane-sa-uz-spomina-invazia-do-kuvajtu/" target="_blank" rel="noopener noreferrer">Amerických obetí pribúda a Trump zvažuje, čo ďalej. V Teheráne sa už spomína invázia do Kuvajtu</a></p>
+          <div class="more"><a href="https://dennikn.sk/minuta/5467039/" target="_blank" rel="noopener noreferrer">krátká zpráva s jeho výrokem</a></div>
+          <p class="remark">Analýza postavená převážně na jeho komentáři.</p>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date"><span class="cca">cca</span> 15.&nbsp;9.</div>
+        <div class="what">
+          <div class="src"><strong>ČT24</strong> <span class="tag">web</span></div>
+          <p class="title"><a href="https://ct24.ceskatelevize.cz/clanek/svet/saudi-resi-dilema-hutiove-maji-statisice-bojovniku-i-moderni-zbrane-377638" target="_blank" rel="noopener noreferrer">Saúdi řeší dilema. Hútíové mají statisíce bojovníků i moderní zbraně</a></p>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date">19.&nbsp;9.</div>
+        <div class="what">
+          <div class="src"><strong>iROZHLAS</strong> <span class="tag">web</span></div>
+          <p class="title"><a href="https://www.irozhlas.cz/zpravy-svet/otazky-a-odpovedi-pujde-netanjahu-do-vezeni-a-co-bude-s-gazou-o-co-se-hraje-v_2609190600_vdv" target="_blank" rel="noopener noreferrer">OTÁZKY A ODPOVĚDI: Půjde Netanjahu do vězení? A co bude s Gazou? O co se hraje v izraelských volbách</a></p>
+          <p class="remark">Přebírá jeho srpnové výroky z pořadu Jak to vidí…</p>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date"><span class="cca">cca</span> 11.&nbsp;10.</div>
+        <div class="what">
+          <div class="src"><strong>ČTK / České noviny</strong> <span class="tag">web</span></div>
+          <p class="title"><a href="https://www.ceskenoviny.cz/zpravy/nadrazi-v-kovarske-v-krusnych-horach-by-se-mohlo-pristi-rok-zcasti-otevrit/2886131" target="_blank" rel="noopener noreferrer">Nádraží v Kovářské v Krušných horách by se mohlo příští rok zčásti otevřít</a></p>
+          <p class="remark">Mimo Blízký východ. Zmiňuje ho jako člena spolku, z jehož sbírky vzniká expozice. Vyšlo nejdříve 16. září.</p>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date"><span class="cca">cca</span> 22.&nbsp;10.</div>
+        <div class="what">
+          <div class="src"><strong>Deník N</strong> <span class="tag">web</span></div>
+          <p class="title"><a href="https://denikn.cz/2229412/slysel-plakat-miminka-presto-naridil-utok-co-izraelsti-vojaci-prozrazuji-v-dokumentu-naza" target="_blank" rel="noopener noreferrer">Slyšel plakat miminka, přesto nařídil útok. Co izraelští vojáci prozrazují v dokumentu NAZA</a></p>
+          <div class="more"><a href="https://dennikn.sk/5638818/pocul-plakat-babatka-napriek-tomu-nariadil-utok-izraelski-vojaci-v-dokumente-naza-prehovorili-o-zabijani-v-gaze/" target="_blank" rel="noopener noreferrer">slovenská verze</a></div>
+          <p class="remark">Krátká citace.</p>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date"><span class="cca">cca</span> 29.&nbsp;10.</div>
+        <div class="what">
+          <div class="src"><strong>Pravda.sk</strong> <span class="tag">web</span><span class="tag">SK</span></div>
+          <p class="title"><a href="https://www.pravda.sk/spravy/svet/clanok/2069199-patova-situacia-po-volbach-rozhodnu-o-izraeli-arabske-strany" target="_blank" rel="noopener noreferrer">Patová situácia po voľbách. Rozhodnú o Izraeli arabské strany?</a></p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="block" id="akce">
+    <h2>Veřejné akce <span class="n">2</span></h2>
+    <ol class="entries">
+      <li class="entry">
+        <div class="date">23.&nbsp;9.</div>
+        <div class="what">
+          <div class="src"><strong>The World Ahead Česko</strong> · Praha <span class="tag">debata</span></div>
+          <p class="title"><a href="https://www.businessinfo.cz/akce/sance-a-nastrahy-roku-2027/" target="_blank" rel="noopener noreferrer">Šance a nástrahy roku 2027</a></p>
+          <p class="remark">Jeho účast dokládá jen příspěvek organizátorů na LinkedInu. Záznam se nenašel.</p>
+        </div>
+      </li>
+      <li class="entry">
+        <div class="date">8.&nbsp;10.</div>
+        <div class="what">
+          <div class="src"><strong>Bystřická univerzita třetího věku</strong> · Bystřice nad Pernštejnem <span class="tag">přednáška</span></div>
+          <p class="title"><a href="https://www.bystricenp.cz/bystricky-univerzita-tretiho-veku" target="_blank" rel="noopener noreferrer">Za oponou muslimské společnosti</a></p>
+          <p class="remark">Jde o oznámení v programu, ne o záznam.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="block" id="nepotvrzene">
+    <h2>Nepotvrzené stopy</h2>
+    <ul class="leads">
+      <li><strong>Pravda.sk.</strong> Komentář z počátku listopadu <a href="https://www.pravda.sk/nazory/komentare/clanok/2071111-izrael-volby-netanjahu-ben-gvir-donald-trump-steve-witkoff-becalel-smotric" target="_blank" rel="noopener noreferrer">Izrael po voľbách: vláda zostáva, väčšina sa hľadá</a> má pasáž o Turečkovi, jeho role v textu ale není jasná. U článku z 27. října <a href="https://www.pravda.sk/spravy/svet/clanok/2067715-netanjahu-sa-boji-porazky-izraelske-volby-mozno-vyhra-oblubeny-general" target="_blank" rel="noopener noreferrer">Netanjahu sa bojí porážky. Izraelské voľby možno vyhrá obľúbený generál</a> dokládá citaci jen jeden souhrn vyhledávání.</li>
+      <li><strong>iROZHLAS, 26. října.</strong> U přehledu <a href="https://www.irozhlas.cz/zpravy-svet/izrael-volby-kandidati-netanjahu_2610261200_ula" target="_blank" rel="noopener noreferrer">Kdo kandiduje do izraelského Knesetu?</a> se citaci nepodařilo potvrdit.</li>
+      <li><strong>Podcast 5:59 (Seznam Zprávy).</strong> Kolem 23. října možná vyšla epizoda o izraelských volbách s jeho účastí. Cílené hledání ji nenašlo.</li>
+      <li><strong>ČT24.</strong> Jeho tematická stránka má údajně položku z doby kolem 26. srpna, kterou se nepodařilo identifikovat.</li>
+      <li><strong>Živá televizní vystoupení.</strong> Vstupy na ČT24 a CNN Prima NEWS nezanechávají textovou stopu. Na webech obou stanic se kromě článku z 15. září nic z tohoto období nenašlo.</li>
+      <li><strong>Neprohledané weby.</strong> iDNES, Lidovky, Aktuality.sk a HNonline.sk nejdou použitým vyhledávačem prohledat vůbec.</li>
+    </ul>
+  </section>
+
+  <section class="block" id="postup">
+    <h2>Jak seznam vznikl</h2>
+    <p class="method">Seznam vznikl z výsledků webového vyhledávání ve třech kolech: hledání po jednotlivých médiích a časových úsecích, nezávislé ověření data a Turečkovy role u každé položky a dohledání mezer.</p>
+    <p class="method">Stránky se nepodařilo otevřít napřímo. Data proto pocházejí z metadat vyhledávače a z kódů v adresách článků, například u iROZHLAS. U položek s označením cca se datum může o den či dva lišit.</p>
+  </section>
+
+  <p class="colophon">Stav k 11. 11. 2026. Odkazy vedou na původní zdroje.</p>
+
+</div>
+</body>
+</html>
