@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sedmnáctý listopad: návod k použití (sedm verzí)</title>
+<meta name="description" content="Jedno datum, mnoho příběhů. O tom, co dnes Češi v listopadu 1989 vidí a proč se v tom neshodnou.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff;
+  --bg-alt: #f1f1ee;
+  --fg: #0c0c0c;
+  --muted: #5c5c58;
+  --rule: #0c0c0c;
+  --hair: #d4d4cf;
+  --accent: #e8310f;
+  --accent-ink: #ffffff;
+  --head: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --text: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d0d0d;
+    --bg-alt: #181816;
+    --fg: #ededea;
+    --muted: #a3a39d;
+    --rule: #ededea;
+    --hair: #34342f;
+    --accent: #ff5a3a;
+    --accent-ink: #0d0d0d;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: var(--text); font-size: 1.1875rem; line-height: 1.68;
+  -webkit-text-size-adjust: 100%; text-rendering: optimizeLegibility;
+  font-feature-settings: "kern", "liga", "onum";
+}
+a { color: inherit; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { background: var(--accent); color: var(--accent-ink); text-decoration: none; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+#progress { position: fixed; inset: 0 0 auto 0; height: 4px; z-index: 50; background: transparent; }
+#progress i { display: block; height: 100%; width: 0; background: var(--accent); }
+
+/* ---------- hero ---------- */
+.hero { border-bottom: 6px solid var(--rule); position: relative; overflow: hidden; }
+.hero-in { max-width: 76rem; margin: 0 auto; padding: 2.2rem 1rem 0; position: relative; }
+.bar {
+  display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  font: 500 .72rem/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase;
+  border-bottom: 1px solid var(--rule); padding-bottom: .7rem;
+}
+.bar .dot { color: var(--accent); }
+.ghost {
+  position: absolute; right: -.04em; top: 3.2rem; z-index: 0; pointer-events: none; user-select: none;
+  font: 900 clamp(9rem, 34vw, 27rem)/.8 var(--head); font-stretch: 62%; letter-spacing: -.04em;
+  color: transparent; -webkit-text-stroke: 2px var(--hair); white-space: nowrap;
+}
+h1 { position: relative; z-index: 1; margin: clamp(2.6rem, 6vw, 4.5rem) 0 0; font-family: var(--head); font-weight: 900; text-transform: uppercase; line-height: .9; letter-spacing: -.025em; }
+h1 .t1 { display: block; font-size: clamp(2.6rem, 10.5vw, 6.6rem); font-stretch: 100%; }
+h1 .t2 { display: block; font-size: clamp(2.6rem, 10.5vw, 6.6rem); font-stretch: 100%; color: var(--accent); }
+h1 .t3 { display: inline-block; margin-top: 1.4rem; font: 700 clamp(.8rem, 2.2vw, 1.05rem)/1 var(--mono); letter-spacing: .04em; text-transform: none; background: var(--fg); color: var(--bg); padding: .45rem .7rem; }
+.lede { position: relative; z-index: 1; max-width: 40rem; margin: 2.4rem 0 0; font: 400 clamp(1.25rem, 3.4vw, 1.7rem)/1.4 var(--text); font-style: italic; }
+.epis { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr; margin-top: 3rem; border-top: 1px solid var(--rule); }
+.epi { margin: 0; padding: 1.3rem 0 1.5rem; border-bottom: 1px solid var(--hair); }
+.epi blockquote { margin: 0; font-style: italic; font-size: 1.12rem; line-height: 1.45; }
+.epi figcaption { margin-top: .8rem; font: 400 .72rem/1.5 var(--mono); color: var(--muted); }
+.epi figcaption em { font-style: italic; }
+.epi:last-child { border-bottom: 0; }
+
+/* ---------- rozložení ---------- */
+.wrap { max-width: 76rem; margin: 0 auto; padding: 0 1rem; }
+.toc { position: sticky; top: 0; z-index: 40; background: var(--bg); border-bottom: 1px solid var(--rule); margin: 0 -1rem; padding: 0 1rem; }
+.toc ol { list-style: none; margin: 0; padding: .55rem 0; display: flex; gap: .4rem; overflow-x: auto; scrollbar-width: none; }
+.toc ol::-webkit-scrollbar { display: none; }
+.toc a { display: flex; align-items: center; justify-content: center; min-width: 2.4rem; height: 2.4rem; padding: 0 .55rem; border: 1px solid var(--rule); text-decoration: none; font: 700 .9rem/1 var(--mono); background: var(--bg); }
+.toc a span { display: none; }
+.toc a:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.toc a.on { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.toc a:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+article { min-width: 0; }
+
+/* ---------- sekce ---------- */
+.sec { padding: 3.5rem 0 1rem; }
+.sec + .sec { border-top: 1px solid var(--hair); }
+.intro { padding-top: 3rem; }
+.intro .prose { font-size: 1.06em; }
+.sec-head { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.8rem; }
+.num { font: 900 clamp(4.5rem, 20vw, 8rem)/.78 var(--head); letter-spacing: -.05em; color: var(--accent); flex: none; }
+.label { margin: 0 0 .6rem; font: 500 .74rem/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+h2 { margin: 0; font-family: var(--head); font-weight: 800; line-height: 1.02; letter-spacing: -.02em; }
+h2 .main { display: block; font-size: clamp(1.9rem, 6.4vw, 3.3rem); text-transform: uppercase; overflow-wrap: anywhere; hyphens: auto; }
+h2 .sub { display: block; margin-top: .55rem; font-size: clamp(1.05rem, 3vw, 1.4rem); font-weight: 500; letter-spacing: -.005em; line-height: 1.25; color: var(--muted); }
+.sec-end .sec-head { border-left: 8px solid var(--accent); padding-left: 1rem; }
+
+.prose { max-width: 39rem; }
+.prose p { margin: 0 0 1.15em; hyphens: auto; -webkit-hyphens: auto; }
+.prose > p:first-child::first-line { font-weight: 600; }
+.prose em { font-style: italic; }
+
+blockquote.pull { margin: 2.2rem 0 1.3rem; padding: 1.1rem 0 0; border-top: 8px solid var(--accent); }
+blockquote.pull p { margin: 0; font: 600 clamp(1.15rem, 3.2vw, 1.45rem)/1.35 var(--head); font-style: normal; letter-spacing: -.005em; hyphens: manual; }
+blockquote.pull p em { font-style: normal; }
+blockquote.pull + blockquote.pull { margin-top: 1.3rem; border-top-width: 2px; }
+p.cite { margin: -.3rem 0 2rem; font: 400 .76rem/1.6 var(--mono); color: var(--muted); hyphens: manual; }
+
+/* ---------- zdroje ---------- */
+.sources { margin: 4rem 0 0; padding: 2.2rem 0 3rem; border-top: 6px solid var(--rule); }
+.sources .label { color: var(--fg); }
+.sources ul { list-style: none; margin: 1rem 0 0; padding: 0; max-width: 52rem; font-size: .92rem; line-height: 1.6; }
+.sources li { padding: .7rem 0; border-top: 1px solid var(--hair); overflow-wrap: anywhere; }
+.sources .note { max-width: 40rem; margin: 1.8rem 0 0; font-size: .95rem; font-style: italic; color: var(--muted); }
+.colophon { margin: 2.4rem 0 0; font: 400 .72rem/1.5 var(--mono); color: var(--muted); letter-spacing: .04em; }
+
+/* ---------- široký displej ---------- */
+@media (min-width: 640px) {
+  .hero-in, .wrap { padding-left: 1.6rem; padding-right: 1.6rem; }
+  .toc { margin: 0 -1.6rem; padding: 0 1.6rem; }
+  body { font-size: 1.25rem; }
+}
+@media (min-width: 860px) {
+  .epis { grid-template-columns: repeat(3, 1fr); }
+  .epi { padding: 1.4rem 1.6rem 1.7rem 0; border-bottom: 0; }
+  .epi + .epi { padding-left: 1.6rem; border-left: 1px solid var(--hair); }
+}
+@media (min-width: 1020px) {
+  .wrap { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: 3.5rem; }
+  .toc { position: sticky; top: 1.2rem; align-self: start; margin: 3.5rem 0 0; padding: 0; border: 0; background: none; z-index: 1; }
+  .toc ol { flex-direction: column; gap: 0; overflow: visible; padding: 0; border-top: 6px solid var(--rule); }
+  .toc a { justify-content: flex-start; gap: .8rem; width: 100%; height: auto; min-height: 2.5rem; padding: .55rem .2rem; border: 0; border-bottom: 1px solid var(--hair); background: none; font-weight: 400; font-size: .74rem; line-height: 1.3; letter-spacing: .02em; }
+  .toc a b { flex: none; width: 1.6rem; font-weight: 700; font-size: .95rem; color: var(--accent); }
+  .toc a span { display: block; }
+  .toc a:hover { background: var(--accent); color: var(--accent-ink); }
+  .toc a:hover b { color: var(--accent-ink); }
+  .toc a.on { background: none; color: var(--fg); font-weight: 700; box-shadow: inset 4px 0 0 var(--accent); padding-left: .7rem; }
+  .ghost { top: 2.4rem; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media print {
+  :root { --bg: #fff; --fg: #000; --muted: #444; --hair: #bbb; --accent: #000; --accent-ink: #fff; }
+  #progress, .toc, .ghost { display: none; }
+  .wrap { display: block; }
+  .sec { break-inside: auto; }
+  a { text-decoration: none; }
+  .sources a::after { content: " (" attr(href) ")"; font: 400 .7rem var(--mono); }
+}
+</style>
+</head>
+<body>
+<div id="progress" aria-hidden="true"><i></i></div>
+
+<header class="hero">
+  <div class="hero-in">
+    <div class="bar"><span><span class="dot">●</span> Rubrika: analýza</span><span>7 výkladů · 1 datum</span></div>
+    <div class="ghost" aria-hidden="true">17.11.</div>
+    <h1><span class="t1">Sedmnáctý listopad:</span> <span class="t2">návod k použití</span> <span class="t3">(sedm verzí)</span></h1>
+    <p class="lede">Jedno datum, mnoho příběhů. O tom, co dnes Češi v listopadu 1989 vidí a proč se v tom neshodnou.</p>
+    <div class="epis">
+<figure class="epi"><blockquote>„Ideály náměstí byly slušnost, férovost a socialismus.“</blockquote><figcaption>— historik James Krapfl o listopadu 1989 (<em>Revoluce s lidskou tváří</em>, 2013)</figcaption></figure>
+<figure class="epi"><blockquote>„Dědic, který přišel o majetek, hlídá závěť pečlivěji než dřív.“</blockquote><figcaption>— o dnešní opozici, z prvního výkladu níže</figcaption></figure>
+<figure class="epi"><blockquote>„Upínat se k tradiční parlamentní demokracii jako k politickému ideálu … bylo by přinejmenším krátkozraké.“</blockquote><figcaption>— Václav Havel, <em>Moc bezmocných</em>, 1978 (celý citát v šestém výkladu)</figcaption></figure>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Obsah">
+    <ol>
+<li><a href="#v0" data-id="v0" aria-label="Nultý výklad: Co se stalo, než se to začalo vykládat"><b>0</b><span>Co se stalo, než se to začalo vykládat</span></a></li>
+<li><a href="#v1" data-id="v1" aria-label="První výklad: Dědicové"><b>1</b><span>Dědicové</span></a></li>
+<li><a href="#v2" data-id="v2" aria-label="Druhý výklad: Strážci"><b>2</b><span>Strážci</span></a></li>
+<li><a href="#v3" data-id="v3" aria-label="Třetí výklad: Poražení"><b>3</b><span>Poražení</span></a></li>
+<li><a href="#v4" data-id="v4" aria-label="Čtvrtý výklad: Emanuel Mandler"><b>4</b><span>Emanuel Mandler</span></a></li>
+<li><a href="#v5" data-id="v5" aria-label="Pátý výklad: Cizí režie"><b>5</b><span>Cizí režie</span></a></li>
+<li><a href="#v6" data-id="v6" aria-label="Šestý výklad: Ukradený listopad"><b>6</b><span>Ukradený listopad</span></a></li>
+<li><a href="#v7" data-id="v7" aria-label="Sedmý výklad: Listopad mimo Prahu"><b>7</b><span>Listopad mimo Prahu</span></a></li>
+<li><a href="#zaver" data-id="zaver" aria-label="Závěr: Jedno slovo, které mají všichni společné"><b>Z</b><span>Jedno slovo, které mají všichni společné</span></a></li>
+    </ol>
+  </nav>
+
+  <article>
+    <section class="sec intro" aria-label="Úvod">
+      <div class="prose">
+<p>Na Národní třídě se 17. listopadu 2025 pískalo skoro na každého. Na Andreje Babiše se křičelo „Hanba“ a „StB“, na prezidenta Petra Pavla „Soudruhu“, na Filipa Turka ještě hlasitěji. Tomio Okamura, čerstvý předseda Sněmovny, na Národní vůbec nešel a položil květiny u Hlávkovy koleje, k obětem roku 1939. Václav Klaus už dva roky předtím oznámil, že svátek neslaví, protože „symboly 17. listopadu, jako je Národní třída, nám byly ukradeny“. Letos přibyl spor o peníze: ministerstvo kultury nedalo Korzu Národní grant, protože výročí není kulaté, a lidé se na oslavu složili sami – přes devět milionů korun.</p>
+<p>Není to známka toho, že by Češi na listopad 1989 zapomněli. Spíš si jej pamatují až příliš dobře – každý jinak. Výročí fungují jako zrcadlo: společnost se do nich dívá, aby si potvrdila, kým je. A když se v jednom zrcadle uvidí několik různých národů, začnou se hádat o to, komu zrcadlo patří.</p>
+<p>Tento text nerozhoduje, kdo má pravdu. Klade vedle sebe hlavní výklady, které jsou dnes ve hře, a u každého říká, kdo jej drží, z čeho vyrůstá a co jeho nositelům dává. Vybrat si musí čtenář.</p>
+      </div>
+    </section>
+
+<section id="v0" class="sec">
+  <header class="sec-head"><span class="num" aria-hidden="true">0</span><div><p class="label">Nultý výklad</p><h2><span class="main">Co se stalo, než se to začalo vykládat</span></h2></div></header>
+  <div class="prose">
+<p>Pár faktů, na nichž se shodnou téměř všichni. Demonstrace 17. listopadu byla povolená: k padesátému výročí zavření vysokých škol ji svolal Socialistický svaz mládeže spolu s nezávislými studenty. Na Albertově se sešlo kolem patnácti tisíc lidí, průvod došel na Vyšehrad a odtud – už bez povolení – nábřežím na Národní třídu. Tam jej kolem půl osmé zastavil kordon a za pár minut se zavřel i zezadu. Mezi řadami policistů, včetně protiteroristického útvaru, zůstalo uvězněno kolem deseti tisíc lidí. Odejít se dalo jen takzvanými propustěmi: úzkými uličkami mezi obušky. Vyšetřovací komise později napočítala 568 zraněných a konstatovala, že zásah nebyl předem naplánován.</p>
+<p>Stojí za to říct to jasně: lidé na Národní nešli umírat za demokracii. Šli na povolenou vzpomínkovou akci, pak do centra, a nakonec chtěli hlavně domů. Hrdiny z nich udělal ten, kdo je zbil. Václav Havel byl ten večer na Hrádečku; Občanské fórum vzniklo až v neděli 19. listopadu v Činoherním klubu. ÚSTR má pro to výraz „revoluce bez revolucionářů“ a Petr Pithart to řekl ještě prostěji: „Na nic jsme nebyli připraveni, vskutku amatéři.“</p>
+<p>Co následovalo, je známé: generální stávka 27. listopadu, zrušení vedoucí úlohy strany, jednání Občanského fóra s Adamcovou vládou, 10. prosince Čalfova vláda národního porozumění a 29. prosince jednomyslná volba Havla prezidentem – parlamentem zvoleným ještě za komunistů. V pořadí těchto dnů se rodí většina sporů.</p>
+  </div>
+</section>
+<section id="v1" class="sec">
+  <header class="sec-head"><span class="num" aria-hidden="true">1</span><div><p class="label">První výklad</p><h2><span class="main">Dědicové</span><span class="sub">listopad jako začátek kapitalismu</span></h2></div></header>
+  <div class="prose">
+<p>Nejhlasitěji se k odkazu hlásí Občanská demokratická strana, která vzešla z Občanského fóra a chápe se jako jeho politický dědic. Petr Fiala to v roce 2019 řekl bez obalu: „Demokracie a svoboda, návrat na Západ a kapitalismus jsou jeho hodnoty, které chceme hájit.“ Alexandr Vondra tehdy dodal, že „vládne nám estébák a jeho tisk“. V tomto výkladu je 17. listopad dnem, kdy se země vrátila tam, kam patří; kdo zpochybňuje trh, NATO nebo Evropskou unii, zpochybňuje i listopad.</p>
+<p>Jenže dědictví má dva správce, kteří spolu nemluví. Václav Klaus, zakladatel ODS, zveřejnil 17. listopadu 2025 text nazvaný „Zabraňme úplnému vynulování základních myšlenek listopadu 1989“. Ty myšlenky jsou podle něj tři: zásadní změna systému, ne reforma komunismu („nechceme žádnou perestrojku komunismu, protože chceme kapitalismus“); trh bez přívlastků; a parlamentní systém politických stran, v němž Občanské fórum bylo jen přechodným stupněm. Občanská společnost neziskovek do jeho listopadu nepatří. Kdo myšlenky „vynulovává“? Progresivismus, Brusel – a také Fialova vláda, která podle Klause v roce 2023 „obsadila“ Národní třídu bez nároku. Klaus odmítá i hrdinský příběh: „Komunismus neporazili ani naši studenti, ani naši disidenti, zhroutil se.“</p>
+<p>Psychologicky jde o klasický spor o dědictví: obě strany tvrdí, že mají původní závěť, a bojují o to, kdo ji smí vykládat. A protože ODS po volbách 2025 sedí v opozici, získal její listopad novou naléhavost: Fiala šel loni na Národní „spíše s obavami“ a mluvil o tom, že do čela vlády míří „bývalý komunista a spolupracovník StB“. Dědic, který přišel o majetek, hlídá závěť pečlivěji než dřív.</p>
+  </div>
+</section>
+<section id="v2" class="sec">
+  <header class="sec-head"><span class="num" aria-hidden="true">2</span><div><p class="label">Druhý výklad</p><h2><span class="main">Strážci</span><span class="sub">listopad jako mravní závazek</span></h2></div></header>
+  <div class="prose">
+<p>Druhý výklad se od prvního liší v tom, co bylo tím hlavním. Ne trh, ale slušnost; ne strany, ale občané. Je to listopad Václava Havla a „pravdy a lásky“, který dnes žije v Milionu chvilek, ve STAN, u části Pirátů i v liberálních médiích. Vít Rakušan jej v roce 2023 shrnul větou skoro učebnicovou: „Ti lidé, kteří tady křičí, že není svoboda, tak to je důkaz toho, že ta svoboda právě že je.“ Okamurovu neúčast na Národní označil loni za „ostudu“ a opakovaně varuje, že zemi nesmíme vydat populistům a extremistům.</p>
+<p>Tady se objevuje napětí, které si strážci neradi připouštějí. Jejich dnešní zásada zní: s těmi, kdo ohrožují demokracii, se nevyjednává. Jenže sám listopad 1989 byl právě triumfem vyjednávání s mocí, kterou by tito “strážci” považovali za zlo. Občanské fórum sedělo s Adamcem, pak s Čalfou; Michael Kocáb a Michal Horáček jednali přes iniciativu Most s Adamcovým poradcem Oskarem Krejčím už od srpna. Krejčí, bývalý komunista, dodnes říká, že za samet vděčíme hlavně ochotě jednat na obou stranách, a připomíná, že nad Letnou „by stačil přelet stíhačky“. Patnáctého prosince se Havel sešel mezi čtyřma očima s komunistickým premiérem Čalfou; ten slíbil prosadit jeho volbu a za dva týdny komunističtí poslanci zvolili Havla jednomyslně. Byla to politická dohoda s „nepřítelem“ – a fungovala.</p>
+<p>Pro jedny důkaz, že listopad vyhrála trpělivost a rozum; pro jiné, jak uvidíme, prvotní hřích polistopadového režimu. Strážci z toho vyvozují hlavně jedno: svoboda je křehká a je třeba ji bránit. Je to postoj, který dává smysl těm, kdo mají co ztratit. Těm, kdo mají pocit, že toho mnoho nezískali, zní jako poučování.</p>
+  </div>
+</section>
+<section id="v3" class="sec">
+  <header class="sec-head"><span class="num" aria-hidden="true">3</span><div><p class="label">Třetí výklad</p><h2><span class="main">Poražení</span><span class="sub">listopad jako chyba a předání</span></h2></div></header>
+  <div class="prose">
+<p>Komunisté mají s výročím potíž, kterou nelze vyřešit jedním stanoviskem, a tak jich mají několik. KSČM k třicátému výročí uspořádala výstavu „30 let od revoluce bez růžových brýlí“ – méně pivovarů, chátrající JZD, bezdomovci – a Vojtěch Filip mluvil o „kapitalistickém peklu“. Ve stranickém časopise Alternativy je obraz jemnější. Jiří Dolejš odmítá spiklenecký výklad: „Nešlo o pouhý převrat, o výměnu elit v rámci nějakého politického spiknutí proti režimu,“ a dodává, že „transformace společnosti po roce 1989 se stala promarněnou příležitostí“. Jiří Boháček tamtéž napsal, že vedení KSČ „ochotně předalo moc ve státě svým oponentům“.</p>
+<p>Starý aparát má výklad tvrdší. Miloš Jakeš v roce 2018 prohlásil, že 17. listopad zorganizovala Státní bezpečnost s částí ústředního výboru, aby vyměnila vedení strany: „Chtěli změnit svým činem vedení strany, a zatím otevírali cestu k likvidaci socialismu.“ Krejčí shrnuje: „Neprohráli jsme to 17. listopadu ani 20. listopadu“ – prohráno bylo dávno předtím – a pád socialismu dodnes považuje za chybu.</p>
+<p>Všechny komunistické verze spojuje jedno: 17. listopad v nich není začátek, ale konec – zlom, po němž následovala ztráta jistot, práce a sociálního smíru. Liší se v tom, kdo za to může: kapitalismus, vlastní vedení, nebo spiknutí. Historik Oldřich Tůma k poslední variantě poznamenal: „Je to jednodušší než si říct, že je už nikdo nechtěl.“ Porážka bez viníka je psychologicky nejhůř snesitelná ze všech.</p>
+  </div>
+</section>
+<section id="v4" class="sec">
+  <header class="sec-head"><span class="num" aria-hidden="true">4</span><div><p class="label">Čtvrtý výklad</p><h2><span class="main">Emanuel Mandler</span><span class="sub">listopad jako promarněný převrat</span></h2></div></header>
+  <div class="prose">
+<p>Existuje i výklad, který nesedí do žádné škatulky. Jeho autorem je historik a publicista Emanuel Mandler (1932–2009), zakladatel časopisu Tvář a v roce 1987 spoluzakladatel Demokratické iniciativy – první nezávislé skupiny po Chartě 77, která se otevřeně prohlásila za politickou. Své vidění shrnul v knihách <em>Škodolibé úsměvy svobody z let 1955 až 1992</em> a <em>Oba moji prezidenti: Václav Havel – Václav Klaus</em> (Libri, 2004), odkud jsou následující citáty.</p>
+<p>Mandler zásadně nepíše „revoluce“, ale „převrat“. Režim podle něj nepadl zásluhou disentu: „Československý totalitní systém skončil v důsledku rozpadu sovětského impéria“ (s. 86). Disent, v jehož čele stála Charta 77, popisuje jako „sdružení poražených, po odvetě toužících reformně komunistických funkcionářů s občanskými demokratickými aktivisty, jichž bylo na počátku poskrovnu, a s undergroundem“ (s. 55–56). Z této směsi podle něj vyrostla Havlova „nepolitická politika“: morálka místo politiky, hnutí místo stran a hluboké přesvědčení, že Havlův „zelinář“ ke svobodě ještě nedorostl.</p>
+<p>Hlavní výtka míří na prosinec 1989. Demokratická iniciativa, která o registraci jako strana požádala už 11. listopadu, chtěla odstoupení vlády a rychlé volby. Charta naproti tomu „se s komunisty posléze Čalfovým prostřednictvím spojila k předání moci; za dodržené přísliby odpuštění, popřípadě privilegií zvolil komunistický parlament Václava Havla prezidentem“ (s. 71). Nové strany Občanské fórum zavřelo do „politické komise“ a Havel Mandlerovu kolegovi řekl: „Nedostanete ani jedinou funkcičku“ (s. 71). Výsledek shrnuje s hořkou ironií:</p>
+<blockquote class="pull"><p>„Převrat proběhl tak sametově, že pro jistotu nikdo nevystřelil ani ze vzduchovky.“ (s. 85) „V listopadu 1989 jsme toho tedy příliš nenabojovali…“ (s. 74)</p></blockquote>
+<p>Mandler přitom není klausovec. Klausovi přiznává, že „smetl z kolbiště ‚nepoliticky politické‘ Občanské fórum“ a vytvořil stranický systém (s. 22), ale ODS podle něj zdědila mentalitu hnutí, které chce vyhovět všem, a odtud odvozuje i dnešní „populismus“ (s. 174). Jeho listopad je příběh promarněné šance: ne proto, že by se dělo něco zlého, ale proto, že se nedělo nic politického. Od moralistů z Charty po pragmatiky z ODS vidí jednu linii – neochotu vyrovnat se s minulostí jinak než jejím přijetím.</p>
+<p>Je to výklad člověka, který byl u toho a byl odstrčen; čtenář to musí vzít v úvahu. Je to ale také výklad, který kritizuje Havla i Klause zároveň – a tím mimoděk vysvětluje, proč jsou si dnešní „dědicové a strážci“ obou táborů tak podobní.</p>
+  </div>
+</section>
+<section id="v5" class="sec">
+  <header class="sec-head"><span class="num" aria-hidden="true">5</span><div><p class="label">Pátý výklad</p><h2><span class="main">Cizí režie</span><span class="sub">listopad jako operace</span></h2></div></header>
+  <div class="prose">
+<p>Na okraji debaty, ale s překvapivým dosahem, žije výklad, podle něhož 17. listopad nebyl ani revoluce, ani převrat, ale operace. Zakladatelský text napsal v roce 1990 bývalý politický vězeň Miroslav Dolejší: v „Analýze 17. listopadu“ tvrdil, že moc byla po dohodě tajných služeb předána vybrané opozici. V roce 2019 na něj navázala kniha <em>Převrat: Pravda, fámy a lži o 17. listopadu</em>, kterou sestavil Olin Jurman s kolektivem, v němž jsou mimo jiné Rudolf Hegenbart, Miloš Jakeš, Lubomír Štrougal, Oskar Krejčí, Ludvík Zifčák a korespondenčně Miloš Zeman. Anotace klade otázku, zda šlo o „spontánní výbuch zlosti národa nad nepodařeným socialistickým vývojem země“, nebo o „zákulisní hru tajných služeb z východu i západu“. Uvnitř se cituje šéf StB Alojz Lorenc, podle něhož „nic nezačalo na ulicích Prahy 17. listopadu 1989“, připomíná se, že právě ten den podepisoval v Praze generál KGB Viktor Gruško s Lorencem protokol, a líčí se srpnová večeře Hegenbarta a Lorence s americkým velvyslancem v hotelu Paříž. Zásah na Národní je v knize připravená past, jejíž „režie se zvrhla v paskvil“, když vznikla Občanská fóra.</p>
+<p>Kniha je ovšem méně jednoznačná, než se zdá: sama označuje „světlou“ i „temnou“ legendu za mýty a jejich spor za „bezhodnotovou bramboračku“ a Zifčák v ní říká, že „ta situace nebyla revoluční“ a že to „rozhodně nebyla CIA“.</p>
+<p>Má i populárnější mluvčí. Ivan Mládek v rozhovoru pro DVTV (2017), který alternativní weby dodnes šíří, prohlásil, že „revoluce v Československu 89 byla Gorbačovova záležitost, iniciovaná KGB a StB“, že Havel „byl guru revizionistických komunistů“ a že představa, že revoluci udělali studenti a Charta, je „volovina“. Andrej Babiš na nahrávce zveřejněné v roce 2017 vyprávěl: „Havla zvolili vlastně ještě komunisti… Nezrušíte komunistickou stranu, my zvolíme Havla.“</p>
+<p>Historici tyto verze odmítají: parlamentní komise označila zásah za neplánovaný a Zifčákovu roli za okrajovou a Tůma připomíná, že po spiknutí by za třicet let zbyly stopy. Proč tedy výklad přežívá? Jádra pravdy existují: StB měla plány na infiltraci opozice, Gruško v Praze skutečně byl, Zifčák na Národní skutečně ležel a Havla skutečně zvolil komunistický parlament. A je tu potřeba, kterou psychologové znají dobře: velké události vyžadují velké příčiny. Že by režim, který nás čtyřicet let hlídal, prostě odešel, protože ho už nikdo nechtěl, je pro mnoho lidí hůř uvěřitelné než spiknutí.</p>
+  </div>
+</section>
+<section id="v6" class="sec">
+  <header class="sec-head"><span class="num" aria-hidden="true">6</span><div><p class="label">Šestý výklad</p><h2><span class="main">Ukradený listopad</span><span class="sub">co lidé v roce 1989 vlastně chtěli</span></h2></div></header>
+  <div class="prose">
+<p>Šestý výklad přichází z archivů a z části levicové akademie a pro dnešní oficiální příběh je nejnepohodlnější. V listopadu a prosinci 1989 se Ústav pro výzkum veřejného mínění ptal, jakou cestou se má země ubírat. Ve dnech 23.–24. listopadu odpovědělo 45 procent dotázaných „socialistickou“, 47 procent „něco mezi socialismem a kapitalismem“ a 3 procenta „kapitalistickou“. V prosinci to bylo 41, 52 a znovu 3 procenta. Téhož roku 68 procent lidí nesouhlasilo s privatizací výrobních podniků. Historik Michal Pullmann to shrnul: „Lidé byli na počátku nadšení, ale ne pro kapitalismus.“ Historik James Krapfl v knize <em>Revoluce s lidskou tváří</em> dovozuje, že ideály náměstí byly slušnost, férovost a socialismus; filozof Michael Hauser připomíná dobové heslo „Nechceme socialismus odstranit, ale chceme odstranit vše, co mu brání“.</p>
+<p>Jak se tedy stalo, že do roka zvítězil kapitalismus, který chtěla tři procenta? Slovo „socialismus“ se zdiskreditovalo rychleji než věci, které pod ním lidé chtěli. Pro většinu nebyl hlavní systém, ale životní úroveň (Rakousko), a tu nabízel Klaus srozumitelněji než Valtr Komárek se svou postupnou cestou. V březnu 1990 vyhráli v NDR křesťanští demokraté a Prognostický ústav se přiklonil k rychlé variantě. A konečně: kapitalismus bylo sprosté slovo, „tržní hospodářství“ nikoli. Ještě v únoru 1990 říkal Havel Gorbačovovi: „Nechystáme se vracet kapitalismus a továrny zpět majitelům.“ O pětatřicet let později píše Klaus: „chceme kapitalismus“. Mezi těmito dvěma větami leží celý polistopadový vývoj.</p>
+<p>S tím souvisí nejpodivnější postava příběhu: sám Havel. V disentu sedmdesátých let převažovali vyloučení reformní komunisté, lidé, pro něž byl srpen 1968 nadějí, nikoli omylem. Havel se přitom už v únoru 1969 v Tváři vysmál Kunderovu „Českému údělu“ a jeho víře, že „socialismus bez všemoci tajné policie“ je světodějný pokus: „Svoboda a zákonnost jsou prvními předpoklady normálně a zdravě fungujícího společenského organismu,“ a stát, který je obnovuje, „nedělá nic historicky nedozírného, ale snaží se prostě odstranit své vlastní nenormálnosti“; kdo si myslí něco jiného, stane se „samolibým šmokem, směšným se svým provinciálním mesianismem“. Čili: žádná třetí cesta, normální země.</p>
+<p>Jenže Havel u normálnosti nezůstal. V dopise Husákovi (1975) vyčítá Západu, že člověku nabízí jen „možnost svobodně se rozhodnout, který typ ledničky či pračky si pořídí“, a v Moci bezmocných (1978) odmítá „celý ten všudypřítomný diktát konzumu, produkce, reklamy, komerce“ i stranickou parlamentní demokracii, která je „přechodným řešením“ před „existenciální revolucí“ a samosprávou, o níž „snili všichni teoretici socialismu“. Mandler tyto pasáže cituje se zadostiučiněním (s. 20–21, 55). Jako prezident pak Havel sázel na morálku, neziskovky a neformální autority, které mohou výsledek voleb „opravit“ – Klaus tomu říkal nepolitická politika a vyhlásil jí válku. Muž, který v roce 1969 chtěl normální západní stát, se stal patronem občanské společnosti, a normální západní kapitalismus zavedl jeho největší sok. Zda je to paradox, nebo logika, záleží na tom, který Havel je pro čtenáře ten pravý.</p>
+<blockquote class="pull"><p>„Upínat se však k tradiční parlamentní demokracii jako k politickému ideálu a podléhat iluzi, že jen tato ‚osvědčená‘ forma může natrvalo zaručovat člověku důstojné a svéprávné postavení, bylo by podle mého názoru přinejmenším krátkozraké.“</p></blockquote>
+<blockquote class="pull"><p>„… věřím tu na samosprávný princip, který jedině asi může poskytovat to, o čem snili všichni teoretici socialismu, totiž skutečnou (tj. neformální) účast pracujících na hospodářském rozhodování …“</p></blockquote>
+<p class="cite">Václav Havel, <em>Moc bezmocných</em>, oddíly XXI a XXII. Esej napsal v říjnu 1978 na Hrádečku pro plánovaný společný sborník českého a polského disentu; kolovala v samizdatu a stala se nejčtenějším textem Charty 77. Parlamentní demokracie je v ní „přechodným řešením“ a cílem „existenciální revoluce“ a samospráva, nikoli návrat k Západu.</p>
+  </div>
+</section>
+<section id="v7" class="sec">
+  <header class="sec-head"><span class="num" aria-hidden="true">7</span><div><p class="label">Sedmý výklad</p><h2><span class="main">Listopad mimo Prahu</span></h2></div></header>
+  <div class="prose">
+<p>Většina úvah o listopadu je psána z Prahy a o Praze: Albertov, Národní, Letná, Václavák. Jenže v Brně se demonstrovalo od 20. listopadu, na Ostravsku šel listopad přes fabriky a doly, a ve volbách roku 1990 se stalo něco, na co se v Čechách zapomnělo: Hnutí za samosprávnou demokracii – Společnost pro Moravu a Slezsko získalo v České národní radě deset procent hlasů a přes dvacet křesel a v několika moravských okresech zvítězilo. Pro statisíce Moravanů znamenal listopad i naději na obnovu zemského zřízení, které komunisté zrušili v roce 1949. Nesplnila se; do roku 1996 hnutí z parlamentu zmizelo. Moravský listopad má vlastní zklamání, které s Havlem ani Klausem nesouvisí.</p>
+<p>Rozdíly trvají, i když se o nich dnes mluví spíš jazykem vzdělání než regionů. Podle CVVM (2019) hodnotí dnešní poměry jako lepší než předlistopadové nejčastěji Pražané a obyvatelé Královéhradeckého kraje; předlistopadové poměry jako lepší hodnotí nejčastěji lidé z Ústeckého a Moravskoslezského kraje a z obcí do pěti tisíc obyvatel. V průzkumu pro Paměť národa (2019) označilo revoluci za přínos pro svůj život 57 procent vysokoškoláků, ale jen 22 procent lidí se základním vzděláním nebo výučním listem; třetina lidí nad čtyřicet let soudí, že za socialismu bylo lépe, a jmenuje hlavně jistotu práce. Volby 2025 to zakreslily do mapy: v Praze vyhrálo SPOLU s 34 procenty před ANO s 20, v Moravskoslezském kraji dostalo ANO 44 procent, v Ústeckém 45.</p>
+<p>Celostátní čísla přitom listopadu přejí: podle CVVM (2024) jej hodnotí kladně 68 procent lidí a 75 procent říká, že změna stála za to. Jenže v témže výzkumu označuje dnešní hospodářský systém za špatný 46 procent lidí a sociální jistoty jsou jedinou oblastí, kde se „lepší“ a „horší“ vyrovnaly (38 : 40). Listopad jako událost lidé přijímají; to, co z něj vyrostlo, o poznání méně. V krajích, kde listopad znamenal útlum dolů a hutí, je tento rozdíl největší – a právě tam dnes ANO, SPD a dříve KSČM sklízejí to, co dědicové a strážci nazývají ohrožením listopadu.</p>
+  </div>
+</section>
+<section id="zaver" class="sec sec-end">
+  <header class="sec-head"><div><p class="label">Závěr</p><h2><span class="main">Jedno slovo, které mají všichni společné</span></h2></div></header>
+  <div class="prose">
+<p>Co z kaleidoskopu zbude, když jím přestaneme otáčet? Kupodivu jedno slovo. Babiš loni na Národní řekl: „Je to důležité, protože jsme získali svobodu.“ Fiala mluví o svobodě, Klaus o svobodě, Rakušan o svobodě, Okamura o tom, že se svoboda omezuje, komunisté o svobodě, k níž patří „životní jistoty“. Nikdo listopad nezavrhuje; všichni se hádají o to, co svoboda znamená a kdo má právo ji vykládat. Prezident Pavel, sám bývalý člen strany, loni řekl, že nikdo by neměl druhým předepisovat, jak 17. listopad slavit. Byla to věta smířlivá – a zároveň přiznání, že jednotný listopad neexistuje.</p>
+<p>Možná nikdy neexistoval. Havel v novoročním projevu 1990 řekl, že „po staletích se vlastně oba naše národy napřímily samy, neopřeny o žádnou pomoc mocnějších států či velmocí“. Mandler mu odpověděl, že jsme toho „příliš nenabojovali“. Oba byli u toho, oba to mysleli vážně a oba mohou mít pravdu. Letos 17. listopadu bude na Národní stát premiér, kterému se bude pískat, ministr, který nedal grant, a tisíce lidí, kteří se na oslavu složili sami. I to je výklad. Čtenář ať si vybere, který z nich bude slavit.</p>
+  </div>
+</section>
+
+    <aside class="sources" aria-labelledby="prameny">
+      <p class="label" id="prameny">Prameny a odkazy</p>
+      <ul>
+<li>V. Rakušan: <a href="https://www.echo24.cz/a/HdCsz/zpravy-domov-rakusan-vypiskali-narodni-trida-muzete-me-beztrestne-urazet-nadavani-politici-patri-17-listopad">2023</a>, <a href="https://www.echo24.cz/a/HWQgT/zpravy-domaci-rakusan-sebelitosti-musime-pracovat-nesmime-zemi-dat-populistum-extremistum">2024</a>, <a href="https://www.ceskenoviny.cz/index_view.php?id=2748355">2025</a>. Babiš: <a href="https://www.echo24.cz/a/wFYpB/nova-nahravka-babis-fantaziruje-jak-moskva-dosadila-havla">2017</a>, <a href="https://www.echo24.cz/a/HAaND/zpravy-domov-babis-tvrdi-ze-dnesni-demokrate-pouzivaji-metody-komunistu-z-roku-1989">2024</a>, <a href="https://m.echo24.cz/a/Hcy2s/zpravy-domaci-program-17-listopadu-oslavy-pruvody-demonstrace-narodni-trida">2025</a>, <a href="https://ekonomickydenik.cz/babis-17-listopadu-poplatky/">2026</a>; <a href="https://www.blesk.cz/clanek/zpravy-politika/851033/dohady-kvuli-17-listopadu-na-narodni-klempir-odmitl-dat-penize-na-oslavy-kuba-zasahl.html">grant pro Korzo Národní</a>.</li>
+<li>Průběh a pojmy: <a href="https://ct24.ceskatelevize.cz/domaci/72516-takhle-nejak-to-bylo/">ČT24</a>, <a href="https://www.ustrcr.cz/data/cesta_k_listopadu_1989/docs/revoluce_nebo_prevrat.pdf">ÚSTR</a>, <a href="https://ct24.ceskatelevize.cz/clanek/domaci/obcanske-forum-vedelo-koho-ale-calfa-vedel-jak-pred-30-lety-byl-prezidentem-zvolen-vaclav-havel-55059">volba Havla</a>.</li>
+<li>Průzkumy 1989: <a href="https://casopisargument.cz/67029">ÚVVM (Argument)</a>, <a href="https://www.denik.cz/cesko/michal-pullmann-lide-byli-nadseni-ale-ne-pro/">Pullmann</a>, <a href="https://denikalarm.cz/2019/11/existuje-take-jiny-listopad-1989/">Hauser</a>, <a href="https://www.echo24.cz/a/SjZ2w/pribehy-svobody-unikatni-protokoly-havel-gorbacov-moskva-1990">Havel–Gorbačov 1990</a>. Dnes: <a href="https://cvvm.soc.cas.cz/images/articles/files/5889/pd241111.pdf">CVVM 2024</a>, <a href="https://ct24.ceskatelevize.cz/clanek/domaci/sametova-revoluce-je-pozitivni-udalosti-pro-dve-tretiny-cechu-kladne-ji-hodnoti-majetnejsi-a-vzdelan-57283">CVVM 2019</a>, <a href="https://www.irozhlas.cz/zivotni-styl/spolecnost/pruzkum-pamet-naroda-cesko-listopad-1989-sametova-revoluce-komunismus_1910221000_dok">NMS 2019</a>, <a href="https://www.seznamzpravy.cz/clanek/volby-do-poslanecke-snemovny-jak-volily-kraje-babis-opanoval-vse-krom-metropole-288083">volby 2025</a>.</li>
+<li>Kundera–Havel: <a href="https://www.forum24.cz/jak-se-havel-a-kundera-preli-o-cesky-udel-jsme-ve-stredu-dejin-soudil-spisovatel-nebudme-smesni-oponoval-dramatik">citace</a>, <a href="https://www.novinky.cz/kultura/salon/501255-petr-pithart-takovi-my-cesi-jsme-spor-o-cesky-udel-mezi-milanem-kunderou-a-vaclavem-havlem.html">Pithart</a>, <a href="http://www.bohumildolezal.cz/texty/rs3362.html">Doležal</a>.</li>
+<li>Jurman a kol.: <em>Převrat</em> (Česká citadela 2019) – <a href="https://www.kosmas.cz/knihy/268344/prevrat/">anotace</a>, <a href="http://manage.stripkyzesveta.cz/public/img/kniha_prevrat.pdf">ukázka</a>, <a href="https://mohoritavasil.cz/2020/03/16/kniha-olin-jurman-prevrat-pravdy-a-lzi-o-17-listopadu/">Mohorita</a>.</li>
+<li>Klaus: <a href="https://www.echo24.cz/a/Hkwzb/zabranme-uplnemu-vynulovani-zakladnich-myslenek-listopadu-1989">Echo24 2025</a>, <a href="https://cnn.iprima.cz/klaus-17-listopad-jsem-neslavil-svatek-nam-ukradli-a-muze-za-to-i-fialova-vlada-418055">CNN Prima 2023</a>, <a href="https://echo24.cz/a/SHuNC/klaus-komunismus-neporazili-studenti-ani-disidenti-zhroutil-se-jako-totalitni-rezim">Echo24 2021</a>. ODS: <a href="https://eurozpravy.cz/domaci/politika/265269-ods-rozjela-vlastni-kampan-k-vyroci-17-listopadu-vondra-tepe-babise">EuroZprávy 2019</a>, <a href="https://www.ceskenoviny.cz/index_view.php?id=2748382">ČTK 2025</a>.</li>
+<li>KSČM: <a href="https://www.e15.cz/nazory-a-analyzy/glosa-petra-peska-komuniste-a-jejich-listopad-1364202">E15 2019</a>, <a href="https://www.kscm.cz/wp-content/uploads/alternativy_casopis_csts_6.pdf">Alternativy 6/2019</a>, <a href="https://www.echo24.cz/a/SC3U4/vyklad-historie-a-la-jakes-sedmnacty-listopad-maji-na-svedomi-stb-a-cast-uv-ksc">Jakeš 2018</a>, <a href="https://www.seznamzpravy.cz/clanek/stacil-by-prelet-stihacky-nad-letnou-a-byli-by-mrtvi-vzpomina-na-listopad-prominentni-estebak-82837">Krejčí 2019</a>.</li>
+<li>Mandler: <em>Oba moji prezidenti</em> (Libri 2004, čísla stran); <em>Škodolibé úsměvy svobody z let 1955 až 1992</em>.</li>
+<li>Konspirace a kritika: <a href="https://www.irozhlas.cz/veda-technologie/historie/17-listopad-sametova-revoluce-konspiracni-teorie-historik_2111090010_ban">Tůma</a>, <a href="https://www.arfa.cz/ivan-mladek-odvazne-o-revoluci-89-havel-byl-guru-reviznich-komunistu-take-dnes-je-cenzura-ze-by-udelali-revoluci-studenti-je-volovina-stala-za-tim-kgb-bakaluv-moderator-v-soku/">Mládek (přepis alternativního webu)</a>, <a href="https://dspace.cuni.cz/handle/20.500.11956/31080">Dolejší (studie UK)</a>.</li>
+</ul>
+      <p class="note">Text vznikl jako úvaha nad dostupnými veřejnými zdroji; citace jsou doslovné, čísla stran odkazují na vydání Libri 2004.</p>
+      <p class="colophon">Fable 5.1 · effort: Max · režim: Cowork</p>
+    </aside>
+  </article>
+</div>
+
+<script>
+(function () {
+  var bar = document.querySelector('#progress i');
+  var links = [].slice.call(document.querySelectorAll('.toc a'));
+  var secs = links.map(function (a) { return document.getElementById(a.dataset.id); });
+  function onScroll() {
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? Math.min(100, h.scrollTop / max * 100) : 0) + '%';
+    var cur = -1, y = window.innerHeight * 0.3;
+    secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top <= y) cur = i; });
+    links.forEach(function (a, i) {
+      a.classList.toggle('on', i === cur);
+      if (i === cur) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+    });
+    var on = links[cur];
+    var ol = on && on.closest('ol');
+    if (ol && ol.scrollWidth > ol.clientWidth) {
+      ol.scrollLeft = on.offsetLeft - ol.clientWidth / 2 + on.offsetWidth / 2;
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
+})();
+</script>
+</body>
+</html>
