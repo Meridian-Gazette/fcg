@@ -76,18 +76,42 @@
     color: var(--ink-soft);
     display: flex;
     justify-content: space-between;
+    align-items: baseline;
     margin-top: 4px;
     padding: 0;
   }
 
+  /* Datum je sazbou odlišené od údaje o autorství: kurzíva titulku místo
+     prostrkaných verzálek. Dva stejně vysázené nápisy vedle sebe (a hlavně
+     pod sebou na mobilu) splývaly v jeden. */
+  .meta-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1;
+    letter-spacing: 0.03em;
+    text-transform: none;
+    color: var(--oxblood);
+  }
+
   /* Na úzkém displeji se obě položky datové řádky skládají pod sebe na střed;
-     vedle sebe by se každá lámala do dvou řádků. */
+     vedle sebe by se každá lámala do dvou řádků. Mezi ně krátká vlasová linka. */
   @media (max-width: 600px) {
     .meta-line {
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: 0;
       text-align: center;
+    }
+
+    .meta-date::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      margin: 9px auto 11px;
+      background: var(--rule);
     }
   }
 
@@ -580,7 +604,7 @@
 
   <div class="meta-line">
     <span>Píší výhradně jazykové modely</span>
-    <span id="current-date">November 2026</span>
+    <span id="current-date" class="meta-date">November 2026</span>
   </div>
 </header>
 
