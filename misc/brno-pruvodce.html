@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brno pro Pražáky: dvě tříhodinové procházky a jeden Bílý dům (12.–14. března 2027)</title>
+<style>
+  :root {
+    --paper: #f3f2ee;
+    --card: #fbfaf7;
+    --ink: #1e1f1c;
+    --ink-soft: #454741;
+    --muted: #6f726a;
+    --line: #d8d7d0;
+    --centrum: #a1262c;     /* cihla Petrova, štatl */
+    --centrum-soft: #f1dedf;
+    --periferie: #475a6a;   /* beton, Cejl, Zbrojovka */
+    --periferie-soft: #dfe5ea;
+    --priroda: #3a6b4f;     /* Hády, vápenec a step */
+    --priroda-soft: #dde9e1;
+    --divadlo: #6a4a8c;     /* opona */
+    --divadlo-soft: #e7dff0;
+    --drb: #9a6b1f;         /* pikošky — jantar */
+    --drb-soft: #f3ead6;
+    --praha: #2b6f8c;       /* srovnání s Prahou — vltavská modř */
+    --praha-soft: #d9e9ef;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --paper: #151614; --card: #1c1d1a; --ink: #e7e6df; --ink-soft: #c6c7bf; --muted: #999c92; --line: #2e302b;
+      --centrum: #e08b8f; --centrum-soft: #2e1b1c; --periferie: #9fb6c7; --periferie-soft: #1b242b; --priroda: #8fc5a5; --priroda-soft: #17261d;
+      --divadlo: #c1a6e0; --divadlo-soft: #261d30; --drb: #e2b25c; --drb-soft: #2e2516; --praha: #7fc0da; --praha-soft: #142830;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --paper: #151614; --card: #1c1d1a; --ink: #e7e6df; --ink-soft: #c6c7bf; --muted: #999c92; --line: #2e302b;
+    --centrum: #e08b8f; --centrum-soft: #2e1b1c; --periferie: #9fb6c7; --periferie-soft: #1b242b; --priroda: #8fc5a5; --priroda-soft: #17261d;
+    --divadlo: #c1a6e0; --divadlo-soft: #261d30; --drb: #e2b25c; --drb-soft: #2e2516; --praha: #7fc0da; --praha-soft: #142830;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { box-sizing: inherit; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: "Charter", "Bitstream Charter", "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", "Noto Serif", Georgia, serif;
+    font-size: 1.0625rem; line-height: 1.62; -webkit-text-size-adjust: 100%;
+  }
+  main { max-width: 42rem; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+  header.hero { padding: 1.5rem 0 1rem; border-bottom: 1px solid var(--line); }
+  header.hero h1 { font-size: clamp(1.9rem, 5.5vw, 2.6rem); line-height: 1.12; margin: 0 0 .6rem; font-weight: 600; letter-spacing: -0.01em; }
+  header.hero p.lead { font-size: 1.15rem; color: var(--ink-soft); margin: 0 0 .75rem; }
+  header.hero p.note { font-size: .95rem; color: var(--muted); margin: 0; }
+  h2 { font-size: 1.55rem; line-height: 1.2; margin: 2.6rem 0 .8rem; font-weight: 600; }
+  h3 { font-size: 1.15rem; line-height: 1.3; margin: 1.8rem 0 .5rem; font-weight: 600; }
+  h4 { font-size: 1.02rem; line-height: 1.3; margin: 1.4rem 0 .4rem; font-weight: 600; color: var(--ink-soft); }
+  p { margin: 0 0 1rem; }
+  ul, ol { padding-left: 1.3rem; margin: 0 0 1rem; }
+  li { margin-bottom: .35rem; }
+  a { color: var(--praha); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:focus-visible { outline: 2px solid var(--praha); outline-offset: 2px; }
+  em.v { font-style: italic; color: var(--muted); }
+  .sans { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif; }
+
+  figure.schema { margin: 1.5rem 0 0; }
+  figure.schema svg { display: block; width: 100%; max-width: 480px; height: auto; margin: 0 auto; }
+  figure.schema figcaption { font-size: .9rem; color: var(--muted); text-align: center; margin-top: .5rem; }
+
+  nav.toc { margin: 1.5rem 0 0; border-top: 1px solid var(--line); }
+  nav.toc ol { list-style: none; padding: 0; margin: 0; }
+  nav.toc li { display: flex; align-items: baseline; padding: .45rem 0; border-bottom: 1px solid var(--line); margin: 0; font-size: .98rem; }
+  nav.toc li .k { flex: 0 0 1.4rem; font-weight: 700; }
+  nav.toc li.centrum .k { color: var(--centrum); }
+  nav.toc li.periferie .k { color: var(--periferie); }
+  nav.toc li.priroda .k { color: var(--priroda); }
+  nav.toc li.divadlo .k { color: var(--divadlo); }
+  nav.toc li.praha .k { color: var(--praha); }
+  nav.toc li.drb .k { color: var(--drb); }
+  nav.toc li a { flex: 1 1 auto; color: inherit; text-decoration: none; }
+  nav.toc li a:hover { text-decoration: underline; }
+  nav.toc li .t { margin-left: auto; color: var(--muted); font-size: .85rem; white-space: nowrap; padding-left: .75rem; }
+  .legend { font-size: .9rem; color: var(--muted); margin: .75rem 0 0; }
+  .legend span { display: inline-block; width: .7em; height: .7em; border-radius: 2px; margin: 0 .25em 0 .6em; vertical-align: -1px; }
+
+  section.loc { margin-top: 3rem; padding-left: 1rem; border-left: 4px solid var(--line); }
+  section.loc.centrum { border-left-color: var(--centrum); }
+  section.loc.periferie { border-left-color: var(--periferie); }
+  section.loc.priroda { border-left-color: var(--priroda); }
+  section.loc.divadlo { border-left-color: var(--divadlo); }
+  section.loc.praha { border-left-color: var(--praha); }
+  section.loc.drb { border-left-color: var(--drb); }
+  section.loc h2 { margin: 0 0 .25rem; }
+  section.loc .meta { font-size: .9rem; color: var(--muted); margin: 0 0 1rem; }
+  section.loc .meta b { font-weight: 600; color: var(--ink-soft); }
+
+  .box { background: var(--card); border: 1px solid var(--line); border-left-width: 3px; border-radius: 4px; padding: .9rem 1rem .1rem; margin: 1.25rem 0; font-size: .98rem; }
+  .box p:last-child { margin-bottom: .9rem; }
+  .box ul, .box ol { margin-bottom: .9rem; }
+  .box .lbl { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif; font-size: .8rem; font-weight: 600; margin: 0 0 .35rem; }
+  .box.drb { border-left-color: var(--drb); background: var(--drb-soft); border-color: var(--drb-soft); }
+  .box.drb .lbl { color: var(--drb); }
+  .box.praha { border-left-color: var(--praha); background: var(--praha-soft); border-color: var(--praha-soft); }
+  .box.praha .lbl { color: var(--praha); }
+  .box.jidlo { border-left-color: var(--centrum); }
+  .box.jidlo .lbl { color: var(--centrum); }
+  .box.tip { border-left-color: var(--priroda); }
+  .box.tip .lbl { color: var(--priroda); }
+  .box.div { border-left-color: var(--divadlo); background: var(--divadlo-soft); border-color: var(--divadlo-soft); }
+  .box.div .lbl { color: var(--divadlo); }
+  .box.beton { border-left-color: var(--periferie); }
+  .box.beton .lbl { color: var(--periferie); }
+
+  dl.facts { margin: 0 0 1rem; }
+  dl.facts dt { font-weight: 600; margin-top: .6rem; }
+  dl.facts dd { margin: .1rem 0 0 0; color: var(--ink-soft); }
+  table { border-collapse: collapse; width: 100%; font-size: .95rem; margin: 0 0 1rem; }
+  .tw { overflow-x: auto; }
+  th, td { text-align: left; padding: .4rem .5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 600; color: var(--ink-soft); }
+  td.cas { white-space: nowrap; color: var(--muted); font-variant-numeric: tabular-nums; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif; font-size: .88rem; }
+  footer { margin-top: 3.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); font-size: .92rem; color: var(--muted); }
+  footer ul { padding-left: 1.2rem; }
+  .small { font-size: .9rem; color: var(--muted); }
+  hr { border: 0; border-top: 1px solid var(--line); margin: 2.5rem 0; }
+
+  @media (max-width: 480px) {
+    body { font-size: 1rem; }
+    section.loc { padding-left: .8rem; }
+    nav.toc li .t { font-size: .78rem; }
+  }
+  @media print {
+    body { background: #fff; color: #000; font-size: 11pt; }
+    main { max-width: none; padding: 0; }
+    .box { break-inside: avoid; }
+    a { color: inherit; text-decoration: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+<main>
+
+<header class="hero">
+  <h1>Brno pro Pražáky: dvě tříhodinové procházky a jeden Bílý dům</h1>
+  <p class="lead">Průvodce na víkend 12.–14. března 2027: v sobotu štatl, Špilberk a hotel z Bruselu, v neděli Petrov, Vaňkovka, Cejl a Zbrojovka s nástavcem na Hády; mezi tím večer v Divadle Bolka Polívky, které hraje v bývalém sídle městského výboru KSČ. Psáno pro lidi, kteří znají Prahu — a proto s neustálým srovnáváním, co je tu jinak.</p>
+  <p class="note">Psáno v listopadu 2026, tedy čtyři měsíce dopředu. Časy procházek jsou střízlivý odhad pro lidi, kteří se zastavují a čtou; otevírací doby, čísla šalin a program divadla si před odjezdem ověřte (aplikace DPMB a web divadla), co jsem neověřil, je sepsáno na konci.</p>
+</header>
+
+<figure class="schema">
+  <svg viewBox="0 0 480 440" role="img" aria-labelledby="schemaTitle" xmlns="http://www.w3.org/2000/svg">
+    <title id="schemaTitle">Schéma Brna: historické jádro uprostřed, Svratka na západě a jihu, Svitava na východě, Cejl a Zbrojovka východně od centra, Hády na severovýchodě</title>
+    <defs>
+      <style>
+        .lab { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 11px; fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round; }
+        .lab2 { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 9.5px; fill: var(--muted); paint-order: stroke; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round; }
+        .hd { font-family: Charter, "Palatino Linotype", Palatino, Georgia, serif; font-size: 12px; font-weight: 600; fill: var(--muted); }
+        .river { fill: none; stroke: var(--praha); stroke-width: 2.2; opacity: .75; }
+        .rail { fill: none; stroke: var(--ink-soft); stroke-width: 1.3; stroke-dasharray: 7 3; opacity: .55; }
+        .ring { fill: none; stroke: var(--centrum); stroke-width: 1; opacity: .45; }
+        .r1 { fill: none; stroke: var(--centrum); stroke-width: 2; stroke-dasharray: 5 3; }
+        .r1t { fill: none; stroke: var(--centrum); stroke-width: 1.4; stroke-dasharray: 1.5 3; opacity: .7; }
+        .r2 { fill: none; stroke: var(--periferie); stroke-width: 2; stroke-dasharray: 5 3; }
+        .r2t { fill: none; stroke: var(--periferie); stroke-width: 1.4; stroke-dasharray: 1.5 3; opacity: .7; }
+        .r3 { fill: none; stroke: var(--priroda); stroke-width: 2; stroke-dasharray: 2 3; }
+        .pt { stroke: var(--paper); stroke-width: 1.5; }
+        .park { fill: var(--priroda); opacity: .18; }
+      </style>
+    </defs>
+
+    <!-- rivers -->
+    <path class="river" d="M20 70 C 50 110, 70 170, 85 230 S 120 310, 170 335 S 260 360, 300 395 S 330 420, 340 430"/>
+    <path class="river" d="M352 10 C 345 60, 340 110, 330 160 S 325 250, 332 310 S 338 400, 340 430"/>
+    <!-- railway: west -> hl.n. -> east along Křenová and north along Svitava -->
+    <path class="rail" d="M0 322 C 70 318, 140 300, 205 296 S 300 285, 340 262 S 365 215, 380 150"/>
+    <path class="rail" d="M205 296 C 260 300, 330 305, 480 300" opacity=".4"/>
+    <!-- parks -->
+    <ellipse class="park" cx="140" cy="225" rx="22" ry="20"/>
+    <ellipse class="park" cx="228" cy="160" rx="14" ry="11"/>
+    <ellipse class="park" cx="400" cy="150" rx="40" ry="24"/>
+    <!-- štatl ring (Koliště/Husova) -->
+    <ellipse class="ring" cx="192" cy="235" rx="40" ry="50"/>
+    <text class="hd" x="12" y="24">Praha 200 km ↖</text>
+    <text class="hd" x="368" y="432">Vídeň 130 km ↓</text>
+
+    <!-- ROUTE 1 (Saturday) -->
+    <path class="r1" d="M205 290 L 197 268"/>
+    <path class="r1" d="M194 256 L 193 236"/>
+    <path class="r1" d="M194 220 L 200 212"/>
+    <path class="r1" d="M203 200 L 207 194"/>
+    <path class="r1" d="M203 188 C 195 185, 190 184, 186 183"/>
+    <path class="r1" d="M180 188 C 174 196, 169 204, 166 210"/>
+    <path class="r1" d="M160 218 C 152 222, 146 225, 142 228"/>
+    <path class="r1" d="M136 233 C 128 243, 120 254, 116 262"/>
+    <!-- tram 1 back -->
+    <path class="r1t" d="M118 274 C 128 325, 175 335, 204 299"/>
+
+    <!-- ROUTE 2 (Sunday) -->
+    <path class="r2" d="M186 280 C 200 292, 212 300, 220 304"/>
+    <path class="r2" d="M230 304 C 240 300, 248 293, 253 288"/>
+    <path class="r2" d="M258 282 C 263 268, 268 252, 271 242"/>
+    <path class="r2" d="M276 236 L 283 231"/>
+    <path class="r2" d="M292 228 L 300 224"/>
+    <path class="r2" d="M307 221 L 315 216"/>
+    <!-- tram to Stará osada -->
+    <path class="r2t" d="M324 214 C 335 214, 345 215, 352 216"/>
+
+    <!-- ROUTE 3 (Hády) -->
+    <path class="r3" d="M362 220 C 382 232, 400 244, 414 250"/>
+    <path class="r3" d="M421 246 C 422 232, 421 216, 420 202"/>
+    <path class="r3" d="M417 190 C 414 178, 410 166, 407 158"/>
+    <path class="r3" d="M400 149 L 389 141"/>
+    <path class="r3" d="M380 138 L 371 139"/>
+    <path class="r3" d="M364 145 C 362 151, 360 156, 359 160"/>
+    <path class="r3" d="M358 170 C 357 185, 356 200, 356 211"/>
+
+    <!-- points: route 1 -->
+    <circle class="pt" cx="205" cy="294" r="4.5" fill="var(--centrum)"/><text class="lab" x="214" y="298">Hlavní nádraží</text>
+    <circle class="pt" cx="196" cy="262" r="4.5" fill="var(--centrum)"/><text class="lab" x="203" y="266">Zelný trh</text>
+    <circle class="pt" cx="194" cy="228" r="4.5" fill="var(--centrum)"/><text class="lab" x="202" y="232">nám. Svobody</text>
+    <circle class="pt" cx="201" cy="206" r="3.5" fill="var(--centrum)"/><text class="lab2" x="207" y="208">Jakubské</text>
+    <circle class="pt" cx="208" cy="190" r="3.5" fill="var(--centrum)"/><text class="lab2" x="214" y="190">Moravské nám.</text>
+    <rect x="178" y="178" width="9" height="9" fill="var(--divadlo)" stroke="var(--paper)" stroke-width="1.5"/><text class="lab" x="176" y="172" text-anchor="end">Bílý dům</text>
+    <circle class="pt" cx="163" cy="214" r="3.5" fill="var(--drb)"/><text class="lab2" x="160" y="208" text-anchor="end">International</text>
+    <circle class="pt" cx="139" cy="230" r="5" fill="var(--centrum)"/><text class="lab" x="131" y="226" text-anchor="end">Špilberk</text>
+    <circle class="pt" cx="116" cy="267" r="4.5" fill="var(--centrum)"/><text class="lab" x="108" y="263" text-anchor="end">Mendlovo nám.</text>
+    <text class="lab2" x="98" y="276" text-anchor="end">Starobrno · opatství</text>
+
+    <!-- points: route 2 -->
+    <circle class="pt" cx="183" cy="276" r="3.5" fill="var(--periferie)"/><text class="lab2" x="176" y="286" text-anchor="end">Petrov</text>
+    <circle class="pt" cx="225" cy="305" r="4.5" fill="var(--periferie)"/><text class="lab" x="226" y="320" text-anchor="middle">Vaňkovka</text>
+    <circle class="pt" cx="256" cy="285" r="3.5" fill="var(--periferie)"/><text class="lab2" x="250" y="279" text-anchor="end">Křenová</text>
+    <circle class="pt" cx="273" cy="238" r="4.5" fill="var(--periferie)"/><text class="lab" x="268" y="252" text-anchor="middle">Cejl · Káznice</text>
+    <circle class="pt" cx="288" cy="229" r="3.5" fill="var(--periferie)"/><text class="lab2" x="286" y="218" text-anchor="middle">Mosilana</text>
+    <circle class="pt" cx="303" cy="222" r="3.5" fill="var(--periferie)"/>
+    <circle class="pt" cx="319" cy="214" r="4.5" fill="var(--periferie)"/><text class="lab" x="305" y="203" text-anchor="middle">Zbrojovka · Zábrdovice</text>
+    <circle class="pt" cx="356" cy="216" r="4" fill="var(--periferie)"/><text class="lab2" x="350" y="234" text-anchor="end">Stará osada</text>
+
+    <!-- points: route 3 -->
+    <circle class="pt" cx="420" cy="252" r="3.5" fill="var(--priroda)"/><text class="lab2" x="414" y="264" text-anchor="end">Líšeň (sídliště)</text>
+    <circle class="pt" cx="419" cy="196" r="3.5" fill="var(--priroda)"/><text class="lab2" x="413" y="191" text-anchor="end">Velká Klajdovka</text>
+    <circle class="pt" cx="405" cy="152" r="5" fill="var(--priroda)"/><text class="lab" x="412" y="150">Hády 424 m</text>
+    <text class="lab2" x="412" y="162">vysílač, lom</text>
+    <circle class="pt" cx="385" cy="138" r="3.5" fill="var(--priroda)"/><text class="lab2" x="385" y="127" text-anchor="middle">Růženin lom</text>
+    <circle class="pt" cx="366" cy="140" r="3.5" fill="var(--priroda)"/><text class="lab2" x="360" y="150" text-anchor="end">Lamacentrum</text>
+    <circle class="pt" cx="358" cy="165" r="3.5" fill="var(--priroda)"/><text class="lab2" x="352" y="176" text-anchor="end">Červený písek</text>
+    <text class="lab2" x="340" y="110" text-anchor="end">Maloměřice</text>
+
+    <!-- other landmarks -->
+    <circle class="pt" cx="228" cy="160" r="3" fill="var(--priroda)"/><text class="lab2" x="234" y="156">Lužánky</text>
+    <circle class="pt" cx="252" cy="140" r="3" fill="var(--drb)"/><text class="lab2" x="252" y="131" text-anchor="middle">vila Tugendhat</text>
+    <text class="lab2" x="262" y="92">Lesná (sídliště)</text>
+    <circle class="pt" cx="130" cy="186" r="3" fill="var(--priroda)"/><text class="lab2" x="124" y="182" text-anchor="end">Kraví hora</text>
+    <circle class="pt" cx="110" cy="240" r="3" fill="var(--drb)"/><text class="lab2" x="104" y="244" text-anchor="end">Žlutý kopec</text>
+    <text class="lab2" x="66" y="300" text-anchor="end">výstaviště</text>
+    <text class="lab2" x="30" y="60">Prýgl (přehrada)</text>
+    <text class="lab2" x="330" y="345" text-anchor="middle">Komárov</text>
+    <text class="lab2" x="30" y="205">Svratka</text>
+    <text class="lab2" x="340" y="296">Svitava</text>
+
+    <!-- legend -->
+    <g transform="translate(14 356)">
+      <path class="r1" d="M0 0 L 26 0"/><text class="lab2" x="32" y="3.5">sobota: štatl, Špilberk, Mendlovo nám.</text>
+      <path class="r2" d="M0 16 L 26 16"/><text class="lab2" x="32" y="19.5">neděle: Petrov, Vaňkovka, Cejl, Zbrojovka</text>
+      <path class="r3" d="M0 32 L 26 32"/><text class="lab2" x="32" y="35.5">nástavec: Hády (MHD + pěšky)</text>
+      <path class="r1t" d="M0 48 L 26 48"/><text class="lab2" x="32" y="51.5">tečkovaně šalina/bus · čárkovaně železnice</text>
+    </g>
+  </svg>
+  <figcaption>Schéma, ne mapa: polohy přibližné, vzdálenosti zkreslené (Hády jsou ve skutečnosti 6 km od Petrova, Líšeň 7 km). Modře Svratka a Svitava, slabá červená elipsa je obvod historického jádra, kterému se v hantecu říká štatl.</figcaption>
+</figure>
+
+<nav class="toc sans" aria-label="Obsah">
+  <ol>
+    <li class="praha"><span class="k">■</span><a href="#prakticke">Než vyrazíte: šalina, lístky, rezervace, 11 hodin</a><span class="t">praktické</span></li>
+    <li class="praha"><span class="k">■</span><a href="#brno">Brno v kostce pro Pražáky</a><span class="t">úvod</span></li>
+    <li class="divadlo"><span class="k">■</span><a href="#divadlo">Divadlo Bolka Polívky a Bílý dům</a><span class="t">večer</span></li>
+    <li class="centrum"><span class="k">■</span><a href="#sobota">Sobota: od nádraží přes štatl na Špilberk</a><span class="t">3 h + oběd</span></li>
+    <li class="centrum"><span class="k">■</span><a href="#mendlak">Sobotní nástavec: Mendlovo náměstí</a><span class="t">+ 1 h</span></li>
+    <li class="periferie"><span class="k">■</span><a href="#nedele">Neděle: Petrov, Vaňkovka, Cejl, Zbrojovka</a><span class="t">3 h + oběd</span></li>
+    <li class="priroda"><span class="k">■</span><a href="#hady">Nedělní nástavec: Hády, lomy a Líšeň</a><span class="t">+ 2,5 h</span></li>
+    <li class="drb"><span class="k">■</span><a href="#hospody">Kde jíst a pít: restaurace, pivnice, bary</a><span class="t">gastro</span></li>
+    <li class="praha"><span class="k">■</span><a href="#navic">Když zbude čas nebo bude pršet</a><span class="t">rezerva</span></li>
+    <li class="praha"><span class="k">■</span><a href="#slovnik">Převodní tabulka Praha–Brno a slovníček hantecu</a><span class="t">příloha</span></li>
+    <li class="praha"><span class="k">■</span><a href="#zdroje">Z čeho jsem čerpal · co jsem neověřil</a><span class="t"></span></li>
+  </ol>
+  <p class="legend"><span style="background:var(--centrum)"></span>historické jádro a hrad <span style="background:var(--periferie)"></span>průmyslová periferie <span style="background:var(--priroda)"></span>příroda <span style="background:var(--divadlo)"></span>divadlo <span style="background:var(--drb)"></span>pikošky a gastro <span style="background:var(--praha)"></span>srovnání s Prahou</p>
+</nav>
+
+<!-- ============ PRAKTICKÉ ============ -->
+<section class="loc praha" id="prakticke">
+  <h2>Než vyrazíte: šalina, lístky, rezervace a pravidlo jedenácté hodiny</h2>
+  <p class="meta"><b>Víkend 12.–14. března 2027</b> · pátek až neděle · dva týdny před Velikonocemi (28. 3.) · západ slunce kolem 17:55</p>
+
+  <h3>Šalina místo metra</h3>
+  <p>První věc, na kterou si Pražák musí zvyknout: v Brně není metro a nikomu to nechybí. Město má druhou největší tramvajovou síť v Česku a největší trolejbusovou; tramvaji se tu říká šalina (z německého <em>elektrische Linie</em>, viz <a href="#slovnik">slovníček</a>) a to slovo je potřeba používat, jinak vás poznají. Na obě trasy v tomto průvodci stačí čtyři spoje: <b>šalina 1</b> (Mendlovo náměstí → Hlavní nádraží), <b>šaliny 2 a 3</b> (Zábrdovice a Stará osada ↔ centrum), <b>šalina 4</b> (Česká → Cejl → Maloměřice) a <b>autobusy 55, 58 a 78</b> ze Staré osady do Líšně. Čísla linek platí k listopadu 2026 a DPMB je občas přeskládá; před cestou se podívejte do aplikace DPMB nebo IDOS.</p>
+  <p>Jízdenky: nejjednodušší je aplikace DPMB nebo zaplacení kartou přímo ve vozidle (terminály jsou u dveří; přiložíte kartu, a tím máte jízdenku, při přestupu přiložíte znovu). SMS jízdenky fungují také. Na víkend se vyplatí 24hodinová jízdenka (zóny 100+101) nebo rovnou 72hodinová; pokud chcete i hrad, Starou radnici a pár muzeí, spočítejte si Brnopas (TIC Brno, prodává se v informačním centru pod Starou radnicí a na Panenské). Zóny 100 a 101 pokrývají celé město včetně Líšně a Hádů.</p>
+
+  <h3>Co se musí rezervovat teď a co ne</h3>
+  <ul>
+    <li><b>Vila Tugendhat</b> je jediná věc, kterou nejde nechat na poslední chvíli: víkendové termíny bývají vyprodané zhruba půl roku dopředu, od srpna 2026 funguje oficiální přeprodej vrácených lístků. Pokud ji chcete, kupujte v okamžiku, kdy tohle čtete. Do tras níže jsem ji záměrně nedal, je v kapitole <a href="#navic">Když zbude čas</a>.</li>
+    <li><b>Vodojemy na Žlutém kopci</b> pouští jednotlivce bez rezervace (středa–neděle 10–18), komentované prohlídky s rezervací.</li>
+    <li><b>Divadlo Bolka Polívky</b>: program na březen 2027 ještě nebyl v listopadu 2026 zveřejněn; sledujte web, vstupenky mizí rychle hlavně na Polívku samotného. Podrobnosti v <a href="#divadlo">kapitole o divadle</a>.</li>
+    <li>Kapucínská hrobka, Špilberk, Stará radnice, Labyrint pod Zelným trhem a kostnice u sv. Jakuba se rezervovat nemusí, platí se na místě.</li>
+  </ul>
+
+  <h3>Pravidlo jedenácté hodiny</h3>
+  <p>Brno má dvě věci, které se dějí jednou denně a přesně v 11:00. Na Petrově odbíjí zvony poledne už v jedenáct — památka na švédské obléhání roku 1645 (vysvětlení v kapitole <a href="#brno">Brno v kostce</a>). A na náměstí Svobody vypadne z černého žulového orloje skleněná kulička, kterou si lidé odnášejí jako trofej. Obě místa jsou od sebe pět minut, ale v jedenáct nemůžete být na obou. Proto je v tomhle průvodci <b>sobota orlojová</b> (v 10:55 stojíte u orloje) a <b>neděle petrovská</b> (v 10:55 stojíte na terase pod katedrálou). Když vám to nevyjde, nic se neděje; zvony slyšíte skoro z celého centra.</p>
+
+  <h3>Březnové poznámky</h3>
+  <ul>
+    <li>Velikonoce 2027 připadají na 28. března; brněnské velikonoční trhy na náměstí Svobody a Zelném trhu v minulých letech začínaly zhruba dva týdny před svátky, takže je možné, že je ve vašem termínu zastihnete v rozestavěném stavu nebo čerstvě otevřené. Neověřeno, pořadatelem je TIC Brno.</li>
+    <li>Na Hádech bude po zimě bláto a na stepi ještě nic nekvete; za to je výhled v březnovém vzduchu obvykle nejčistší v roce (Pálava, při velkém štěstí Alpy).</li>
+    <li>Lodě na Brněnské přehradě jezdí až od dubna, Prýgl tedy berte jen jako procházku.</li>
+    <li>Většina muzeí v Brně zavírá v pondělí; Lamacentrum na Hádech je v březnu otevřené jen v neděli. Hodí se to k pořadí dnů níže.</li>
+    <li>Představení v brněnských divadlech začínají obvykle v 19:00, nikoli v 19:30 jako v Praze. Počítejte s tím při večeři.</li>
+  </ul>
+</section>
+
+<!-- ============ BRNO V KOSTCE ============ -->
+<section class="loc praha" id="brno">
+  <h2>Brno v kostce pro Pražáky</h2>
+  <p class="meta"><b>Hlavní město Moravy</b> · německy Brünn · asi 400 000 obyvatel (s aglomerací přes 600 000) · zhruba 60 000 vysokoškoláků · Vídeň 130 km, Praha 200 km</p>
+
+  <h3>Město, které bylo do roku 1918 německé</h3>
+  <p>Tohle je klíč ke všemu, co v Brně uvidíte, a zároveň věc, kterou si Pražák málokdy uvědomí. Praha byla kolem roku 1900 českým městem s německou menšinou kolem sedmi procent; v Brně to bylo obráceně. Při sčítání roku 1910 uvedly zhruba dvě třetiny obyvatel vnitřního města jako „obcovací řeč“ němčinu (čísla jsou nutně hrubá, protože obcovací řeč nebyla národnost a zaměstnavatelé na ni tlačili; čeští historici proto odhadují skutečný podíl Čechů výš). Radnice, divadlo, gymnázia, noviny, továrny — to všechno bylo německé, zatímco Češi žili hlavně v předměstích, která k Brnu tehdy úředně nepatřila: v Králově Poli, Husovicích, Židenicích. Vídeň byla blíž než Praha nejen na mapě. Brněnská okružní třída (dnešní Koliště, Husova, Moravské náměstí) vznikla po zbourání hradeb v 60. letech 19. století vědomě podle vídeňské Ringstrasse, a přes půl století se do Vídně jezdilo za prací, za nákupy i do opery.</p>
+  <p>Zlom přišel v dubnu 1919, kdy nová republika zákonem připojila k Brnu 23 okolních obcí. Vzniklo Velké Brno s asi 220 000 obyvateli a najednou s českou většinou — ne proto, že by se někdo stěhoval, ale proto, že se překreslila hranice. Německá menšina (kolem 25 procent) žila ve městě dál až do května 1945, kdy ji potkal „brněnský pochod smrti“: v noci z 30. na 31. května 1945 vyhnali ozbrojení Brňané zhruba 20 000 německy mluvících obyvatel, převážně žen, dětí a starých lidí, pěšky k rakouské hranici u Pohořelic. Počet obětí se liší podle toho, kdo počítá: české archivní práce dokládají zhruba 1 700 mrtvých (hlavně na úplavici a vyčerpání v táboře v Pohořelicích), sudetoněmecké krajanské organizace mluvily o několika tisících. Město Brno se k události přihlásilo až v roce 2015 „Deklarací smíření“ a od té doby se každý rok na konci května koná Pouť smíření z Pohořelic do Brna, opačným směrem. Tohle je jedna z věcí, které v Brně na rozdíl od Prahy zůstaly viditelně nedořešené a mluví se o nich.</p>
+
+  <h3>Proč je hlavní město Moravy Brno, a ne Olomouc</h3>
+  <p>Olomouc byla sídlem biskupa a dlouho největším moravským městem. Brno bylo od středověku druhé, zato s lepším postavením u panovníka: sídlily tu zemské sněmy a zemský soud (stejně jako v Olomouci, města se střídala), roku 1641 sem Ferdinand III. natrvalo přenesl zemský tribunál a desky zemské. O rok později obsadili Olomouc Švédové a drželi ji osm let; Brno se roku 1645 ubránilo (viz níže). Z té doby je nárok Brna na titul hlavního města Moravy, který mu zůstal až do roku 1949, kdy komunisté země zrušili a nahradili je kraji. Dnes je Brno hlavním městem Jihomoravského kraje, ale sídlí tu Ústavní soud, Nejvyšší soud, Nejvyšší správní soud i Nejvyšší státní zastupitelství, což je pozůstatek představy ze začátku 90. let, že se Morava stane druhým centrem státu. Nestala se, soudy zůstaly. Pražák je tu pořád „Pražák“ s lehce ironickým nádechem, a občas narazíte na nálepku nebo graffiti s mapou Moravy; brát to vážně netřeba, ale vyplatí se neříkat „u nás v Čechách“, když myslíte „u nás v republice“.</p>
+
+  <h3>Časová osa, kterou potkáte na trasách</h3>
+  <dl class="facts">
+    <dt>1243</dt>
+    <dd>Václav I. uděluje Brnu městská práva. Hrad Špilberk zakládá o pár let později Přemysl Otakar II. jako markraběcí sídlo. Město má dva trhy (Horní = Zelný, Dolní = náměstí Svobody) a od začátku dvě farnosti, které spolu po staletí soupeří: Petrov a sv. Jakub.</dd>
+    <dt>1645</dt>
+    <dd>Švédský generál Torstenson obléhá Brno tři a půl měsíce s armádou odhadovanou na 28 000 mužů; město hájí asi 1 500 lidí pod velením francouzského plukovníka Louise Raduita de Souches, bývalého hugenota ve službách císaře. Podle legendy Torstenson prohlásil, že když Brno nedobude do poledne, odtáhne — a brněnský zvoník zazvonil poledne už v jedenáct. Historicky je doložené jen to, že Švédové odtáhli 23. srpna a že se tím Brno stalo jediným velkým městem, které jim na Moravě odolalo. Zvonění v jedenáct se udržuje dodnes, Souches má náhrobek v kostele sv. Jakuba.</dd>
+    <dt>1749</dt>
+    <dd>Na Špilberku umírá baron František Trenck, velitel pandurů, postrach Bavorska a Slezska a nakonec vězeň Marie Terezie. Pohřben jako chudý kapucín v hrobce pod kostelem Nalezení sv. Kříže; jeho mumie je tam dodnes (sobotní zastávka č. 2).</dd>
+    <dt>1805</dt>
+    <dd>Napoleon přijíždí 20. listopadu do Brna a ubytuje se v Místodržitelském paláci na dnešním Moravském náměstí; město musí na jeho počest rozsvítit v každém okně dvě svíčky. Dva dny po bitvě u Slavkova (2. prosince) se vrací a zůstává do poloviny prosince. V září 1809 je tu znovu, prohlédne si Špilberk a nařídí rozbořit jeho opevnění. Brno je nejnapoleonštější české město a na podzim to každý rok připomíná akcí „Napoleon v Brně“.</dd>
+    <dt>1839</dt>
+    <dd>7. července přijíždí do Brna první vlak Severní dráhy císaře Ferdinanda z Vídně. Brno má železnici šest let před Prahou. Od té chvíle se taky vede spor, kde má nádraží stát — vydrží přes sto let a dvě referenda (viz <a href="#sobota">sobota, zastávka 1</a>).</dd>
+    <dt>19. století</dt>
+    <dd>„Moravský Manchester“: od 80. let 18. století vyrůstají podél Svitavy a náhonu na Cejlu a Křenové vlnařské manufaktury (Köffiller, Offermann, Schoeller, později Mosilana), Brno je největším textilním centrem monarchie a první české průmyslové město. Už roku 1786 dostane park Lužánky, první veřejný park v českých zemích (o osmnáct let dřív než pražská Stromovka). Dělnické čtvrti Cejl, Zábrdovice a Husovice jsou dnešní nedělní trasa.</dd>
+    <dt>1865</dt>
+    <dd>Augustinián Gregor Mendel přednáší v Brně výsledky pokusů s hrachem. Nikdo mu nerozumí. V klášterním sboru v té době zpívá chlapec Leoš Janáček, který roku 1884 bude Mendelovi dirigovat rekviem.</dd>
+    <dt>1882</dt>
+    <dd>Otevřeno německé městské divadlo (dnešní Mahenovo) od vídeňských architektů Fellnera a Helmera, první divadlo v Evropě kompletně osvětlené elektřinou; žárovky dodává Edisonova firma a Edison sám se na něj přijede podívat roku 1911.</dd>
+    <dt>1918–1938</dt>
+    <dd>Zlatý věk českého Brna: Masarykova univerzita (1919), Zbrojovka (1919), výstaviště (1928), vila Tugendhat (1930) a vůbec funkcionalismus, kterého má Brno víc než kterékoli jiné české město. Brněnští architekti stavěli jinak než pražští: střízlivěji, blíž Vídni a Bauhausu.</dd>
+    <dt>1945–1989</dt>
+    <dd>Odsun Němců, znárodnění, podniky RaJ (Restaurace a jídelny) v každé hospodě. Zároveň ale doba, kdy vznikly věci, které dnes jezdí architekti obdivovat: hotel International (1962), hotel Continental (1964), Janáčkovo divadlo (1965), sídliště Lesná (1962–70) a Bílý dům (1976), který dnes slouží Bolku Polívkovi.</dd>
+    <dt>dnes</dt>
+    <dd>Univerzitní město s nejhustší sítí barů v zemi, nejvyššími soudy a dvěma stavbami století před sebou: přesun hlavního nádraží k řece (plán 2028–2035, odhady 50–73 miliard) a Janáčkovo kulturní centrum, koncertní sál, který se slibuje od 90. let.</dd>
+  </dl>
+
+  <div class="box praha">
+    <p class="lbl">Převodník pro Pražáky (podrobnější tabulka je v <a href="#slovnik">příloze</a>)</p>
+    <ul>
+      <li><b>Petrov</b> je Vyšehrad: katedrála na skále nad řekou, výhled, hřbitov tu ale není (brněnský Slavín je Ústřední hřbitov na jihu města).</li>
+      <li><b>Špilberk</b> je Petřín a Pankrác dohromady: park na kopci nad městem, uvnitř nejobávanější vězení monarchie.</li>
+      <li><b>Náměstí Svobody</b> je Václavák a Staromák v jednom: korzo, pomník, kašna, orloj. Ale malé; Brno má náměstí, ne bulváry.</li>
+      <li><b>Zelný trh</b> je Havelský trh, jenže do kopce, s barokní kašnou od Fischera z Erlachu a s třemi patry sklepů pod dlažbou.</li>
+      <li><b>Česká</b> je Na Příkopě, „pod hodinami“ na České je brněnský „pod ocasem“.</li>
+      <li><b>Cejl</b> je Žižkov s Karlínem před gentrifikací, s tím rozdílem, že tu gentrifikace zatím opravdu neproběhla.</li>
+      <li><b>Vaňkovka</b> je Holešovická tržnice, kdyby se povedla: strojírna z roku 1865 přestavěná na obchodní pasáž a galerii.</li>
+      <li><b>Lesná</b> je Ďáblice (sídliště, které mají rádi i architekti), <b>Líšeň a Vinohrady</b> jsou Jižní Město.</li>
+      <li><b>Lužánky</b> jsou Stromovka, jen starší a menší.</li>
+      <li><b>Hlavní nádraží</b> je Masarykovo nádraží, kdyby ho Praha řešila sto let a dvakrát o něm hlasovala.</li>
+      <li><b>Hády</b> jsou Prokopské údolí a Ďáblický háj v jednom: vápencové lomy na kraji města s výhledem, který Praha nemá.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ DIVADLO ============ -->
+<section class="loc divadlo" id="divadlo">
+  <h2>Divadlo Bolka Polívky a Bílý dům</h2>
+  <p class="meta"><b>Žerotínovo náměstí 6</b> · Sál Břetislava Bakaly, asi 300 míst · vchod zhruba 50 m vlevo od hlavního vchodu polikliniky, u sochy Mima · hlavní pokladna Jakubské náměstí 5 (3 minuty od šaliny Česká), večerní pokladna přímo v Bílém domě · začátky zpravidla 19:00</p>
+
+  <p>Divadlo, do kterého jdete, hraje od dubna 2024 v budově, která byla postavena pro úplně jiný účel: jako sídlo Městského výboru KSČ a Domu politické výchovy. Pražská paralela se nabízí sama — Palác kultury, dnešní Kongresové centrum, stavěný pro sjezdy strany a sloužící koncertům — jen v Brně je to menší, osobnější a s lepším příběhem. Bolek Polívka tomu říká „americký sen“: z Dělnického domu do Bílého.</p>
+
+  <h3>Jak se divadlo dostalo do Bílého domu</h3>
+  <p>Divadlo Bolka Polívky vzniklo roku 1993 (první premiéra, Polívkův <em>Trosečník</em>, 17. září 1993) a třicet let sídlilo na Jakubském náměstí 5, v domě, kde se hrálo divadlo už od roku 1947: nejdřív Svobodné divadlo, od konce 50. let kabaretní <em>Večerní Brno</em>, kterým prošli Eva Pilarová, Ljuba Hermanová i Waldemar Matuška, po roce 1989 krátce Divadlo U Jakuba. Dům na Jakubském sdílí nosné konstrukce s kinem Scala (Moravské náměstí 3) a v únoru 2023 statici konstatovali, že sál není bezpečný. Divadlo se musel vystěhovat prakticky ze dne na den; sezonu 2023/24 odehrálo v Dělnickém domě v Židenicích, což je sice slavná scéna (hrával tam i Provázek), ale daleko od centra. Město mezitím za zhruba 13 milionů upravilo Sál Břetislava Bakaly v Bílém domě, kde do té doby zkoušela filharmonie a hrálo se tam příležitostně, a od 11. dubna 2024 je to domovská scéna DBP. Oprava domu na Jakubském se odhaduje na 150 milionů a termín návratu není; na Jakubském náměstí 5 zatím zůstává pokladna, Galerie u dvou Polívků a restaurace Poslední leč, takže když si půjdete pro vstupenky, uvidíte i původní adresu.</p>
+
+  <div class="box div">
+    <p class="lbl">Co čekat od repertoáru a jak vybírat</p>
+    <p>DBP je soukromé divadlo bez stálého souboru: hraje vlastní inscenace (s Polívkou nebo bez něj) a hostí představení jiných scén, hlavně pražských. Páteř tvoří Polívkovy autorské věci — <em>DNA</em> s dcerou Annou Polívkovou, <em>Šašek a syn</em>, <em>Pro dámu na balkoně</em>, <em>Podivné odpoledne Dr. Zvonka Burkeho</em> — a hostování, v roce 2026 především spolupráce s pražským Divadlem Bez zábradlí: <em>Anděl v lihu</em> (pocta Jiřímu Pechovi, Polívka v něm hraje se všemi svými syny), <em>Šest tanečních hodin v šesti týdnech</em> s Chantal Poullain, <em>Fichtl</em> s Pavlem Liškou a Michalem Isteníkem a <em>Sága aneb Vizovský zázrak</em>, kterému divadlo říká „obklopené sólo“. Jestli chcete to, kvůli čemu se do DBP jezdí, hledejte v programu Polívkovo jméno přímo v obsazení; jeho představení bývají vyprodaná první, takže kupujte v den zveřejnění programu. Sezonu každoročně otevírá turnaj v kuličkách, v létě divadlo hraje v Mikulově, na Biskupském dvoře a na Kraví hoře. Program na březen 2027 nebyl v listopadu 2026 venku; obvykle se zveřejňuje zhruba dva měsíce dopředu.</p>
+  </div>
+
+  <h3>Kdo je Bolek Polívka, pro jistotu</h3>
+  <p>Boleslav Polívka (narozen 31. července 1949 ve Vizovicích) je absolvent brněnské JAMU a od roku 1969 jedna z tváří Divadla Husa na provázku, kde vytvořil své klaunské postavy a inscenace (<em>Am a Ea</em>, <em>Pépe</em>, <em>Šašek a královna</em>, z níž vznikl i film). Pražský divák ho zná hlavně z filmů (<em>Dědictví aneb Kurvahošigutntag</em>, <em>Pelíšky</em>, <em>Musíme si pomáhat</em>) a z televizní <em>Manéže Bolka Polívky</em>, kterou brněnské studio ČT vysílalo od roku 1987 a která měla právě v Brně domovské publikum. Pro Brno je to ale víc než herec: je to člověk, který tu zůstal, když většina jeho generace odešla do Prahy, a jeho divadlo je jedna z mála soukromých scén v zemi, které třicet let přežívají bez stálé dotace. To je i zdroj jeho sporů s městem (viz pikošky níže).</p>
+
+  <h3>Bílý dům: panelák pro stranu od žáka Fuchse</h3>
+  <p>Budova, do které vstoupíte, byla postavena v letech 1974–1976 podle projektu Miroslava Spurného a Františka Jakubce (spolupracoval Jiří Kučera). Spurný byl žákem Bohuslava Fuchse a Bedřicha Rozehnala, dvou největších jmen brněnského funkcionalismu, a je to na domě vidět: místo typické normalizační krabice je to kompozice dvou těles — osmipodlažní deskové budovy s kancelářemi a střešní terasou, obložené keramickou mozaikou, a nízkého, třípodlažního zaobleného „tubusu“ se sálem, obloženého kamenem a prolomeného úzkými nepravidelnými okny. Inspirace Niemeyerovou Brasílií a Le Corbusierem je přiznaná; Brňané tomu od začátku říkali Bílý dům, i když je spíš šedobílý. Uvnitř se dochovaly mahagonové obklady chodeb, modré keramické dlaždice a ocelová markýza nad vchodem. Dům nebyl nikdy prohlášen kulturní památkou a několikrát se o něm mluvilo jako o kandidátovi na prodej nebo směnu; Den architektury 2020 ho zařadil mezi ohrožené stavby. Po roce 1989 do něj město nastěhovalo dětskou polikliniku akademika Otakara Teyschla (proto ten vchod „vedle polikliniky“), vyšší zdravotnickou školu a kanceláře TIC Brno, v přízemí byla léta kavárna Atlas. Divadlo je tak dnes jedním z nájemníků v domě, kde se v 80. letech školili funkcionáři.</p>
+
+  <div class="box drb">
+    <p class="lbl">Tři divadelní vrstvy jednoho náměstí</p>
+    <p>Bílý dům stojí na místě Prozatímního divadla — prvního stálého českého divadla v Brně, které bylo otevřeno roku 1884 (dva roky po německém městském divadle, dnešním Mahenově) v přestavěném tanečním sále hostince U Marovských na rohu Veveří. Mělo být provizorium na pár let; české divadlo v něm nakonec hrálo (s přestavbami a pod měnícími se názvy, naposled jako divadlo Na Veveří) až do roku 1952, kdy byla zchátralá budova zavřena a zbořena. Parcela pak dvacet let zela prázdnotou, než na ni strana postavila svůj dům; připomíná to pamětní deska u Bílého domu. Druhá vrstva: v 80. letech sídlil na Žerotínově náměstí kabaret Rozmarýn, jedna z mála scén, kde se v Brně za normalizace dalo zasmát nahlas. A třetí vrstva stojí před vchodem: socha Mima od Jiřího Marka z roku 1986, kterou město původně objednalo pro Mahenovo divadlo a která tu léta vypadala jako omyl — dokud se vedle ní neusadilo divadlo klauna. Není to plán, ale vypadá to tak.</p>
+  </div>
+
+  <div class="box drb">
+    <p class="lbl">Pikošky: království, farma a radniční spor</p>
+    <ul>
+      <li>V letech 1997–2009 byl Polívka králem Valašského království, recesistického „státu“ s vlastními pasy a měnou, který ročně prodával desetitisíce pasů. Skončilo to soudem s obchodním partnerem Tomášem Harabišem o ochrannou známku; Polívka prohrál a Valašské království dnes existuje bez svého krále.</li>
+      <li>Farma Bolka Polívky v Olšanech u Vyškova, hotel s restaurací a bazénem, kam jezdily celebrity, skončila v insolvenci s dluhy přes 56 milionů; Polívka o tom mluví otevřeně a s černým humorem, což je ostatně i téma některých jeho představení.</li>
+      <li>Když v roce 2023 divadlo hledalo náhradní sál, požádalo Národní divadlo Brno o sdílení Reduty na Zelném trhu. ND Brno odmítlo s tím, že Redutu potřebuje pro vlastní provoz, a Polívka to komentoval jako typicky brněnský spor dvou institucí, které si navzájem nepřejí.</li>
+      <li>Úprava Bílého domu za městské peníze byla kritizována opozicí jako projev blízkosti primátorky Markéty Vaňkové (ODS) k Polívkovi; vedení města oponovalo, že investovalo do vlastní budovy, která stejně potřebovala opravu, a divadlo v ní platí nájem. Obojí je pravda zároveň, jak to v Brně bývá.</li>
+    </ul>
+  </div>
+
+  <div class="box jidlo">
+    <p class="lbl">Divadelní večer v jednom stylu: Continental → Bílý dům</p>
+    <p>Pět minut chůze od Bílého domu stojí na Kounicově 6 hotel Continental (1961–64, architekti Zdeněk Řihák, Alois Semela a Vladimír Kovařík), nejlépe dochovaný interiér „bruselského“ stylu v Brně: hala s keramickou mozaikou na stropě, točité schodiště, benátské terazzo a Zoubkovi <em>Ptáci</em> (sochař Olbram Zoubek, autor posmrtné masky Jana Palacha). Večeře v hotelové restauraci před představením a pak dvě stě metrů ulicí Kounicovou dolů k Bílému domu znamená, že strávíte večer kompletně v letech 1964–1976, což je možná nejpoctivější způsob, jak tu budovu zažít. Pokud chcete rezervaci, volejte dopředu; v sobotu večer bývá hotel plný konferenčních hostů. Levnější a studentská varianta: pivnice U Průmyslovky (Jana Uhra 1, pět minut od divadla), viz <a href="#hospody">kapitola o hospodách</a>.</p>
+  </div>
+
+  <div class="box tip">
+    <p class="lbl">Prakticky</p>
+    <ul>
+      <li>Šalina na Českou (1, 3, 4, 5, 6 a další — na České staví skoro všechno), pak 4 minuty pěšky po Veveří na Žerotínovo náměstí. Z Hlavního nádraží je to pěšky 15 minut.</li>
+      <li>Sál Břetislava Bakaly je pojmenován po dirigentovi Břetislavu Bakalovi (1897–1958), Janáčkově žákovi a zakladateli brněnského rozhlasového orchestru. Akustika je koncertní, tedy suchá a jasná; na činohru výhoda.</li>
+      <li>Přestávka: v sále je malý bar, fronty jsou dlouhé. Kdo chce víc, jde po představení na Moravské náměstí (Dům umění má kavárnu) nebo zpátky na Jakubák, kde v sobotu večer nezavírají.</li>
+      <li>Sobotní představení kolem 19:00 → večeře kolem 17:30. Naše sobotní trasa končí na Špilberku / Mendlově náměstí kolem 15:00, takže je čas se v hotelu převléknout.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ SOBOTA ============ -->
+<section class="loc centrum" id="sobota">
+  <h2>Sobota: od nádraží přes štatl na Špilberk</h2>
+  <p class="meta"><b>Historické jádro a hrad</b> · pěšky asi 4 km, převýšení 90 m (Špilberk) · 3 hodiny bez hradu, 4 s ním · začátek 9:30 před Hlavním nádražím · oběd kolem 13:40 pod Špilberkem</p>
+
+  <p>Sobotní trasa je klasická a záměrně: Pražák, který v Brně nikdy pořádně nebyl, by měl nejdřív vidět štatl, jak se historickému jádru říká hantecem, a hrad nad ním. Jde se od nádraží na sever, přes oba středověké trhy a tři náměstí, kolem místa, kam večer půjdete do divadla, a nakonec do kopce. Všechno je blízko: celé historické jádro Brna se vejde do obdélníku 700 × 500 metrů, tedy zhruba mezi Staroměstské náměstí a Národní třídu. Čas spotřebují interiéry — hrobka, kostnice, Špilberk — a já je označil jako volitelné, abyste mohli krátit.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>čas</th><th>kde</th><th>co</th></tr></thead>
+      <tbody>
+        <tr><td class="cas">9:30</td><td>Hlavní nádraží</td><td>nástupiště, pošta, Padowetz; sto let sporu o nádraží</td></tr>
+        <tr><td class="cas">9:45</td><td>Zelný trh</td><td>sobotní trh, kašna Parnas, Reduta a Mozart, Provázek</td></tr>
+        <tr><td class="cas">10:05</td><td>Kapucínské náměstí</td><td>hrobka s Trenckem (otevírá v 10:00; 25 min, 140 Kč)</td></tr>
+        <tr><td class="cas">10:30</td><td>Stará radnice</td><td>Pilgramův portál, drak, kolo; věž až po orloji nebo vůbec</td></tr>
+        <tr><td class="cas">10:50</td><td>náměstí Svobody</td><td>v 11:00 kulička z orloje; domy kolem</td></tr>
+        <tr><td class="cas">11:15</td><td>Česká → Jakubské náměstí</td><td>sv. Jakub, nestydatý mužíček, Souches; kostnice volitelně (20 min)</td></tr>
+        <tr><td class="cas">11:40</td><td>Moravské náměstí</td><td>Jošt, Napoleonův palác, sv. Tomáš, zmizelý Německý dům</td></tr>
+        <tr><td class="cas">12:00</td><td>Žerotínovo náměstí</td><td>Bílý dům zvenku: kam půjdete večer</td></tr>
+        <tr><td class="cas">12:15</td><td>Husova</td><td>hala hotelu International (Brusel 1962)</td></tr>
+        <tr><td class="cas">12:25</td><td>výstup na Špilberk</td><td>parkem po severním svahu, 10 min</td></tr>
+        <tr><td class="cas">12:35</td><td>Špilberk</td><td>nádvoří, vyhlídka, kasematy (45–60 min)</td></tr>
+        <tr><td class="cas">13:40</td><td>oběd</td><td>International (Gusto) nebo Stopkova na České; sestup 10 min</td></tr>
+        <tr><td class="cas">15:00</td><td>nástavec</td><td><a href="#mendlak">Mendlovo náměstí</a>: opatství, Mendel, Starobrno; šalina 1 zpět</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>1 · Hlavní nádraží: sto let hádky, kde má stát</h3>
+  <p>Začněte před nádražní budovou, zády k ní, a chvíli se dívejte na tu zvláštní situaci: nádraží stojí přímo na hraně historického jádra, koleje běží po náspu a viaduktu nad ulicemi, a šaliny, autobusy a lidé se mačkají na úzkém chodníku mezi tím vším. To je výsledek rozhodnutí z roku 1838, kdy Severní dráha císaře Ferdinanda přivedla trať z Vídně co nejblíž k hradbám. První vlak přijel 7. července 1839 a Brno se stalo prvním městem v českých zemích s parní železnicí, šest let před Prahou. Secesní podobu dostala budova při přestavbě v letech 1902–1905; z původního nádraží zbyly hlavně viadukty pod nástupišti, které patří k nejstarším železničním stavbám v Evropě.</p>
+  <p>A pak ten spor. Už ve 20. letech chtěli brněnští urbanisté (mezi nimi Bohuslav Fuchs) nádraží posunout o necelý kilometr k jihu, k řece, aby se centrum zbavilo kolejového škrtidla a město mohlo růst směrem k Svratce. Válka to zastavila, rok 1968 to zastavil znovu, v 90. letech se začalo nanovo. Brňané o tom hlasovali dvakrát: v referendu roku 2004 přišla jen čtvrtina voličů, roku 2016 zase jen čtvrtina, přičemž 81 procent z nich chtělo nádraží nechat, kde je. Obě referenda byla pro nízkou účast neplatná a v roce 2018 vláda s městem rozhodly o poloze u řeky („poloha Řeka“) s podmínkou, že se časem postaví i podzemní městský železniční průtah. Architektonickou soutěž vyhrálo roku 2021 nizozemské studio Benthem Crouwel s krajináři West 8 (v porotě seděla Eva Jiřičná); stavět se má zhruba v letech 2028–2035 za 50 až 73 miliard podle toho, kdo počítá. Až přijedete, bude tohle nádraží pořád fungovat, ale už bude vědět, že je dočasné. Pražská paralela je Masarykovo nádraží s jeho debatou o zrušení, jen s tím rozdílem, že Praha o něm nikdy nehlasovala a Brno se u toho hádá už přes sto let.</p>
+  <p>Než vyrazíte, dvě budovy po stranách. Vlevo od nádraží (Nádražní 7) stojí hlavní pošta, strohý funkcionalistický kvádr Bohuslava Fuchse z let 1937–38, který ukazuje, jak vypadalo Brno, když mělo v architektuře navrch nad Prahou. Naproti přes ulici, na rohu Bašt, je hotel Padowetz, jedna z nejstarších hotelových adres ve městě (z roku 1839, tedy vrstevník dráhy), kde za socialismu fungoval bufet Petrov, oblíbené místo prvního piva po příjezdu. Od nádraží jděte Masarykovou ulicí, hlavní pěší tepnou, a po dvou stech metrech odbočte vlevo do kopce na Zelný trh.</p>
+
+  <div class="box praha">
+    <p class="lbl">Pražské srovnání</p>
+    <p>Pražské Hlavní nádraží je o padesát metrů stranou od centra a oddělené magistrálou; brněnské je přímo na okraji jádra a jeho nástupiště jsou výš než ulice. Výsledkem je, že v Brně vystoupíte z vlaku a za sedm minut chůze stojíte na hlavním náměstí, což z Prahy neznáte. Užijte si to, protože po roce 2035 to bude jinak.</p>
+  </div>
+
+  <h3>2 · Zelný trh: tržiště do kopce</h3>
+  <p>Zelný trh (hantecem Zelňák) byl ve středověku Horní trh a je to jedno z mála evropských náměstí, které slouží svému původnímu účelu nepřetržitě od 13. století: v sobotu dopoledne tu najdete stánky s ovocem, zeleninou, květinami a sýry, v březnu hlavně s prvním jarním zbožím a sazenicemi. Pražský Havelský trh je proti tomu turistická atrakce; tady nakupují Brňané. Náměstí se svažuje od jihu k severu a je nepravidelné, protože vzniklo na úbočí mezi Petrovem a dnešním náměstím Svobody. Uprostřed stojí kašna Parnas z let 1690–1695, navržená Johannem Bernhardem Fischerem z Erlachu, pozdějším architektem vídeňského Karlskirche a Schönbrunnu, pro kterého to byla jedna z prvních velkých realizací. Je to umělá jeskyně s alegoriemi tří říší starověku (Babylon s korunou, Persie s rohem hojnosti, Řecko s toulcem), nad nimi Evropa s žezlem šlape po drakovi a dole Herkules s Kerberem. Barokní program, který říká: Evropa — rozuměj habsburská — vládne světu. Kašna byla do 19. století zdrojem vody pro trh a dodnes se do ní na Vánoce dávají kapři.</p>
+  <p>Na dolní straně náměstí stojí Reduta, nejstarší divadelní budova ve střední Evropě: hostinec a taverna s divadelním sálem tu fungovaly už v 17. století a 30. prosince 1767 tu koncertoval jedenáctiletý Wolfgang Amadeus Mozart se sestrou Nannerl. Připomíná to bronzová socha Kurta Gebauera z roku 2008: Mozart jako dítě s andělskými křídly na vysokém sloupu, dost nezvyklý pomník, který Brňané zpočátku nesnášeli a dnes ho fotí. Reduta dnes patří Národnímu divadlu Brno a hraje se v ní opera a činohra. Na protější straně, v Domě pánů z Fanalu (Zelný trh 9), sídlí od roku 1993 Divadlo Husa na provázku, nejslavnější brněnská alternativní scéna, kolébka Polívky, Pecha, Donutila i Lasici; vznikla roku 1967 a pojmenovala se podle Mahenovy knihy her. Vedle ní, v Dietrichsteinském paláci z let 1614–1618, je Moravské zemské muzeum, založené roku 1817, tedy o rok dřív než pražské Národní muzeum. Zde se v listopadu 1805 ubytoval ruský vrchní velitel Kutuzov (deska na fasádě), zatímco Napoleon bydlel na druhém konci města. Pod náměstím je Labyrint pod Zelným trhem, 212 metrů propojených středověkých sklepů v hloubce šesti až osmi metrů, otevřený roku 2011; prohlídka trvá hodinu, do trasy se nevejde, ale je to ideální program pro případ deště (<a href="#navic">kapitola Když zbude čas</a>).</p>
+
+  <div class="box drb">
+    <p class="lbl">Pikoška: tři patra pod dlažbou</p>
+    <p>Brno stojí na sklepích. Pod Zelným trhem jsou v některých místech tři patra nad sebou, protože měšťané vykopali sklepy pod sklepy, aby měli kde skladovat víno a zelí — a aby měli kam utéct při obléhání. Za druhé světové války část sloužila jako kryt a po válce se na ně zapomnělo tak důkladně, že se v centru občas propadl chodník nebo auto; od 70. let proto město podzemí systematicky mapuje a zpevňuje a z toho průzkumu nakonec vzešly i veřejné trasy — Labyrint, Mincmistrovský sklep, kostnice. Praha má podobné sklepy pod Staroměstským náměstím, ale nikdy je takhle neotevřela.</p>
+  </div>
+
+  <h3>3 · Kapucínské náměstí: baron Trenck a jeho palec</h3>
+  <p>Z dolního rohu Zelného trhu sejděte na Kapucínské náměstí, které je spíš ulicí mezi zadním traktem Dietrichsteinského paláce a kapucínským kostelem Nalezení svatého Kříže (vysvěcen 1656). Vchod do hrobky je uličkou mezi kostelem a sousedním domem, nahoru k rajskému dvorku s kašnou; v zimě otevírají v 10:00, v neděli až v 11:00, vstup 140 Kč, za focení 30 Kč. Kapucíni své mrtvé nepohřbívali do země, ale pokládali je do krypty pod kostelem, kde proudění vzduchu přirozeně vysoušelo těla; výsledkem je asi pětadvacet mumifikovaných mnichů a několik desítek světských dobrodinců kláštera v otevřených rakvích a nápis nad nimi: „Co jste vy, byli jsme i my. Co jsme my, budete i vy.“ Pohřbívalo se tu v letech 1656–1784, dokud to Josef II. nezakázal.</p>
+  <p>Nejslavnějším obyvatelem je František baron Trenck (1711–1749), velitel pandurů, nepravidelných oddílů Marie Terezie, které za válek o rakouské dědictví plenily Bavorsko a Alsasko s takovou krutostí, že se z Trencka stala postava z pohádek o strašidlech. Roku 1746 ho vojenský soud za nekázeň a násilnosti poslal na Špilberk, kde se mu jako šlechtici a bohatému muži vedlo relativně dobře (měl sluhu a hostil návštěvy), 4. října 1749 tam zemřel — podle legendy přesně v den, který si sám předpověděl — a 7. října byl pohřben v kapucínském hábitu jako „chudý bratr“, což si zajistil odkazem kláštera. Leží ve skleněné rakvi, hlavu má od těla oddělenou (údajně z neopatrného zacházení v 19. století) a dlouho mu chyběl levý palec: někdo ho ukradl někdy v 19. století a palec se objevil ve sbírkách Muzea města Brna, kde ležel přes sto let. V roce 2017 ho po ověření na CT ve Fakultní nemocnici vrátili na místo. Kapucíni to komentovali s klidem lidí, kteří mají ve sklepě tři sta let mrtvoly.</p>
+
+  <div class="box praha">
+    <p class="lbl">Pražské srovnání</p>
+    <p>Pražská kapucínská krypta u Lorety není veřejnosti přístupná; nejbližší pražský ekvivalent je Vyšehradský hřbitov nebo kostnice v Sedlci u Kutné Hory, jenže ta je dekorace z kostí. Tady leží konkrétní lidé s konkrétními jmény a Brňané na ně chodí od školních výletů až po první rande, což je taky něco, co o Praze říct nejde.</p>
+  </div>
+
+  <h3>4 · Stará radnice: portál s křivou fiálou, drak a kolo</h3>
+  <p>Vraťte se na Zelný trh a horním rohem vyjděte do Radnické ulice; po pravé straně je Stará radnice, nejstarší světská stavba v Brně (sídlo městské správy od 13. století do roku 1935) a od července 2024 národní kulturní památka. Zastavte se před portálem z roku 1510 od Antona Pilgrama, sochaře a stavitele, který později vytvořil kazatelnu a varhanní podnož ve vídeňském Svatoštěpánském dómu. Pět fiál nad portálem a ta prostřední je zřetelně ohnutá. Legenda říká, že radní Pilgramovi nezaplatili, co slíbili, a on jim to vrátil tím, že prostřední fiálu vykroutil — „jak křivé je právo v tomhle městě“. Kunsthistorici mluví o záměrné pozdně gotické hříčce, ale legendě to v Brně nikdo nevěří méně.</p>
+  <p>V průjezdu visí brněnský drak a kolo, dvě nejznámější brněnské pověsti na jednom místě. Drak je vycpaný nilský krokodýl, který se do Brna dostal nejspíš jako dar arciknížete Matyáše roku 1608; pověst praví, že obludu, která žrala dobytek u Svratky, zabil řeznický tovaryš tím, že jí předhodil volskou kůži vycpanou nehašeným vápnem, a když se drak napil, roztrhlo ho to. Kolo zavěšené vedle má přesné datum: 1636. Kolář Jiří Birek z Lednice se vsadil, že za jediný den od východu do západu slunce pokácí strom, udělá z něj kolo a dokutálí ho do Brna, padesát kilometrů daleko. Vyhrál dvanáct tolarů a prohrál všechno ostatní: lidé si začali šeptat, že mu pomáhal ďábel, zákazníci se mu vyhýbali a zemřel chudý. Ve dvorku za průjezdem je informační centrum (TIC Brno, Brnopas) a vstup na věž: 63 metrů, 173 schodů, v lednu až březnu otevřeno jen pátek–neděle 10–18 za 90 Kč. Vyhlídka na Petrov a Špilberk je odsud nejlepší v centru, ale před jedenáctou už na ni nemáte čas; buď se vraťte po orloji, nebo věž oželte, protože na Špilberku bude výhled stejně.</p>
+
+  <h3>5 · Náměstí Svobody a orloj: kulička v 11:00</h3>
+  <p>Radnickou a Zámečnickou dojdete za tři minuty na náměstí Svobody, středověký Dolní trh a dnes jediné místo, které Brňané bez ironie považují za „náměstí“. Je trojúhelníkové, nevelké (asi 130 × 80 metrů), bez sochy jezdce na koni a bez vlajících praporů; funguje jako obývák, ne jako jeviště. Do 10:55 si stoupněte k černému žulovému monolitu uprostřed. Brněnský orloj z roku 2010 (architekt Oldřich Rujbr, výtvarník Petr Kameník) je 5,8 metru vysoký leštěný obelisk z černé jihoafrické žuly a stál asi dvanáct milionů. Má připomínat švédské obléhání roku 1645 (tvar nábojnice), ukazovat čas (což umí jen velmi obtížně; návod na čtení času je na ceduli a málokdo ho zvládne) a každý den v 11:00 vypustit jedním ze čtyř otvorů skleněnou kuličku, kterou si šťastlivec odnese domů. Kolem jedenácté se u něj proto tvoří hlouček lidí s rukama v otvorech. Brňané mu dali přezdívky, které se nehodí do průvodce, a zároveň ho mají rádi, protože se nad ním mohou pohoršovat. Praha má orloj, na který se dívá celý svět; Brno má orloj, nad kterým se směje samo. Oba fungují.</p>
+  <p>Domy kolem jsou učebnice brněnské historie. Dům pánů z Lipé (č. 17) je renesanční palác z let 1589–1596 se sgrafitovou fasádou a arkádovým dvorem, nejbohatší renesance ve městě. Dům U Čtyř mamlasů (č. 10) z let 1901–1902 nese čtyři obří atlanty, kterým Brňané okamžitě začali říkat mamlasi; Pražák zná podobné figury z Braunova portálu Clam-Gallasova paláce, ale tady jsou čtyři vedle sebe a vypadají skutečně utrápeně. Kleinův palác (č. 15) z let 1847–1848 navrhli vídeňští architekti Ludwig Förster a Theophil Hansen pro bratry Kleiny, stavitele železnic, a jeho litinové prvky z jejich sobotínských železáren jsou nejstarší použití litiny na fasádě v Brně. Palác Omega (č. 9) z roku 2006 od Kuby a Pilaře s celoskleněným průčelím vyvolal v Brně stejnou debatu jako v Praze Tančící dům, a stejně jako on zestárl do samozřejmosti. Uprostřed morový sloup z let 1679–1683. Když byste tu stáli v listopadu 1805, viděli byste v každém okně dvě svíčky: tak si Napoleon nechal od města vyjádřit radost z příjezdu.</p>
+
+  <div class="box drb">
+    <p class="lbl">Pikoška: Brno a jeho „nejvyšší“</p>
+    <p>Na náměstí Svobody se každý rok staví vánoční strom a každý rok je o něm spor, jestli je dost velký, a od roku 2010 je tu také orloj, o kterém se čtyři roky řešilo, co vlastně znamená. Brno má v sobě sklon k sebeironii, kterou Praha nemá — pražská debata je vždycky o tom, jestli je něco důstojné, brněnská o tom, jestli je to ostuda, a čím víc to je ostuda, tím víc se to má rádo. Platí to pro orloj, pro Jošta na Moravském náměstí (viz níže) i pro Bílý dům.</p>
+  </div>
+
+  <h3>6 · Česká a Jakubské náměstí: kostel s mužíčkem, kostnice a původní adresa divadla</h3>
+  <p>Z náměstí Svobody vyjděte Českou ulicí, brněnskou Na Příkopě: pěší zóna se správným poměrem bank, pekáren, trafik a hospod. „Pod hodinami“ na České (hodiny na rohu u Jakubské) je nejběžnější brněnská sraz-adresa, obdoba pražského „pod ocasem“. Po pár desítkách metrů odbočte doprava do Jakubské k náměstí, které Brňané nazývají Jakubák a které je dnes nejhustší barovou čtvrtí ve městě. Nad ním se tyčí kostel sv. Jakuba s 92 metrů vysokou věží (dokončena 1592), farní kostel německé a vlámské části středověkého města, zatímco Petrov patřil Čechům. Z té rivality je nejslavnější brněnská drobnost: na jižní straně kostela, nad oknem nalevo od portálu, sedí drobná kamenná figurka muže, který se předklání a vystrkuje holý zadek směrem k Petrovu. „Nestydatý mužíček“ z roku 1526 je podle pověsti pomsta kameníka od sv. Jakuba petrovské kapitule; podle historiků umění jde o běžný pozdně gotický vtip zedníků, který se jen shodou okolností dívá správným směrem. Uvnitř kostela, v presbytáři, je náhrobek Louise Raduita de Souches (1608–1683), hugenota z La Rochelle, který Brno v roce 1645 ubránil proti Švédům a na stará kolena v něm zůstal jako velitel a majitel panství v Jevišovicích.</p>
+  <p>Před kostelem je vstup do kostnice u sv. Jakuba, objevené roku 2001 při rekonstrukci dlažby a zpřístupněné 2012: zhruba 50 000 lidských ostatků ze zrušeného hřbitova, naskládaných od 17. století do podzemních komor, druhá největší kostnice v Evropě po pařížských katakombách (tvrdí Brno; Sedlec se nepočítá, protože tam je kostí méně). Prohlídka trvá dvacet minut, uvnitř hraje hudba brněnského skladatele Miloše Štědroně a je tam zima. Na východní straně náměstí si všimněte domu č. 5: tady třicet let sídlilo Divadlo Bolka Polívky, než se musel roku 2023 vystěhovat kvůli statice, a pořád je tu jeho pokladna, galerie a restaurace Poslední leč. Pokud máte koupit lístky na místě, je to tady. Sousední budova za rohem na Moravském náměstí 3 je kino Scala z roku 1929, nejstarší fungující brněnské kino, které od roku 2013 provozuje Masarykova univerzita jako univerzitní biograf; obě budovy sdílejí konstrukce a právě to divadlo stálo sál.</p>
+
+  <div class="box jidlo">
+    <p class="lbl">Kde se po cestě zastavit</p>
+    <p>Na České 5 je Stopkova plzeňská pivnice, založená roku 1910 Jaroslavem Stopkou, s fasádou od malíře Ládi Nováka z roku 1919, dnes řetězová (Kolkovna), ale s interiérem a atmosférou staré brněnské pivnice; v sobotu před polednem bez rezervace. Na Běhounské 16, deset kroků od Jakubáku, je Výčep Na stojáka: výčep bez jediné židle, kde se pije ve stoje jako v Lisabonu, s rotujícími pivy z malých pivovarů. Kafe: Café Placzek na Minoritské, dvě minuty odsud, nebo kavárna v Domě umění na Moravském náměstí.</p>
+  </div>
+
+  <h3>7 · Moravské náměstí: Jošt na žirafě, Napoleonův palác a dům, který zmizel</h3>
+  <p>Z Jakubáku je to po Běhounské dvě minuty na Moravské náměstí, dřív Lažanského a Rudé armády, v letech 2021–2022 nově upravené jako park s kavárnou a vodním prvkem. Dominantou je kostel sv. Tomáše, založený roku 1350 moravským markrabětem Janem Jindřichem, mladším bratrem Karla IV., jako augustiniánský klášterní kostel a pohřebiště moravských Lucemburků. Jan Jindřich i jeho syn Jošt tu leží; Jošt Lucemburský byl v říjnu 1410 zvolen římským králem a za necelé čtyři měsíce zemřel, takže Brno má svého krále, o kterém nikdo neví. Před kostelem na něj od roku 2015 ukazuje jezdecká socha Odvaha od Jaroslava Róny — osmimetrový rytíř na koni s nesmyslně dlouhýma nohama, kterému Brňané do týdne začali říkat žirafa. Je to jedna ze čtyř soch „ctností“ pro čtyři rohy náměstí: Spravedlnost Maria Kotrby (2010, před Nejvyšším správním soudem, muž vzpírající kvádr, kterému se říká „vzpěrač“) a bronzový model Brna z doby švédského obléhání, který na náměstí přibyl před několika lety a do kterého si děti sedají; čtvrtá, Prozíravost, zatím nevznikla. Praha má Žižku, Václava a Palackého, tedy sochy, které se nesmí zpochybňovat. Brno má žirafu, vzpěrače a vibrátor, a je na to pyšné.</p>
+  <p>Vedle kostela stojí Místodržitelský palác, původní augustiniánský klášter, který Josef II. roku 1783 mnichům sebral (odešli na Staré Brno, viz <a href="#mendlak">Mendlovo náměstí</a>) a udělal z něj sídlo moravského místodržitele. Právě tady bydlel Napoleon: přijel 20. listopadu 1805 v deset dopoledne, bydlel tu do 29. listopadu, kdy ve dvě ráno odjel k Slavkovu, a vrátil se po vítězné bitvě 7. prosince, aby tu zůstal do poloviny měsíce. V roce 1809 se při druhé návštěvě ubytoval tamtéž a odsud vyjel na inspekci Špilberku. Dnes v paláci sídlí Moravská galerie se stálou expozicí starého umění, do které je vstup zdarma. Na severním konci náměstí byl do roku 1945 Německý dům (Deutsches Haus), monumentální neorenesanční budova z let 1888–1891, kulturní a společenské centrum brněnských Němců a symbol toho, kdo v Brně vládne; v dubnu 1945 byla poškozena při bojích a hned po osvobození ji město nechalo strhnout, což byl stejný symbolický akt jako jeho postavení. Místo něj stojí pomník rudoarmějce. Česká odpověď na Německý dům, Besední dům z let 1871–1873 od Theophila Hansena (architekta vídeňského Musikvereinu a parlamentu), stojí tři minuty odsud na Komenského náměstí a dnes v něm sídlí Filharmonie Brno. Německé a české Brno stavěly vedle sebe konkurenční paláce jako dva kluby na jednom náměstí; vyhrálo to české, ale Hansenův dům má lepší akustiku.</p>
+
+  <h3>8 · Žerotínovo náměstí: Bílý dům zvenku</h3>
+  <p>Od sv. Tomáše jděte na západ kolem Nejvyššího správního soudu a přes Žerotínovo náměstí, kde je cíl večera: Bílý dům, popsaný v <a href="#divadlo">kapitole o divadle</a>. Teď si ho jen prohlédněte za denního světla, protože večer to neuvidíte: keramickou mozaiku na deskové budově, zaoblený „tubus“ sálu s nepravidelnými okny, markýzu nad vchodem, sochu Mima a pamětní desku Prozatímního divadla na místě, kde od roku 1884 hrálo první české divadlo v Brně. A pak se otočte: z tohoto místa je hezký pohled zpátky na věž sv. Tomáše a na Špilberk, kam jdete.</p>
+
+  <h3>9 · Husova a hotel International: Brusel v Brně</h3>
+  <p>Z Žerotínova náměstí sejděte ulicí Husova na jih. Husova je kus brněnské okružní třídy, která nahradila hradby: po levé straně Pražákův palác (1873–74, opět Theophil Hansen, pro moravského politika Aloise Pražáka; dnes Moravská galerie s moderním uměním) a Uměleckoprůmyslové muzeum (1883), po pravé straně se zvedá park na svahu Špilberku. Na Husově 16 stojí hotel International. Pro Pražáka to chce vysvětlení: pražský hotel International v Dejvicích z let 1952–1956 je stalinský svatební dort, brněnský International o šest let mladší je jeho přesný opak. Soutěž roku 1957 vyhrál Vilém Kuba s vodorovnou funkcionalistickou kompozicí, byl ale z politických důvodů odvolán a projekt převzal tým Arnošta Krejzy (s Milošem Kramolišem), který zachoval Kubovo řešení a přidal to, čemu se dnes říká bruselský styl — podle československého pavilonu na Expu 1958: sklo, chrom, mramor, organické tvary, umění zabudované do architektury. Hotel se otevřel 28. června 1962 a byl prvním poválečným hotelem v Brně postaveným na mezinárodní úrovni, určeným hlavně hostům veletrhů; roku 1996 v něm bydlela královna Alžběta II.</p>
+  <p>Vstupte do haly, i když tu nebydlíte: hotelové haly jsou veřejné a tahle je muzeum. Hned u vchodu je dekorativní mříž z taveného skla a kovu od Jaroslavy Brychtové a Stanislava Libenského (1962), autorů skleněných plastik pro Expo 58 i pro pražské metro; vedle recepce kamenná mozaika hodin se zvěrokruhem od Jana Marii Najmra; v salonku restaurace Gusto tepaní ptáci <em>Koroptve</em> od Bohdana Laciny a Miloše Axmana; u restaurace Siesta pískovcová <em>Sedící dívka</em> Konráda Babraje a keramická mříž od Babraje s Františkem Malým; a v bývalém baru Interclub (dnes kasino) keramická mozaika <em>Hudebníci</em> od Bohumíra Matala, nejvýznamnějšího brněnského malíře poválečné generace. Všechno z roku 1962, všechno na svém místě. Budova byla kdysi na seznamu kulturních památek a byla z něj vyřazena, což majiteli umožnilo přestavby; interiéry ale zůstaly v překvapivé míře. Pokud sem chcete na oběd, hotel má tři restaurace: Gusto (česká kuchyně), Siesta (mezinárodní, s barem) a Lucullus, který je jen snídaňový (pro nehotelové hosty 590 Kč, pokud byste chtěli snídat v Bruselu). Pro lidi, kteří si pamatují Interhotely, je to dojemné místo; pro ostatní je to prostě velmi dobře zachovaný hotel z roku 1962.</p>
+
+  <h3>10 · Špilberk: Petřín s Pankrácem</h3>
+  <p>Od hotelu vystoupáte na hrad parkem; z Husovy vedou nahoru schody a serpentiny a za deset minut jste u hradní brány. Špilberk (hantecem Špilas) založil Přemysl Otakar II. kolem roku 1270 jako markraběcí hrad a sídlo zemské správy. V 17. a 18. století byl přestavěn na barokní pevnost s bastiony a příkopem, která se roku 1645 ubránila Švédům a roku 1742 Prusům, a v letech 1742–1743 pod jeho valy vyhloubili kasematy, dvoupodlažní klenuté chodby pro ukrytí posádky. Roku 1783 nařídil Josef II. přeměnit kasematy na vězení pro nejtěžší zločince, připoutané v temných kobkách ke zdi, a tím začala kapitola, která Špilberk proslavila po celé Evropě: v letech 1820–1855 to bylo státní vězení Habsburků pro politické vězně. Italští karbonáři, mezi nimi spisovatel Silvio Pellico, který tu seděl v letech 1822–1830 a své vzpomínky <em>Le mie prigioni</em> (Mé žaláře, 1832) udělal ze Špilberku celoevropský symbol habsburské tyranie („žalář národů“); uherští jakobíni, polští povstalci po roce 1830 a 1846, a nakonec nejslavnější český loupežník Václav Babinský, který si tu v letech 1841–1855 odseděl dvacet let a pak dožil jako zahradník v klášteře v Řepích. František Josef I. věznici roku 1855 zrušil, Špilberk se stal kasárnami, v letech 1939–1941 věznicí gestapa a od roku 1960 je sídlem Muzea města Brna.</p>
+  <p>Co stihnout za hodinu: projít nádvoří, vylézt na vyhlídkovou věž (nebo aspoň k parapetu jižního bastionu, odkud je ten klasický pohled na Petrov s dvojicí věží a za ním na Pálavu), a kasematy — prohlídka s průvodcem trvá zhruba tři čtvrtě hodiny, bez průvodce půl hodiny, 190–260 Kč podle varianty; od srpna 2026 je v nich nově otevřená chodba s expozicí o bombardování Brna v letech 1944–1945, kdy při nejtěžším americkém náletu 20. listopadu 1944 zemřelo několik set lidí a zmizela část centra. V kasematech je i v létě osm stupňů, vezměte si bundu. Stálé expozice o dějinách města a o vězení jsou dobré, ale na ně už čas nebude. Z hradu se dá sejít na tři strany: zpátky na Husovu (oběd), na západ Pellicovou ulicí na Mendlovo náměstí (<a href="#mendlak">nástavec</a>), nebo severně k Údolní a Obilnímu trhu, kde stojí honosná zemská porodnice z roku 1888, v níž se narodila půlka Brna.</p>
+
+  <div class="box drb">
+    <p class="lbl">Pikošky ze Špilberku</p>
+    <ul>
+      <li>Trenck tu neseděl v kasematech, ale v „lepší“ cele v horním patře, kde přijímal návštěvy a hrál karty; vězni na Špilberku byli rozděleni podle stavu přesně jako svět venku.</li>
+      <li>Pellico popisuje, jak vězni komunikovali klepáním na zeď a jak jim dozorce Schiller, brněnský Němec, tajně nosil knihy; Schiller má díky tomu v Itálii lepší pověst než kdokoli jiný z Brna.</li>
+      <li>V roce 1809 nařídil Napoleon opevnění Špilberku rozbořit a Rakušané to částečně udělali; proto je dnes hrad obklopen parkem a ne hradbami. Park vznikal od 60. let 19. století a Brňané si sem chodí na první jarní slunce, v březnu tu kvetou sněženky a krokusy.</li>
+      <li>Ze Špilberku je vidět Petrov, ale ne naopak: z Petrova zakrývá hrad kopec. To je důvod, proč je na všech brněnských pohlednicích pohled ze Špilberku, a ne obráceně.</li>
+    </ul>
+  </div>
+
+  <div class="box jidlo">
+    <p class="lbl">Oběd pod hradem (13:40)</p>
+    <p>Tři možnosti podle nálady. <b>Hotel International, Gusto</b>: česká kuchyně v hotelovém provedení, obsluha stará školy, ceny vyšší, ale ne pražské; rezervace není nutná, v sobotu odpoledne tu bývá klid. <b>Stopkova plzeňská pivnice</b> (Česká 5, 7 minut): vepřo-knedlo, tatarák, Plzeň, hluk; v sobotu po jedné se dá sednout. <b>Lokál U Caipla</b> (Kozí 3, 8 minut): brněnská pobočka pražského Lokálu, tedy přesně to, co znáte, včetně Plzně z tanku; vhodné, pokud chcete jistotu. Všechny tři jsou v <a href="#hospody">kapitole o hospodách</a> s kontextem.</p>
+  </div>
+</section>
+
+<!-- ============ MENDLOVO NÁMĚSTÍ ============ -->
+<section class="loc centrum" id="mendlak">
+  <h2>Sobotní nástavec: Mendlovo náměstí, opatství a Starobrno</h2>
+  <p class="meta"><b>Staré Brno</b> · ze Špilberku 15 minut pěšky Pellicovou a Pekařskou, zpět šalinou 1 na Hlavní nádraží (3 zastávky) · 60–75 minut</p>
+
+  <p>Pokud vám po obědě zbude hodina a chcete Mendela, sejděte ze Špilberku západním svahem do Pellicovy ulice (pojmenované po vězni z hradu). V čísle 8a stojí vila, kam se roku 1913 přestěhovala rodina brněnského textilního manažera Rudolfa Gödela; jeho syn Kurt, narozený 28. dubna 1906 o pár set metrů dál na Pekařské 5, se stal největším logikem 20. století a nikdy se do Brna nevrátil. Pekařská, strmá ulice plná nemocnic (Fakultní nemocnice u sv. Anny je z 60. let 19. století), vás svede dolů na Mendlovo náměstí.</p>
+  <p>Mendlovo náměstí (hantecem Mendlák) bylo do nedávna nejošklivější důležité náměstí v Brně, přestupní uzel šalin a trolejbusů bez jediného stromu. V letech 2022–2023 dostalo park a kavárnu a dá se tu konečně zastavit. Na jeho západní straně stojí Starobrněnské opatství augustiniánů, původně klášter cisterciaček Aula Sanctae Mariae, který roku 1323 založila Eliška Rejčka, dvojnásobná ovdovělá česká královna, která se v Brně usadila se svým partnerem Jindřichem z Lipé a je pohřbena v klášterní bazilice Nanebevzetí Panny Marie: její hrob označuje písmeno E v dlažbě před hlavním oltářem. Bazilika je cihlová gotika, na Moravě unikátní, blízká spíš Slezsku a severu Evropy. Augustiniáni sem přišli roku 1783, když je Josef II. vystěhoval od sv. Tomáše, a jejich nejslavnějším členem je Johann Gregor Mendel, opat od roku 1868, který v klášterní zahradě v letech 1856–1863 křížil hrách a roku 1865 to v Brně přednesl a roku 1866 vydal. V zahradě stojí od roku 2022 nový skleník na základech toho původního a Mendelovo muzeum Masarykovy univerzity má v klášteře expozici. Od roku 1865 tu v klášterním sboru zpíval jako „fundatista“ jedenáctiletý Leoš Janáček z Hukvald; když Mendel roku 1884 zemřel, dirigoval mu Janáček rekviem. Dva nejslavnější Brňané se tedy potkávali denně a ani jeden z nich se v Brně nenarodil.</p>
+
+  <div class="box drb">
+    <p class="lbl">Pikoška: Mendelova exhumace</p>
+    <p>V létě 2021 nechala Masarykova univerzita s augustiniány otevřít hrobku opatů na Ústředním hřbitově, kde leží pět opatů bez označení, který je který. Mendela identifikovali porovnáním mitochondriální DNA s vlasy nalezenými v jeho knihách a k dvoustému výročí narození (2022) mu přečetli genom. Zjistili mimo jiné předpoklady k cukrovce a srdečním a ledvinovým potížím, tedy k tomu, na co také zemřel. Mendel, který celý život čekal, až mu někdo porozumí, se tak stal prvním vědcem, jehož vlastní genetika byla přečtena metodami, které umožnil.</p>
+  </div>
+
+  <p>Na jižní straně náměstí voní pivovar Starobrno, průmyslově od roku 1872, s tradicí, která se hlásí k roku 1325 a klášternímu pivovaru cisterciaček (což je marketing, ale podložený). Od roku 2003 patří Heinekenu, vaří tu i Zlatopramen a Hostan a brněnský patriotismus vůči Starobrnu je komplikovaný: „Starobrno je špatné, ale naše.“ Ve vinném sklepě pod opatstvím je Vinárna U Královny Elišky, jedna z nejstarších brněnských vináren se sklepem ze 14. století, pivovarská restaurace u Starobrna měnila provozovatele, obojí si ověřte na místě. Ze zastávky Mendlovo náměstí jede šalina 1 přes Nové sady na Hlavní nádraží za sedm minut; pokud bydlíte u Moravského náměstí, jeďte trolejbusem na Českou, ale ověřte číslo.</p>
+
+  <div class="box praha">
+    <p class="lbl">Pražské srovnání</p>
+    <p>Břevnovský klášter s pivovarem a hrobem Anastáze Opaska, jen ve městě a ne na kopci. Ale pražský klášter nemá nikoho, kdo by změnil vědu; Brno má v jednom klášteře zakladatele genetiky a zakladatele moderní české hudby a staví na tom celou identitu „města vědy“, včetně kampusu v Bohunicích, kde dnes sedí přes tři tisíce vědců.</p>
+  </div>
+</section>
+
+<!-- ============ NEDĚLE ============ -->
+<section class="loc periferie" id="nedele">
+  <h2>Neděle: Petrov, Vaňkovka, Cejl a Zbrojovka</h2>
+  <p class="meta"><b>Z katedrály do moravského Manchesteru</b> · pěšky asi 5 km, rovina · 3 hodiny bez muzea, 3,5 s ním · začátek 10:30 na Petrově · konec u šaliny Vojenská nemocnice v Zábrdovicích · odtud buď zpět do centra, nebo dál na <a href="#hady">Hády</a></p>
+
+  <p>Nedělní trasa je ta, kvůli které se tenhle průvodce psal jinak než běžné průvodce. Začíná sice na Petrově, protože v 11:00 tam zvoní poledne, ale pak sejde od katedrály dolů a odejde z pohlednicového Brna na východ, do čtvrti, které se říká brněnský Bronx: podél bývalých textilek, kolem věznice z 18. století, Romského muzea a zavřeného kina až k troskám a staveništím Zbrojovky u Svitavy. Je to Brno, které vzniklo v 19. století jako první průmyslové město v českých zemích a které ještě nestihla gentrifikace, takže má všechno zároveň: secesní nájemní domy s opadanou omítkou, nonstop herny, vietnamská bistra, streetart, nové kavárny a lidi, kteří tu bydlí tři generace. V neděli dopoledne je to klidná a bezpečná procházka; pocit, že jste „někde jinde“, je ale skutečný a je to přesně ten pocit, který Praha ve svém středu už nenabízí.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>čas</th><th>kde</th><th>co</th></tr></thead>
+      <tbody>
+        <tr><td class="cas">10:30</td><td>Petrov</td><td>katedrála, krypta; věže volitelně</td></tr>
+        <tr><td class="cas">10:55</td><td>Denisovy sady</td><td>terasa, obelisk, v 11:00 zvony „poledne“</td></tr>
+        <tr><td class="cas">11:10</td><td>sestup kolem nádraží</td><td>Bašty → Nádražní → podchod → Vaňkovka, 15 min</td></tr>
+        <tr><td class="cas">11:25</td><td>Vaňkovka a Zvonařka</td><td>strojírna 1865, slévárna, autobusák po liftingu</td></tr>
+        <tr><td class="cas">11:50</td><td>Dornych → Křenová</td><td>pod viaduktem, zmizelá Vlněna</td></tr>
+        <tr><td class="cas">12:05</td><td>Vlhká → Cejl</td><td>plácek Brnox, Mosilana, streetart</td></tr>
+        <tr><td class="cas">12:20</td><td>Cejl východ</td><td>Kino Radost, Káznice (nádvoří, pokud je otevřeno)</td></tr>
+        <tr><td class="cas">12:40</td><td>Bratislavská 67</td><td>Muzeum romské kultury, volitelně 40 min</td></tr>
+        <tr><td class="cas">13:20</td><td>oběd</td><td>Stará Tkalcovna na Cejlu nebo bistro</td></tr>
+        <tr><td class="cas">14:00</td><td>Zábrdovice</td><td>klášter-nemocnice, Fuchsovy lázně, Zbrojovka, Svitava</td></tr>
+        <tr><td class="cas">14:30</td><td>šalina Vojenská nemocnice</td><td>2 nebo 3 do centra (15 min), nebo na Starou osadu a <a href="#hady">Hády</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>1 · Petrov: Vyšehrad bez hřbitova</h3>
+  <p>Na Petrov se dostanete z Zelného trhu Petrskou ulicí nebo z Šilingrova náměstí Biskupskou; obojí pět minut do kopce. Katedrála sv. Petra a Pavla stojí na skalním ostrohu nad Svratkou (dnes nad nádražím a Vaňkovkou), kde stál brněnský hrad dřív než Špilberk; románská bazilika z 11.–12. století, jejíž zbytky uvidíte v kryptě, byla v gotice přestavěna, v letech 1738–1748 dostala barokní interiér od Mořice Grimma a nakonec v letech 1904–1905 dvě 84 metrů vysoké novogotické věže od vídeňského architekta Augusta Kirsteina. Ty věže jsou mladší než Petřínská rozhledna a Brno bez nich nejde poznat; jsou na desetikoruně. Katedrálou je kostel od roku 1777, kdy Marie Terezie zřídila brněnské biskupství, do té doby Brno patřilo pod Olomouc. Uvnitř je barokní kazatelna, gotická socha Madony ze 14. století, jedna z nejstarších v Brně, a, pokud bude otevřená, krypta s románským zdivem. Výstup na věže se v zimě omezuje, zeptejte se u pokladny; pohled odtud je ovšem jiný než ze Špilberku: na jih přes nádraží a průmyslové Komárov až k Pálavě, kterou za jasného březnového rána uvidíte jako šedý hřeben na obzoru, 40 kilometrů daleko.</p>
+  <p>V 10:55 sejděte na terasu pod katedrálou do Denisových sadů a počkejte na zvony. Je to zvláštní zážitek: celé město ví, že je jedenáct, ale zvony říkají dvanáct, a Brňané to vysvětlují každému návštěvníkovi s hrdostí, jako kdyby Torstensona odehnali sami. Denisovy sady byly založeny v letech 1814–1818 na místě zbořeného opevnění jako park Františkov (Franzensberg), první veřejný park na místě hradeb v českých zemích; roku 1919 je přejmenovali po francouzském historikovi Ernestu Denisovi, příteli Čechoslováků. Obelisk z roku 1818 oslavuje konec napoleonských válek, kolonáda pod ním nabízí lavičky s výhledem a v létě tu Brňané sedí na trávě s vínem, což je zřejmě nejvyšehradštější scéna ve městě.</p>
+
+  <div class="box praha">
+    <p class="lbl">Pražské srovnání</p>
+    <p>Petrov je Vyšehrad: katedrála na skále nad řekou, výhled k jihu, legenda o kněžně (tady o královně Elišce Rejčce), románská krypta. Chybí hřbitov s národními velikány (brněnský Slavín je čestné pohřebiště na Ústředním hřbitově na jihu města, kde leží Janáček, Mendel, Jiří Mahen i Bohuslav Fuchs) a chybí hradby, které Brnu zbořili dřív. Naopak přebývá nádraží přímo pod skálou, takže z terasy koukáte na nástupiště a kolem jedoucí vlaky, což je na pražském Vyšehradě nemyslitelné a tady docela působivé.</p>
+  </div>
+
+  <h3>2 · Vaňkovka a Zvonařka: strojírna, která přežila jako pasáž</h3>
+  <p>Z Denisových sadů sejděte na Bašty a kolem Padowetze k nádraží; přímo před nádražím je podchod a lávka, které vás přes koleje a dvě ulice dovedou za pět minut k Vaňkovce. Území, kterým jdete — mezi nádražím, Svratkou a autobusovým nádražím — je tzv. jižní centrum, místo, kde má po přesunu nádraží vyrůst nová čtvrť Trnitá: dnes je to mix parkovišť, nových kancelářských bloků a zbytků průmyslu. Vaňkovka je jeho jádro. Friedrich Wannieck tu roku 1865 založil strojírnu a slévárnu, která vyráběla parní stroje, zařízení pro cukrovary, mlýny a pivovary pro celou monarchii a byla jedním z největších strojírenských podniků Moravy; po roce 1945 byla znárodněna a výroba definitivně skončila na konci 80. let. Deset let pak areál chátral a vypadalo to na demolici. Nadace Vaňkovka (1994) prosadila, že se zachová aspoň část historických hal, a developer ECE roku 2005 otevřel Galerii Vaňkovka: nákupní centrum, které z venku vypadá jako nákupní centrum, ale uvnitř má zachovanou správní budovu, litinové sloupy a hlavně bývalou slévárnu, vysokou halu s ocelovým krovem, kde se dnes konají výstavy a akce. Je to jedna z prvních konverzí průmyslové památky v Česku, která se komerčně povedla, a slouží jako příklad, jak to může vypadat; Praze se nic takového s ČKD nebo Waltrovkou nepodařilo.</p>
+  <p>Hned za Vaňkovkou je ÚAN Zvonařka, hlavní brněnské autobusové nádraží. Pro Pražáka, který zná Florenc, je to nečekaný zážitek: brutalistní terminál z 80. let (projekt vznikal od 70. let) byl v roce 2020 rekonstruován studiem CHYBIK+KRISTOF tak, že z něj odstranili všechny přístavky a obložení a nechali holou ocelovou konstrukci natřenou na bílo, s novými skleněnými čekárnami pod ní. Získalo to mezinárodní ceny a je to názorná ukázka, co se dá udělat s ošklivou socialistickou stavbou, když ji někdo bere vážně. Pět minut stačí.</p>
+
+  <h3>3 · Dornych a Křenová: pod viaduktem k zmizelé Vlněně</h3>
+  <p>Z Vaňkovky jděte ulicí Dornych k severu, pod železničním viaduktem, který nese tratě na Českou Třebovou a Přerov, a dál na Křenovou. Teď jste vstoupili do území, kterému se v 19. století říkalo moravský Manchester. Brno bylo prvním průmyslovým městem v českých zemích: roku 1764 založil Johann Leopold Köffiller první soukenickou manufakturu, do roku 1800 jich bylo přes dvacet a všechny stály tady, kolem Křenové, Cejlu a Svitavského náhonu, protože potřebovaly vodu na barvení a praní vlny. Na Křenové stála do roku 2016 Vlněna, komplex vlnařských továren s historií sahající do 18. století; byla zbořena pro kancelářský kampus, který na jejím místě vyrůstá, a Brno vedlo stejnou debatu jako Praha o nádraží Žižkov: jestli je průmyslová památka památka, když je to jen cihlová hala. Odpověď byla ne, a zůstaly fotografie. Na Křenové si všimněte nájemních domů z přelomu století s pavlačemi ve dvorech: tady bydleli dělníci textilek, převážně Češi z venkova, zatímco majitelé — skoro všichni němečtí nebo židovští podnikatelé — bydleli v Černých Polích a v Pisárkách.</p>
+
+  <h3>4 · Cejl: Brnox</h3>
+  <p>Ulicí Vlhkou dojdete z Křenové na Cejl, hlavní tepnu čtvrti (jméno z německého <em>Zeile</em>, řada domů). Na rohu Cejlu a Vlhké je malé náměstíčko, které bylo upraveno v souvislosti s projektem <em>Brnox</em> výtvarnice Kateřiny Šedé z roku 2016: průvodce po „brněnském Bronxu“, který Šedá sepsala s místními obyvateli jako skutečného turistického průvodce po čtvrti, kam nikdo nechodí — s tipy na hospody, herny, zastavárny a lidi, které stojí za to potkat. Kniha dostala cenu Magnesia Litera 2017 a je dosud nejlepší věc, která byla o téhle čtvrti napsána; pokud ji seženete v antikvariátu, berte ji s sebou. Název Bronx dala čtvrti brněnská policie a média v 90. letech, kdy se na Cejl a Bratislavskou soustředila romská komunita, kterou sem komunistický režim po válce přesídlil ze Slovenska jako pracovní sílu pro textilky a Zbrojovku (původní brněnští Romové byli za války téměř všichni zavražděni, mnozí přes tábor v Hodoníně u Kunštátu). Dnes tu žije směs Romů, Vietnamců, Ukrajinců, studentů a starousedlíků a čtvrť se mění pomaleji než Žižkov, ale zřetelně: nové kavárny, opravené domy, Káznice jako kulturní centrum. Jděte Cejlem na východ a dívejte se nahoru: fasády secesních domů jsou tu bohatší než v centru, protože je nikdo nezjednodušil, a ve dvorech jsou pořád dílny.</p>
+  <p>Na začátku Cejlu, blíž k centru, stojí po pravé straně dlouhý areál Mosilany (čísla 10–16, táhne se až ke Špitálce): sled vlnařských továren, které na sebe navazovaly od 80. let 18. století — Turetschek, Weinberger (1802), Samek (1863) — a po roce 1949 je sloučil národní podnik Mosilana, největší výrobce vlněných látek v Československu. Výroba skončila po roce 2000 a areál dnes zčásti slouží firmám, ateliérům a skladům, zčásti chátrá, a je to nejautentičtější kus moravského Manchesteru, který ještě stojí: cihlové haly, komín, ocelová okna, zazděné průjezdy. Jestli hledáte „opuštěnou továrnu“ bez plotu, je tady; dovnitř se nechodí, ale z ulice a ze Špitálky je vidět dost.</p>
+
+  <div class="box drb">
+    <p class="lbl">Pikoška: streetart na Cejlu</p>
+    <p>Cejl je nejhustší brněnská galerie pod širým nebem. Hledejte drobné šablony s texty podepsané TIMO, nejznámějšího brněnského streetartového autora, který místo obrazů píše po zdech krátké lyrické a ironické věty a dělá to už přes dvacet let anonymně a bez povolení; a velké muraly, mezi nimi Mendela v pop-artových barvách od Venduly Chalánkové. Streetart tu není gentrifikační dekorace jako v Praze na Náplavce, ale prostě vznikl, protože zdi byly volné.</p>
+  </div>
+
+  <h3>5 · Káznice a Kino Radost: dvě ruiny s budoucností</h3>
+  <p>Na Cejlu 52 stojí kino Radost, funkcionalistický biograf z 20. let s chátrajícím nápisem na fasádě, zavřený od začátku tisíciletí; je to místo, kde si fotí všichni, kdo chtějí mít na Instagramu „Brno Bronx“, a zároveň skutečná škoda, protože sál je prý zachovalý a o jeho obnově se mluví dvacet let. O kus dál, na rohu Cejlu, Soudní a Bratislavské (Cejl 71), je Káznice. Základní kámen položen 1770–1772, dokončena 1778, nejdřív sirotčinec a od roku 1784 věznice — nejstarší dochovaná vězeňská budova svého druhu v Česku, postavená jako osvícenské nápravné zařízení s celami kolem dvorů, ne jako hradní kobka. Jako věznice fungovala až do roku 1956. Seděl tu Petr Bezruč (1915–1916, podezřelý z autorství protirakouských básní), za okupace gestapo, po roce 1948 političtí vězni a sloužila i k výkonu trestů smrti. Básník Jan Zahradníček tu byl vězněn v 50. letech. Po roce 1956 budovu užívaly soudy jako archiv a pomalu chátrala, až ji převzalo město. Od roku 2017 ji provizorně oživují TIC Brno a spolek Tripitaka: koncerty, výstavy, festival Ghettofest, Open House. Dlouhodobým plánem je Kreativní centrum podle projektu ateliéru KAVA, ateliéry a dílny pro kreativní průmysly, a dlouhodobým sporem je, jestli má být Káznice kulturní památkou (chce to Národní památkový ústav, město se bálo omezení). V neděli bývá nádvoří zavřené, pokud zrovna není akce; stačí ale obejít blok Bratislavskou a Soudní, abyste pochopili měřítko: celý blok, jeden dům.</p>
+
+  <h3>6 · Muzeum romské kultury (volitelně)</h3>
+  <p>Na Bratislavské 67, o pár kroků dál, je Muzeum romské kultury, jediné svého druhu v Evropě: založili ho roku 1991 romští intelektuálové v čele s Karlem Holomkem a Janou Horváthovou jako nevládní organizaci a od roku 2005 je státní příspěvkovou organizací. Stálá expozice <em>Příběh Romů</em> jde od indického původu přes příchod do Evropy, kovářství a hudbu k holokaustu a k současnosti a trvá zhruba 40 minut; muzeum má i kavárnu a knihovnu. V neděli má otevřeno (pondělí a sobotu zavírá, otevírací dobu si ověřte). Pokud máte jen tři hodiny, je to místo, které bych vyškrtl nejméně rád: dává Cejlu kontext, který sám o sobě nevysvětlí.</p>
+
+  <div class="box jidlo">
+    <p class="lbl">Oběd na Cejlu</p>
+    <p>Restaurace Stará Tkalcovna na Cejlu, poblíž zastávky Tkalcovská, je to, co napovídá jméno: hospoda v bývalé textilní budově s cihlovými klenbami, česká kuchyně, pivo, v neděli polední menu; rezervace není potřeba. Alternativa v duchu čtvrti: vietnamské bistro — na Cejlu a Bratislavské jich je několik a pho tu stojí méně než v Praze. Kdo chce kávu, najde na Cejlu nové kavárny hlavně v úseku mezi Körnerovou a Vlhkou. A kdo chce socialistickou nostalgii, počká si na <a href="#hospody">kapitolu o hospodách</a>.</p>
+  </div>
+
+  <h3>7 · Zábrdovice: klášter, který je nemocnicí, lázně, které jsou funkcionalismus, a Zbrojovka</h3>
+  <p>Cejl se na východě mění v Zábrdovickou a vy přicházíte do Zábrdovic, nejstarší průmyslové čtvrti za hranicí původního města. Po pravé straně vojenská nemocnice: barokní areál bývalého premonstrátského kláštera, založeného roku 1209 Lvem z Klobouk, s kostelem Nanebevzetí Panny Marie od Giovanniho Pietra Tencally (1661–1669), jedním z nejkrásnějších raně barokních kostelů na Moravě. Josef II. klášter roku 1784 zrušil a armáda z něj hned udělala nemocnici, kterou je dodnes — přes 240 let nepřetržitě, což z ní dělá jednu z nejstarších fungujících vojenských nemocnic v Evropě. Kostel je obvykle otevřený kolem bohoslužeb, v neděli dopoledne tedy spíš ano než ne.</p>
+  <p>Hned u řeky, na Zábrdovické 13, stojí Městské lázně Zábrdovice od Bohuslava Fuchse z let 1931–1932: bílý funkcionalistický komplex s krytým bazénem a dvěma venkovními, postavený jako hygienické zařízení pro dělnickou čtvrť, která v bytech koupelny neměla. Je to Fuchsova nejdemokratičtější stavba a pořád slouží svému účelu (venkovní část v létě, krytá část prošla a prochází opravami; ověřte). Pražská paralela je plavecký stadion v Podolí, jenže ten je o třicet let mladší a stavěl se pro sportovce, ne pro dělníky.</p>
+  <p>A konečně Zbrojovka. Za nemocnicí, mezi Lazaretní ulicí, železnicí a Svitavou, leží 22,5 hektaru bývalé Zbrojovky Brno. Začalo to roku 1916 jako rakousko-uherské dělostřelecké dílny, roku 1918 je převzal nový stát a od roku 1919 Československá státní zbrojovka vyráběla pušky vz. 24, které se prodávaly do půlky světa, a od roku 1926 lehký kulomet ZB vz. 26, jehož britská licenční verze dostala jméno Bren (BRno + ENfield) a prošla druhou světovou válkou na všech frontách. Za okupace Zbrojovku spolkl koncern Reichswerke Hermann Göring a vyráběla pro wehrmacht, což z ní udělalo cíl spojeneckých náletů. Po válce přešla na traktory (Zetor, 1946: ZET od Zbrojovky, OR od traktoru), psací stroje Consul a kancelářskou techniku; za socialismu tu pracovaly tisíce lidí a fotbalový klub Zbrojovka byl roku 1978 mistrem ligy. Po roce 1989 přišel úpadek, 2003 konkurz, 2016 areál koupila CPI Property Group a od roku 2018 bourá haly a staví novou čtvrť Nová Zbrojovka pro asi 2 500 bytů s kancelářemi; jižní část má stát do roku 2030. Takže to, co uvidíte v březnu 2027, je přechodový stav: pár zachovaných cihlových hal (správní budova, hala s pilovou střechou), nové kancelářské domy, jeřáby, ploty, graffiti a mezi tím řeka. Nejlepší pohled je z mostu přes Svitavu na konci Zábrdovické a z Lazaretní ulice. Přes řeku jsou Židenice: na Balbínově 47 se 28. března 1914 narodil Bohumil Hrabal, který později v Libni popsal přesně takovou čtvrť, jakou byly Židenice jeho dětství.</p>
+
+  <div class="box praha">
+    <p class="lbl">Pražské srovnání</p>
+    <p>Zbrojovka je brněnská ČKD ve Vysočanech: obrovský areál průmyslu 20. století, který město půl generace nevědělo, co s ním, a který teď developer mění na byty. Rozdíl je v měřítku (Vysočany jsou několikrát větší) a v tom, že Zbrojovka leží dvě zastávky šalinou od hlavního náměstí; kdyby Praha měla ČKD na Florenci, byla by to podobná situace. Zábrdovická vojenská nemocnice je ÚVN ve Střešovicích, jen o 150 let starší a v klášteře. A Cejl je Žižkov kolem roku 2005: ještě levný, už s kavárnami.</p>
+  </div>
+
+  <div class="box tip">
+    <p class="lbl">Jak odsud dál</p>
+    <ul>
+      <li><b>Zpět do centra:</b> zastávka Vojenská nemocnice na Zábrdovické, šalina 2 (na Hlavní nádraží) nebo 3 (přes Moravské náměstí na Českou), oboje do 15 minut. Šalina 4 jede z Cejlu (zastávky Körnerova, Tkalcovská) přímo na náměstí Svobody a Českou.</li>
+      <li><b>Na Hády:</b> stejnou šalinou 2 nebo 3 opačným směrem dvě zastávky na Starou osadu, přestupní uzel Židenic, a odtud podle <a href="#hady">nástavce</a>.</li>
+      <li><b>Pěšky dál:</b> podél Svitavy na sever do Husovic a Maloměřic vede cyklostezka; do Maloměřic je to 3 km rovinou a jste pod Hády, ale je to hodina navíc.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ HÁDY ============ -->
+<section class="loc priroda" id="hady">
+  <h2>Nedělní nástavec: Hády, lomy a Líšeň</h2>
+  <p class="meta"><b>Vápencový kopec nad městem, 424 m</b> · národní přírodní rezervace Hádecká planinka · ze Staré osady MHD + 5 km pěšky, převýšení asi 200 m · 2–2,5 hodiny včetně dopravy · v březnu bláto, dobré boty</p>
+
+  <p>Brno má něco, co Praha nemá: kopec na kraji města, ze kterého je vidět celé město, nížina za ním a za jasného dne Alpy. Hády jsou jižní výběžek Moravského krasu, vápencová plošina nad Maloměřicemi a Líšní, do které se od středověku lámal kámen a ve druhé polovině 20. století ji obří lom pro maloměřickou cementárnu doslova rozpůlil. Když se roku 1997 přestalo těžit, zůstala kolmá stěna, dvě menší jámy s jezírky a plošina nahoře, na kterou se vrátila step: v květnu tu kvetou orchideje a koniklece a žijí tu kudlanky a cikády, které jinde v Česku nenajdete. V březnu nic z toho neuvidíte, zato výhled bývá nejčistší v roce. Je to zároveň průmyslová romantika (lom, drtič, vysílač), ošklivé sídliště (Líšeň a Vinohrady pod vámi) i příroda, všechno v jedné hodině chůze, takže se tenhle nástavec hodí na konec nedělní trasy, pokud vám síly a světlo dovolí. Slunce zapadá kolem 17:55.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>čas</th><th>kde</th><th>co</th></tr></thead>
+      <tbody>
+        <tr><td class="cas">14:40</td><td>Stará osada</td><td>bus 55, 58 nebo 78 do Líšně (zastávka Podbělová, 10 min), případně regionální 201/202 přímo k Velké Klajdovce</td></tr>
+        <tr><td class="cas">15:00</td><td>Podbělová → Velká Klajdovka</td><td>pěšky sídlištěm nahoru, 15 min; hotel s terasou</td></tr>
+        <tr><td class="cas">15:20</td><td>Hádecká planinka</td><td>po žluté k vysílači a na hranu lomu, 20 min</td></tr>
+        <tr><td class="cas">15:40</td><td>vyhlídka Hády</td><td>Brno, Pálava, Vyškovská brána; sídliště pod nohama</td></tr>
+        <tr><td class="cas">16:00</td><td>Růženin lom</td><td>jezírka, rákosový chodník, 25 min</td></tr>
+        <tr><td class="cas">16:30</td><td>Lamacentrum</td><td>alpaky v lomu Džungle (v březnu jen neděle, hodiny ověřit)</td></tr>
+        <tr><td class="cas">16:50</td><td>sestup do Maloměřic</td><td>po silnici Hády dolů, 20 min</td></tr>
+        <tr><td class="cas">17:10</td><td>Maloměřice</td><td>bus 64 z Červeného písku na Starou osadu, nebo šalina 4 z Maloměřického mostu přímo na Českou</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Stará osada a cesta do Líšně: sídliště z autobusu</h3>
+  <p>Stará osada je přestupní uzel Židenic, kde končí šaliny 2 a 3 a odkud vyjíždějí autobusy na východ a sever. Nasedněte na 55, 58 nebo 78 směr Líšeň; všechny tři jedou kolem Dělnického domu (kde DBP přežilo sezonu 2023/24) a pak stoupají do kopce na líšeňské sídliště. Pražák si může připomenout cestu na Jižní Město: Nová Líšeň se stavěla v letech 1975–1985 pro zhruba 25 000 lidí na polích nad starou vesnicí Líšeň (připojené k Brnu 1944, se zámkem Belcrediů a poutní kaplí Kostelíček na kopci), sousední Vinohrady o pár let později. Jsou to typická pozdně normalizační sídliště z paneláků, bez kvalit Lesné, a právě proto stojí za vidění: je to Brno, ve kterém žije pětina Brňanů a které turisté nevidí. Vystupte na zastávce Podbělová a jděte ulicí Podbělová nahoru k severu; sídliště končí náhle, na hraně plošiny, u hotelu Velká Klajdovka (Jedovnická 7). Hotel je sám o sobě socialistická relikvie (horský hotel na kraji města, oblíbené místo svateb) a jeho restaurace má terasu s výhledem na Brno; v neděli odpoledne je to dobré místo na kávu nebo pivo před výstupem. Regionální autobusy 201 a 202 ze Staré osady staví přímo u hotelu, ověřte v IDOSu.</p>
+
+  <h3>Hádecká planinka a vyhlídka</h3>
+  <p>Od hotelu vede žlutá značka na sever přes planinu k televiznímu vysílači; asfaltka k vysílači je nejrychlejší, pěšina po hraně lomu hezčí. Hádecká planinka je národní přírodní rezervace (jedna z mála v hranicích krajského města) a chráněná je kvůli stepi na vápenci: bílé stráně, trnité keře, dubové lesíky. Jméno Hády prý pochází z německého <em>Heide</em>, vřesoviště nebo pustina, což popisuje, jak to tu vypadalo před lomem. Hrana lomu se otevře náhle a je to velká věc: stěna několik desítek metrů vysoká, dno lomu s rozpadajícím se drtičem a betonovými základy, dole Maloměřice s bývalou cementárnou a za nimi celé Brno. Vlevo Petrov a Špilberk jako dva zoubky, uprostřed Zbrojovka a Svitava, kterou jste před hodinou přešli, vpravo Lesná a Královo Pole, za městem Bobrava a Pálava, a při velmi dobré viditelnosti, zhruba jednou za měsíc, na jihozápadě Schneeberg a Rax v Alpách, 150 kilometrů daleko. Přímo pod vámi, na jihu, Líšeň a Vinohrady: tisíce panelákových oken, jako kdyby si někdo chtěl Jižní Město prohlédnout z letadla. Výhled od vysílače je vyznačené místo s lavičkou; plot u hrany lomu respektujte, vápenec se drolí.</p>
+
+  <div class="box drb">
+    <p class="lbl">Pikoška: Lišky, básníci a Lidové noviny</p>
+    <p>Pod Hády na severu leží Bílovice nad Svitavou, kam Brňané odjakživa jezdí vlakem na výlety. V letech 1905–1915 tu bydlel básník Stanislav Kostka Neumann a napsal tu <em>Knihu lesů, vod a strání</em>, a o pár let později tu redaktor brněnských Lidových novin Rudolf Těsnohlídek napsal k obrázkům Stanislava Lolka seriál o lišce Bystroušce, z něhož Leoš Janáček roku 1924 udělal operu. Les kolem Hádů a Bílovic je tedy ten les, ve kterém se odehrávají <em>Příhody lišky Bystroušky</em>, a Lidové noviny, které dnes Pražák považuje za pražský list, byly půl století brněnské noviny (založeny 1893 v Brně, s pražskou redakcí až od 20. let). Na hřebeni mezi Hády a Bílovicemi stojí zřícenina hradu Obřany z konce 13. století, dobytého a zbořeného roku 1316 za bojů krále Jana Lucemburského s moravskou šlechtou; pokud by se vám zachtělo delší túry, vede tam od vysílače červená, ale to už je program na jiný den.</p>
+  </div>
+
+  <h3>Růženin lom a Lamacentrum</h3>
+  <p>Z vyhlídky sejděte po žluté západním směrem do Růženina lomu, menší jámy pod hlavním lomem, která po skončení těžby zaplavila jezírky s tyrkysovou a zelenou vodou (barvu dělá vápenec a řasy). Kolem vede naučná stezka s osmi tabulemi, přes rákosiny 170 metrů dlouhý dřevěný chodník, u jezírek skládají lidé z kamínků obrazce a v létě se tu koupe, částečně bez plavek, což je jedna z brněnských veřejných tajemství. V březnu je to tichá, trochu melancholická scenérie: holé stěny, led na mělčinách, rákos. Pak pokračujte po značce k Lamacentru, které sídlí v sousedním bývalém lomu Džungle (Hády 5): stádo alpak, kterým se tu říká lamy, a o víkendech možnost je nakrmit a projít se s nimi. V březnu má Lamacentrum otevřeno pouze v neděli (podle jednoho zdroje 10–17, podle jiného jen 13–15 jako v zimě), vstup 80 Kč, platí se hotově. Je to typický brněnský podnik: v lomu, kde se těžil vápenec pro cement, stojí alpaky z Peru a na kopci nad nimi vysílač.</p>
+
+  <h3>Sestup do Maloměřic a návrat</h3>
+  <p>Od Lamacentra vede asfaltová silnice Hády serpentinami dolů do Maloměřic kolem areálu bývalé cementárny, která lom živila: dnes částečně průmyslová zóna, částečně brownfield, komín a sila jsou vidět zdálky. Dole je konečná autobusu 64 Červený písek, odkud jede bus zpět na Starou osadu (přestup na šalinu 2 nebo 3), nebo dojděte ještě kilometr na jih k Svitavě k zastávce Maloměřický most, kde staví šalina 4 jedoucí přes Cejl přímo na náměstí Svobody a Českou. Tohle je elegantní uzavření nedělního dne: ráno jste z Cejlu odcházeli pěšky, večer jím projedete šalinou.</p>
+
+  <div class="box praha">
+    <p class="lbl">Pražské srovnání</p>
+    <p>Prokopské údolí má podobné vápencové lomy, Ládví a Ďáblický háj podobný výhled na sídliště, ale nikde v Praze nejsou obě věci pohromadě a nikde není výhled na celé město z 200 metrů výšky nad ním, s horami cizího státu na obzoru. Nejblíž je asi výhled z Dívčích hradů na Smíchov, jen zvětšený desetkrát.</p>
+  </div>
+
+  <div class="box tip">
+    <p class="lbl">Když nebude čas na Hády</p>
+    <p>Rozhledna Ostrá horka v Soběšicích (2008, dřevěná, u lesa nad Lesnou; autobus do Soběšic z Králova Pole, číslo ověřte) nabízí podobný výhled na sever města za hodinu i s dopravou. A když bude pršet, nejkratší „příroda“ je park na Špilberku nebo Lužánky (<a href="#navic">rezerva</a>).</p>
+  </div>
+</section>
+
+<!-- ============ HOSPODY ============ -->
+<section class="loc drb" id="hospody">
+  <h2>Kde jíst a pít: restaurace, hotely, pivnice, bary</h2>
+  <p class="meta"><b>Od Interhotelů po speakeasy</b> · ceny zhruba o pětinu až čtvrtinu nižší než v centru Prahy · pivo v pivnici 50–65 Kč · rezervace v sobotu večer ano, v poledne ne</p>
+
+  <p>Brněnská gastronomie má dvě vrstvy. První: podniky, které vznikly za socialismu a přežily, buď jako muzejní interiéry (Interhotely), nebo jako hospody, kde se od roku 1970 nezměnilo nic včetně štamgastů. Druhá: Brno má podle vlastního tvrzení nejvíc barů na obyvatele v republice a koktejlová scéna kolem Jakubského náměstí byla deset let před Prahou. Mezi tím leží pivnice, které jsou tu tak staré jako v Praze, jen bez turistů.</p>
+
+  <h3>Interhotely: International a Continental</h3>
+  <p>Oba velké brněnské hotely z 60. let jsou popsané výš (<a href="#sobota">International</a> v sobotní trase, <a href="#divadlo">Continental</a> u divadla), tady jen gastronomická stránka. <b>International</b> (Husova 16): restaurace Gusto s českou kuchyní, Siesta s mezinárodní a barem, snídaňový Lucullus (snídaně pro nehotelové hosty 590 Kč, velký bufet, prosklená stěna a terasa s výhledem na centrum — kdo chce zažít rok 1962 nejintenzivněji, snídá tady v sobotu v osm). Lobby bar je dobré místo na kávu kdykoli a v hale je víc umění než v leckteré galerii. <b>Continental</b> (Kounicova 6): hotelová restaurace s halou, do které se chodí dívat architekti, kuchyně česko-mezinárodní, cenově podobné Internationalu; v sobotu večer před divadlem rezervace. Ani jeden hotel není „retro podnik“ v ironickém smyslu — jsou to normálně fungující hotely, které se prostě rozhodly nic nezbourat, a to je na nich to nejcennější.</p>
+
+  <div class="box drb">
+    <p class="lbl">Co bylo a není: brněnské gastro 80. let podle pamětníků</p>
+    <p>Pražák si z 80. let pamatuje Koruna-bufet a automat Svět; brněnský ekvivalent byl <b>Sputnik</b> na rohu České a Veselé, bufet se samoobsluhou v domě z roku 1914 od architekta Artura Weisse, který prý vydával až deset tisíc porcí denně a jehož malinový koktejl (mléko s malinovým sirupem) je dodnes brněnská madeleinka. Na náměstí Svobody byl <b>Pipi gril</b> s grilovanými kuřaty a mozaikou od Bohumíra Matala (stejného, jehož <em>Hudebníci</em> jsou v Internationalu), v Padowetzi u nádraží <b>bufet Petrov</b>, na Běhounské rybí <b>Rybena</b>, u Jakuba hospoda <b>Černý medvěd</b>, na České pivnice <b>U Formana</b>, jejíž servírka bába Cilka a hospodský filozof Homér patří k brněnskému folkloru, a v Pisárkách <b>Střelák</b>, hospoda mániček a undergroundu. V sektovém baru <b>Venuše</b> se po představeních scházeli herci Provázku a silák Franta Kocourek, brněnská legenda, který hantecem vyprávěl historky a ohýbal tyče; v kavárně <b>Opera</b> u Janáčkova divadla se chodilo „na dort po premiéře“. Z toho všeho dnes nefunguje nic, jen jména v pamětech a občas neon na fasádě. Co přežilo, je dál.</p>
+  </div>
+
+  <h3>Pivnice, které tu byly před námi</h3>
+  <ul>
+    <li><b>Stopkova plzeňská pivnice</b> (Česká 5). Založil ji roku 1910 Jaroslav Stopka, fasádu s malovanými výjevy udělal roku 1919 malíř Láďa Novák, interiér je klasická plzeňská pivnice s dřevěným obložením a sklepem. Dnes ji provozuje Kolkovna Group, takže jídlo i ceny znáte z Prahy; stojí za to kvůli domu a kvůli tomu, že na České 5 se pije Plzeň přes sto let v kuse, včetně éry RaJ, kdy se tu točilo totéž pivo, jen hůř. Oběd nebo večeře, bez rezervace mimo pátek a sobotu večer.</li>
+    <li><b>Pivnice U Průmyslovky</b> (Jana Uhra 1, za Stavební průmyslovkou, 5 minut od Bílého domu). Studentská hospoda s víc než stoletou historií, hantecem Logáro; levné pivo, velké porce, hluk, nulový design. Pokud chcete před divadlem něco, co se za posledních padesát let nezměnilo, je to tady. Rezervace nemá smysl, místo se najde.</li>
+    <li><b>Hostinec U Bláhovky</b> (Gorkého 54, Veveří, 10 minut od Bílého domu). Hospoda, o které Brňané říkají, že má nejlépe ošetřenou Plzeň ve městě, a nejspíš je to pravda; malá, plná, s pravidly (nerezervuje se, čeká se, nekřičí se). Pražská paralela je U Hrocha nebo U Pinkasů, kdyby je nikdo neobjevil.</li>
+    <li><b>Hostinec U Semináru</b> (Smetanova 30, pod Lužánkami). Stará brněnská hospoda s vlastní kuchyní a kuřáckou pamětí, bez proměny v cokoli; typický podnik, kam se chodí „na jedno“ v neděli odpoledne.</li>
+    <li><b>Pivnice Pegas</b> (Jakubská 4). Jeden z prvních minipivovarů v Česku po roce 1989 (1992), vaří vlastní světlé, tmavé a pšeničné; interiér hotelový, ale místo historické: pokud se chcete vyhnout Starobrnu i Plzni a pít brněnské pivo, je to nejblíž k trase.</li>
+    <li><b>Starobrno u zdroje</b>: pivovarská restaurace u pivovaru na Mendlově náměstí měnila v posledních letech provozovatele; pokud bude otevřená, je to místo, kde se dá nefiltrované Starobrno ochutnat přímo z tanků a kde jste pět minut od Mendelova skleníku. Ověřte před cestou.</li>
+  </ul>
+
+  <h3>Přežilo ze socialismu (a nejen z něj)</h3>
+  <ul>
+    <li><b>Zemanova cukrárna</b> (Josefská 1, u Minoritů). Rodinná cukrárna založená roku 1937, znárodněná, vrácená a dodnes s vlastní výrobou: větrníky, punčové řezy, rakvičky se šlehačkou a kremrole, které chutnají, jak si je pamatujete. Pražská paralela je cukrárna Myšák, jen bez rekonstrukce.</li>
+    <li><b>Restaurace Grand Prix</b> (Voříškova 2, Kohoutovice). Třináctipatrový panelák na kohoutovickém sídlišti s restaurací na střeše: projekt Jaroslava Černého, 120 míst, thonetky, výhled na celé Brno ze západu. Exteriér se dochoval, provoz restaurace se v posledních letech měnil a nemám ověřeno, zda a jak funguje v roce 2027; pokud ano, je to nejautentičtější „socialistická restaurace“ v Brně a stojí za cestu trolejbusem. Ověřte a případně rezervujte.</li>
+    <li><b>Obzor</b> (Fillova 1, Lesná). Pavilon restaurace a obchodu z let 1966–1967 od Viktora Rudiše, Františka Zounka a Miroslava Dufka, tedy autorů Lesné, přímo uprostřed sídliště; dnes v něm funguje restaurace s běžnou českou kuchyní, ale pavilon sám je cíl: prosklený, nízký, s výhledem do Čertovy rokle. Spojte s procházkou po Lesné (<a href="#navic">rezerva</a>).</li>
+    <li><b>Kavárna Era</b> (Zemědělská 30, Černá Pole, 10 minut od vily Tugendhat). Funkcionalistická kavárna Josefa Kranze z roku 1929, za socialismu sklad a jídelna, roku 2011 obnovená do původní podoby včetně barev a nábytku. Není socialistická, ale je to nejhezčí kavárenský interiér v Brně a ukázka toho, jak dopadne budova, když se o ni někdo třicet let stará.</li>
+    <li><b>Zemanova kavárna</b> (Jezuitská/Koliště, u Janáčkova divadla). Fuchsova funkcionalistická kavárna z let 1925–1926, zbořená roku 1964 kvůli stavbě Janáčkova divadla a roku 1995 postavená znovu jako replika podle původních plánů, o pár desítek metrů vedle. Brno je asi jediné české město, které si zbořenou kavárnu postavilo znovu; v Praze by se o tom třicet let diskutovalo.</li>
+  </ul>
+
+  <h3>Bary a vinárny: Brno před Prahou</h3>
+  <p>Brněnská koktejlová scéna začala v roce 2013, když Jan Vlachynský otevřel na Dvořákově 1 <b>Bar, který neexistuje</b>: dlouhý bar bez cedule, s barmany, kteří se ptají, co máte rádi, místo aby vám dali lístek. Z něj vyrostl celý ekosystém: <b>Super Panda Circus</b> (Šilingrovo náměstí 3, zvoní se, uvnitř tma, koktejly podle nálady, žádný nápojový lístek), <b>4pokoje</b> (Vachova 6, otevřeno od snídaně do noci, čtyři místnosti pro čtyři denní doby) a desítky následovníků kolem Jakubáku. Pražské bary jako Hemingway nebo Black Angel's jsou podobně dobré, ale brněnské jsou lacinější a méně vážné. Na víno: <b>Vinárna U Královny Elišky</b> (Mendlovo náměstí 1b) v gotickém sklepě pod opatstvím je nejstarší brněnská vinárna, dnes spíš restaurace pro slavnostní příležitosti; neformálnější vinárny s jihomoravskými víny najdete na Jakubáku a na Veveří. A pro úplnost: <b>Výčep Na stojáka</b> (Běhounská 16), kde se pije vestoje, každý týden jiná piva z malých pivovarů, ideální na jedno rychlé v sobotu po orloji.</p>
+
+  <div class="box praha">
+    <p class="lbl">Pražské srovnání</p>
+    <p>Praha má Staropramen, Brno má Starobrno; obě patří nadnárodním koncernům a oba města je pijí s výhradami. Rozdíl je v ceně (v Brně o deset až patnáct korun méně za pivo) a v tom, že brněnské hospody nemusely přežít turistickou vlnu, takže jich je v centru pořád víc než restaurací. Co Brno nemá, je pražská hustota skvělých restaurací střední třídy; co má navíc, jsou víno (Pálava je 40 km, znojemsko 60) a bary, které Praha teprve dohání.</p>
+  </div>
+
+  <div class="box jidlo">
+    <p class="lbl">Shrnutí pro tři dny</p>
+    <ul>
+      <li><b>Pátek večer po příjezdu:</b> Jakubák — Výčep Na stojáka na jedno, pak Bar, který neexistuje nebo 4pokoje; nebo klasická večeře ve Stopkově.</li>
+      <li><b>Sobota oběd:</b> International (Gusto) po Špilberku, nebo Stopkova / Lokál U Caipla.</li>
+      <li><b>Sobota večer (divadlo):</b> Continental v 17:30, představení v 19:00, po něm Jakubák nebo kavárna v Domě umění.</li>
+      <li><b>Neděle oběd:</b> Stará Tkalcovna na Cejlu nebo vietnamské bistro; při nástavci na Hády káva na terase Velké Klajdovky.</li>
+      <li><b>Neděle večer před odjezdem:</b> Zemanova cukrárna na rozloučenou (zavírá brzy, ověřte), nebo pivo v Pegasu na Jakubské, deset minut chůze od nádraží.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ NAVÍC ============ -->
+<section class="loc praha" id="navic">
+  <h2>Když zbude čas nebo bude pršet</h2>
+  <p class="meta"><b>Rezerva</b> · věci, které se do dvou tříhodinových tras nevešly, seřazené podle toho, co bych vyškrtl nejméně rád</p>
+
+  <h3>Vila Tugendhat a vilová čtvrť pod ní</h3>
+  <p>Nejslavnější dům v Brně (Černopolní 45) od Ludwiga Miese van der Rohe pro Gretu a Fritze Tugendhatovy z let 1929–1930: ocelový skelet, onyxová stěna, okna, která se celá spouštějí do podlahy, a výhled na Špilberk, kvůli kterému Mies dům postavil tak, že z ulice vidíte jen přízemí a do obytného patra sejdete dolů. Pražák, který zná Müllerovu vilu Adolfa Loose (shodou okolností brněnského rodáka), by měl vidět i tuhle: jsou to dva protichůdné názory na to, jak má bohatý člověk bydlet, postavené ve stejném roce. Rodina uprchla roku 1938, dům zabrala Gestapo, pak sovětská jízda, pak taneční škola a dětská rehabilitace; 26. srpna 1992 se tu v zahradě Václav Klaus a Vladimír Mečiar dohodli na rozdělení Československa, takže je to taky místo, kde skončil společný stát. Od roku 2001 je na seznamu UNESCO, v letech 2010–2012 prošla rekonstrukcí za 150 milionů. Prohlídky (základní 60 minut, rozšířená 90 minut s technickým podlažím) jsou vyprodané měsíce dopředu; existuje i prohlídka „Vila zvenku“ bez interiéru a večerní okruhy. Hned pod ní, na Drobného 22, stojí vila Löw-Beer, dům Gretiných rodičů (textilní magnáti Löw-Beerovi, jejichž továrny stály i na Cejlu), dnes muzeum rodiny s kavárnou a zahradou propojenou s Tugendhat; bez rezervace. Vedle ní Arnoldova vila, nově zrekonstruovaná jako návštěvnické centrum celé vilové čtvrti. Šalina na zastávku Dětská nemocnice, pak deset minut pěšky do kopce Černopolní. Spojte s kavárnou Era (<a href="#hospody">hospody</a>) a s pohledem na Lesnou přes údolí.</p>
+
+  <h3>Vodojemy na Žlutém kopci</h3>
+  <p>Tři podzemní nádrže na kopci nad Mendlovým náměstím (Tvrdého 15): cihlová z roku 1874, cihlová z roku 1894 a betonová z roku 1917, dohromady sloužily brněnskému vodovodu do roku 1997 a pak o nich věděli jen vodaři. Dva nadšenci, fotograf Libor Teplý a Aleš Svoboda, je objevili pro veřejnost, roku 2019 se staly památkou a od jara 2024 jsou otevřené: cihlové klenby na desítkách pilířů v šeru, kterým se říká brněnská katedrála podzemí a které se fotí líp než cokoli nad zemí. Středa–neděle 10–18, komentované prohlídky s rezervací (10:30 a 13:30 na 60 minut, 11:30 a 14:30 na 90 minut). Je to nejlepší program pro deštivou sobotu odpoledne místo Mendlova náměstí, od kterého je to deset minut do kopce. Šalinou na zastávku Úvoz.</p>
+
+  <h3>Lesná: sídliště, které se povedlo</h3>
+  <p>Pokud vás nedělní pohled z Hádů na Líšeň přesvědčil, že panelák je panelák, jeďte se podívat na Lesnou (šalina 9 na Halasovo náměstí). Sídliště pro 20 000 lidí z let 1962–1970 od Viktora Rudiše, Františka Zounka, Miroslava Dufka a Ladislava Voláka vzniklo podle vzoru finské Tapioly: dlouhé dvanáctipodlažní desky postavené po vrstevnicích na okraji lesa, mezi nimi Čertova rokle jako zelená osa, nízké pavilony služeb (včetně Obzoru) a školy uprostřed. Bytů bylo málo druhů, ale rozestupy, zeleň a výhledy jsou něco, co pozdější sídliště nikdy nezopakovala. Snaha prohlásit Lesnou památkovou zónou na začátku minulé dekády ztroskotala na ministerstvu kultury, zůstává tedy „jen“ nejlepším českým sídlištěm vedle pražských Ďáblic, a Brňané z Lesné se stěhují neradi. Za hodinu obejdete střed, Čertovu rokli a Obzor; z horního okraje jsou vidět Hády.</p>
+
+  <h3>Lužánky a stadion, který ožil na jeden den</h3>
+  <p>Lužánky (šalina na Pionýrskou nebo pěšky z Moravského náměstí 10 minut) jsou první veřejný park v českých zemích: roku 1786 otevřel Josef II. bývalou jezuitskou zahradu lidu, o osmnáct let dřív než se otevřela pražská Stromovka. Pavilon uprostřed je z roku 1855 od Ludwiga Förstera, autora vídeňské Ringstrasse. Za parkem stojí fotbalový stadion Za Lužánkami (1953), kdysi největší v republice (přes 40 000 lidí na derby se Slavií v roce 1996), od roku 2001 opuštěný a zarostlý. V červnu 2015 ho pro svůj rozlučkový zápas vyklidili dobrovolníci po výzvě fotbalisty Petra Švancary a přišlo 35 000 lidí — na jeden den byl zase největší stadion v zemi. Od té doby se mluví o novém stadionu na stejném místě a nestaví se, což je brněnské téma stejně věčné jako nádraží. Ruina stojí za pohled pro milovníky zaniklé slávy.</p>
+
+  <h3>Podzemí a muzea pro déšť</h3>
+  <ul>
+    <li><b>Labyrint pod Zelným trhem</b> (vstup u kašny Parnas): 212 metrů středověkých sklepů, hodinová prohlídka, úterý–neděle.</li>
+    <li><b>Mincmistrovský sklep</b> (Dominikánské náměstí): sklep domu, kde ve 14. století sídlil královský mincmistr, s expozicí o dějinách města; půl hodiny.</li>
+    <li><b>Kostnice u sv. Jakuba</b> (Jakubské náměstí): viz sobota, 20 minut.</li>
+    <li><b>Moravská galerie</b>: tři budovy, stálé expozice zdarma. Místodržitelský palác (staré umění, Moravské náměstí), Pražákův palác (moderní a současné umění, Husova 18) a Uměleckoprůmyslové muzeum (Husova 14, design, po rekonstrukci). Plus Jurkovičova vila v Žabovřeskách (Jana Nečase 2), secesní dům Dušana Jurkoviče z roku 1906, s rezervací.</li>
+    <li><b>Moravské zemské muzeum</b>: Dietrichsteinský palác (Zelný trh, příroda a pravěk Moravy včetně Věstonické venuše — v trezoru, vystavuje se zřídka), Biskupský dvůr a Anthropos v Pisárkách s mamutem v životní velikosti, oblíbený cíl školních výletů od 60. let.</li>
+    <li><b>Technické muzeum v Brně</b> (Purkyňova 105, Královo Pole): velká sbírka strojů, uličky řemesel a herna pro děti; pro milovníky průmyslové romantiky za deště nejlepší volba.</li>
+    <li><b>Muzeum města Brna na Špilberku</b>: pokud jste v sobotu stihli jen kasematy, stálé expozice o městě a o vězení stojí za druhou návštěvu.</li>
+  </ul>
+
+  <h3>Architektura navíc</h3>
+  <ul>
+    <li><b>Výstaviště</b> (šalina 1 do Pisárek, stejná jako z Mendlova náměstí): areál z roku 1928 pro Výstavu soudobé kultury k desetiletí republiky, s pavilonem A od Josefa Kalouse a Jaroslava Valenty (parabolické betonové oblouky), funkcionalistickými pavilony a pavilonem Z z roku 1959 s kopulí o rozpětí 122 metrů. Mezinárodní strojírenský veletrh od roku 1959 udělal z Brna město, kam se jezdilo z celého východního bloku, a Interhotely byly postaveny právě pro něj. Mimo veletrhy je areál volně průchozí.</li>
+    <li><b>Vila Stiassni</b> (Hroznová 14, Pisárky): vila textilního továrníka od Ernsta Wiesnera z let 1927–1929, po válce „vládní vila“ pro státní návštěvy, kde roku 1972 bydlel Fidel Castro; prohlídky NPÚ s rezervací, zahrada volně.</li>
+    <li><b>Mahenovo a Janáčkovo divadlo</b> (Malinovského náměstí / Rooseveltova): první Edisonem osvětlené divadlo v Evropě z roku 1882 a vedle něj obří moderní opera z roku 1965, jejíž stavba se v soutěžích připravovala od roku 1910. Mezi nimi park s Janáčkovou sochou a replika Fuchsovy Zemanovy kavárny. Pokud byste chtěli druhý divadelní večer, hraje se v obou (Národní divadlo Brno), v Redutě na Zelném trhu a v Huse na provázku.</li>
+    <li><b>Kounicovy koleje</b> (Králova 45, Žabovřesky): studentská kolej z roku 1925, za okupace věznice gestapa a popraviště, kde bylo podle různých údajů popraveno kolem 800 lidí a tisíce dalších prošly do koncentračních táborů; památník s expozicí. Brněnský Pečkův palác a Kobylisy v jednom.</li>
+  </ul>
+
+  <h3>Příroda a výhledy navíc</h3>
+  <ul>
+    <li><b>Kraví hora</b> (10 minut pěšky z Bílého domu do kopce): park s hvězdárnou a planetáriem (1954, od roku 2011 s digitáriem), které má v sobotu odpoledne a večer programy; výhled na Špilberk z druhé strany a koupaliště, v březnu zavřené. Pokud do divadla jdete až v sobotu, hodí se to před něj.</li>
+    <li><b>Brněnská přehrada</b>, hantecem Prýgl (šalina 1 nebo 3 do Bystrce, zastávka Přístaviště): nádrž z let 1936–1940 s hradem Veveří na konci; lodě jezdí od dubna, v březnu zbývá procházka po hrázi a po břehu, případně do Zoo Brno (lední medvědi). Pražské analogie není; Praha nemá přehradu, na kterou se dá dojet šalinou.</li>
+    <li><b>Rozhledna Ostrá horka</b> (Soběšice, 2008) a <b>Babí lom</b> (dřevěná rozhledna z roku 1961 na hřebeni nad Lelekovicemi, výlet na půl dne): pokud nestihnete Hády a chcete výhled.</li>
+  </ul>
+</section>
+
+<!-- ============ SLOVNÍK ============ -->
+<section class="loc praha" id="slovnik">
+  <h2>Převodní tabulka Praha–Brno a slovníček hantecu</h2>
+  <p class="meta"><b>Příloha</b> · pro rychlou orientaci; srovnání jsou samozřejmě nepřesná, to je na nich to užitečné</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Praha</th><th>Brno</th><th>poznámka</th></tr></thead>
+      <tbody>
+        <tr><td>metro</td><td>šalina</td><td>tramvaj; bez ní se v Brně nedomluvíte</td></tr>
+        <tr><td>Václavské + Staroměstské nám.</td><td>náměstí Svobody</td><td>korzo, sloup, orloj; malé</td></tr>
+        <tr><td>Na Příkopě</td><td>Česká</td><td>„pod hodinami“ = „pod ocasem“</td></tr>
+        <tr><td>Havelský trh</td><td>Zelný trh</td><td>opravdový trh, do kopce, od 13. století</td></tr>
+        <tr><td>Vyšehrad</td><td>Petrov</td><td>katedrála nad řekou (a nad nádražím)</td></tr>
+        <tr><td>Petřín + Pankrác</td><td>Špilberk</td><td>park nahoře, žalář uvnitř</td></tr>
+        <tr><td>Dlouhá / Krymská</td><td>Jakubské náměstí</td><td>barová čtvrť, menší a levnější</td></tr>
+        <tr><td>Žižkov + Karlín (2005)</td><td>Cejl, Křenová, Zábrdovice</td><td>textilky, pavlače, streetart, zatím bez gentrifikace</td></tr>
+        <tr><td>Holešovická tržnice</td><td>Vaňkovka</td><td>strojírna 1865 → pasáž a galerie</td></tr>
+        <tr><td>Florenc</td><td>Zvonařka</td><td>autobusák, po liftingu 2020 hezčí</td></tr>
+        <tr><td>ČKD Vysočany</td><td>Zbrojovka</td><td>brownfield → nová čtvrť, dvě zastávky od centra</td></tr>
+        <tr><td>Stromovka</td><td>Lužánky</td><td>starší o 18 let, menší</td></tr>
+        <tr><td>Ďáblice</td><td>Lesná</td><td>sídliště, které se povedlo</td></tr>
+        <tr><td>Jižní Město</td><td>Líšeň, Vinohrady</td><td>sídliště, které se nepovedlo, s výhledem z Hádů</td></tr>
+        <tr><td>Prokopské údolí + Ládví</td><td>Hády</td><td>lomy a výhled na celé město</td></tr>
+        <tr><td>Masarykovo nádraží</td><td>Hlavní nádraží</td><td>sto let debaty, dvě referenda, stěhování 2028–2035</td></tr>
+        <tr><td>Müllerova vila (Loos)</td><td>vila Tugendhat (Mies)</td><td>oba domy 1930, Loos byl Brňan</td></tr>
+        <tr><td>Palác kultury</td><td>Bílý dům</td><td>dům pro stranu → kultura</td></tr>
+        <tr><td>hotel International (Dejvice, 1956)</td><td>hotel International (1962)</td><td>stejné jméno, opačný styl: Stalin vs. Brusel</td></tr>
+        <tr><td>Národní divadlo / Státní opera</td><td>Mahenovo / Janáčkovo divadlo</td><td>Fellner &amp; Helmer stavěli obě města</td></tr>
+        <tr><td>Staropramen</td><td>Starobrno</td><td>oba korporátní, oba pité s výhradami</td></tr>
+        <tr><td>Vltava</td><td>Svratka a Svitava</td><td>dvě řeky, žádná náplavka; nábřeží se teprve staví</td></tr>
+        <tr><td>Hrabal v Libni</td><td>Hrabal v Židenicích</td><td>narozen Balbínova 47, 1914</td></tr>
+        <tr><td>Kobylisy, Pečkárna</td><td>Kounicovy koleje</td><td>popraviště gestapa</td></tr>
+        <tr><td>Slavín</td><td>čestný kruh Ústředního hřbitova</td><td>Janáček, Mendel, Mahen, Fuchs</td></tr>
+        <tr><td>Pražák</td><td>Brňák (a vy jste z Práglu)</td><td>hantecem Praha = Prágl</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Slovníček hantecu</h3>
+  <p>Hantec je brněnský slang, který vznikl na přelomu 19. a 20. století smícháním češtiny, němčiny (hlavně vídeňské), jidiš, romštiny a argotu; původně ho mluvila brněnská „plotna“, tedy spodina a lidé z předměstí, a dnes je to spíš identita než jazyk — používají se z něj desítky slov, nikdo jím nemluví souvisle a nejvíc ho rozšířily vyprávění siláka Franty Kocourka a písničky Honzy Hlaváčka. Pár slov, která uslyšíte nebo si můžete dovolit použít:</p>
+  <dl class="facts">
+    <dt>šalina</dt><dd>tramvaj (z německého <em>elektrische Linie</em>); šalinkarta je předplatní jízdenka</dd>
+    <dt>štatl</dt><dd>město, hlavně centrum (ze <em>Stadt</em>); „jít do štatlu“</dd>
+    <dt>Špilas</dt><dd>Špilberk</dd>
+    <dt>Prýgl</dt><dd>Brněnská přehrada</dd>
+    <dt>Zelňák, Mendlák, Jakubák, Moravák</dt><dd>Zelný trh, Mendlovo, Jakubské a Moravské náměstí; přípona -ák funguje na všechno</dd>
+    <dt>Krpole</dt><dd>Královo Pole</dd>
+    <dt>Prágl, Oltec</dt><dd>Praha, Olomouc</dd>
+    <dt>hokna</dt><dd>práce</dd>
+    <dt>love</dt><dd>peníze (z romštiny)</dd>
+    <dt>škopek</dt><dd>pivo; „dát si škopek“</dd>
+    <dt>čurina</dt><dd>legrace</dd>
+    <dt>betálný</dt><dd>skvělý, výborný</dd>
+    <dt>zoncna</dt><dd>slunce (ze <em>Sonne</em>)</dd>
+    <dt>koc</dt><dd>dívka, holka</dd>
+    <dt>čórka</dt><dd>krádež; čórnout = ukrást</dd>
+    <dt>cálovat</dt><dd>platit (ze <em>zahlen</em>)</dd>
+    <dt>hantec</dt><dd>sám o sobě znamená „řeč“, od hantýrky</dd>
+  </dl>
+
+  <div class="box drb">
+    <p class="lbl">Brňané, které znáte, aniž to víte</p>
+    <p>V Brně se narodili Ernst Mach (1838, Chrlice; Machovo číslo), Adolf Loos (1870), bratři Hugo a Pavel Haasovi (1901 a 1899, herec a skladatel zavražděný v Osvětimi), Erich Wolfgang Korngold (1897, hollywoodský skladatel), Kurt Gödel (1906), Bohumil Hrabal (1914) a Milan Kundera (1929); Robert Musil tu vyrostl a vystudoval. Přistěhovali se sem a zůstali Mendel, Janáček, Mahen, Fuchs a Polívka. Je zvláštní, kolik lidí Brno vyprodukovalo a kolik jich odešlo; Brňané to vysvětlují blízkostí Vídně, do které se odcházelo, Pražané tím, že se odcházelo do Prahy. Oba mají pravdu.</p>
+  </div>
+</section>
+
+<!-- ============ ZDROJE ============ -->
+<footer id="zdroje">
+  <h2 style="font-size:1.3rem;color:var(--ink)">Z čeho jsem čerpal</h2>
+  <p>Praktické údaje (otevírací doby, ceny, linky) jsou z oficiálních webů k listopadu 2026: Kapucínská hrobka (hrobka.kapucini.cz — zimní otevírací doba a vstupné), TIC Brno / gotobrno.cz (Stará radnice, Brnopas), Muzeum města Brna / spilberk.cz (kasematy, nová expozice o bombardování), hotel International (historie a soupis uměleckých děl v interiéru, provoz restaurací), jízdní řády DPMB (linky 3, 4, 44, 55, 64, 78, E75 — stop sequences), Kudy z nudy a weby provozovatelů (Lamacentrum, Růženin lom, Velká Klajdovka), Divadlo Bolka Polívky a zpravodajství ČT, iDnes, Deníku a Brno Daily o stěhování divadla, úpravě Bílého domu a repertoáru 2026, Brněnský architektonický manuál (BAM) a Encyklopedie dějin města Brna (Bílý dům, Continental, Lesná, Obzor, Grand Prix, Zemanova kavárna), web vily Tugendhat a vodojemů na Žlutém kopci, Národní památkový ústav a TIC Brno ke Káznici, Muzeum romské kultury, CPI Property Group a brněnské zpravodajství k Nové Zbrojovce, článek cc.cz o Hádech (konec těžby 1997, etymologie), objevbrno.cz k brněnskému gastru 80. let, texty města Brna k pochodu smrti a Deklaraci smíření 2015, Kudy z nudy, Lonely Planet a turistika.cz k ostatním místům. Historické rámce (Brno německé a české, 1645, Napoleon 1805, Trenck, Mendel, Pellico, Zbrojovka, Vaňkovka, funkcionalismus) vycházejí z běžně dostupné literatury a encyklopedií a z vlastní paměti autora; kde si nejsem jistý, píšu to.</p>
+
+  <h2 style="font-size:1.3rem;color:var(--ink)">Co jsem neověřil nebo kde se zdroje liší</h2>
+  <ul>
+    <li><b>Čísla linek MHD</b> platí k jízdním řádům z prosince 2025 a podzimu 2026; DPMB linky mění, před cestou zkontrolujte šaliny 1, 2, 3, 4 a autobusy 55, 58, 64, 78. Že regionální autobusy 201/202 staví u Velké Klajdovky, mám z paměti, nikoli z aktuálního jízdního řádu.</li>
+    <li><b>Program Divadla Bolka Polívky na březen 2027</b> nebyl v listopadu 2026 zveřejněn; repertoár uvádím podle sezony 2026.</li>
+    <li><b>Hotel International</b>: provoz restaurací Gusto a Siesta v poledne a jejich otevírací dobu web neuvádí; potvrzeno mám jen snídaňový Lucullus (590 Kč pro nehotelové hosty). Vyřazení hotelu z památkového seznamu uvádím podle starších článků.</li>
+    <li><b>Restaurace Grand Prix</b> v Kohoutovicích: ověřeno je jen to, že dům a exteriér restaurace existují; zda a jak restaurace funguje, nevím.</li>
+    <li><b>Pivovarská restaurace Starobrno</b> na Mendlově náměstí a <b>Vinárna U Královny Elišky</b>: provozovatelé se v minulosti měnili, aktuální stav neověřen.</li>
+    <li><b>Zemanova cukrárna</b>: rok založení 1937 a adresa Josefská z paměti; otevírací doba v neděli neověřena.</li>
+    <li><b>Stará Tkalcovna</b>: přesnou adresu na Cejlu neuvádím, protože ji nemám ověřenou; restaurace je u zastávky Tkalcovská.</li>
+    <li><b>Špilberk v zimě</b>: web s otevírací dobou nebyl v době psaní dostupný; obvykle úterý–neděle 9–17, pondělí zavřeno. Ceny kasemat podle webu (190 bez průvodce / 260 s průvodcem, anglická verze uvádí jiná čísla).</li>
+    <li><b>Petrov</b>: zda jsou v březnu přístupné věže a krypta a v jakých hodinách, neověřeno.</li>
+    <li><b>Lamacentrum v březnu</b>: jeden zdroj uvádí neděle 10–17, jiný neděle 13–15 (zimní režim); ověřte na webu provozovatele.</li>
+    <li><b>Kostnice u sv. Jakuba, Labyrint, Mincmistrovský sklep, Muzeum romské kultury</b>: otevírací doby uvádím podle běžné praxe (úterý–neděle, případně zavřeno v sobotu), ne podle ověřeného rozpisu na březen 2027.</li>
+    <li><b>Káznice</b>: zda bude nádvoří v neděli přístupné, závisí na programu TIC Brno a Tripitaky.</li>
+    <li><b>Velikonoční trhy</b> 2027: termín neznám; odhad „dva týdny před Velikonocemi“ vychází z minulých ročníků.</li>
+    <li><b>Sčítání 1910</b>: podíl německé obcovací řeči kolem dvou třetin ve vnitřním městě je zaokrouhlení; čeští a němečtí historici čísla interpretují různě.</li>
+    <li><b>Pochod smrti 1945</b>: počet obětí uvádím v rozpětí od českých archivních výzkumů (asi 1 700) po dřívější sudetoněmecké údaje (několik tisíc); přesné číslo neexistuje.</li>
+    <li><b>Bezruč v Káznici</b> (1915–1916) a <b>Zahradníček</b> v 50. letech: převzato z textů NPÚ a TIC Brno, nekontrolováno v primárních pramenech. Popravy v Káznici po roce 1948 uvádím podle týchž zdrojů.</li>
+    <li><b>Kino Radost</b>: datování „20. léta“ a stav sálu z novinových článků, neověřeno na místě.</li>
+    <li><b>Mosilana</b>: letopočty jednotlivých firem (Turetschek, Weinberger 1802, Samek 1863) z rešerše o brněnských textilkách; současné využití areálu se může lišit.</li>
+    <li><b>Nová Zbrojovka</b>: stav výstavby v březnu 2027 odhaduji z harmonogramu developera (jižní část do 2030); co přesně bude zbořené a co postavené, nevím.</li>
+    <li><b>Mendelova exhumace</b>: léto 2021; zdroje se liší v měsíci. Závěry o genomu podle tiskových zpráv MU.</li>
+    <li><b>Lesná — památková zóna</b>: rok neúspěšného návrhu uvádím jen přibližně.</li>
+    <li><b>Hády</b>: etymologie z německého <em>Heide</em> podle jednoho článku; viditelnost Alp podle dlouhodobých pozorování, ne záruka.</li>
+    <li><b>Labyrint pod Zelným trhem</b>: délka trasy 212 m podle propagačních textů.</li>
+    <li><b>Prozatímní divadlo na Veveří</b>: provoz do roku 1952 a demolice v 50. letech podle encyklopedických zdrojů; přesný rok demolice neověřen.</li>
+    <li><b>Hotel Continental</b>: autorství (Řihák, Semela, Kovařík) a výzdoba (Zoubek) podle BAM; provoz restaurace v sobotu večer neověřen.</li>
+  </ul>
+
+  <p class="small">Průvodce je psán jako text na čtení předem i na místě; nic v něm nenahrazuje aktuální jízdní řád, otevírací dobu a vlastní úsudek. Pokud v Brně zjistíte, že něco je jinak, bude to nejspíš proto, že Brno mezitím něco přestavělo, přejmenovalo nebo o tom uspořádalo referendum.</p>
+
+<p class="small"><b>Written by:</b> Fable 5.1 Max</p>
+
+
+</footer>
+
+</main>
+</body>
+</html>
