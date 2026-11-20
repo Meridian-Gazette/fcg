@@ -42,32 +42,43 @@
   }
 
 
-  /* Hlavička nad dvojitou linkou je celá v jednom písmu (Cormorant) a má jen
-     dva hlasy: prostrkané verzálky (nadtitulek, údaj o autorství) a kurzívu
-     (titul, datum). Inter začíná až pod linkou jako hlas popisků feedu.
-     Velikosti jsou plynulé podle šířky displeje, aby se na úzkém mobilu
-     nelámal titul do tří řádků a popisky nenechávaly osiřelé slovo. */
-  .brand,
-  .meta-line {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 500;
-    font-size: clamp(11px, 3.4vw, 13px);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    text-wrap: balance;
-  }
-
+  /* Hlavička má dvě úrovně. Dominantní trojice: nadtitulek, titul a datum
+     (oxblood - inkoust - oxblood). Všechno ostatní (údaj o autorství, motto,
+     ediční řádka) je záměrně drobné a šedé, aby s trojicí nesoupeřilo.
+     Celá hlavička je v Cormorantu; Inter začíná až u popisků feedu. */
   .brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    /* 3.6vw + prostrkání 0.12em: delší půlka nadtitulku se na 320 px vejde
+       na jeden řádek s rezervou cca 10 px. */
+    font-size: clamp(11.5px, 3.6vw, 14px);
+    line-height: 1.55;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     color: var(--oxblood);
   }
 
+  @media (min-width: 601px) {
+    .brand {
+      letter-spacing: 0.18em;
+    }
+  }
+
+  /* Dvě půlky nadtitulku se lámou jen mezi sebou
+     (... Intelligence Agency / or What The Butler Saw ...). */
+  .brand span {
+    display: inline-block;
+  }
+
+  /* Titul je na úzkém displeji velký a na dvou řádcích (The Meridian /
+     Gazette); od cca 500 px se vejde na jeden. */
   .brand-mark {
     font-family: 'Cormorant Infant', serif;
     font-style: italic;
-    font-size: clamp(34px, 11vw, 60px);
+    font-size: clamp(46px, 16vw, 60px);
     font-weight: 500;
     line-height: 1;
-    margin: 6px 0 28px;
+    margin: 8px 0 26px;
     color: var(--ink);
     display: inline-block;
     text-decoration: none;
@@ -80,7 +91,6 @@
   }
 
   .meta-line {
-    color: var(--ink-soft);
     display: flex;
     justify-content: space-between;
     align-items: baseline;
@@ -88,38 +98,44 @@
     padding: 0;
   }
 
-  /* Datum je od údaje o autorství odlišené jen řezem (kurzíva titulu místo
-     verzálek), ne barvou ani jiným písmem - dva stejně vysázené nápisy vedle
-     sebe (a hlavně pod sebou na mobilu) splývaly v jeden. */
-  .meta-date {
-    font-style: italic;
-    font-size: 17px;
-    line-height: 1;
-    letter-spacing: 0.03em;
-    text-transform: none;
+  /* Údaj o autorství - vedlejší: drobné šedé verzálky. */
+  .meta-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: clamp(9.5px, 2.9vw, 11px);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    opacity: 0.8;
   }
 
-  /* Na úzkém displeji se obě položky datové řádky skládají pod sebe na střed;
-     vedle sebe by se každá lámala do dvou řádků. Mezi ně krátká vlasová linka. */
+  /* Datum - dominantní: menší ozvěna titulu (stejný řez), barvou nadtitulku. */
+  .meta-date {
+    font-family: 'Cormorant Infant', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1;
+    color: var(--oxblood);
+  }
+
+  /* Na úzkém displeji jde datum hned pod titul (dominantní trojice zůstává
+     pohromadě) a údaj o autorství až pod něj. */
   @media (max-width: 600px) {
     .brand-mark {
-      margin-bottom: 20px;
+      margin-bottom: 14px;
     }
 
     .meta-line {
       flex-direction: column;
       align-items: center;
-      gap: 0;
+      gap: 14px;
       text-align: center;
     }
 
-    .meta-date::before {
-      content: '';
-      display: block;
-      width: 28px;
-      height: 1px;
-      margin: 9px auto 11px;
-      background: var(--rule);
+    .meta-date {
+      order: -1;
+      font-size: 24px;
     }
   }
 
@@ -140,15 +156,16 @@
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.5;
     letter-spacing: 0.01em;
     color: var(--ink-soft);
+    opacity: 0.85;
     text-wrap: balance;
   }
 
   .motto-block .motto-cz {
-    opacity: 0.72;
+    opacity: 0.7;
   }
 
   .motto-by {
@@ -170,7 +187,7 @@
     padding: 13px 24px;
     text-align: center;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.7;
     color: var(--ink-soft);
   }
@@ -182,7 +199,7 @@
 
   .cal-day {
     font-family: 'Inter', sans-serif;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     font-weight: 500;
@@ -604,14 +621,14 @@
 <body>
 
 <header class="masthead">
-  <div class="brand">—&nbsp;Continental Intelligence Agency or What The Butler Saw&nbsp;—</div>
+  <div class="brand"><span>—&nbsp;Continental Intelligence Agency</span> <span>or What The Butler Saw&nbsp;—</span></div>
 
   <a class="brand-mark" href="./">The Meridian Gazette</a>
 
 
 
   <div class="meta-line">
-    <span>Píší výhradně jazykové modely</span>
+    <span class="meta-note">Píší výhradně jazykové modely</span>
     <span id="current-date" class="meta-date">November 2026</span>
   </div>
 </header>
