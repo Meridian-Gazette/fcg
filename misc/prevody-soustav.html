@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Převody číselných soustav – Úvod do IT</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #f3f5f9;
+      color: #1c2230;
+      font: 17px/1.6 "Segoe UI", Arial, sans-serif;
+    }
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 32px 20px 60px;
+      background: white;
+    }
+    h1 { line-height: 1.2; }
+    h2 {
+      margin-top: 42px;
+      border-bottom: 2px solid #d7dde8;
+      padding-bottom: 8px;
+    }
+    a { color: #1f4fd8; }
+    .rule, .result {
+      padding: 14px 18px;
+      background: #e8eefc;
+      border-left: 4px solid #1f4fd8;
+    }
+    .result { font-size: 1.2rem; }
+    .scroll { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+    }
+    th, td {
+      padding: 9px 12px;
+      border: 1px solid #d7dde8;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: #e8eefc; }
+    .calculation {
+      font-family: Consolas, monospace;
+      white-space: nowrap;
+    }
+    li { margin-bottom: 8px; }
+    @media print {
+      body { background: white; font-size: 12pt; }
+      main { max-width: none; padding: 0; }
+      tr, .rule, .result { break-inside: avoid; }
+      h2 { break-after: avoid; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Převody číselných soustav</h1>
+    <p>Úvod do IT: čtyři typy převodů krok za krokem, bez kalkulačky.</p>
+  </header>
+
+  <p>
+    Postupy níže platí pro <strong>nezáporná celá čísla</strong>.
+    Dolní index označuje soustavu: například
+    101<sub>2</sub> je dvojkové číslo, nikoli desítkové číslo sto jedna.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Soustava</th>
+        <th scope="col">Základ</th>
+        <th scope="col">Používané číslice</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Desítková – DEC</td><td>10</td><td>0 až 9</td></tr>
+      <tr><td>Dvojková – BIN</td><td>2</td><td>0 a 1</td></tr>
+      <tr><td>Šestnáctková – HEX</td><td>16</td><td>0 až 9, A až F</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    V HEX si zapamatuj:
+    <strong>A = 10, B = 11, C = 12, D = 13, E = 14, F = 15.</strong>
+    Každé písmeno představuje jednu číslici.
+  </p>
+
+  <div class="rule">
+    <strong>Stačí dvě pravidla:</strong>
+    <ul>
+      <li>
+        <strong>Z desítkové:</strong> opakovaně děl základem cílové
+        soustavy a zbytky přečti <strong>od posledního k prvnímu</strong>.
+      </li>
+      <li>
+        <strong>Do desítkové:</strong> každou číslici vynásob její
+        poziční hodnotou a výsledky sečti.
+      </li>
+    </ul>
+  </div>
+
+  <nav aria-label="Typy převodů">
+    <ul>
+      <li><a href="#dec-bin">1. DEC → BIN</a></li>
+      <li><a href="#dec-hex">2. DEC → HEX</a></li>
+      <li><a href="#bin-dec">3. BIN → DEC</a></li>
+      <li><a href="#hex-dec">4. HEX → DEC</a></li>
+    </ul>
+  </nav>
+
+  <section id="dec-bin">
+    <h2>1. Desítková → dvojková: děl dvěma</h2>
+
+    <p><strong>Zadání:</strong> Převeď 45<sub>10</sub> do BIN.</p>
+
+    <ol>
+      <li>
+        Číslo vyděl dvěma <strong>se zbytkem</strong>.
+        Zapisuj celočíselný podíl a zbytek, ne desetinný výsledek.
+      </li>
+      <li>V dalším řádku děl znovu dvěma získaný podíl.</li>
+      <li>Jakmile vyjde podíl 0, skonči.</li>
+      <li>Zbytky přečti <strong>zdola nahoru</strong>.</li>
+    </ol>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Krok</th>
+            <th scope="col">Dělení se zbytkem</th>
+            <th scope="col">Co udělám dál</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td class="calculation">45 ÷ 2 = 22, zbytek 1</td>
+            <td>Zapíšu 1. Dál budu dělit 22.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td class="calculation">22 ÷ 2 = 11, zbytek 0</td>
+            <td>Zapíšu 0. Dál budu dělit 11.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td class="calculation">11 ÷ 2 = 5, zbytek 1</td>
+            <td>Zapíšu 1. Dál budu dělit 5.</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td class="calculation">5 ÷ 2 = 2, zbytek 1</td>
+            <td>Zapíšu 1. Dál budu dělit 2.</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td class="calculation">2 ÷ 2 = 1, zbytek 0</td>
+            <td>Zapíšu 0. Dál budu dělit 1.</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td class="calculation">1 ÷ 2 = 0, zbytek 1</td>
+            <td>Zapíšu 1. Podíl je 0, končím.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Zbytky vznikaly v pořadí <strong>1, 0, 1, 1, 0, 1</strong>.
+      Od posledního k prvnímu dostanu <strong>1, 0, 1, 1, 0, 1</strong>.
+      V tomto příkladu jsou obě pořadí náhodou stejná;
+      pravidlo čtení zdola nahoru ale platí vždy.
+    </p>
+
+    <p class="result">
+      <strong>45<sub>10</sub> = 101101<sub>2</sub></strong>
+    </p>
+
+    <p>
+      <strong>Rychlá částečná kontrola:</strong>
+      45 je liché, takže binární zápis musí končit jedničkou.
+      Sudé číslo končí nulou.
+    </p>
+  </section>
+
+  <section id="dec-hex">
+    <h2>2. Desítková → šestnáctková: děl šestnácti</h2>
+
+    <p><strong>Zadání:</strong> Převeď 687<sub>10</sub> do HEX.</p>
+    <p>
+      Postup je stejný jako u BIN, jen dělíš <strong>16</strong>.
+      Zbytky mohou být 0 až 15; hodnoty 10 až 15 přepiš na A až F.
+    </p>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Krok</th>
+            <th scope="col">Výpočet</th>
+            <th scope="col">Komentář</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td class="calculation">687 = 42 × 16 + 15</td>
+            <td>
+              16 se vejde do 687 celkem 42krát: 42 × 16 = 672.
+              Zbývá 15, tedy <strong>F</strong>. Dál dělím 42.
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td class="calculation">42 = 2 × 16 + 10</td>
+            <td>
+              2 × 16 = 32, zbývá 10, tedy <strong>A</strong>.
+              Dál dělím 2.
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td class="calculation">2 = 0 × 16 + 2</td>
+            <td>
+              Podíl je 0, zbytek <strong>2</strong>. Končím.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Zbytky vznikaly v pořadí <strong>F, A, 2</strong>.
+      Čtu je <strong>zdola nahoru: 2, A, F</strong>.
+    </p>
+
+    <p class="result">
+      <strong>687<sub>10</sub> = 2AF<sub>16</sub></strong>
+    </p>
+
+    <p>
+      <strong>Pozor:</strong> zbytek 15 zapisuji jako F,
+      ne jako dvě číslice „15“.
+    </p>
+  </section>
+
+  <section id="bin-dec">
+    <h2>3. Dvojková → desítková: sečti hodnoty jedniček</h2>
+
+    <p><strong>Zadání:</strong> Převeď 101101<sub>2</sub> do DEC.</p>
+
+    <ol>
+      <li>
+        Pod pravou krajní číslici napiš <strong>1</strong>.
+        Směrem doleva hodnotu vždy zdvojnásob:
+        <strong>1, 2, 4, 8, 16, 32, 64, 128…</strong>
+      </li>
+      <li>
+        Každou číslici vynásob hodnotou její pozice.
+        Jednička hodnotu přidá, nula nepřidá nic.
+      </li>
+      <li>Všechny příspěvky sečti.</li>
+    </ol>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Číslice zleva</th>
+            <th scope="col">Hodnota pozice</th>
+            <th scope="col">Příspěvek a komentář</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>32</td><td>1 × 32 = 32 → přičtu 32.</td></tr>
+          <tr><td>0</td><td>16</td><td>0 × 16 = 0 → nepřičítám nic.</td></tr>
+          <tr><td>1</td><td>8</td><td>1 × 8 = 8 → přičtu 8.</td></tr>
+          <tr><td>1</td><td>4</td><td>1 × 4 = 4 → přičtu 4.</td></tr>
+          <tr><td>0</td><td>2</td><td>0 × 2 = 0 → nepřičítám nic.</td></tr>
+          <tr><td>1</td><td>1</td><td>1 × 1 = 1 → přičtu 1.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Součet:</strong> 32 + 8 + 4 + 1 = 45.</p>
+
+    <p class="result">
+      <strong>101101<sub>2</sub> = 45<sub>10</sub></strong>
+    </p>
+
+    <p>
+      <strong>Proč to funguje?</strong>
+      V desítkové soustavě mají pozice zprava hodnoty 1, 10, 100…
+      Ve dvojkové je princip stejný, jen jsou to 1, 2, 4, 8…
+    </p>
+  </section>
+
+  <section id="hex-dec">
+    <h2>4. Šestnáctková → desítková: násob hodnotami pozic</h2>
+
+    <p><strong>Zadání:</strong> Převeď 2AF<sub>16</sub> do DEC.</p>
+
+    <ol>
+      <li>
+        Písmena převeď na hodnoty:
+        <strong>A = 10, F = 15</strong>.
+      </li>
+      <li>
+        Pozicím přiřaď hodnoty zprava:
+        <strong>1, 16, 256, 4096…</strong>
+        Každá další pozice doleva má šestnáctkrát větší hodnotu.
+      </li>
+      <li>Každou číslici vynásob hodnotou její pozice.</li>
+      <li>Výsledky sečti.</li>
+    </ol>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Číslice</th>
+            <th scope="col">Hodnota pozice</th>
+            <th scope="col">Výpočet a komentář</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2</td><td>256 = 16²</td>
+            <td>2 × 256 = 512 → dvě „dvěstěpadesátšestky“.</td>
+          </tr>
+          <tr>
+            <td>A = 10</td><td>16 = 16¹</td>
+            <td>10 × 16 = 160 → deset šestnáctek.</td>
+          </tr>
+          <tr>
+            <td>F = 15</td><td>1 = 16⁰</td>
+            <td>15 × 1 = 15 → patnáct jednotek.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Součet:</strong> 512 + 160 + 15 = 687.</p>
+
+    <p class="result">
+      <strong>2AF<sub>16</sub> = 687<sub>10</sub></strong>
+    </p>
+  </section>
+
+  <section>
+    <h2>Tahák před testem</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Převod</th>
+          <th scope="col">Co udělat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>DEC → BIN</td>
+          <td>Dělit 2, zapisovat zbytky, přečíst zdola nahoru.</td>
+        </tr>
+        <tr>
+          <td>DEC → HEX</td>
+          <td>Dělit 16, zbytky 10–15 změnit na A–F, číst zdola nahoru.</td>
+        </tr>
+        <tr>
+          <td>BIN → DEC</td>
+          <td>Hodnoty zprava 1, 2, 4, 8… Sečíst hodnoty pod jedničkami.</td>
+        </tr>
+        <tr>
+          <td>HEX → DEC</td>
+          <td>Hodnoty zprava 1, 16, 256… Násobit číslicemi a sečíst.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Na co si dát pozor</h3>
+    <ul>
+      <li>
+        <strong>Zbytky při dělení čti obráceně.</strong>
+        Například 6 ÷ 2 = 3 zbytek 0,
+        3 ÷ 2 = 1 zbytek 1,
+        1 ÷ 2 = 0 zbytek 1.
+        Výsledek je 110<sub>2</sub>, ne 011<sub>2</sub>.
+      </li>
+      <li>
+        <strong>Pravá krajní pozice má vždy hodnotu 1.</strong>
+        V BIN nezačínej hodnotou 2 a v HEX hodnotou 16.
+      </li>
+      <li>
+        <strong>BIN používá pouze 0 a 1.</strong>
+        HEX používá 0–9 a A–F; například G není hexadecimální číslice.
+      </li>
+      <li>
+        <strong>Nula je ve všech třech soustavách 0.</strong>
+        Nuly na začátku hodnotu nemění:
+        00101<sub>2</sub> = 101<sub>2</sub> = 5<sub>10</sub>.
+      </li>
+      <li>
+        <strong>Kontroluj opačným převodem.</strong>
+        Převod tam a zpět musí vrátit původní číslo.
+      </li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
