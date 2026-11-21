@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Národní třída, 17. listopadu 1989</title>
+<meta name="description" content="Kdo demonstraci připravil, proč lidé přišli, co dělala StB, proč z obklíčení neodešli a proč je policie zbila. Rešerše z úryvků parlamentních zpráv, dobových textů a rozhovorů.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff;
+  --bg-alt: #f1f1ee;
+  --fg: #0c0c0c;
+  --muted: #5c5c58;
+  --rule: #0c0c0c;
+  --hair: #d4d4cf;
+  --accent: #e8310f;
+  --accent-ink: #ffffff;
+  --head: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --text: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d0d0d;
+    --bg-alt: #181816;
+    --fg: #ededea;
+    --muted: #a3a39d;
+    --rule: #ededea;
+    --hair: #34342f;
+    --accent: #ff5a3a;
+    --accent-ink: #0d0d0d;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: var(--text); font-size: 1.1875rem; line-height: 1.68;
+  -webkit-text-size-adjust: 100%; text-rendering: optimizeLegibility;
+  font-feature-settings: "kern", "liga", "onum";
+}
+a { color: inherit; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { background: var(--accent); color: var(--accent-ink); text-decoration: none; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+#progress { position: fixed; inset: 0 0 auto 0; height: 4px; z-index: 50; background: transparent; }
+#progress i { display: block; height: 100%; width: 0; background: var(--accent); }
+
+/* ---------- hero ---------- */
+.hero { border-bottom: 6px solid var(--rule); position: relative; overflow: hidden; }
+.hero-in { max-width: 76rem; margin: 0 auto; padding: 2.2rem 1rem 0; position: relative; }
+.bar {
+  display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  font: 500 .72rem/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase;
+  border-bottom: 1px solid var(--rule); padding-bottom: .7rem;
+}
+.bar .dot { color: var(--accent); }
+.ghost {
+  position: absolute; right: -.04em; top: 3.2rem; z-index: 0; pointer-events: none; user-select: none;
+  font: 900 clamp(9rem, 34vw, 27rem)/.8 var(--head); font-stretch: 62%; letter-spacing: -.04em;
+  color: transparent; -webkit-text-stroke: 2px var(--hair); white-space: nowrap;
+}
+h1 { position: relative; z-index: 1; margin: clamp(2.6rem, 6vw, 4.5rem) 0 0; font-family: var(--head); font-weight: 900; text-transform: uppercase; line-height: .9; letter-spacing: -.025em; }
+h1 .t1 { display: block; font-size: clamp(2.6rem, 10.5vw, 6.6rem); font-stretch: 100%; }
+h1 .t2 { display: block; font-size: clamp(2.6rem, 10.5vw, 6.6rem); font-stretch: 100%; color: var(--accent); }
+h1 .t3 { display: inline-block; margin-top: 1.4rem; font: 700 clamp(.8rem, 2.2vw, 1.05rem)/1 var(--mono); letter-spacing: .04em; text-transform: none; background: var(--fg); color: var(--bg); padding: .45rem .7rem; }
+.lede { position: relative; z-index: 1; max-width: 40rem; margin: 2.4rem 0 0; font: 400 clamp(1.25rem, 3.4vw, 1.7rem)/1.4 var(--text); font-style: italic; }
+.epis { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr; margin-top: 3rem; border-top: 1px solid var(--rule); }
+.epi { margin: 0; padding: 1.3rem 0 1.5rem; border-bottom: 1px solid var(--hair); }
+.epi blockquote { margin: 0; font-style: italic; font-size: 1.12rem; line-height: 1.45; }
+.epi figcaption { margin-top: .8rem; font: 400 .72rem/1.5 var(--mono); color: var(--muted); }
+.epi figcaption em { font-style: italic; }
+.epi:last-child { border-bottom: 0; }
+
+/* ---------- rozložení ---------- */
+.wrap { max-width: 76rem; margin: 0 auto; padding: 0 1rem; }
+.toc { position: sticky; top: 0; z-index: 40; background: var(--bg); border-bottom: 1px solid var(--rule); margin: 0 -1rem; padding: 0 1rem; }
+.toc ol { list-style: none; margin: 0; padding: .55rem 0; display: flex; gap: .4rem; overflow-x: auto; scrollbar-width: none; }
+.toc ol::-webkit-scrollbar { display: none; }
+.toc a { display: flex; align-items: center; justify-content: center; min-width: 2.4rem; height: 2.4rem; padding: 0 .55rem; border: 1px solid var(--rule); text-decoration: none; font: 700 .9rem/1 var(--mono); background: var(--bg); }
+.toc a span { display: none; }
+.toc a:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.toc a.on { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.toc a:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+article { min-width: 0; }
+
+/* ---------- sekce ---------- */
+.sec { padding: 3.5rem 0 1rem; }
+.sec + .sec { border-top: 1px solid var(--hair); }
+.intro { padding-top: 3rem; }
+.intro .prose { font-size: 1.06em; }
+.sec-head { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.8rem; }
+.num { font: 900 clamp(4.5rem, 20vw, 8rem)/.78 var(--head); letter-spacing: -.05em; color: var(--accent); flex: none; }
+.label { margin: 0 0 .6rem; font: 500 .74rem/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+h2 { margin: 0; font-family: var(--head); font-weight: 800; line-height: 1.02; letter-spacing: -.02em; }
+h2 .main { display: block; font-size: clamp(1.9rem, 6.4vw, 3.3rem); text-transform: uppercase; overflow-wrap: anywhere; hyphens: auto; }
+h2 .sub { display: block; margin-top: .55rem; font-size: clamp(1.05rem, 3vw, 1.4rem); font-weight: 500; letter-spacing: -.005em; line-height: 1.25; color: var(--muted); }
+.sec-end .sec-head { border-left: 8px solid var(--accent); padding-left: 1rem; }
+
+.prose { max-width: 39rem; }
+.prose p { margin: 0 0 1.15em; hyphens: auto; -webkit-hyphens: auto; }
+.prose > p:first-child::first-line { font-weight: 600; }
+.prose em { font-style: italic; }
+
+blockquote.pull { margin: 2.2rem 0 1.3rem; padding: 1.1rem 0 0; border-top: 8px solid var(--accent); }
+blockquote.pull p { margin: 0; font: 600 clamp(1.15rem, 3.2vw, 1.45rem)/1.35 var(--head); font-style: normal; letter-spacing: -.005em; hyphens: manual; }
+blockquote.pull p em { font-style: normal; }
+blockquote.pull + blockquote.pull { margin-top: 1.3rem; border-top-width: 2px; }
+p.cite { margin: -.3rem 0 2rem; font: 400 .76rem/1.6 var(--mono); color: var(--muted); hyphens: manual; }
+
+/* ---------- zdroje ---------- */
+.sources { margin: 4rem 0 0; padding: 2.2rem 0 3rem; border-top: 6px solid var(--rule); }
+.sources .label { color: var(--fg); }
+.sources ul { list-style: none; margin: 1rem 0 0; padding: 0; max-width: 52rem; font-size: .92rem; line-height: 1.6; }
+.sources li { padding: .7rem 0; border-top: 1px solid var(--hair); overflow-wrap: anywhere; }
+.sources .note { max-width: 40rem; margin: 1.8rem 0 0; font-size: .95rem; font-style: italic; color: var(--muted); }
+.colophon { margin: 2.4rem 0 0; font: 400 .72rem/1.5 var(--mono); color: var(--muted); letter-spacing: .04em; }
+
+/* ---------- široký displej ---------- */
+@media (min-width: 640px) {
+  .hero-in, .wrap { padding-left: 1.6rem; padding-right: 1.6rem; }
+  .toc { margin: 0 -1.6rem; padding: 0 1.6rem; }
+  body { font-size: 1.25rem; }
+}
+@media (min-width: 860px) {
+  .epis { grid-template-columns: repeat(3, 1fr); }
+  .epi { padding: 1.4rem 1.6rem 1.7rem 0; border-bottom: 0; }
+  .epi + .epi { padding-left: 1.6rem; border-left: 1px solid var(--hair); }
+}
+@media (min-width: 1020px) {
+  .wrap { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: 3.5rem; }
+  .toc { position: sticky; top: 1.2rem; align-self: start; margin: 3.5rem 0 0; padding: 0; border: 0; background: none; z-index: 1; }
+  .toc ol { flex-direction: column; gap: 0; overflow: visible; padding: 0; border-top: 6px solid var(--rule); }
+  .toc a { justify-content: flex-start; gap: .8rem; width: 100%; height: auto; min-height: 2.5rem; padding: .55rem .2rem; border: 0; border-bottom: 1px solid var(--hair); background: none; font-weight: 400; font-size: .74rem; line-height: 1.3; letter-spacing: .02em; }
+  .toc a b { flex: none; width: 1.6rem; font-weight: 700; font-size: .95rem; color: var(--accent); }
+  .toc a span { display: block; }
+  .toc a:hover { background: var(--accent); color: var(--accent-ink); }
+  .toc a:hover b { color: var(--accent-ink); }
+  .toc a.on { background: none; color: var(--fg); font-weight: 700; box-shadow: inset 4px 0 0 var(--accent); padding-left: .7rem; }
+  .ghost { top: 2.4rem; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media print {
+  :root { --bg: #fff; --fg: #000; --muted: #444; --hair: #bbb; --accent: #000; --accent-ink: #fff; }
+  #progress, .toc, .ghost { display: none; }
+  .wrap { display: block; }
+  .sec { break-inside: auto; }
+  a { text-decoration: none; }
+  .sources a::after { content: " (" attr(href) ")"; font: 400 .7rem var(--mono); }
+}
+
+/* ================= doplňky pro tento text ================= */
+h1 .t1, h1 .t2 { font-size: clamp(2.3rem, 9.2vw, 5.8rem); }
+.ghost { font-size: clamp(8rem, 30vw, 24rem); }
+.prose { max-width: 41rem; }
+.prose h3 { margin: 2.4rem 0 .8rem; font: 800 1.18rem/1.2 var(--head); letter-spacing: -.005em; text-transform: uppercase; }
+.prose ul, .prose ol { margin: 0 0 1.2em; padding-left: 1.25em; }
+.prose li { margin: 0 0 .45em; hyphens: auto; }
+.prose strong { font-weight: 700; }
+.prose a { overflow-wrap: anywhere; }
+sup.r { font: 500 .62em/1 var(--mono); margin-left: .12em; white-space: nowrap; }
+sup.r a { text-decoration: none; color: var(--accent); padding: 0 .1em; }
+sup.r a:hover { color: var(--accent-ink); }
+
+/* --- krátké odpovědi --- */
+.answers { display: grid; grid-template-columns: 1fr; gap: 0; margin: 2.2rem 0 1rem; border-top: 6px solid var(--rule); max-width: 60rem; }
+.ans { padding: 1.2rem 0 1.3rem; border-bottom: 1px solid var(--hair); display: grid; grid-template-columns: 2.6rem minmax(0,1fr); gap: .2rem 1rem; }
+.ans .n { font: 900 2.2rem/.9 var(--head); color: var(--accent); }
+.ans .q { margin: 0 0 .45rem; font: 500 .74rem/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.ans .a { margin: 0; font-size: 1.02rem; line-height: 1.5; hyphens: auto; }
+.ans .a b { font-weight: 700; }
+
+/* --- premisa × nález --- */
+.verdict { margin: 0 0 2rem; border: 1px solid var(--rule); max-width: 46rem; }
+.verdict > div { padding: .9rem 1rem 1rem; }
+.verdict .p { background: var(--bg-alt); border-bottom: 1px solid var(--rule); }
+.verdict .k { margin: 0 0 .35rem; font: 700 .68rem/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.verdict .f .k { color: var(--accent); }
+.verdict p.t { margin: 0; font-size: 1rem; line-height: 1.5; hyphens: auto; }
+.verdict .p p.t { font-style: italic; }
+.badge { display: inline-block; margin-left: .5rem; padding: .16rem .45rem .14rem; font: 700 .64rem/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; background: var(--fg); color: var(--bg); vertical-align: .12em; }
+.badge.half { background: none; color: var(--fg); box-shadow: inset 0 0 0 1.5px var(--fg); }
+.badge.no { background: var(--accent); color: var(--accent-ink); }
+
+/* --- svědectví --- */
+.voices { display: grid; grid-template-columns: 1fr; gap: 0; margin: 1.6rem 0 2.2rem; max-width: 60rem; border-top: 2px solid var(--rule); }
+.voice { margin: 0; padding: 1.1rem 0 1.2rem; border-bottom: 1px solid var(--hair); }
+.voice blockquote { margin: 0; font: 400 1.04rem/1.5 var(--text); font-style: italic; hyphens: auto; }
+.voice blockquote.para { font-style: normal; }
+.voice figcaption { margin-top: .7rem; font: 400 .72rem/1.55 var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+.voice figcaption b { color: var(--fg); font-weight: 700; }
+.tag { display: inline-block; margin: 0 .35rem .3rem 0; padding: .14rem .4rem .12rem; font: 700 .62rem/1.2 var(--mono); letter-spacing: .07em; text-transform: uppercase; box-shadow: inset 0 0 0 1px var(--muted); color: var(--muted); }
+.tag.then { background: var(--fg); color: var(--bg); box-shadow: none; }
+.tag.late { }
+.tag.self { box-shadow: inset 0 0 0 1px var(--accent); color: var(--accent); }
+.voice .why { display: block; margin-top: .35rem; }
+
+/* --- časová osa --- */
+.tl { list-style: none; margin: 1.6rem 0 2.2rem; padding: 0; max-width: 46rem; border-top: 2px solid var(--rule); }
+.tl li { display: grid; grid-template-columns: 4.6rem minmax(0,1fr); gap: 0 1rem; padding: .8rem 0 .85rem; border-bottom: 1px solid var(--hair); }
+.tl time { font: 700 1rem/1.35 var(--mono); }
+.tl .e { font-size: .98rem; line-height: 1.5; hyphens: auto; }
+.tl .e small { display: block; margin-top: .25rem; font: 400 .7rem/1.5 var(--mono); color: var(--muted); }
+.tl li.key { box-shadow: inset 5px 0 0 var(--accent); padding-left: .9rem; background: var(--bg-alt); }
+.tl li.key time { color: var(--accent); }
+.tl li.phase { display: block; padding: 1.1rem 0 .5rem; border-bottom: 1px solid var(--rule); font: 700 .7rem/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+/* --- tabulky --- */
+.tw { margin: 1.6rem 0 2.2rem; max-width: 60rem; overflow-x: auto; -webkit-overflow-scrolling: touch; border-top: 2px solid var(--rule); }
+table { border-collapse: collapse; width: 100%; min-width: 36rem; font-size: .9rem; line-height: 1.45; }
+th, td { text-align: left; vertical-align: top; padding: .7rem .9rem .75rem 0; border-bottom: 1px solid var(--hair); }
+th { font: 700 .66rem/1.3 var(--mono); letter-spacing: .09em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--rule); white-space: nowrap; }
+td:first-child { font-weight: 600; }
+td.num, th.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+td small { display: block; margin-top: .2rem; font: 400 .7rem/1.5 var(--mono); color: var(--muted); }
+
+/* --- schéma --- */
+.fig { margin: 1.8rem 0 2.4rem; max-width: 60rem; }
+.fig .sc { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--rule); background: var(--bg-alt); }
+.fig svg { display: block; width: 100%; min-width: 44rem; height: auto; }
+.fig figcaption { margin-top: .7rem; font: 400 .72rem/1.55 var(--mono); color: var(--muted); max-width: 46rem; }
+.fig svg text { font-family: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace; fill: var(--fg); }
+.fig svg .mut { fill: var(--muted); }
+.fig svg .acc { fill: var(--accent); }
+
+/* --- poznámkové boxy --- */
+.note-box { margin: 1.8rem 0 2rem; padding: 1rem 1.1rem 1.1rem; max-width: 46rem; background: var(--bg-alt); border-left: 8px solid var(--fg); font-size: .96rem; line-height: 1.5; }
+.note-box.warn { border-left-color: var(--accent); }
+.note-box p { margin: 0 0 .7em; hyphens: auto; }
+.note-box p:last-child { margin-bottom: 0; }
+.note-box .k { margin: 0 0 .5rem; font: 700 .68rem/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+
+.layers { counter-reset: lay; list-style: none; margin: 1.6rem 0 2.2rem; padding: 0; max-width: 46rem; border-top: 2px solid var(--rule); }
+.layers > li { counter-increment: lay; display: grid; grid-template-columns: 2.6rem minmax(0,1fr); gap: 0 1rem; padding: 1.1rem 0 1.2rem; border-bottom: 1px solid var(--hair); }
+.layers > li::before { content: counter(lay); font: 900 2.2rem/.9 var(--head); color: var(--accent); }
+.layers h4 { margin: 0 0 .4rem; font: 800 1.02rem/1.25 var(--head); text-transform: uppercase; letter-spacing: -.005em; }
+.layers p { margin: 0 0 .6em; font-size: .98rem; line-height: 1.5; hyphens: auto; }
+.layers p:last-child { margin-bottom: 0; }
+
+.sources h3 { margin: 2rem 0 .2rem; font: 700 .72rem/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.sources ol { margin: 1rem 0 0; padding: 0 0 0 2.2rem; max-width: 52rem; font-size: .9rem; line-height: 1.55; }
+.sources ol li { padding: .5rem 0; border-top: 1px solid var(--hair); overflow-wrap: anywhere; }
+.sources ol li::marker { font: 700 .74rem var(--mono); color: var(--accent); }
+.sources li:target { background: var(--bg-alt); box-shadow: -2.4rem 0 0 var(--bg-alt), 1rem 0 0 var(--bg-alt); }
+
+@media (min-width: 760px) {
+  .voices { grid-template-columns: 1fr 1fr; column-gap: 2.4rem; }
+  .voices.one { grid-template-columns: 1fr; max-width: 46rem; }
+  .verdict { display: grid; grid-template-columns: 1fr 1.25fr; }
+  .verdict .p { border-bottom: 0; border-right: 1px solid var(--rule); }
+}
+@media print {
+  .fig .sc { overflow: visible; }
+  .voice, .ans, .verdict, .tl li, .layers > li { break-inside: avoid; }
+}
+.hero-in { padding-bottom: 2.6rem; }
+.sources ul em { font-style: italic; color: var(--muted); }
+.fig .hint { display: none; margin: .5rem 0 0; font: 700 .66rem/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+@media (max-width: 759px) { .fig .hint { display: block; } }
+@media print { .fig .hint { display: none; } }
+.ans .q a { margin-left: .5em; color: var(--accent); text-transform: none; letter-spacing: .02em; text-decoration: none; }
+.ans .q a:hover { color: var(--accent-ink); }
+.sec > h2.label, .sources > h2.label { margin: 0 0 1.2rem; }
+.layers h3 { margin: 0 0 .4rem; font: 800 1.02rem/1.25 var(--head); text-transform: uppercase; letter-spacing: -.005em; }
+td.c-num, th.c-num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; font-size: .86rem; }
+</style>
+</head>
+<body>
+<div id="progress" aria-hidden="true"><i></i></div>
+<header class="hero">
+  <div class="hero-in">
+    <div class="bar"><span><span class="dot">●</span>Rešerše</span> <span>5 otázek · 1 večer</span></div>
+    <div class="ghost" aria-hidden="true">20:18</div>
+    <h1><span class="t1">Národní třída,</span> <span class="t2">17. listopadu 1989</span> <span class="t3">co uvádějí prameny · co je vzpomínka · co nevíme</span></h1>
+    <p class="lede">Kdo demonstraci připravil, proč lidé přišli, co dělala StB, proč z obklíčení neodešli a proč je policie zbila. Pět otázek k jednomu večeru, podle úryvků z parlamentních zpráv, dobových textů a rozhovorů. Žádný pramen nebyl čten celý.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Obsah">
+    <ol>
+<li><a href="#k0" data-id="k0" aria-label="Odpovědi ve zkratce"><b>0</b><span>Odpovědi ve zkratce</span></a></li>
+<li><a href="#k1" data-id="k1" aria-label="Kdo to připravil"><b>1</b><span>Kdo to připravil</span></a></li>
+<li><a href="#k2" data-id="k2" aria-label="Proč přišli"><b>2</b><span>Proč přišli</span></a></li>
+<li><a href="#k3" data-id="k3" aria-label="StB v průvodu"><b>3</b><span>StB v průvodu</span></a></li>
+<li><a href="#k4" data-id="k4" aria-label="Sevření"><b>4</b><span>Sevření</span></a></li>
+<li><a href="#k5" data-id="k5" aria-label="Proč neodešli"><b>5</b><span>Proč neodešli</span></a></li>
+<li><a href="#k6" data-id="k6" aria-label="Proč je zmlátili"><b>6</b><span>Proč je zmlátili</span></a></li>
+<li><a href="#k7" data-id="k7" aria-label="Co nevíme"><b>7</b><span>Co nevíme</span></a></li>
+<li><a href="#zdroje" data-id="zdroje" aria-label="Zdroje a metoda"><b>Z</b><span>Zdroje a metoda</span></a></li>
+    </ol>
+  </nav>
+
+  <article>
+<section id="k0" class="sec intro" aria-label="Odpovědi ve zkratce">
+  <h2 class="label">Odpovědi ve zkratce</h2>
+  <div class="prose">
+<p>Tento text odpovídá na pět otázek k demonstraci 17. listopadu 1989: kdo ji připravil, proč lidé přišli, co v průvodu dělala Státní bezpečnost, proč lidé z obklíčení na Národní třídě neodešli a proč je policie zbila. U každé otázky nejdřív staví premisu zadání proti tomu, co říkají prameny, a pak rozebírá, kdo co tvrdí a jaký na tom může mít zájem.</p>
+<p>Kostru dává závěrečná zpráva vyšetřovací komise Federálního shromáždění z roku 1992. Kolem ní jsou dobové texty z listopadu a prosince 1989, rozhovory po dvaceti až pětatřiceti letech a výroky historiků. Jedno omezení platí pro celý text: <strong>žádný pramen nebyl čten celý</strong>, jen přes úryvky a shrnutí vyhledávače. „Doloženo“ zde proto znamená „uvádí to pramen podle výsledku vyhledávače“, ne „ověřeno v dokumentu“. Co to znamená pro citáty, je popsáno <a href="#zdroje">v závěru</a>.</p>
+  </div>
+
+  <div class="answers">
+    <div class="ans"><span class="n">1</span><div><p class="q">Organizoval to celé SSM? <a href="#k1">část 1</a></p><p class="a"><b>Úředně ano, věcně napůl.</b> Akce šla pod hlavičkou vysokoškolské rady SSM a politický souhlas KSČ vyjednali svazáčtí funkcionáři. Nápad podle parlamentní komise vzešel od nezávislých studentů; ti dodali i vlastního řečníka a spolu se studentským tiskovým střediskem letáky. Podmínku trasy mimo centrum položila strana, Vyšehrad navrhli svazáci a nezávislí to přijali těsným hlasováním. Sraz byl na Albertově, Vyšehrad byl cíl.</p></div></div>
+    <div class="ans"><span class="n">2</span><div><p class="q">Proč lidé přišli? <a href="#k2">část 2</a></p><p class="a"><b>Podíly motivů neznáme.</b> Šetření mezi účastníky se nenašlo, jen vzpomínky po letech. V nich se opakuje, že akce byla povolená a že šli ostatní; dále zvědavost, náhoda a pokračování dřívějších demonstrací. Některé zkušené odpůrce režimu „svazácká akce“ spíš odrazovala. Pieta za rok 1939 byla rámec; jako osobní důvod se ve svědectvích nenašla.</p></div></div>
+    <div class="ans"><span class="n">3</span><div><p class="q">Pomáhali agenti StB řídit směr průvodu? <a href="#k3">část 3</a></p><p class="a"><b>Snaha je doložena zčásti, výsledek ne.</b> StB v průvodu byla a sledovala ho. Leták podepsaný krycím jménem jejího důstojníka zval před akcí do centra a komise tomuto důstojníkovi podle shrnutí připisuje záměr jít nepovolenou trasou; jeho roli přesto hodnotí jako okrajovou. Stejnou trasu chtěli i nezávislí studenti. Že by lidé StB na místě rozhodli, kudy průvod šel, doloženo není: na nábřeží a na Národní dav odbočil po uzávěrách pořádkových sil.</p></div></div>
+    <div class="ans"><span class="n">4</span><div><p class="q">Mohli odejít? A proč neodešli? <a href="#k4">části 4</a> a <a href="#k5">5</a></p><p class="a"><b>Volně se dalo odejít deset až patnáct minut a jen dozadu.</b> Do 20:18 jen jednotlivě přes zadní kordon, potom už jen přes bití v „uličkách“, výjimečně domem nebo mezerou v kordonu. Velká část lidí odešla; kolik, neuvádí žádný pramen. Megafon vyzýval k odchodu i ve chvíli, kdy odejít nešlo. Proč zůstali ti ostatní, je hlavně úsudek: plná ulice, krátké okno a zkušenost s rozháněním, ne s obklíčením. Žádný pamětník to takto sám neříká.</p></div></div>
+    <div class="ans"><span class="n">5</span><div><p class="q">Proč je policisté zbili? <a href="#k6">část 6</a></p><p class="a"><b>Rozkaz k bití se nenašel; doložen je rozkaz dav uzavřít a nepouštět.</b> Proč byl dav uzavřen, místo aby byl rozehnán, se neví. Komise násilí přičítá jednotlivcům a cituje posudek o dlouhodobé indoktrinaci a návycích z dřívějších zákroků. Proti výkladu pouhým selháním jednotlivců mluví průchody lemované příslušníky. Výpověď nikoho, kdo bil a řekl proč, se nenašla; většina této odpovědi je úsudek.</p></div></div>
+  </div>
+</section>
+<section id="k1" class="sec">
+  <header class="sec-head"><span class="num" aria-hidden="true">1</span><div><p class="label">První otázka</p><h2><span class="main">Kdo to připravil</span> <span class="sub">SSM dodal razítko, nezávislí studenti nápad – a pár lidí sedělo na obou židlích</span></h2></div></header>
+
+  <div class="verdict">
+    <div class="p"><p class="k">Premisa zadání</p><p class="t">„SSM, která to celé organizovala.“</p></div>
+    <div class="f"><p class="k">Co říkají prameny <span class="badge half">zčásti</span></p><p class="t">Úředně ano: akce byla povolena pod hlavičkou Městské vysokoškolské rady SSM a politický souhlas KSČ vyjednali svazáčtí funkcionáři. Nápad ale podle parlamentní komise vzešel od nezávislých studentů, kteří dodali i vlastního řečníka. Slovo „celé“ nesedí; stejně nepřesné je opačné zjednodušení „nezávislí proti svazákům“.</p></div>
+  </div>
+
+  <div class="prose">
+<p>Nejdřív oprava místopisu: demonstrace nezačínala na Vyšehradě. Sraz byl v 16 hodin na Albertově. Vyšehrad a hrob Karla Hynka Máchy byly cílem povolené trasy, tedy místem, kde měla akce skončit.</p>
+
+<p>Zpráva druhé parlamentní komise z roku 1992 klade počátek do září 1989: myšlenka podle ní „vznikla mezi skupinou vysokoškoláků, říkajících si nejprve Nezávislí studenti, později STUHA“. O svazácích píše, že se k organizování „připojili“ a připadla na ně „úloha zabezpečit politický souhlas KSČ s konáním manifestace“ (<a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_03.htm">tisk 1236, část 3</a>). Stálým přizvaným členem komise byl podle jednoho úryvku student Benda, sám spoluorganizátor; verze „nápad měli nezávislí“ tedy nevznikla bez zájmu. Historici Milan Otáhal a Miroslav Vaněk uvádějí, že obě strany chystaly akci původně odděleně (<a href="http://www.studenti89.usd.cas.cz/revoluce/">ÚSD</a>). Tehdejší předseda vysokoškolské rady SSM Jiří Jaskmanický po třiceti letech tvrdí, že nápad byl jeho, případně že na něj naléhal místopředseda rady Martin Mejstřík (<a href="https://www.parlamentnilisty.cz/arena/rozhovory/Listopad-89-Osobnosti-mu-nadavaji-on-pritom-svolal-Albertov-Pajerova-Blud-Ona-Panek-a-Zacek-byli-svazaci-Hadr-kterym-se-mlatilo-pres-drzku-Jaskmanicky-odhalil-vic-594003">Parlamentní listy</a>). Kdo byl první, se z dostupných pramenů rozhodnout nedá.</p>
+
+<h3>Dělba práce</h3>
+<p><strong>Svazáci dodali legalitu.</strong> Jednali hlavně předseda městského výboru SSM Martin Ulčák a J. Daňhel. Chronologie stojí převážně na Ulčákově výpovědi před komisí: v polovině října sekretariát městského výboru KSČ akci odmítá (zejména Miroslav Štěpán), 31. října přichází obrat, 7. listopadu politický souhlas ústředního výboru, den nato žádost na Obvodní národní výbor v Praze 2. Jde o jednoho svědka, který se před komisí zároveň hájil jako funkcionář starého režimu; zápis ÚV, který by datum potvrdil, se dohledat nepodařilo.</p>
+
+<p><strong>Nezávislí dodali obsah.</strong> Řečníka Martina Klímu, moderátorku Moniku Pajerovou a přípravy v bytě chartisty Václava Bendy. Leták „Vezmi s sebou květinu“, který koloval v několika verzích, vydávala Stuha podle Pajerové společně se Studentským tiskovým a informačním střediskem – a to fungovalo pod svazáckou radou. Na těchto jménech je vidět, jak neostrá hranice byla: Pajerová středisko vedla, Mejstřík seděl ve svazácké radě. Medailon Paměti národa o Klímovi uvádí, že se Pajerová „jakožto členka SSM značně zasloužila o to, že studentská akce k 17. listopadu dostala oficiální povolení“; je to formulace editora, ne Klímův výrok (<a href="https://www.pametnaroda.cz/cs/klima-martin-20191104-0">Paměť národa</a>).</p>
+
+<p>Podmínku trasy mimo centrum položila strana a tlumočili ji svazáci. Kompromis se podle ÚSD dojednal na přelomu října a listopadu; zástupci nezávislých z fakult jej definitivně a těsně odhlasovali 9. listopadu, tedy dva dny po datu, které Ulčák uvádí pro souhlas ústředního výboru. Obě data pocházejí z různých zdrojů a žádné není ověřené, pořadí kroků z nich spolehlivě určit nejde. Doloženo je jen tolik, že rámec – povolení a trasa – nevznikl u nezávislých. V tom je premisa zadání blíž pravdě, než kdyby se četly jen vzpomínky studentských mluvčích.</p>
+
+<h3>Proč Vyšehrad a proč Mácha</h3>
+<p>Komise: „Ze strany stranických orgánů je kladen vyjednávajícím zástupcům SSM zásadní požadavek, podmiňující schválení celé akce odklonem trasy manifestace z centra.“ Svazáci navrhli Vyšehrad a Máchův hrob, výměnou dostali nezávislí vlastního řečníka. Jediné zdůvodnění, proč právě Mácha, které se podařilo najít, je připomínka převozu básníkových ostatků jako „demonstrace národní hrdosti a výrazu odporu našich lidí proti fašismu“ – formulace zní jako dobový oficiální tisk a její původ je nejistý (<a href="https://totalita.cz/1989/1989_1117_dem_06.php">totalita.cz</a>). Kdo Máchu navrhl, doloženo není.</p>
+
+<p>Původní trasa měla vést do Opletalovy ulice, tedy přes Václavské náměstí. Podle komise by se tak povolená manifestace velmi pravděpodobně změnila v nepovolenou demonstraci, a to bylo podle ní i skrytým záměrem Nezávislých studentů (kontrolní hledání potvrdilo doslova jen úlomek první věty). Je to soud komise, ne doložené usnesení Stuhy. Podporuje ho vzpomínka Jiřího Dienstbiera mladšího, že se s dalším studentem snažili na rohu otáčet lidi k Vyšehradu, aby dohoda se svazáky byla dodržena aspoň formálně (<a href="https://www.studenti89.usd.cas.cz/studenti/dientsbier-jiri/">ÚSD</a>).</p>
+
+<p>S cestou do centra tedy počítali přinejmenším pořadatelé z řad nezávislých. Dne 15. listopadu žádali Ulčák a Daňhel na městském výboru strany za přítomnosti plukovníka Bečváře z pražské správy Sboru národní bezpečnosti (SNB) „příslib, že nedojde k zásahu pořádkových sil“. Co Bečvář odpověděl, úryvky neobsahují. Den předtím měl sekretariát městského výboru KSČ uložit, aby se pochodu mimo povolenou trasu zabránilo; druhé hledání to nepotvrdilo a tajemník Pázler před komisí popřel, že by takový bod byl do usnesení zapracován.</p>
+
+<h3>Albertov</h3>
+<p>Pořadí řečníků podle rozhlasové rekonstrukce z dobových nahrávek: Pajerová, pamětník roku 1939 Josef Šárka („Studenti, nedejte se…“), akademik Miroslav Katětov, v 16:23 Jaskmanický za svazáky (přerušovaný nesouhlasem, chladný potlesk), v 16:30 Klíma za nezávislé (<a href="https://www.rozhlas.cz/17-listopad-1989-minutu-po-minute-i-8170442">Český rozhlas</a>). Klíma po třiceti letech vzpomíná, že svazáci chtěli jeho text předem vidět a jediné, co žádali, bylo doplnit zmínku o Palestincích (<a href="https://www.seznamzpravy.cz/clanek/svazaci-si-prosadili-abych-na-albertove-zminil-i-palestince-vzpomina-studentsky-recnik-z-roku-1989-82987">Seznam Zprávy</a>).</p>
+
+<p>Dobová zpráva ČTK podle jednoho úryvku mluvila o společné akci vysokoškolské rady SSM a studentů mimo SSM. Pokud to tak stojí, ani režimní agentura netvrdila, že to SSM dělal sám; znění zprávy se ale při kontrolním hledání znovu najít nepodařilo.</p>
+  </div>
+
+  <div class="tw"><table>
+    <thead><tr><th>Číslo</th><th>K čemu se vztahuje</th><th>Kdo je uvádí</th></tr></thead>
+    <tbody>
+      <tr><td class="c-num">stovky až 5 tisíc</td><td>Kolik lidí pořadatelé čekali</td><td>Benda 300–500, Mejstřík asi 500, Pajerová 3–5 tisíc <small>vzpomínky po 20–30 letech; rozptyl o řád</small></td></tr>
+      <tr><td class="c-num">15 tisíc</td><td>Albertov v 16:00</td><td>odhad StB; stejné číslo měla podle prvního hledání i ČTK <small>motiv čísla nenadsazovat</small></td></tr>
+      <tr><td class="c-num">25 tisíc</td><td>neurčeno</td><td>chronologie Ústavu pro studium totalitních režimů (ÚSTR) <small>jen podle shrnutí, bez odkazu</small></td></tr>
+      <tr><td class="c-num">asi 10 tisíc</td><td>vyšehradský hřbitov a okolí, 17:30–17:45</td><td>Český rozhlas</td></tr>
+      <tr><td class="c-num">až 50 tisíc</td><td>průvod včetně těch, kdo se přidali cestou</td><td>Ústav pro soudobé dějiny (ÚSD) podle studentské dokumentace z roku 1990 <small>metoda neznámá; motiv čísla spíš zvyšovat</small></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="prose">
+<p>Žádné z čísel nevychází z počítání. Pořadatelé podle vlastních pozdějších vzpomínek čekali několikrát až řádově méně lidí, než přišlo. Nabízí se úsudek, že dav nepřivedla jen jejich mobilizace; doložit to nelze.</p>
+
+<h3>Co věděl režim předem</h3>
+<p>Strana věděla od října a akci schválila na městské i ústřední úrovni. O Státní bezpečnosti komise píše, že byla o Stuze „poměrně málo informována“ a že po schválení akce stranou aktivita její II. správy „naprosto vyhasíná“ (<a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_04.htm">tisk 1236, část 4</a>). Tatáž zpráva ale jinde uvádí, že StB chystané vystoupení zachytila s předstihem, hodnotila je jako nebezpečné a do legalizace akce omezovala účast studentů. O akci tedy věděla; méně o tom, kdo za ní stojí. Obojí stojí na torzu spisů a na výpovědích příslušníků, kteří měli zájem svou informovanost zmenšovat. A tatáž zpráva dokládá, že na dvou vysokých školách byl zachycen leták zvoucí do centra, podepsaný krycím jménem důstojníka StB. K tomu ve třetí části.</p>
+  </div>
+
+  <div class="voices">
+    <figure class="voice"><blockquote>„… rozdílem jednoho hlasu, nějakých 11 ku 10 nebo 12 ku 11 po fakultách.“</blockquote><figcaption><span class="tag late">vzpomínka, zřejmě po 28 letech</span> <b>Jiří Dienstbier ml.</b>, tehdy člen Stuhy, o hlasování nezávislých, zda přijmout svazáckou nabídku a trasu na Vyšehrad. <a href="https://www.studenti89.usd.cas.cz/studenti/dientsbier-jiri/">ÚSD, 100 studentských revolucí</a>. <span class="why">Kontrola potvrdila smysl a slova „rozdílem jednoho hlasu“, celé české znění se nezobrazilo.</span></figcaption></figure>
+    <figure class="voice"><blockquote>„Sedmnáctý listopad byla ta zápalná bomba, která to odpálila, ale musím říct, že my jako organizátoři jsme s tím nepočítali.“</blockquote><figcaption><span class="tag late">vzpomínka po 30 letech</span> <b>Monika Pajerová</b>, moderátorka Albertova. <a href="https://www.pametnaroda.cz/cs/magazin/specialy/sametova-revoluce">Magazín Paměti národa</a>. <span class="why">Možný zájem: důraz na nepřipravenost odpovídá na výklady o řízeném převratu.</span></figcaption></figure>
+    <figure class="voice"><blockquote>„Naším hlavním záměrem bylo, aby manifestaci nepřipravovaly nezávislé struktury, ale studenti sami.“</blockquote><figcaption><span class="tag late">vzpomínka</span> <b>Marek Benda</b>, spoluzakladatel Stuhy, později poslanec. Výroční texty 2009–2019, přiřazení ke konkrétnímu článku nejisté (<a href="https://tn.nova.cz/zpravodajstvi/clanek/400514-pred-triceti-lety-se-zmenily-dejiny-nasi-zeme-studenti-pripravovali-pruvod">TN.cz</a>).</figcaption></figure>
+    <figure class="voice"><blockquote class="para">Pietní akce byla jeho nápad; projev, který četl, mu napsal Mejstřík; studenti ho vypískali. Pajerová, Pánek a Žáček byli podle něj svazáci.</blockquote><figcaption><span class="tag late">vzpomínka po 30 letech</span> <span class="tag self">aktér se hájí</span> <b>Jiří Jaskmanický</b>, tehdy předseda vysokoškolské rady SSM (převyprávění). <a href="https://www.parlamentnilisty.cz/arena/rozhovory/Listopad-89-Osobnosti-mu-nadavaji-on-pritom-svolal-Albertov-Pajerova-Blud-Ona-Panek-a-Zacek-byli-svazaci-Hadr-kterym-se-mlatilo-pres-drzku-Jaskmanicky-odhalil-vic-594003">Parlamentní listy</a>. <span class="why">Cítí se vymazán z příběhu; sám si zčásti odporuje. Členství v SSM bylo mezi studenty masové a o autorství akce nic nedokazuje.</span></figcaption></figure>
+  </div>
+</section>
+<section id="k2" class="sec">
+  <header class="sec-head"><span class="num" aria-hidden="true">2</span><div><p class="label">Druhá otázka</p><h2><span class="main">Proč přišli</span> <span class="sub">Povolená akce, parta z koleje, zvědavost. Jak byly důvody zastoupeny, se neví</span></h2></div></header>
+
+  <div class="note-box warn">
+    <p class="k">Co se dá a nedá říct</p>
+    <p>Žádné šetření mezi účastníky se najít nepodařilo; projekt historiků Miroslava Vaňka a Veroniky Pehe podle jejich rozhovoru z roku 2019 není sociologickou analýzou studentů. Všechna jmenovitá svědectví, která se podařilo najít, jsou vzpomínky po dvaceti až pětatřiceti letech a pocházejí hlavně od lidí, které oslovila Paměť národa nebo výroční média – tedy od pozdějších novinářů, politiků a lidí s opozičním zázemím. Níže je proto <em>spektrum</em> motivů, ne jejich podíly.</p>
+  </div>
+
+  <div class="prose">
+<p>Rámec dali pořadatelé. Jedna z verzí zvacího letáku podle textu k výstavě Univerzity Karlovy z roku 2009 říkala předem a opatrným jazykem, že nejde jen o pietu: „Nechceme jen pietně vzpomínat…, ale chceme se přihlásit k ideálům svobody a pravdy…“; následovat měla věta, že tyto ideály jsou i dnes vážně ohroženy (<a href="https://iforum.cuni.cz/IFORUM-8153.html">iForum UK</a>; kontrolní hledání vidělo jen anglické převyprávění první věty, plné znění ani podpis pod letákem se dohledat nepodařilo). Pieta za rok 1939 byla legální obal, který si každý přečetl po svém. Jmenovité svědectví, v němž by uctění Jana Opletala bylo hlavním osobním důvodem, se nenašlo ani jedno. Může to být skutečnost, ale stejně dobře jen to, že se pietní motiv po třiceti letech nevypráví.</p>
+
+<h3>Důvody, které se ve vzpomínkách opakují</h3>
+<ol>
+<li><strong>Bylo to povolené.</strong> Lubor Maťa se nechal přemluvit přáteli a uklidnilo ho právě povolení. Manželé Kabelovi vzali podle článku CNN Prima News třináctiletou a jedenáctiletou dceru, protože akce byla povolená. Markéta Trojanová, která na demonstrace chodila už dřív, šla v šestém měsíci těhotenství bez obav. Pajerová o sobě říká, že na pochod přivedla i spolužáky, kteří do té doby na demonstrace nechodili.</li>
+<li><strong>Šli všichni.</strong> Byl pátek, mimopražští studenti běžně odjížděli domů, a z koleje šel podle jednoho pamětníka v podstatě každý, kdo zůstal. Jiní se o akci dozvěděli od přítelkyně, šli se spolužáky z gymnázia nebo s lidmi z nezávislé iniciativy.</li>
+<li><strong>Náhoda a blízkost.</strong> Jan Bubeník, pozdější člen stávkového výboru, se podle medailonu ÚSD o shromáždění dozvěděl náhodou a aktivním se stal až po zásahu (<a href="http://www.studenti89.usd.cas.cz/studenti/bubenik-jan/">ÚSD</a>).</li>
+<li><strong>Být u toho.</strong> Tušení, že se něco stane, bez konkrétního programu.</li>
+<li><strong>Další demonstrace v řadě.</strong> Pro účastníky Palachova týdne a protestů ve Stromovce to byla pokračující činnost. Petr Placák odhaduje, že studentů byla v průvodu nanejvýš polovina.</li>
+</ol>
+<p>A jeden důvod nepřijít: <strong>„svazácká akce“.</strong> Lidé se zkušeností z demonstrací let 1988–1989 od ní podle dvou vzpomínek nic nečekali. Pavel Veselý přišel jen proto, že pracoval hned vedle.</p>
+
+<p>Co se naopak nenašlo: ani jedno svědectví, které by rozhodnutí přijít výslovně spojovalo s pádem Berlínské zdi, s děním v NDR a Polsku, s peticí Několik vět nebo s teplickými demonstracemi z týdne předtím. V literatuře se tyto vlivy uvádějí jako pozadí; v osobních vyprávěních, která šla dohledat, chybějí. Stejně tak chybí hlas dělníka nebo učně bez vazby na opozici a bez pozdější veřejné role.</p>
+  </div>
+
+  <div class="voices">
+    <figure class="voice"><blockquote>„Kdybych nepracoval na Albertově, tak bych na demonstraci nešel, moc jsem od svazácké akce nečekal.“</blockquote><figcaption><span class="tag late">vzpomínka po 35 letech</span> <b>Pavel Veselý</b> (1961), tehdy arteterapeut v léčebně U Apolináře. <a href="https://www.pametnaroda.cz/cs/vesely-pavel-20250519-0">Paměť národa</a>. <span class="why">Kontrola potvrdila smysl, přesný slovosled ne.</span></figcaption></figure>
+    <figure class="voice"><blockquote>„Ten týden jsem už demonstroval kvůli Stromovce a taky u čínské ambasády. Na Albertov jsem se nechystal, byl jsem unavený a taky jsem měl pocit, že je to svazácká akce.“</blockquote><figcaption><span class="tag late">vzpomínka po 30 letech</span> <b>Tehdejší medik UK</b>, jméno z úryvku nezjištěno. <a href="https://iforum.cuni.cz/IFORUM-16609.html">iForum UK 2019</a>. <span class="why">Při kontrolním hledání se výrok znovu najít nepodařilo. Údaj „ten týden“ u Stromovky je podezřelý – protesty proti tunelu byly hlavně v létě.</span></figcaption></figure>
+    <figure class="voice"><blockquote>„Protože když člověk šel na nějakou zakázanou, tak byl připravený, že bude utíkat, a tady jsem na to nachystaný vůbec nebyl.“</blockquote><figcaption><span class="tag late">vzpomínka po 35 letech</span> <b>Lubor Maťa</b> (1960), nestudent; na povolené akci se podle něj nemělo co stát. <a href="https://www.pametnaroda.cz/cs/mata-lubor-20240515-0">Paměť národa</a>.</figcaption></figure>
+    <figure class="voice"><blockquote class="para">Šli v podstatě všichni z koleje, kdo neodjížděli na víkend domů. Byla to podle něj jediná povolená demonstrace, spíš oslava nebo vzpomínka na studenta Opletala.</blockquote><figcaption><span class="tag late">vzpomínka</span> <b>Anonymní pamětník</b>, tehdy student MFF UK na koleji; rozhovor vedli gymnazisté (převyprávění složené z útržků). <a href="https://www.ustrcr.cz/data/pdf/vzdelavani/velke-male-pribehy/rok1989/budanka09.pdf">ÚSTR, Velké a malé příběhy moderních dějin</a>. <span class="why">Není veřejná osoba a nemá zjevný důvod se stylizovat.</span></figcaption></figure>
+    <figure class="voice"><blockquote>„Člověk netušil, jak to dopadne, ale bylo jasné, že něco se dít bude. Takže jsem chtěl být u toho.“</blockquote><figcaption><span class="tag late">vzpomínka po 34 letech</span> <b>Martin Šmíd</b> (1970), tehdy student MFF UK – nositel jména z fámy o mrtvém studentovi. <a href="https://www.pametnaroda.cz/cs/smid-martin-20231003-0">Paměť národa</a>. <span class="why">„Bylo jasné“ je formulace zpětného vědění. Na fakultě tehdy studovali dva devatenáctiletí Martinové Šmídové a Paměť národa má dvě hesla téhož jména; výrok patří tomu narozenému v Praze, ale které z hesel je jeho, se ověřit nepodařilo.</span></figcaption></figure>
+    <figure class="voice"><blockquote>„Jestli tam bylo tehdy tak polovina studentů, tak to bylo hodně.“</blockquote><figcaption><span class="tag late">vzpomínka po 20 letech</span> <span class="tag self">vlastní zájem</span> <b>Petr Placák</b> (1964), organizátor demonstrací 1988–1989. <a href="https://www.pametnaroda.cz/cs/placak-petr-20091104-0">Paměť národa</a>. <span class="why">Má zájem zdůraznit zásluhy radikální opozice a relativizovat „studentský“ výklad. Odhad je dojem, ne počet.</span></figcaption></figure>
+  </div>
+
+  <div class="prose">
+<h3>Čekali, že budou biti?</h3>
+<p>Svědectví se dělí podle předchozí zkušenosti. Kdo spoléhal na slovo „povoleno“, zásah nečekal. Kdo znal Palachův týden, s něčím počítal: Jaroslav Spurný, tehdy myč oken, vzal na Albertov poprvé v životě děti (jedenáct a osm let) a před Národní je s manželkou poslal domů; jeho pozdější kolega z Respektu Martin Uhlíř říká, že akce byla povolená, ale málokdo podle něj pochyboval, že se něco semele (<a href="https://www.respekt.cz/fokus/bylo-to-poprve-co-jsem-vzal-deti-na-demonstraci">Respekt</a>). Obě verze jsou nejspíš pravdivé pro různé lidi. Obě mají také svůj vyprávěcí zisk – „nevinná oběť“ proti „já to věděl“ – a podíl jedné a druhé skupiny se z dostupných pramenů určit nedá.</p>
+
+<p>Řadový účastník mohl upřímně věřit, že jde na povolenou pietu. Pořadatelé ale věděli, že povolení končí na Vyšehradě a že část z nich chce do centra; svazáci si proto dva dny předem chodili pro záruku, že policie nezasáhne. Pocit bezpečí v davu byl tedy skutečný, ale nebyl podložený. Zda účastníci na Národní vnímali, že jsou už mimo povolenou trasu, se z nalezených svědectví zjistit nedá.</p>
+
+<h3>Kdy vznikla vůle k odporu</h3>
+<p>Martin Mejstřík v roce 2019 řekl, že studenti by do stávky nešli, kdyby s nimi režim na Národní nenaložil, jak naložil (<a href="https://ct24.ceskatelevize.cz/domaci/2976707-nechteli-jsme-zadny-samet-v-listopadu-89-jsme-riskovali-zivot-rika-martin-mejstrik">ČT24</a>). Je to výrok jednoho studentského vůdce po třiceti letech a týká se stávky, ne příchodu na Albertov. Jde proti zájmu vypravěče, který by mohl tvrdit, že odhodlání tu bylo od začátku. Proti němu stojí, že protirežimní hesla zněla už odpoledne: Rudé právo 18. listopadu psalo, že „převládla hesla, která napadala komunistickou stranu“, a podle ÚSD nabylo shromáždění na Albertově brzy protirežimní ráz.</p>
+
+<h3>Kolik jich bylo a kdo to byl</h3>
+<p>K dispozici jsou jen nepřímé údaje a žádný se netýká přímo složení davu 17. listopadu. Oldřich Tůma spočítal z policejních záznamů, že mezi předvedenými na pražských demonstracích 1988–1989 tvořili dělníci přes polovinu, kdežto studenti vysokých i středních škol dohromady jen 11,4 procenta; číslo je známo jen z druhé ruky a týká se předvedených, ne všech přítomných (<a href="https://dspace.cuni.cz/bitstream/handle/20.500.11956/77846/DPTX_2012_2_11230_0_356613_0_139200.pdf?sequence=1&amp;isAllowed=y">citováno v diplomové práci UK</a>). Vaněk odhaduje, že do stávky se na některých školách zapojila asi desetina studentů (<a href="https://www.universitas.cz/tema/4174-studenti-roku-89-meli-odvahu-necitili-se-jako-zbytecni-pesaci-to-rozhodlo">Universitas</a>). Složení průvodu neznáme.</p>
+
+<h3>Jak se příběh uhlazuje</h3>
+<p>Vaněk a Pehe v roce 2019 řekli, že s pokračováním projektu váhali, aby se nepodíleli na mýtu o studentech 17. listopadu, a že jejich narátoři jsou dnes převážně úspěšní lidé, kteří revoluci hodnotí jednoznačně kladně (<a href="https://www.novinky.cz/clanek/kultura-salon-navrat-k-sametovym-studentum-rozhovor-s-historiky-miroslavem-vankem-a-veronikou-pehe-40301908">Právo/Novinky</a>). Recenzent knihy <em>Ten den</em>, která sbírá přes dvě stě vzpomínek, upozorňuje, že editoři výpovědi rozstříhali bez popisu metody a že si jednotlivé výpovědi navzájem odporují (<a href="https://www.iliteratura.cz/Clanek/42307/palan-ales-ed-a-kol-ten-den-17-listopad-1989">iLiteratura</a>). Ve čtenářské anketě Deníku z roku 2019 uvedla třetina respondentů, že se listopadových událostí aktivně účastnila; anketa není reprezentativní, účast v ní není vymezena a netýká se jen 17. listopadu (<a href="https://www.denik.cz/listopad-89-politika/revoluce-listopad-89-cesi-praha-demonstrace-ucast-klice-20191117.html">Deník</a>).</p>
+  </div>
+</section>
+<section id="k3" class="sec">
+  <header class="sec-head"><span class="num" aria-hidden="true">3</span><div><p class="label">Třetí otázka</p><h2><span class="main">StB v průvodu</span> <span class="sub">Byla tam, sledovala a její důstojník agitoval pro cestu do centra. Že by o směru rozhodla, doloženo není</span></h2></div></header>
+
+  <div class="verdict">
+    <div class="p"><p class="k">Premisa zadání</p><p class="t">„StB agenti zamíchaní v davu, kteří pomáhali řídit směr, kudy průvod půjde.“</p></div>
+    <div class="f"><p class="k">Co říkají prameny <span class="badge half">zčásti</span></p><p class="t">Přítomnost příslušníků StB je doložená, sběr informací také. Doloženo je i to, že důstojník StB pod krycím jménem před akcí propagoval nepovolenou trasu do centra. Že by lidé StB na místě rozhodli, kudy průvod půjde, doloženo není; tutéž trasu chtěli nezávislí studenti a na nábřeží a na Národní dav odbočil po uzávěrách pořádkových sil.</p></div>
+  </div>
+
+  <div class="prose">
+<p>Otázka v sobě skrývá čtyři různá tvrzení a každé je doloženo jinak.</p>
+  </div>
+
+  <div class="tw"><table>
+    <thead><tr><th>Tvrzení</th><th>Stav</th><th>Čím je doloženo</th><th>Slabina</th></tr></thead>
+    <tbody>
+      <tr><td>StB byla v průvodu</td><td>doloženo</td><td>Poručík Ludvík Zifčák šel průvodem pod krycím jménem Milan Růžička; to nepopírá nikdo. Historik Pavel Žáček popisuje „operativní průzkum“ několika útvarů: asi dvanáctičlenné uskupení na Albertově a deset operativních pracovníků pražské správy StB. Jiný text téhož časopisu uvádí pět vozidel operativního průzkumu. <small><a href="https://www.ustrcr.cz/data/pdf/pamet-dejiny/pad1403/070-081.pdf">Paměť a dějiny 3/2014</a>; <a href="https://www.ustrcr.cz/wp-content/uploads/2019/10/PD_3_19_s33-43.pdf">3/2019</a></small></td><td>Celkový počet nasazených příslušníků StB a Správy sledování se najít nepodařilo. Dílčí čísla se mohou překrývat.</td></tr>
+      <tr><td>StB sbírala informace</td><td>doloženo s výhradou</td><td>Komise popisuje úkoly jako „hlásné činnosti o vývoji manifestace, dokumentování nejzávažnějších projevů na videokamery a operativní průzkum“. <small><a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_04.htm">tisk 1236, část 4</a></small></td><td>V úryvku chybí podmět věty; že jde o příslušníky StB, plyne jen ze shrnutí vyhledávače. Popis vychází z rozkazů a z výpovědí příslušníků.</td></tr>
+      <tr><td>Příslušník StB se snažil směr ovlivnit</td><td>doloženo zčásti</td><td>Leták podepsaný krycím jménem Růžička zval do Opletalovy ulice (znění potvrzeno doslova). Komise podle tří shodných shrnutí připisuje Zifčákovi záměr jít nepovolenou trasou a domlouvání s dalšími lidmi.</td><td>Komise jeho roli přesto hodnotí jako okrajovou. Tutéž trasu chtěli i nezávislí studenti. Zda šlo o záměr vedení StB, je nejisté.</td></tr>
+      <tr><td>Lidé StB rozhodli, kudy průvod šel</td><td>nedoloženo</td><td>Tvrdí to hlavně Zifčák sám a média, která ho přebírají.</td><td>Část spisů StB byla v prosinci 1989 skartována; komise nezjistila osoby uvedené na letácích. „Nedoloženo“ není „vyloučeno“.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="prose">
+<h3>Kudy šel průvod a kdo o tom rozhodl</h3>
+<p>Komise popisuje cestu takto. Po skončení piety na Vyšehradě se účastníci spontánně rozhodli jít původně zamýšlenou trasou do Opletalovy ulice; znění věty se ve dvou hledáních liší a „spontánně“ je hodnocení komise. Bezpečnost to zjistila a čelo zastavila ve Vyšehradské ulici v 18:25. Kolem 18:50 se dav bočními ulicemi přelil na nábřeží a řídicí štáb podle komise velmi pozdě zaregistroval, že tam nikým nezadržován rychle postupuje k centru (<a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_02.htm">tisk 1236</a>; přesné znění se při kontrole nezobrazilo). U Národního divadla podle novinářských rekonstrukcí zatarasil kordon most 1. máje a dav zahnul na Národní třídu; zda byla volná i jiná cesta, z úryvků neplyne (<a href="https://hn.cz/c1-63109760-trasa-studentskeho-pruvodu-17-11-1989">HN</a>).</p>
+
+<p>Směr „do centra“ nebyl ničí nový nápad. Byla to původní trasa nezávislých studentů, kterou si lidé podle Pajerové sami připisovali na letáky. Po letech ji sobě nebo svým známým připisuje několik lidí: Vladimír Hanzel vzpomíná, že signatář Charty John Bok na vyšehradské zídce křičel, ať lidé nejsou zbabělí a jdou na Václavák (<a href="https://iforum.cuni.cz/IFORUM-16610.html">iForum UK</a>); Robert Šimarek se podle rozhovoru pro Echo24 sám přihlásil, že posílal dav do centra, a popřel, že by byl estébák (<a href="https://www.echo24.cz/a/Hxbxi/zpravy-domov-17-listopad-stal-krizovatka-hnal-dav-centrum-robert-simarek-rozhovor">Echo24</a>; při kontrolním hledání se článek ani výrok znovu najít nepodařilo). Jsou to pozdní a neověřitelná svědectví a k roli „já to otočil“ se lidé hlásí rádi. Pokud platí, k cestě do centra řídicí centrum potřeba nebylo.</p>
+
+<p>Odbočení na nábřeží následovalo po uzávěře Vyšehradské (to uvádí komise), odbočení na Národní po uzávěře mostu (to uvádějí jen noviny). Pokud průvod někdo fyzicky usměrnil, byly to uzávěry pořádkových sil. Pozdní reakce štábu mluví spíš pro zmatek než pro plán; výslovný závěr komise, že trasu nikdo záměrně neovlivňoval, se ale v úryvcích nenašel. Opírá se navíc i o výpovědi velitelů, kterým se verze o zmatku hodila víc než verze o plánu. Kdo rozhodl o uzávěře Vyšehradské a mostu a proč zůstalo nábřeží volné, se zjistit nepodařilo.</p>
+
+<h3>Leták „Milana Růžičky“</h3>
+<p>Nejsilnější věc ve prospěch premisy je starší než samotný pochod. Komise zaznamenala, že leták „podepsaný za Nezávislé studentské sdružení (dále NSS) Milanem Růžičkou, vyzývající k pochodu do Opletalovy ulice, byl zachycen na VŠE a na ČVUT“ (<a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_02.htm">tisk 1236</a>). Krycí identita příslušníka StB tedy před akcí propagovala nepovolenou trasu do centra. Vedle Růžičky byla na letácích sdružení jména Vaněk a Fiala; komise tyto osoby podle shrnutí nezjistila.</p>
+
+<p>Dvě výhrady. Zda šlo o záměr pražské StB, je nejisté: podle shrnutí šesté části zprávy jednala Zifčákova krycí skupina od září 1989 proti vůli vedení pražské správy (převyprávění, znění neověřeno). A trasa do Opletalovy byla zároveň původním plánem skutečných nezávislých studentů; shoda sama neříká, kdo koho následoval.</p>
+
+<p>V šesté části zprávy je ještě jedna pasáž, pro tuto otázku nejdůležitější. Podle tří shodných shrnutí vyhledávače – doslovné znění se zobrazit nepodařilo – komise připisuje Zifčákovi osobně záměr, aby manifestace šla nepovolenou trasou přes Karlovo náměstí do Opletalovy ulice; záměr měl vzniknout asi týden před akcí, kdy si s různými lidmi domlouval společnou účast. Právo v roce 2009 napsalo, že komise „prokázala, že Zifčák před listopadem navrhoval úplně jinou trasu“ (<a href="https://www.novinky.cz/clanek/specialy-dokumenty-rozbuska-vybuchla-na-narodni-40242078">Novinky</a>); z jedné věty bez kontextu není jasné, vůči čemu jinou. Je to jediné místo v primárním prameni, kde se příslušníku StB připisuje úmysl ovlivnit směr. Komise přesto uzavírá, že jeho role byla okrajová.</p>
+
+<h3>Zifčák: verze jedné role</h3>
+  </div>
+
+  <div class="tw"><table>
+    <thead><tr><th>Kdy</th><th>Co tvrdí</th><th>Zdroj a výhrada</th></tr></thead>
+    <tbody>
+      <tr><td class="c-num">1989–1990</td><td>Před vojenskou prokuraturou vypovídal nejméně dvakrát; druhou výpověď, zřejmě z 29. března 1990, podstatně změnil. Co tvrdil ve které, úryvky neurčují: jeden podklad mluví o výpovědi o širším spiknutí, druhý o zmírnění verze. Komise píše, že Zifčákovou výpovědí „začala být StB pokládána za onen faktor v pozadí neobjasněných okolností 17. listopadu 1989, který byl rozhodující“. Výpověď o spiknutí byla podle shrnutí označena za nepravdivou ve všech zásadních bodech.</td><td><a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_06.htm">Tisk 1236, část 6</a>. Datum je v úryvku useknuté. Zda nepravdivost konstatovala prokuratura, nebo komise, není z úryvku jisté. Podle české Wikipedie při výslechu roku 1990 připustil, že si vymýšlí.</td></tr>
+      <tr><td class="c-num">1992</td><td>Komise: úloha okrajová; bezvědomí na Národní zřejmě skutečné; svědkyně Jana Matějková ho doprovázela celou dobu. Fámu o mrtvém studentovi podle komise vytvořila Drahomíra Dražská.</td><td>Tisk 1236, části <a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_05.htm">5</a> a <a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_06.htm">6</a>. Přesné znění věty o okrajové úloze se nezobrazilo.</td></tr>
+      <tr><td class="c-num">2014</td><td>Dva rozkazy: nejdřív nasměrovat průvod na Václavské náměstí, pak ho tam nepustit; připravená letenka do Moskvy.</td><td><a href="https://radiozurnal.rozhlas.cz/mel-jsem-letenku-do-moskvy-prozrazuje-mrtvy-student-z-listopadu-89-ludvik-zifcak-6283488">Radiožurnál</a> (převyprávění). Kdo rozkazy vydal, v úryvku není.</td></tr>
+      <tr><td class="c-num">2019</td><td>Jednal na příkaz vedení StB, které chtělo fámou o mrtvém studentovi vyburcovat veřejnost.</td><td><a href="https://cnn.iprima.cz/zpravodajstvi/rozhovor-smrt-studenta-i-infiltrace-spolku-prislusniky-stb-udalosti-17-listopadu-ocima">CNN Prima News</a>. Verze ho staví do role klíčového hráče.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="prose">
+<p>Soud Zifčáka 27. května 1994 uznal vinným zneužíváním pravomoci veřejného činitele a uložil mu osmnáct měsíců (<a href="https://ct24.ceskatelevize.cz/clanek/regiony/v-tabore-se-naposledy-rozloucili-s-legendou-justice-jirim-bernatem-341144">ČT24</a>; jiné zdroje uvádějí rok 1995, zřejmě odvolací řízení). Podle jediného nalezeného zdroje s textem odůvodnění mu soud vytýkal, že místo sběru informací působil jako agent provokatér; že by šlo o řízení průvodu 17. listopadu, z úryvku neplyne. Český rozhlas s odkazem na Žáčka píše, že podle historiků Zifčák lhal, když tvrdil, že ho úkolem pověřil přímo šéf StB Alojz Lorenc (<a href="https://temata.rozhlas.cz/myty-kolem-17-listopadu-1989-8170424">Český rozhlas</a>).</p>
+
+<h3>Vlajkonoši</h3>
+<p>V říjnu 2024 oznámil projekt Blaničtí rytíři, že porovnáním dosud nezveřejněných fotografií s osobními kartami příslušníků předběžně určil čtyři lidi ze Správy sledování mezi vlajkonoši v čele průvodu (<a href="https://ct24.ceskatelevize.cz/clanek/domaci/v-cele-pruvodu-ze-17-listopadu-sla-mozna-i-statni-bezpecnost-353762">ČT24</a>). Jde o vizuální srovnání tváří ohlášené tiskovou konferencí před výročím, bez publikované dokumentace. Historik Jan Kalous, který výsledky na konferenci sám představoval, žádá ověření v dalších archivních fondech. Jiří Suk je nemá „za úplně převratné“: podobné tvrzení podle něj zaznělo už v dokumentu z let 1990–1991 (<a href="https://www.echo24.cz/a/HcftS/zpravy-domov-pruvod-17-listopad-vedli-estebaci-vyzkum-novy-pohled-revoluce">Echo24</a>). Petr Blažek podle Aktuálně.cz říká, že příslušníci Správy sledování se „neúčastnili žádných provokací, ani průvod nevedli“ (<a href="https://zpravy.aktualne.cz/domaci/sprava-sledovani/r~4553491287d411ef9af20cc47ab5f122/">Aktuálně.cz</a>; výrok je jen z jednoho hledání). Pajerová tezi odmítá, přítomnost StB kolem studentů ale potvrzuje: „Estébáci s námi žili, chodili s námi na koncerty i na fakultu. Věděli jsme to“ (<a href="https://zpravy.aktualne.cz/domaci/pajerova-listopad-1989/r~79334d40913e11ef95ee0cc47ab5f122/?lp=1">Aktuálně.cz</a>). I kdyby se identifikace potvrdila, většina zpráv ji váže na úsek z Albertova na Vyšehrad, tedy na povolenou trasu, a dokládala by přítomnost v čele, ne rozhodnutí o směru.</p>
+
+<h3>Režie shora: kdo co tvrdí</h3>
+  </div>
+
+  <div class="tw"><table>
+    <thead><tr><th>Kdo</th><th>Verze</th><th>Co je doloženo</th><th>Možný zájem (úsudek)</th></tr></thead>
+    <tbody>
+      <tr><td>Komise 1990</td><td>„Důvodné podezření“, že zásah byl předem naplánován; důvodná domněnka, že KGB byla informována – její podíl neprokázán.</td><td>Večeře Lorence s náměstkem předsedy KGB Gruškem 17. 11. Komise neměla vyšetřovací pravomoci a sama se označila za laickou.</td><td>Revoluční měsíce, tlak najít viníka nahoře.</td></tr>
+      <tr><td>Komise 1992</td><td>Zásah nebyl předem naplánován; StB nebyla rozhodujícím faktorem; KGB byla informována přes své pracovníky, vliv neprokázán.</td><td>Výslechy svědků (podle úvodu zprávy 279), radioprovoz, kamerový záznam. Bez sovětských archivů a s neúplnými spisy StB.</td><td>Pracovala po skartacích a s výpověďmi lidí, kteří se hájili; byla zároveň pověřena lustrací poslanců.</td></tr>
+      <tr><td>Miloš Jakeš</td><td>V prohlášení pro ČTK (2018): shromáždění zinscenovaly StB a část ÚV KSČ, jmenovitě Lorenc a Hegenbart. V nedatovaném videu dohledaném jen na dezinformačním webu: akci „vymyslela státní bezpečnost za podpory KGB“.</td><td>Nic. Sám uvádí, že mu Lorenc večer volal, že se to „trochu zamotalo“. <small><a href="https://www.denik.cz/z_domova/jakes-17-listopad-1989-zinscenovaly-stb-a-cast-uv-ksc-20181116.html">Deník/ČTK</a></small></td><td>Verze o zradě ho zbavuje odpovědnosti za zásah i za pád režimu.</td></tr>
+      <tr><td>Alojz Lorenc</td><td>„S opatřeními jsem neměl nic společného a ani jsem nevěděl, co se připravuje.“ Šlo podle něj o čistě pražskou akci. <small><a href="https://radiozurnal.rozhlas.cz/posledni-sef-stb-alojz-lorenc-v-srpnu-1989-jsme-pusobili-i-na-vaclava-havla-6283418">Radiožurnál</a></small></td><td>Podle komise po dobu mimořádné bezpečnostní akce zastupoval ministra vnitra.</td><td>Odsouzený aktér; vinu přesouvá na Štěpána a Jakeše.</td></tr>
+      <tr><td>Miroslav Dolejší</td><td>Události zorganizovaly tajné služby (StB a KGB, podle jiného shrnutí rezidentury KGB a CIA).</td><td>Text bez pramenného aparátu.</td><td>Bývalý politický vězeň; text je obžalobou dohodnutého předání moci.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="prose">
+<p>Doložená fakta, o která se režijní výklad opírá, jsou čtyři: infiltrace studentského prostředí, leták legendy Růžička, Zifčák na Národní a delegace KGB v Praze. Žádné z nich samo o sobě řízení průvodu nedokazuje. Historici, které se podařilo dohledat, režii odmítají. Oldřich Tůma: „Opravdu si nemyslím, že 17. listopad byl výsledkem nějakého spiknutí.“ Žáček: „Přímé důkazy pro to nejsou“ – a dodává, že zásah byl netypický (<a href="https://ct24.ceskatelevize.cz/archiv/1302027-sametove-spiknuti">ČT24</a>). Jan Rychlík na svém blogu namítá, že kdyby Hegenbart s Lorencem chtěli svrhnout Jakeše, museli by vystoupit už v sobotu 18. listopadu. Jde o výroky v médiích a na blogu, ne o studie s doklady; Žáček je zároveň politik a editor protokolů komise.</p>
+
+<p>Dvě výhrady k tomuto závěru. Podezření z provokace není pozdější výmysl: nejmenovaný mluvčí Charty 77 podle Washington Postu z 20. listopadu 1989 řekl, že nemůže vyloučit, že Dražská byla nasazena policií (<a href="https://www.washingtonpost.com/archive/politics/1989/11/20/prague-government-denies-death-of-student/7a7717b5-bc03-428b-a344-2c1fdaa745b4/">WP</a>); podezření z plánu vyslovila v roce 1990 i parlamentní komise. A obě komise pracovaly po prosincových skartacích; rozsah zničeného je mezi badateli sporný a žádný nalezený zdroj neříká, co konkrétně ke 17. listopadu chybí. Nepřítomnost důkazu po skartaci není důkaz nepřítomnosti.</p>
+  </div>
+</section>
+<section id="k4" class="sec">
+  <header class="sec-head"><span class="num" aria-hidden="true">4</span><div><p class="label">Čtvrtá otázka, první půlka</p><h2><span class="main">Sevření</span> <span class="sub">Dva časy, na kterých všechno stojí: 19:40 a 20:18</span></h2></div></header>
+
+  <div class="verdict">
+    <div class="p"><p class="k">Premisa zadání</p><p class="t">„Policie lidi uvěznila a neprodyšně uzavřela na Národní třídě. Ti lidé do určité chvíle mohli bezpečně odejít domů.“</p></div>
+    <div class="f"><p class="k">Co říkají prameny <span class="badge half">zčásti</span></p><p class="t">Volně odejít šlo jen deset až patnáct minut po zastavení čela a jen směrem dozadu. Dalších 38 minut se dalo projít pouze jednotlivě přes zadní kordon. Ve 20:18 tato možnost skončila; od půl deváté pouštěla policie ven jen „uličkami“ přes bití a jednotlivci unikli domy nebo mezerou v kordonu. Megafon přitom k odchodu vyzýval i ve chvíli, kdy odejít nešlo.</p></div>
+  </div>
+
+  <div class="prose">
+<p>Kostru dává zpráva parlamentní komise z roku 1992, která se opírala o záznam radiového provozu štábu, o kamerový záznam a o výslechy svědků (podle úvodu zprávy jich bylo 279). Časy komise jsou proto pevnější než vzpomínky. Do tohoto textu se ale dostaly přes úryvky a na dvou místech si v nich odporují. Slabší jsou odhady počtů a všechno, co komise převzala z výpovědí velitelů.</p>
+  </div>
+
+  <ol class="tl">
+    <li class="phase">Cesta na Národní</li>
+    <li><time datetime="18:25">18:25</time><div class="e">Čelo průvodu z Vyšehradu zastaveno kordonem ve Vyšehradské ulici. <small>tisk 1236, část 2</small></div></li>
+    <li><time datetime="18:50">18:50</time><div class="e">Dav se bočními ulicemi přelévá na nábřeží a jde k centru, podle komise nikým nezadržován. <small>tisk 1236</small></div></li>
+    <li><time datetime="19:20">19:20</time><div class="e">Průvod u Národního divadla; most je zatarasen, dav zahýbá na Národní třídu. <small>tisk 1236; novinářské rekonstrukce</small></div></li>
+    <li><time datetime="19:25">19:25–19:30</time><div class="e">Čelo zastavuje kordon Pohotovostního pluku Veřejné bezpečnosti u obchodního domu Máj. Tvoří jej podle komise nejmladší frekventanti, u SNB dva měsíce. <small>tisk 1236, část 3; místo je v pramenech popsáno i jako „Perštýn“ a „u Albatrosu“ – zřejmě tatáž křižovatka</small></div></li>
+    <li><time datetime="19:35">19:35</time><div class="e">Ulice mezi Perštýnem a Voršilskou je plná. Komise odhaduje zhruba 10 tisíc lidí. <small>odhad zřejmě z plochy, ne sčítání; průběžná zpráva z prosince 1989 uvádí pro 19:30 asi 5 tisíc</small></div></li>
+    <li class="phase">Okno, kdy se dalo odejít</li>
+    <li><time datetime="19:36">19:36</time><div class="e">Přes most přijíždí školní pohotovostní oddíl majora Houbala a staví se za konec průvodu. <small>tisk 1236, část 2</small></div></li>
+    <li class="key"><time datetime="19:40">19:40</time><div class="e"><strong>Konec volného odchodu.</strong> Komise: demonstrantům je „znemožněn asi v 19:40 volný odchod“. Od této chvíle platí rozkaz štábu: přes přední kordon nikoho, ven jen přes zadní kordon, a jen po kontrole totožnosti. <small>tisk 1236, části 2 a 3; komise rozkaz podle shrnutí hodnotí jako prakticky málo smysluplný</small></div></li>
+    <li><time datetime="19:46">19:46</time><div class="e">Před předním kordonem lidé volají „Máme holé ruce“ a „Vy nás máte chránit“, zvedají ruce, první řady sedí, na zemi svíčky, za štíty květiny. <small>totalita.cz</small></div></li>
+    <li><time datetime="19:40">19:40–20:18</time><div class="e">Demonstranti mají podle komise „určitou, velmi omezenou možnost odcházet jednotlivě skrze postupující kordon směrem k Národnímu divadlu“. Podle kompilace totalita.cz toho využila značná část účastníků, hlavně ze zadních řad. <small>tisk 1236, část 2; počet odešlých neuvádí žádný pramen</small></div></li>
+    <li><time datetime="20:00">po 20:00</time><div class="e">Zadní kordon začíná zatlačovat konec davu směrem k Mikulandské. Ve 20:05 dostává Houbal pokyn zadržovat „agresivní“. <small>Studentské listy; Echo24</small></div></li>
+    <li><time datetime="20:07">20:07</time><div class="e">Houbal se v souvislosti s výzvami megafonu ptá štábu, zda lidé opravdu mohou odejít Mikulandskou. Odpověď: „tomu tak není a být nemá“. <small>tisk 1236, část 4 – potvrzeno doslova</small></div></li>
+    <li><time datetime="20:11">20:11</time><div class="e">První výzvy k rozchodu podle rozhlasové rekonstrukce – „z prostoru, ze kterého nelze uniknout“. Odporují tomu Studentské listy (první výzva v 19:38), dotaz z 20:07 i vyjádření příslušníků, podle nichž výzvy trvaly asi padesát minut. <small>kdy megafon začal, se zjistit nepodařilo</small></div></li>
+    <li class="phase">Zavřeno</li>
+    <li class="key"><time datetime="20:18">20:18</time><div class="e"><strong>Poslední možnost odejít končí.</strong> Komise: i omezená možnost je demonstrantům „v 20:18 již zcela znemožněna“ – podle shrnutí zprávy na rozkaz majora Houbala. <small>tisk 1236, část 2; shodně ČT24 a další</small></div></li>
+    <li><time datetime="20:19">20:19</time><div class="e">Štábu je hlášeno napadení příslušníků kordonu. Vyšetřování je nepotvrdilo. <small>tisk 1236, část 4, podle shrnutí</small></div></li>
+    <li><time datetime="20:25">20:25</time><div class="e">Zadní kordon překračuje úroveň Mikulandské; Houbal to hlásí štábu a ten podle komise „nereaguje a nebrání jeho dalšímu postupu“. Mezi kordony zůstávají 2–3 tisíce lidí. Příslušníci Odboru zvláštního určení začínají vytahovat jednotlivce. <small>tisk 1236, část 4; počet podle totalita.cz a Studentských listů</small></div></li>
+    <li class="key"><time datetime="20:30">cca 20:30</time><div class="e"><strong>„Uličky.“</strong> V kordonu u Mikulandské a v podloubí Kaňkova domu vznikají průchody lemované příslušníky. Kdo jimi prochází, je bit a poté legitimován. Nejhorší násilí se podle komise odehrává v podloubí, kam zvenčí není vidět. <small>tisk 1236, části 2 a 4, podle shrnutí; totalita.cz</small></div></li>
+    <li><time datetime="20:45">20:45</time><div class="e">Přední kordon se dává do pohybu proti zadnímu. <small>totalita.cz; jeden úryvek komise uvádí pohyb už v 19:45 – nevyjasněno</small></div></li>
+    <li><time datetime="20:53">20:53</time><div class="e">Zadní kordon posilují dva obrněné transportéry se zátarasovými mřížemi.</div></li>
+    <li><time datetime="21:10">21:10</time><div class="e">Prostor vyklizen; ve 21:16 štáb konstatuje obnovení pořádku. Útoky na skupiny v okolí pokračují ještě přes hodinu.</div></li>
+  </ol>
+
+  <figure class="fig">
+    <div class="sc">
+<svg viewBox="0 0 880 400" role="img" aria-label="Schéma Národní třídy: vlevo Národní divadlo, vpravo obchodní dům Máj. Přední kordon stojí u Máje. Zadní kordon postupuje od Voršilské, ve 20:25 překračuje ústí Mikulandské a zastavuje se na konci podloubí Kaňkova domu. Mezi kordony zůstává sevřený dav; ven se dá jen průchody v zadním kordonu, podloubím do Mikulandské.">
+  <defs>
+    <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="currentColor" stroke-width="1.4" opacity=".55"/></pattern>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--fg)"/></marker>
+    <marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--accent)"/></marker>
+  </defs>
+  <g style="color:var(--fg)">
+    <rect x="150" y="60" width="26" height="110" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <rect x="322" y="60" width="26" height="110" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <rect x="742" y="60" width="30" height="110" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <rect x="312" y="230" width="26" height="110" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <rect x="452" y="230" width="26" height="110" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <rect x="742" y="230" width="30" height="110" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <rect x="40" y="170" width="800" height="60" fill="var(--bg)" stroke="currentColor" stroke-width="2"/>
+    <g fill="var(--bg)" stroke="none">
+      <rect x="151.5" y="166" width="23" height="8"/><rect x="323.5" y="166" width="23" height="8"/><rect x="743.5" y="166" width="27" height="8"/>
+      <rect x="313.5" y="226" width="23" height="8"/><rect x="453.5" y="226" width="23" height="8"/><rect x="743.5" y="226" width="27" height="8"/>
+    </g>
+    <rect x="480" y="232" width="102" height="18" fill="url(#hatch)" stroke="currentColor" stroke-width="1"/>
+  </g>
+  <rect x="588" y="172" width="130" height="56" fill="var(--accent)" opacity=".22"/>
+  <line x1="722" y1="166" x2="722" y2="234" stroke="var(--accent)" stroke-width="7"/>
+  <line x1="335" y1="166" x2="335" y2="234" stroke="var(--fg)" stroke-width="3" stroke-dasharray="6 5"/>
+  <line x1="584" y1="166" x2="584" y2="234" stroke="var(--accent)" stroke-width="7"/>
+  <line x1="350" y1="186" x2="566" y2="186" stroke="var(--fg)" stroke-width="2" marker-end="url(#ah)"/>
+  <path d="M600 214 Q592 241 572 241 H494 Q465 241 465 268 V324" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="3 4" marker-end="url(#ah2)"/>
+  <text x="52" y="205" font-size="12" font-weight="700">← Národní divadlo, most</text>
+  <text x="832" y="205" font-size="12" font-weight="700" text-anchor="end">Máj →</text>
+  <text x="163" y="50" font-size="12" text-anchor="middle" class="mut">Divadelní</text>
+  <text x="335" y="50" font-size="12" text-anchor="middle" class="mut">K. Světlé</text>
+  <text x="757" y="50" font-size="12" text-anchor="middle" class="mut">Na Perštýně</text>
+  <text x="325" y="358" font-size="12" text-anchor="middle" class="mut">Voršilská</text>
+  <text x="465" y="358" font-size="12" text-anchor="middle" class="mut">Mikulandská</text>
+  <text x="757" y="358" font-size="12" text-anchor="middle" class="mut">Spálená</text>
+  <text x="458" y="206" font-size="12" text-anchor="middle">postup zadního kordonu</text>
+  <text x="397" y="128" font-size="12" font-weight="700" text-anchor="middle">19:36–19:40</text>
+  <text x="397" y="144" font-size="11" text-anchor="middle" class="mut">zadní kordon</text>
+  <text x="584" y="128" font-size="12" font-weight="700" text-anchor="middle" class="acc">po 20:25</text>
+  <text x="584" y="144" font-size="11" text-anchor="middle" class="mut">zadní kordon</text>
+  <text x="736" y="128" font-size="12" font-weight="700" text-anchor="end" class="acc">19:25</text>
+  <text x="736" y="144" font-size="11" text-anchor="end" class="mut">přední kordon</text>
+  <text x="653" y="205" font-size="12" font-weight="700" text-anchor="middle">2–3 tisíce lidí</text>
+  <text x="533" y="270" font-size="11" text-anchor="middle" class="mut">podloubí</text>
+  <text x="533" y="284" font-size="11" text-anchor="middle" class="mut">Kaňkova domu</text>
+  <text x="465" y="388" font-size="12" font-weight="700" text-anchor="middle" class="acc">„ulička“, od cca 20:30</text>
+  <line x1="465" y1="366" x2="465" y2="374" stroke="var(--accent)" stroke-width="1.5"/>
+</svg>
+    </div>
+    <p class="hint" aria-hidden="true">← schéma lze posouvat do strany</p>
+    <figcaption>Orientační schéma, ne v měřítku. Pohyby kordonů a časy podle zprávy komise (tisk 1236). Poloha Kaňkova domu na nároží Mikulandské je doložena; rozmístění ostatních ulic je zakresleno z obecné znalosti místopisu. Čárkovaná svislice: zadní kordon kolem 19:40. Plné červené čáry: přední kordon a místo, kde se zadní kordon po 20:25 zastavil. Tečkovaná šipka: cesta ven od půl deváté.</figcaption>
+  </figure>
+
+  <div class="prose">
+<h3>Co z časové osy plyne pro premisu</h3>
+<p><strong>„Neprodyšně uzavřela“</strong> platí od 20:18. Vedoucí vyšetřovacího týmu Generální prokuratury ČSR Antonín Navrátil to 1. prosince 1989 popsal slovy, že demonstranti byli „hermeticky uzavřeni a posléze i stlačováni“ (výrok je dostupný jen v převyprávění na <a href="https://totalita.cz/1989/1989_1117_dem_05.php">totalita.cz</a>). Před 20:18 uzavření neprodyšné nebylo, ale volné také ne.</p>
+
+<p><strong>„Do určité chvíle mohli bezpečně odejít“</strong> platí pro tři různé situace různě:</p>
+<ul>
+<li><em>Do 19:40, vzadu:</em> odejít se dalo zpět k Národnímu divadlu. Čelo bylo zastaveno kolem půl osmé; okno bylo tedy dlouhé deset až patnáct minut.</li>
+<li><em>19:40–20:18:</em> jen jednotlivě přes zadní kordon, s legitimováním. Násilí proti odcházejícím v této fázi se v pramenech nenašlo. Svědectví lidí, kteří tehdy odešli, jsou tři, všechna pozdní a bez času: Jaroslav Spurný odešel krátce před uzavřením, Miroslava Tupá průchodem u Mikulandské bez rány a Martin Uhlíř, který podle shrnutí rozhovoru po odchodu Mikulandskou narazil na další kordon. Na závěr o bezpečnosti to nestačí. Pro člověka stojícího u čela znamenala tato cesta projít proti směru zaplněnou ulicí; to je úsudek, žádný pramen to neměří.</li>
+<li><em>Po 20:18:</em> řízeně nijak. Od půl deváté „uličkami“ přes bití; jednotlivci unikli domy nebo chvilkovou mezerou v kordonu. Že nepomohl ani doklad o bydlišti, popsal v prosinci 1989 montér Leoš Krejčí z Národní 38; kdy přesně to bylo, jeho svědectví v úryvku neříká.</li>
+</ul>
+
+<p>Kolik lidí odešlo, neuvádí žádný pramen. Z čísel komise a prokuratury (deset tisíc v 19:35, dva až tři tisíce v sevření) by vycházely zhruba tři čtvrtiny; jsou to ale odhady různých autorů různou metodou a odečítat je od sebe je už výklad. Průběžná zpráva z prosince 1989 a čísla Washington Postu ukazují spíš na polovinu.</p>
+
+<h3>Megafon</h3>
+<p>Komise píše, že tlampač opakovaně vyzýval demonstranty k odchodu, „který však není možný“; věta stojí hned za údajem o 20:18. Ve 20:07 se velitel zadního kordonu „v souvislosti s výzvami megafonu řídícího štábu“ ptal, zda lidé opravdu mohou odejít Mikulandskou, a dostal odpověď, že ne. Kam megafon lidi posílal a jak výzva zněla, z úryvků neplyne; podle ČT24 k Národnímu divadlu.</p>
+
+<p>Kdy megafon začal, se neví: prameny uvádějí 19:38 i 20:11 a výzvy zjevně zněly už před 20:07. Pokud první zazněla kolem 19:40, platila ještě v době, kdy se jednotlivě odcházet dalo – pro lidi u čela ovšem jen přes celou ulici. Jisté je to, co píše komise: vyzývalo se i potom, co odejít nešlo.</p>
+
+<p>Starší úřední verze vypadá jinak. Průběžná zpráva z prosince 1989 uvádí, že výzva označila průvod za nepovolenou akci, opakovala se patnáctkrát zhruba do 20:45 a že do té doby zhruba polovina účastníků Národní třídu opustila; v 19:30 jich mělo být asi pět tisíc (<a href="https://www.psp.cz/eknih/1986fs/tisky/t0211_00.htm">tisk 211</a>). Z čeho zpráva tuto pasáž čerpala, z úryvků neplyne. S líčením komise z roku 1992 se nekryje: podle ní se od 20:25 už bilo. Obě verze se shodují jen v tom, že velká část lidí z ulice odešla.</p>
+
+<p>Role Mikulandské zůstává nejasná. Přehled na totalita.cz (bez uvedení pramene) ji vede jako uzavřenou od 19:40; podle jednoho neověřeného shrnutí zprávy komise byla naopak jedinou volnou cestou; Tupá a Uhlíř vzpomínají, že jí odešli. Nejspíš záleželo na minutě a na tom, kdo zrovna stál v jejím ústí.</p>
+
+<h3>Tentýž večer v textech z následujících dnů</h3>
+<p>Dobové prameny ukazují, jak rychle se verze rozešly – a že obklíčení zaznamenali i zahraniční zpravodajové.</p>
+  </div>
+
+  <div class="voices">
+    <figure class="voice"><blockquote>„K udržení veřejného pořádku v centru města byli povoláni příslušníci VB. Ověřovali totožnost účastníků demonstrace a kolem sta osob bylo předvedeno na místní oddělení VB. Ve 22 hodin byl ve středu města obnoven klid.“</blockquote><figcaption><span class="tag then">18. 11. 1989</span> <b>Rudé právo</b>, s. 1; citováno <a href="https://ct24.ceskatelevize.cz/clanek/domaci/17-11-1989-vb-jen-overovala-totoznost-psalo-rude-pravo-290807">ČT24</a>, mezi větami může být v originále další text. <span class="why">O uzavření, bití ani zraněných civilistech ani slovo. Komentář téhož dne psal, že „převládla hesla, která napadala komunistickou stranu“.</span></figcaption></figure>
+    <figure class="voice"><blockquote>„V průběhu zákroku bylo zraněno 18 osob, z toho jeden příslušník SNB a jeden státní příslušník USA.“</blockquote><figcaption><span class="tag then">17.–18. 11. 1989</span> <b>Federální ministerstvo vnitra</b>, interní Denní situační zpráva č. 177; citováno <a href="https://ct24.ceskatelevize.cz/domaci/1064817-podzim-1989-perem-nacelniku-stb-dokonala-informatorska-sit">ČT24</a>. <span class="why">Raná a neúplná evidence z noci po zásahu. Veřejně se podle ČT24 uvádělo sedm zraněných příslušníků, Odbor zvláštního určení v dopise z 1. 12. psal o třech jen ve vlastních řadách. Rozdíl je doložen, jeho důvod ne.</span></figcaption></figure>
+    <figure class="voice"><blockquote class="para">Pořádková policie sevřela obrněnými transportéry a obušky přes patnáct set studentů. Byli biti a odvlékáni, když je pouštěli policejní linií po dvou a po třech. Demonstranti předtím ignorovali několik výzev k rozchodu.</blockquote><figcaption><span class="tag then">noc na 18. 11. 1989</span> <b>Washington Post</b>, zpravodaj v Praze (převyprávění podle shrnutí vyhledávače). <a href="https://www.washingtonpost.com/archive/politics/1989/11/18/largest-rally-in-prague-since-69-ends-violently/8dd19ace-d38f-46d8-b572-0b84c5a210f7/">WP, 18. 11. 1989</a>. <span class="why">Psáno narychlo před uzávěrkou. Zpravodaj zaznamenal výzvy i bití při průchodu, ale nespojil je – buď převzal policejní podání, nebo nevěděl, že odejít nešlo. Čas zásahu vychází asi o hodinu později než u komise; může jít i o chybu shrnutí.</span></figcaption></figure>
+    <figure class="voice"><blockquote lang="de">„Zahlreiche Demonstranten wurden von den Sicherheitskräften in Toreinfahrten getrieben und dort blutig geschlagen.“<br><span lang="cs" style="font-style:normal">Četní demonstranti byli bezpečnostními silami zahnáni do průjezdů a tam zbiti do krve.</span></blockquote><figcaption><span class="tag then">listopad 1989</span> <b>taz</b> podle agentur AP a AFP. <a href="https://taz.de/!1790504/">taz</a>. <span class="why">Agenturní kompilát, ne vlastní reportáž. „Průjezdy“ odpovídají podloubí u Mikulandské.</span></figcaption></figure>
+  </div>
+
+  <div class="tw"><table>
+    <thead><tr><th>Údaj</th><th>Hodnota</th><th>Zdroj a výhrada</th></tr></thead>
+    <tbody>
+      <tr><td>Lidé v ulici, 19:35–19:40</td><td class="c-num">asi 10 tisíc</td><td>komise 1992 <small>odhad; průběžná zpráva z prosince 1989 uvádí asi 5 tisíc</small></td></tr>
+      <tr><td>Lidé v sevření po 20:18</td><td class="c-num">2–3 tisíce</td><td>výpověď prokurátora z 1. 12. 1989 podle totalita.cz; Studentské listy <small>Washington Post 18. 11. 1989: přes 1 500; výroční texty 2–2,5 tisíce</small></td></tr>
+      <tr><td>Příslušníci na Národní</td><td class="c-num">asi 600</td><td>iRozhlas, ČT24 <small>primární doklad nenalezen. Často citovaných „1 600“ je součet za celou Prahu: 940 mužů Pohotovostního pluku a 629 pražské správy SNB</small></td></tr>
+      <tr><td>Zadní kordon (Houbal)</td><td class="c-num">141 mužů</td><td>72 ze školního pohotovostního oddílu, 30 z Odboru zvláštního určení, 10 ze správy StB Praha, psovodi, týl <small><a href="https://www.echo24.cz/a/SqKUy/narodni-trida-jako-po-boji-kdo-a-jak-zasahoval-17-listopadu-1989">Echo24</a> podle rozkazů; plán, ne skutečný stav</small></td></tr>
+      <tr><td>Zranění podle ČTK, 18. 11. 1989</td><td class="c-num">17</td><td>z toho prý 7 příslušníků <small>veřejná verze</small></td></tr>
+      <tr><td>Zranění podle interní zprávy vnitra</td><td class="c-num">18</td><td>„z toho jeden příslušník SNB a jeden státní příslušník USA“ <small>Denní situační zpráva FMV č. 177</small></td></tr>
+      <tr><td>Poškození v evidenci prokuratury</td><td class="c-num">561</td><td>komise 1990, <a href="https://psp.cz/eknih/1986fs/tisky/t0430_01.htm">tisk 430</a></td></tr>
+      <tr><td>Zranění podle zdravotnické komise Občanského fóra</td><td class="c-num">568 / 593</td><td>593 uvádí tisk 430 („zraněných, kteří se přihlásili k ošetření“); 568 jen média, primární pramen nenalezen <small>evidence přihlášených; komise sama připouští „možnost určitých nesprávných údajů“</small></td></tr>
+      <tr><td>Zásahy do hlavy a krku</td><td class="c-num">234 osob</td><td>komise 1990 podle dvou úryvků <small>při kontrolním hledání se číslo nepotvrdilo; jiný zdroj uvádí téměř tři sta poranění hlavy</small></td></tr>
+      <tr><td>Těžká újma na zdraví</td><td class="c-num">4</td><td>komise 1992; dále 22 lehčích újem a stovky drobných zranění</td></tr>
+      <tr><td>Předvedení a zadržení</td><td class="c-num">100–143</td><td>„kolem sta“ Rudé právo, 143 ČTK; Washington Post psal o několika stech zatčených <small>režimní údaje rostly stejně jako u zraněných; nezávislá evidence se nenašla</small></td></tr>
+    </tbody>
+  </table></div>
+</section>
+<section id="k5" class="sec">
+  <header class="sec-head"><span class="num" aria-hidden="true">5</span><div><p class="label">Čtvrtá otázka, druhá půlka</p><h2><span class="main">Proč neodešli</span> <span class="sub">Velká část odešla; kolik, se neví. Proč zůstali ti ostatní, je hlavně úsudek</span></h2></div></header>
+
+  <div class="verdict">
+    <div class="p"><p class="k">Otázka zadání</p><p class="t">„Proč mnozí z nich neodešli? Motivace?“</p></div>
+    <div class="f"><p class="k">Co říkají prameny <span class="badge half">otázka předpokládá volbu</span></p><p class="t">Pro část lidí žádná volba nebyla: volně se dalo odejít deset až patnáct minut. Velká část odešla. O těch, kdo zůstali, prameny říkají hlavně, co dělali, ne proč. Že o kordonu za zády dlouho nevěděli a čekali rozehnání, ne obklíčení, je úsudek. Tlak skupiny a strach jsou doloženy každý jedním pozdním hlasem; solidarita ani stud žádným.</p></div>
+  </div>
+
+  <div class="prose">
+<h3>Kdo vlastně neodešel</h3>
+<p>V 19:35 bylo podle komise v ulici asi deset tisíc lidí. Po úplném uzavření jich mezi kordony zůstaly dva až tři tisíce. Průběžná zpráva z prosince 1989 uvádí, že Národní opustila zhruba polovina účastníků; kompilace totalita.cz mluví o značné části, hlavně ze zadních řad. Washington Post v noci na 18. listopadu psal o více než patnácti stech sevřených z asi tří tisíc, kteří mířili na Václavské náměstí. Podíl odešlých tak podle pramenů vychází na polovinu až tři čtvrtiny; žádný údaj není sčítání a liší se až dvojnásobně. Doloženo je jen to, že <strong>velká část lidí, hlavně zezadu, z Národní odešla</strong>. Otázka „proč neodešli“ se týká těch ostatních – hlavně přední a střední části davu.</p>
+
+<p>Svědectví lidí, kteří odešli, jsou tři, všechna pozdní a bez času (Spurný, Tupá, Uhlíř). Gymnazista Jindřich Šídlo odešel už z Vyšehradu, protože jeho dívka musela domů. Kde cestou z Vyšehradu odpadla většina z údajných desítek tisíc lidí v průvodu, žádný nalezený pramen neřeší.</p>
+
+<h3>Co bylo zepředu vidět a slyšet</h3>
+<p>Že lidé u čela o zadním kordonu dlouho nevěděli, je pravděpodobné, ale výslovně to neříká žádné nalezené svědectví. Opírá se to o délku zaplněné ulice a o dvě nepřímé vzpomínky. Třináctiletá Rut Kabelová neviděla ani kordon před sebou, dokud nevylezla na patník: „Do té chvíle jsem nevěděla, že tam jsou. Byli najednou tak blízko.“ Igor Chaun vzpomíná, že mu vážnost situace došla teprve ve chvíli, kdy zezadu najely obrněné vozy s drátěnými štíty; čas neuvádí, transportéry posílily zadní kordon nejpozději ve 20:53.</p>
+
+<p>Megafon podle komise vyzýval k odchodu i po 20:18, kdy odejít nešlo. Kdy začal, se neví (viz <a href="#k4">čtvrtá část</a>). Rozhlasová rekonstrukce má u času 20:14 větu: „Mnozí lidé se pokoušejí odejít, ale není kam, tak se jen bezmocně vracejí“ (<a href="https://www.rozhlas.cz/17-listopad-1989-minutu-po-minute-ii-8170440">Český rozhlas</a>); z čeho čerpá, neuvádí.</p>
+
+<h3>Co čekali, že se stane</h3>
+<p>Kdo měl zkušenost z demonstrací let 1988–1989, znal jeden scénář: policie vyzve, pak vyrazí a rozhání, a člověk utíká. Václav Marhoul po letech říká, že na jiných demonstracích bylo vždy kam utéct, kdežto tady byli všichni uvězněni. Historik Pavel Žáček říká totéž z druhé strany: „Obvyklá praxe byla, že demonstranty rozháněli, ale v tomto případě je zcela opačně natlačili do jednoho úzkého prostoru“ (<a href="https://www.irozhlas.cz/veda-technologie/historie/17-listopad-sametova-revoluce-myty-historie-narodni-trida-zasah-stb-komunismus_1711210630_ber">iRozhlas</a>). Zkušení tedy čekali něco jiného, než co přišlo.</p>
+
+<p>Méně zkušení podle několika vzpomínek nečekali nic zlého. Manželé Kabelovi vzali podle článku dvě dcery, protože akce byla povolená. Studentka Helena Schwarzová nemohla uvěřit, že by na pokojný studentský průvod čekala policie. Spoluorganizátor David Litvák uvádí, kam se mělo dojít: přes Národní do Opletalovy, tam zapálit svíčky a položit květiny. Organizátor má zájem zdůraznit pietní záměr; pokud to ale tak bylo, lidé v čele měli před sebou pietní konec, ne střet.</p>
+
+<h3>Co dělali</h3>
+<p>Když kordon čelo zastavil, přední řady si sedly. Zpívala se hymna a „Ach synku“, na dlažbě hořely svíčky, někdo zasouval příslušníkům květiny za štíty. Volalo se „Máme holé ruce“ a „Vy nás máte chránit“. Tato část je doložena mnohokrát, včetně amatérského videozáznamu Jiřího Kuny, který končí napadením autora a zničením kamery (<a href="https://hn.cz/c1-39055530-video-nez-znicili-kameru-unikatni-zabery-z-narodni-tridy-17-listopadu">HN</a>). Komise podle shrnutí zaznamenala i pokusy části lidí protlačit se zadním kordonem; tvrzení o násilném průběhu demonstrace má přitom za velmi pochybné.</p>
+
+<p>Ve svědectvích sezení vystupuje jako odpověď na přehrazenou cestu, ne jako rozhodnutí zůstat a vydržet. Nikdo z nalezených pamětníků neříká, že si sedl, aby neodešel. Petr Placák, který má ke studentům přezíravý vztah, to viděl jako pasivitu lidí čekajících na happening. Později se hesla mění: „My chceme domů“, „Pusťte nás domů!“, „Nechceme další Čínu“.</p>
+
+<p>Že se nenásilí stalo programem, platí až zpětně. Historik James Krapfl podle anglické recenze ukazuje, že to byl první zformulovaný princip revoluce a vznikl jako přímá reakce na události 17. listopadu – tedy po Národní, ne před ní.</p>
+  </div>
+
+  <div class="voices">
+    <figure class="voice"><blockquote>„Bydlím na Národní 38… Nadrotmistři mě odmítli pustit, přivolaný poručík jejich rozhodnutí potvrdil.“</blockquote><figcaption><span class="tag then">prosinec 1989</span> <b>Leoš Krejčí</b>, čtyřiadvacetiletý provozní montér, s otřesem mozku. Mladý svět č. 51/1989, převzato na <a href="https://totalita.cz/1989/1989_1117_svedek.php">totalita.cz</a>. <span class="why">Jedno z mála česky psaných svědectví z týdnů po události. Znění je z prvního hledání; kontrola potvrdila obsah, ne přímou řeč.</span></figcaption></figure>
+    <figure class="voice"><blockquote lang="en">„… the police surrounded the demonstrators, refusing to allow any to leave, and then began to beat those trapped methodically with nightsticks.“<br><span lang="cs" style="font-style:normal">Policie demonstranty obklíčila, nikomu nedovolila odejít a pak začala uvězněné metodicky bít obušky.</span></blockquote><figcaption><span class="tag then">20. 11. 1989</span> <b>Nejmenovaná Američanka</b>, účastnice, podle depeše velvyslanectví USA v Praze. <a href="https://1989.rrchnm.org/items/show/498.html"><span lang="en">Making the History of 1989</span></a>. <span class="why">Tři dny po události, ale z druhé ruky a s vyčerněnými pasážemi; tatáž depeše předává fámu o mrtvém studentovi. Znění je z výsledku vyhledávače a je třeba je ověřit proti skenu depeše.</span></figcaption></figure>
+    <figure class="voice"><blockquote lang="en">„They hit me once, picked me up and just kept hitting.“<br><span lang="cs" style="font-style:normal">Jednou mě udeřili, zvedli mě a prostě bili dál.</span></blockquote><figcaption><span class="tag then">noc na 18. 11. 1989</span> <b>Paula Butturini</b>, dopisovatelka Chicago Tribune; zbita, když se pokoušela projít policejní linií s americkým pasem a akreditací v ruce. <a href="https://www.washingtonpost.com/archive/politics/1989/11/18/largest-rally-in-prague-since-69-ends-violently/8dd19ace-d38f-46d8-b572-0b84c5a210f7/">Washington Post, 18. 11. 1989</a>. <span class="why">Protestní nóta velvyslanectví uvádí šestnáct stehů a že ji bili uniformovaní policisté <span lang="en">„under the direction of a plainclothes official“</span>, tedy pod vedením muže v civilu.</span></figcaption></figure>
+    <figure class="voice"><blockquote>„Lidé měli strach a chtěli odejít, ale to už nebylo možné.“</blockquote><figcaption><span class="tag late">vzpomínka</span> <b>Helena Malinová</b>, tehdy vysokoškolačka. <a href="https://slisty.cz/17-listopad-1989-co-mu-predchazelo-a-prima-svedectvi/">Studentské listy</a>, zřejmě podle knihy <em>Ten den</em> (2019).</figcaption></figure>
+    <figure class="voice"><blockquote>„Do té chvíle jsem nevěděla, že tam jsou. Byli najednou tak blízko.“</blockquote><figcaption><span class="tag late">vzpomínka po 30 letech</span> <b>Rut Kabelová</b>, tehdy třináctiletá, o kordonu, který uviděla až z patníku. Kniha <em>Ten den</em> (2019), citováno <a href="https://cnn.iprima.cz/na-narodni-tride-byly-v-roce-1989-i-deti-musely-celit-policistum-13453">CNN Prima News</a>.</figcaption></figure>
+    <figure class="voice"><blockquote class="para">Stál mezi studenty; shodli se, že už je to nebaví, a chtěli jít, ale nebylo kudy.</blockquote><figcaption><span class="tag late">vzpomínka</span> <b>Člen Nezávislého mírového sdružení</b>, jméno neuvedeno (převyprávění). <a href="https://www.milujuprahu.cz/dve-vzpominky-ucastniku-17-listopadu-1989/">Miluju Prahu</a>. <span class="why">Uvádí únavu a nudu, což se v jiných vzpomínkách neobjevuje. Druhý pamětník z téhož článku došel ke kordonu u Kaňkova paláce a žádal příslušníka, ať je pustí; odpověď úryvek neuvádí.</span></figcaption></figure>
+    <figure class="voice"><blockquote class="para">Průvod byl podle něj vnitřně nesvobodný: na ty, kdo chtěli domů, se volalo, ať průvod netrhají.</blockquote><figcaption><span class="tag late">vzpomínka po 30 letech</span> <b>Jan Šícha</b> (1967), tehdy student z Ústí nad Labem (převyprávění anglického překladu). <a href="https://www.memoryofnations.eu/en/sicha-jan-1967"><span lang="en">Memory of Nations</span></a>. <span class="why">Jediný nalezený hlas o tlaku skupiny neodcházet. České znění se dohledat nepodařilo a při kontrolním hledání se výrok neobjevil; není jasné, zda se týká pochodu, nebo stání na Národní.</span></figcaption></figure>
+    <figure class="voice"><blockquote class="para">Společným tlakem se kordon dal prorazit; lidé kolem ale byli ochromeni strachem.</blockquote><figcaption><span class="tag late">vzpomínka</span> <span class="tag self">sebestylizace</span> <b>Vojtěch Pokorný</b> (1971), signatář Charty 77, stál uvnitř sevření (převyprávění anglického shrnutí). <a href="https://www.pametnaroda.cz/en/pokorny-vojtech-1971">Paměť národa, anglická verze</a>. <span class="why">Zkušený demonstrant mluví o vyděšených studentech. Vedle Malinové jediný zdroj, který pasivitu spojuje se strachem, ne se zásadou.</span></figcaption></figure>
+  </div>
+
+  <div class="prose">
+<h3>Kudy se lidé dostali ven</h3>
+<p>Ze vzpomínek vycházejí čtyři cesty, každá v jiné době:</p>
+<ul>
+<li><strong>Zadním kordonem po jednom</strong>, do 20:18, s legitimováním. Washington Post psal už v noci na 18. listopadu, že lidi pouštěli policejní linií po dvou a po třech a přitom je bili; který kordon a kterou chvíli měl zpravodaj na mysli, ze shrnutí neplyne.</li>
+<li><strong>Mikulandskou</strong>, když se kordon v jejím ústí na chvíli otevřel. Učitelka Miroslava Tupá jí podle medailonu prošla bez rány, Michal Koleček vzpomíná, že probíhající byli biti.</li>
+<li><strong>Přes domy.</strong> Jan Šícha utekl přes dvorek činžáku, když se policisté na chvíli stáhli; jiná skupina se schovala u nájemníků na půdě a odešla kolem desáté; studentka práv přeskočila zábradlí do vinárny.</li>
+<li><strong>„Uličkou“</strong> v podloubí, od půl deváté, přes bití.</li>
+</ul>
+<p>Kordon tedy nebyl po celou dobu stejně neprostupný; záleželo na místě a minutě.</p>
+
+<h3>Co se doložit nepodařilo</h3>
+<p>Žádná nalezená výpověď neříká, že lidé zůstali, protože věřili, že je kordon nakonec pustí na Václavské náměstí. Žádná neuvádí jako důvod strach z legitimování při odchodu po jednom, stud odejít první ani solidaritu s ostatními. Nenašlo se nic o vyjednávání s veliteli kordonu ani jména lidí, kteří dav uklidňovali. To vše se v obecných textech o 17. listopadu objevuje; ve svědectvích, která šla dohledat, to není.</p>
+  </div>
+
+  <div class="note-box">
+    <p class="k">Výklad, ne nález</p>
+    <p>Na otázku „proč neodešli“ je nejlépe podložená odpověď situační, ne motivační. Velká část davu odešla. Čas, kdy se dalo volně odejít, trval deset až patnáct minut a jen vzadu. Kdo znal dřívější demonstrace, čekal rozhánění, ne obklíčení; kdo je neznal, čekal podle letáku pietní konec. Megafon vyzýval i ve chvíli, kdy odejít nešlo. Že lidé vpředu o zadním kordonu dlouho nevěděli, je pravděpodobné, ale je to úsudek, ne svědectví.</p>
+    <p>Vedle toho mohly hrát roli věci, které se po třiceti letech vyprávějí neochotně. Jedním pozdním hlasem je doloženo, že se na odcházející volalo (Šícha; výrok se nepodařilo znovu najít), jedním až dvěma, že lidi znehybnil strach (Pokorný, Malinová). Stud odejít první a solidaritu nedokládá žádné nalezené svědectví; jsou to domněnky.</p>
+  </div>
+</section>
+<section id="k6" class="sec">
+  <header class="sec-head"><span class="num" aria-hidden="true">6</span><div><p class="label">Pátá otázka</p><h2><span class="main">Proč je zmlátili</span> <span class="sub">Rozkaz k bití se nenašel. Doložen je rozkaz, který dav sevřel; proč se bilo, je z větší části úsudek</span></h2></div></header>
+
+  <div class="verdict">
+    <div class="p"><p class="k">Otázka zadání</p><p class="t">„A motivace policistů je zmlátit?“</p></div>
+    <div class="f"><p class="k">Co říkají prameny <span class="badge no">slabý podklad</span></p><p class="t">Přímý doklad vnitřní motivace téměř neexistuje. K dispozici jsou obhajoby psané pro vyšetřovatele, závěry komisí, jedna věta z psychologického znaleckého posudku a pár rozhovorů po třiceti letech. Výpověď nikoho, kdo bil a řekl proč, se nenašla. Odpověď je proto z velké části úsudek a je tak i označena.</p></div>
+  </div>
+
+  <div class="prose">
+<p>Otázka „proč bili“ se rozpadá na tři vrstvy: co přišlo shora, co udělali velitelé na místě a co si řadoví přidali sami. A na otázku, o kom je řeč. Na Národní stály nejméně čtyři útvary: Pohotovostní pluk (přední kordon u Máje), školní pohotovostní oddíl majora Houbala, k němu přidělený Odbor zvláštního určení a příslušníci StB (zadní kordon). Průchody, kde se bilo nejvíc, vznikly u zadního kordonu. Většina toho, co je známo o výcviku a mentalitě, se přitom týká pluku.</p>
+  </div>
+
+  <ol class="layers">
+    <li><div><h3>Shora: nepustit do centra</h3>
+      <p>Bezpečnostní opatření bylo připraveno předem a písemně – rozkaz pražské správy SNB č. 27/89 s krycím názvem STUDENT a rozkaz ministra vnitra č. 16/89 o mimořádné bezpečnostní akci (<a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_03.htm">tisk 1236, část 3</a>). Úřední zadání podle studie v časopise ÚSTR znělo zahradit cestu na Václavské náměstí, ale nezasahovat (<a href="https://www.ustrcr.cz/wp-content/uploads/2019/10/PD_3_19_s33-43.pdf">Paměť a dějiny 3/2019</a>). Ministr Kincl ten den jednal s Jakešem a Štěpánem a „údajně“ se shodli, že k zásahu z politických důvodů nesmí dojít – slovo „údajně“ je v samotné zprávě komise a jediným zdrojem jsou tři lidé, kteří se hájili.</p>
+      <p>Večer, když průvod zamířil do centra, se zadání rozpadlo. Podle zprávy z prosince 1989 Štěpán „dával pokyn k zásahu všemi dostupnými prostředky“ (<a href="https://www.psp.cz/eknih/1986fs/tisky/t0211_00.htm">tisk 211</a>); zastupující náčelník pražské správy Bytčánek to měl odmítnout a šéf StB Lorenc tvrdí, že na všechny dotazy odpovídal, že se zasahovat nesmí. I to pochází od lidí, jimž taková verze ulehčovala. Podle blogu historika Jana Rychlíka žádný z vyšších důstojníků neuvedl, že by dostal rozkaz začít bít. Jednotlivý rozkaz „bijte“ se v pramenech nenašel.</p></div></li>
+    <li><div><h3>Velitelé na místě: uzavřít a nepouštět</h3>
+      <p>Velitel opatření podplukovník Michal Danišovič řídil akci ze štábu, na ulici nebyl. Zadní kordon postupoval na rozkaz. V přepisu radiového provozu, jak jej uvádí web totalita.cz, zní Danišovičův pokyn: „Okamžitě vystup, za davem, za davem, pomalinku, bez zákroku, natlačit co nejdál k ulici Spálená.“ Slova „bez zákroku“ tam jsou; znění ani čas se ale v primárním prameni ověřit nepodařilo. Výsledkem byl dav sevřený ze dvou stran, kterému megafon hlásil, ať odejde, a který kordon nepouštěl.</p>
+      <p>Komise mluví o rozkazech majora Houbala, jimiž se zadní kordon posouval stále dál; poslední odchod skončil ve 20:18 podle shrnutí na jeho pokyn. Ve 20:19 bylo štábu hlášeno napadení kordonu, které vyšetřování nepotvrdilo. Když Houbal hlásil, že jeho kordon překročil Mikulandskou, štáb podle komise „nereaguje a nebrání jeho dalšímu postupu“ (<a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_04.htm">tisk 1236, část 4</a>). Jeden z dokumentů Federálního shromáždění – z úryvku není jisté který – zaznamenává i návrh generála Nováka, aby Danišovič „rozkazem k vytahování iniciátorů a tzv. výtržníků demonstrace oslabil sílu davu“. Pokud to tak stojí, vytahování jednotlivců nebylo jen iniciativou zdola.</p>
+      <p>Proč byl dav uzavřen, místo aby byl rozehnán, žádný nalezený zdroj nevysvětluje. Žáček má k tomu dvě polohy, které stojí vedle sebe. V jednom rozhlasovém textu říká, že se kordon dal do pohybu „bez rozkazu z centrály“ a že se „něco muselo stát přímo na Národní třídě na nižší úrovni velení policie“ (<a href="https://rozhlas.cz/17listopad/listopad/_zprava/642970">Český rozhlas</a>). Jinde podle převyprávění říká, že síla měla studenty potrestat a že obklíčení bylo zvolenou taktikou (<a href="https://www.e15.cz/domaci/narodni-trida-17-listopadu-1989-vecer-misto-zlomu-853315">E15</a>). Záměr i chaos tak stojí u jednoho autora a z úryvků to rozhodnout nejde. Danišovič po třiceti letech přesouvá vinu na Houbala; soud oba v roce 2000 odsoudil ke třem letům podmíněně.</p></div></li>
+    <li><div><h3>Řadoví: co si přidali</h3>
+      <p>Komise z roku 1992 píše, že „nepřiměřené násilí a brutalitu během zásahu nebylo možno prakticky vůbec předem předvídat“, protože šlo o individuální, nepřipravené jednání zasahujících. Věta stojí v kapitole o Zifčákovi, kde slouží jako argument proti teorii o plánované provokaci (<a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_06.htm">tisk 1236, část 6</a>). Podle shrnutí jiné části zprávy připisuje komise nejbrutálnější násilí řádově několika desítkám příslušníků na několika místech a excesy osobní motivaci, ne velení; znění se ověřit nepodařilo. Z přibližně šesti set nasazených by tedy bila menšina.</p>
+      <p>Tatáž zpráva cituje psychologický znalecký posudek, podle něhož za chováním příslušníků stálo „zaměřené, systematické a dlouhodobé ovlivňování prožívání a chování příslušníků SNB ideologickou indoktrinací a sociálním učením při předchozích zákrocích“ (citát je složen ze dvou úryvků). A ze svědeckých výpovědí zaznamenává, co bijící křičeli: „svině študácký“, „flákači“, „zrádci“ (<a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_04.htm">tisk 1236, část 4</a>). Jsou to slova, jak je reprodukovali zbití; kolik příslušníků tak mluvilo, z nich neplyne.</p>
+      <p>Proti čistě „individuálnímu“ výkladu mluví podoba násilí: průchody lemované příslušníky nejsou čin jednotlivce, ale organizovaná sestava. V dokumentu z prosince 1989, který vyhledávač připsal Generální prokuratuře – podle jednoho shrnutí jde o výpověď Antonína Navrátila z 1. prosince, autorství se ověřit nepodařilo –, stojí, že cílem zásahu „rozhodně nebylo rozehnání nepovolené demonstrace, ale fyzické potrestání a týrání jejich účastníků“.</p></div></li>
+  </ol>
+
+  <div class="prose">
+<h3>Jak to vysvětlují oni sami</h3>
+<p>V Archivu bezpečnostních složek leží téměř dvě stě písemných vyjádření zasahujících příslušníků, sepsaných v prosinci 1989 pro vojenskou prokuraturu. Podle shrnutí článku CNN Prima News, která je četla, v nich není zpytování svědomí: vlastní postup měli příslušníci za přiměřený, agresi viděli jen u demonstrantů (<a href="https://cnn.iprima.cz/rvali-ze-jsme-smoulove-a-mne-znicili-kocarek-jaky-byl-17-listopad-ocima-mlaticek-193300">CNN Prima News</a>; při kontrole se toto hodnocení nezobrazilo). Jsou to obhajoby před vyšetřováním a tak je třeba je číst. Ukazují ale, že příslušníci se v nich líčí jako ti napadení.</p>
+  </div>
+
+  <div class="voices">
+    <figure class="voice"><blockquote class="para">Výzvy trvaly asi padesát minut a příslušníci byli celou dobu uráženi. Dav měl zvonec a stál dva metry od kordonu; padla hrst mincí, jablko, dvě lahve; roztržená kapsa kabátu, rozbité hodinky. Jeden našel druhý den na vrátkách křídou namalovanou šibenici.</blockquote><figcaption><span class="tag then">prosinec 1989</span> <span class="tag self">obhajoba pro prokuraturu</span> <b>Strážmistři a rotní Pohotovostního pluku VB</b> (Gorgol, Minařík, Jarina, Bartoška, Elgr, Kouba), písemná vyjádření, převyprávění. <a href="https://cnn.iprima.cz/rvali-ze-jsme-smoulove-a-mne-znicili-kocarek-jaky-byl-17-listopad-ocima-mlaticek-193300">CNN Prima News 2022</a> z Archivu bezpečnostních složek. <span class="why">Přiřazení jednotlivých výroků jménům je z úryvků nejisté. O bití mlčí.</span></figcaption></figure>
+    <figure class="voice"><blockquote>„… jen jako příslušníci OZU máme tři zraněné.“</blockquote><figcaption><span class="tag then">1. 12. 1989</span> <span class="tag self">obhajoba jednotky</span> <b>Příslušníci Odboru zvláštního určení</b>, kolektivní dopis vojenskému prokurátorovi; jakékoli porušení zákona jednomyslně popírají. <a href="https://zpravy.aktualne.cz/domaci/proc-radily-cervene-barety-na-narodni/r~i:article:283616/">Aktuálně.cz</a> podle materiálů Úřadu dokumentace a vyšetřování zločinů komunismu. <span class="why">Pluk i Odbor zvláštního určení přesouvají vinu jinam; stíháni byli příslušníci obou útvarů.</span></figcaption></figure>
+    <figure class="voice"><blockquote>„Podle mne to bylo vyřizování osobních účtů z 28. října. Byli biti na Václavském náměstí.“</blockquote><figcaption><span class="tag">výpověď, datum neznámé</span> <span class="tag self">velitel se hájí</span> <b>Michal Danišovič</b>, velitel opatření, o příslušnících Odboru zvláštního určení. <a href="https://zpravy.aktualne.cz/domaci/proc-radily-cervene-barety-na-narodni/r~i:article:283616/">Aktuálně.cz</a>. <span class="why">Domněnka („podle mne“) velitele, který tím přenáší vinu na útvar, jenž mu nepodléhal. Doloženo je jen novinářsky, že 28. října byli dva muži z tohoto útvaru zraněni a jejich velitel pak žádal nasazení v uniformách a baretech.</span></figcaption></figure>
+    <figure class="voice"><blockquote>„Z Bartolomějské jsme slyšeli, jak to na Národní třídě vře.“ … „Asi po dvaceti minutách jsme šli posílit jinou část pořádkové jednotky, když jsme slyšeli, že je dav agresivní.“</blockquote><figcaption><span class="tag then">prosinec 1989</span> <span class="tag self">sebeobhajoba</span> <b>Zdeněk Ondráček</b>, tehdy řadový příslušník pluku, pro Mladý svět; citováno <a href="https://hradecky.denik.cz/zpravy_region/zastupitel-z-pohotovostniho-pluku-plnil-jsem-rozkaz-20121121.html">Hradeckým deníkem 2012</a>. <span class="why">„Slyšeli jsme“ – zpráva o agresivním davu byla jednotce předána, ne zažita. Druhá věta je z prvního hledání; kontrola ji viděla jen v převyprávění.</span></figcaption></figure>
+    <figure class="voice"><blockquote>„Nesměl projít nikdo. Starej, mladej, těhotná.“</blockquote><figcaption><span class="tag late">vzpomínka po cca 25 letech</span> <span class="tag self">politik hájí minulost</span> <b>Zdeněk Ondráček</b>, později poslanec KSČM. <a href="https://www.echo24.cz/a/Szfdm/nesmel-projit-nikdo-starej-mladej-tehotna-vzpomina-mlaticka-ondracek">Echo24</a> (titulek z jeho slov). <span class="why">Jinde tvrdil, že byl jen v záloze; na rozpor upozornil už Hradecký deník.</span></figcaption></figure>
+    <figure class="voice"><blockquote>„Bití demonstrantů nám tehdy nepřišlo nemorální.“</blockquote><figcaption><span class="tag late">vzpomínka po 30 letech</span> <span class="tag self">sebeprezentace</span> <b>Jan Slezák</b> (1961), tehdy velitel v Pohotovostním pluku, 17. 11. podle vlastních slov v záloze. <a href="https://plus.rozhlas.cz/biti-demonstrantu-nam-tehdy-neprislo-nemoralni-vysvetluje-byvaly-policista-z-9363012">ČRo Plus</a> (titulek, tedy redakční úprava jeho slov); <a href="https://www.pametnaroda.cz/cs/slezak-jan-20190107-0">Paměť národa</a>. <span class="why">Bití připisuje příslušníkům v civilu a jiným oddílům. Sám na Národní nebil.</span></figcaption></figure>
+    <figure class="voice"><blockquote class="para">Nikoho neodsuzuje za to, že poslechl rozkaz; odpovědnost nesou nadřízení. Šlo ale o zneužití moci proti lidem, kteří až na výjimky žádnou agresivitu neprojevovali.</blockquote><figcaption><span class="tag late">vzpomínka po 28 letech</span> <b>Ludvík Pinc</b>, poručík, který na Letné 26. 11. 1989 mluvil za tři omlouvající se příslušníky (převyprávění). <a href="https://zpravy.aktualne.cz/domaci/omlouvat-se-ondracek-nemusi-ale-litost-projevit-mohl-rika-po/r~7c1d6712206a11e8a72bac1f6b220ee8/">Aktuálně.cz 2018</a>. <span class="why">Podle vlastních slov byl psovod jiné jednotky, ne příslušník pluku, a do střetů s lidmi se nedostal. Výrok o rozkazu se podle shrnutí týkal Palachova týdne.</span></figcaption></figure>
+    <figure class="voice"><blockquote>„Zásah nebyl brutální, byl veden přesně podle měřítek, jak se má vést a jak nám bylo veleno.“</blockquote><figcaption><span class="tag">leden 1989, před událostí</span> <b>Zdeněk Ondráček</b> v Československé televizi o zásazích při Palachově týdnu. <a href="https://cs.wikiquote.org/wiki/Zden%C4%9Bk_Ondr%C3%A1%C4%8Dek">Wikicitáty</a> podle archivu ČT. <span class="why">Netýká se Národní třídy; ukazuje, jak se o zásazích v pluku mluvilo deset měsíců předtím.</span></figcaption></figure>
+  </div>
+
+  <div class="prose">
+<h3>Co k tomu mohlo přispět</h3>
+<p>Následující okolnosti prameny uvádějí jednotlivě. Že právě ony vysvětlují bití, je už výklad.</p>
+<ul>
+<li><strong>Kdo stál v předním kordonu.</strong> Pohotovostní pluk netvořili branci, ale předem vybraní muži, kteří si tu odbývali službu místo vojny se závazkem k SNB; v roce 1989 jich bylo asi 1 200 (<a href="https://www.abscr.cz/data/pdf/sbornik/sbornik2-2004/pohotovostni_pluk.pdf">Sborník AMV 2/2004</a>). Na Národní stáli podle rozhlasového pořadu se Žáčkem „většinou mladí kluci“ a velitel prý čekal, že budou mít menší sklon k násilí než ti, kdo zasahovali v lednu a srpnu. To je v napětí s posudkem o „sociálním učení při předchozích zákrocích“ – z dostupných pramenů se nedá říct, zda bili nováčci, nebo ostřílení.</li>
+<li><strong>Polská příručka.</strong> Pluk podle archiváře Josefa Vávry dostal počátkem roku 1989 polskou příručku pro zákroky proti velkým shromážděním a část jejích variant převzal do výcviku (<a href="https://www.abscr.cz/data/pdf/sbornik/sbornik9-2011/kap09.pdf">Sborník ABS 9/2011</a>). Zda mezi nimi bylo obkličování, uvádí jedno shrnutí a druhé hledání to nepotvrdilo; studie se netýká 17. listopadu ani školního pohotovostního oddílu, který svíral zezadu. Že sevření bylo nacvičené, tedy doloženo není.</li>
+<li><strong>Špatně nasazená jednotka.</strong> Odbor zvláštního určení, speciální útvar vnitra, byl 17. listopadu poprvé nasazen jako součást pořádkových sil, bez příslušného výcviku, a sestaven narychlo až dopoledne. Komise jeho postup podle shrnutí označila za nepřiměřeně tvrdý a za podnět k dalšímu násilí. Danišovičova domněnka o vyřizování účtů z 28. října by vysvětlovala, proč nejhůř bili právě oni; je to ale obhajoba.</li>
+<li><strong>Zprávy o agresivním davu.</strong> Ve 20:05 dostal velitel zadního kordonu pokyn zadržovat „agresivní“, ve 20:19 bylo hlášeno napadení kordonu, které vyšetřování nepotvrdilo. Ondráček v prosinci 1989 říká, že o agresivním davu „slyšeli“.</li>
+<li><strong>Únava.</strong> Komise mluví o napjaté atmosféře v pražské správě SNB po měsících demonstrací; pluk byl v plné pohotovosti v srpnu, říjnu a listopadu.</li>
+<li><strong>Nikdo se nedíval a nikdo nebyl k poznání.</strong> Nejhorší násilí se podle komise odehrálo v podloubí, kam nebylo zvenčí vidět. Vojenská prokuratura později provedla přes čtyři sta rekognicí s úspěšností kolem jednoho procenta: pod přilbou a za štítem byl každý anonymní (<a href="https://www.irozhlas.cz/veda-technologie/historie/17-listopad-1989-vysetrovani-demonstrace-serial_2211201117_afo">iRozhlas podle Prokopa Tomka</a>).</li>
+<li><strong>Souhlas okolí.</strong> Veřejná bezpečnost podle Vávry hodnotila zákroky roku 1989 interně jako úspěšné, byť s nedostatky. Po 17. listopadu chodily pluku vedle rozhořčených dopisů i děkovné (<a href="https://cnn.iprima.cz/dobre-jste-jim-to-nandali-soudruzi-nekteri-cesi-po-17-listopadu-dekovali-mlatickam-418052">CNN Prima News</a>). Zda byl za dřívější zákroky někdo z příslušníků postižen, rešerše nezjišťovala.</li>
+</ul>
+
+<h3>Co doloženo není</h3>
+<p>K alkoholu nebo povzbuzujícím látkám u zasahujících se nenašel žádný zdroj, ani potvrzující, ani vyvracející – a ani doklad, že se to tehdy tvrdilo. Obsah politické přípravy, tedy co bylo příslušníkům o demonstrantech řečeno před nasazením, se dohledat nepodařilo. A k „signálům“, že pražská správa StB chtěla, aby červené barety v davu vyprovokovaly rvačku, která by odůvodnila zákrok: komise to uvádí jako signál, ne jako zjištění. Zda se věta týká 17. listopadu, nebo dřívějších demonstrací, kontrolní hledání nerozhodlo; formulace ukazuje spíš na dřívější akce.</p>
+
+<h3>Omluva na Letné</h3>
+<p>Devět dní po zásahu, 26. listopadu, vystoupili na Letné tři příslušníci, podle novin z Pohotovostního pluku; mluvil poručík Pinc. Podle převyprávění se omluvili za to, že byli nástrojem moci proti pokojným shromážděním, a dav odpověděl „Odpouštíme“ (<a href="https://www.denik.cz/jak-vidi-cesi-listopad-89/sametova-revoluce-demonstrace-letna-ladislav-adamec-snb-obcanske-forum.html">Deník</a>). Znění projevu se najít nepodařilo. Soustavný doklad o příslušnících, kteří na Národní stáli a odmítli bít, se nenašel; ve vzpomínkách zbitých se jen občas objeví příslušník, který pustil, a vedle něj jiný, který udeřil.</p>
+
+<h3>Soudní dohra</h3>
+<p>Podle iRozhlasu, který se opírá o studii Prokopa Tomka, bylo stíháno nejméně 29 příslušníků (jiný úryvek téže studie: nejméně 20 za Národní třídu), odsouzeno 15, z toho 3 nepodmíněně; většina obviněných násilí popírala (<a href="https://www.irozhlas.cz/veda-technologie/historie/17-listopad-1989-vysetrovani-demonstrace-serial_2211201117_afo">iRozhlas</a>; <a href="https://ct24.ceskatelevize.cz/clanek/domaci/za-zasah-proti-demonstrantum-v-listopadu-1989-padlo-15-rozsudku-379691">ČT24</a>). Počet vyslechnutých svědků úryvky uvádějí různě, od více než pěti set po asi 1 700. Studii se nepodařilo přečíst a čísla si v úryvcích odporují. Tomek sám byl 17. listopadu zbit a ve vyšetřování svědčil. Rozsudky se přečíst nepodařilo – a právě ony by řekly nejvíc o tom, co soud považoval za rozkaz a co za exces.</p>
+  </div>
+
+  <div class="note-box">
+    <p class="k">Výklad, ne nález</p>
+    <p>Nejpravděpodobnější odpověď skládá dohromady čtyři věci. Rozkaz uzavřít a nepouštět vytvořil situaci, v níž dav neměl kam ustoupit. Mezi zasahujícími se šířilo, že dav je agresivní. Posudek citovaný komisí mluví o dlouhodobé indoktrinaci a o návycích z dřívějších zákroků a svědci uvádějí nadávky, které tomu odpovídají. A v podloubí nebylo vidět, kdo bije. Příslušníci Odboru zvláštního určení mohli mít s demonstranty účet z 28. října; tvrdí to ovšem jen velitel akce, který tím přesouval vinu na cizí útvar.</p>
+    <p>Záměr potrestat nemusel přijít shora jako rozkaz; mohl vzniknout na místě. Jistě to říct nelze – Žáček jinde uvádí potrestání jako cíl. Pro teorii, že bití bylo objednáno jako provokace, se doklad nenašel. Proti výkladu pouhým selháním jednotlivců mluví průchody lemované příslušníky, které jednotlivec nevytvoří. Kolik lidí bilo a kolik přihlíželo, se z úryvků zjistit nedá.</p>
+  </div>
+</section>
+<section id="k7" class="sec">
+  <header class="sec-head"><span class="num" aria-hidden="true">7</span><div><p class="label">Hranice rešerše</p><h2><span class="main">Co nevíme</span> <span class="sub">Otevřené otázky a prameny, které by je mohly zavřít</span></h2></div></header>
+
+  <div class="prose">
+<p>Následující věci tato rešerše nezjistila. U některých odpověď zřejmě existuje, ale leží v textu, který se nepodařilo přečíst celý. U jiných ji nezná nikdo.</p>
+  </div>
+
+  <div class="tw"><table>
+    <thead><tr><th>Otázka</th><th>Stav</th><th>Kde by mohla být odpověď</th></tr></thead>
+    <tbody>
+      <tr><td>Co přesně hlásil megafon a kdy poprvé</td><td>Nezjištěno. Prameny uvádějí 19:38 i 20:11; výzvy zněly už před 20:07.</td><td>Plný text tisku 1236, části 2 a 4; přepis radiového provozu na CD k edici P. Žáčka <em>Vypovídat pravdu a nic nezamlčet</em> (ÚSTR 2013); dobový videozáznam.</td></tr>
+      <tr><td>Kolik lidí odešlo mezi 19:40 a 20:18 a zda bez bití</td><td>Žádný pramen to neuvádí; odhady vycházejí na polovinu až tři čtvrtiny.</td><td>Protokoly výslechů demonstrantů před komisí (táž edice); spis zdravotnické (Nezávislé lékařské) komise Občanského fóra s výpověďmi účastníků.</td></tr>
+      <tr><td>Proč byl dav uzavřen, místo aby byl rozehnán</td><td>Rozkaz uzavřít vydal Danišovič; proč, žádný nalezený zdroj nevysvětluje.</td><td>Rozsudky nad Danišovičem a Houbalem; protokoly jejich výslechů.</td></tr>
+      <tr><td>Proč se kordon dal do pohybu a začalo se bít</td><td>Komise to neobjasnila. Žáček: důvod není znám, hypotéza o rozhodnutí na nižší úrovni velení.</td><td>Houbalova výpověď; radioprovoz.</td></tr>
+      <tr><td>Kolik příslušníků bilo</td><td>Podle shrnutí zprávy komise řádově několik desítek; znění neověřeno.</td><td>Tisk 1236, část 4; spis vojenské prokuratury.</td></tr>
+      <tr><td>Kdo rozhodl o uzávěře Vyšehradské a mostu a proč zůstalo nábřeží volné</td><td>Z úryvků neplyne.</td><td>Tisk 1236, části 2–3; radioprovoz.</td></tr>
+      <tr><td>Kdo byli „Vaněk“ a „Fiala“ z letáků podepsaných Růžičkou</td><td>Komise je podle shrnutí nezjistila.</td><td>Archiv bezpečnostních složek, pokud svazky přežily.</td></tr>
+      <tr><td>Co přesně komise píše o Zifčákově záměru jít nepovolenou trasou</td><td>Obsah potvrzen třemi hledáními, doslovné znění ne.</td><td>Tisk 1236, část 6 – stačí otevřít.</td></tr>
+      <tr><td>Co ze spisů StB ke 17. listopadu bylo zničeno</td><td>Neví se. Odhady skartací se liší od desítek tisíc svazků po názor, že se škoda přeceňuje.</td><td>Zřejmě nikde.</td></tr>
+      <tr><td>Co si mysleli ti, kdo bili</td><td>Jen obhajoby a pozdní rozhovory velitelů a lidí ze zálohy.</td><td>Vyjádření z prosince 1989 v Archivu bezpečnostních složek; diplomová práce FHS UK <em>Od Sboru k policii</em> s rozhovory s příslušníky pluku; V. Bartuška, <em>Polojasno</em> (1990).</td></tr>
+      <tr><td>Co říkali účastníci v týdnech po události o tom, proč zůstali</td><td>Česky psaná dobová svědectví existují, ale nepodařilo se z nich získat víc než jednu výpověď.</td><td>Mladý svět č. 51/1989; strojopis <em>Svědectví účastníka pokojné demonstrace 17. listopadu 1989</em> (úryvky v bulletinu Jednoho světa na školách 10/2017); Otáhal–Sládek, <em>Deset pražských dnů</em> (1990).</td></tr>
+      <tr><td>Kde cestou z Vyšehradu odpadla většina průvodu</td><td>Žádný nalezený pramen to neřeší.</td><td>Dobové zprávy Veřejné bezpečnosti; svědectví lidí, kteří na Národní nedošli.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="prose">
+<h3>Čtyři zkratky, kterým se text snažil vyhnout</h3>
+<ul>
+<li><strong>Hrdinská:</strong> nevinní studenti na povolené pietě, které režim zákeřně napadl. Platí pro řadové účastníky; neplatí pro pořadatele, kteří věděli, že povolení končí na Vyšehradě, a s cestou do centra počítali.</li>
+<li><strong>Režijní:</strong> průvod vedla StB do předem připravené pasti. Stojí na reálných faktech (leták, Zifčák, KGB v Praze), ale spojuje je bez dokladu. V silné podobě ji dnes šíří hlavně aktéři, kteří tím vysvětlují vlastní pád nebo zvětšují vlastní roli (Jakeš, Zifčák); podezření z plánu ale v roce 1990 vyslovila i parlamentní komise a v prvních dnech mluvčí Charty 77.</li>
+<li><strong>Uklidňující:</strong> komise to vyšetřila a nic za tím nebylo. Komise pracovala s neúplnými spisy a s výpověďmi lidí, kteří se hájili; „neprokázáno“ není „vyloučeno“.</li>
+<li><strong>Psychologizující:</strong> lidé zůstali ze solidarity a policisté bili ze sadismu. Obojí je možné a obojí je bez pramenů jen domněnka.</li>
+</ul>
+  </div>
+</section>
+<aside id="zdroje" class="sources" aria-label="Zdroje a metoda">
+  <h2 class="label">Zdroje a metoda</h2>
+
+  <div class="note-box warn" style="margin-top:1.4rem">
+    <p class="k">Jak číst citáty v tomto textu</p>
+    <p>Rešerše proběhla ve třech kolech, zhruba 550 vyhledávacími dotazy. Prostředí, ve kterém vznikla, nedovolilo otevírat stránky; k dispozici byly jen výsledky vyhledávače, tedy strojová shrnutí s vloženými úryvky. Žádný dokument nebyl přečten celý. Úryvky se občas pletou: spojí dvě věty, připíšou větu jinému dokumentu nebo smíchají dvě osoby.</p>
+    <p>Proto bylo 46 nosných citátů a čísel prověřeno druhým, samostatným hledáním. <strong>Třináct se potvrdilo doslova.</strong> U dvaceti osmi se potvrdil zdroj a smysl, ne přesné znění; u několika z nich jen část (nepotvrdila se část tisku, jednotlivé věty nebo přiřazení mluvčímu). <strong>Pět se podruhé najít nepodařilo</strong>: znění zprávy ČTK ze 17. 11. 1989, výrok anonymního medika, výrok Jana Šíchy o vnitřně nesvobodném průvodu, jeden výrok Michala Danišoviče (do textu nezařazen) a rozhovor Roberta Šimarka. Nepotvrdil se ani údaj o 234 zásazích do hlavy a krku. Tato místa jsou v textu označena. Žádný prověřovaný citát nebyl vyvrácen.</p>
+    <p><strong>Citáty doplněné ve třetím kole kontrolním hledáním neprošly vůbec.</strong> Týká se to dobového tisku a depeší z listopadu 1989, psychologického posudku citovaného komisí, nadávek zaznamenaných svědky, dopisu Odboru zvláštního určení, Danišovičova výroku o vyřizování účtů a výroků historiků Tůmy, Žáčka a Blažka.</p>
+    <p>Před jakýmkoli dalším použitím je nutné citáty ověřit u zdroje; odkazy k tomu vedou. Funkčnost odkazů ověřit nešlo.</p>
+  </div>
+
+  <h3>Značky u svědectví</h3>
+  <p class="note" style="font-style:normal;margin-top:.6rem"><span class="tag then">1989</span> – text vznikl v hodinách až týdnech po události. <span class="tag late">vzpomínka</span> – výpověď po letech; čím delší odstup, tím uhlazenější příběh. <span class="tag self">aktér se hájí</span> – mluvčí má na své verzi osobní zájem. Text v uvozovkách je citát podle úryvku vyhledávače (u cizojazyčných textů v původním jazyce); text bez uvozovek je převyprávění.</p>
+
+  <h3>Parlamentní dokumenty</h3>
+<ul>
+<li>Federální shromáždění ČSFR 1990–1992, tisk 1236: Závěrečná zpráva vyšetřovací komise FS pro objasnění událostí 17. listopadu 1989 (1992). Části <a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_01.htm">1</a>, <a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_02.htm">2</a> (průběh), <a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_03.htm">3</a> (příprava a velení), <a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_04.htm">4</a> (StB, OZU, radioprovoz), <a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_05.htm">5</a> (fáma o Šmídovi), <a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_06.htm">6</a> (Zifčák), <a href="https://www.psp.cz/eknih/1990fs/tisky/t1236_08.htm">8</a> (závěry). <em>Komise ustavena 20. 9. 1990; měla vyšetřovací pravomoci a byla zároveň pověřena lustrací poslanců. Pracovala po skartacích a s výpověďmi lidí, kteří se hájili.</em></li>
+<li>Federální shromáždění 1986–1990, tisk 430: závěrečná zpráva společné komise FS a ČNR pro dohled na vyšetření událostí 17. 11. 1989 (1990). Části <a href="https://psp.cz/eknih/1986fs/tisky/t0430_01.htm">1</a>, <a href="https://www.psp.cz/eknih/1986fs/tisky/t0430_02.htm">2</a>. <em>Sama se označila za laickou, bez vyšetřovacích pravomocí; vyslovila „důvodné podezření“, že zásah byl předem naplánován.</em></li>
+<li>Tisk <a href="https://www.psp.cz/eknih/1986fs/tisky/t0211_00.htm">211</a> (průběžná zpráva, prosinec 1989) a usnesení FS <a href="https://www.psp.cz/eknih/1986fs/slsn/usneseni/u0110.htm">č. 110</a> z 12. 12. 1989, které zákrok označilo za nezákonný a brutální.</li>
+</ul>
+
+  <h3>Dobové texty, listopad–prosinec 1989</h3>
+<ul>
+<li>Washington Post: <a href="https://www.washingtonpost.com/archive/politics/1989/11/18/largest-rally-in-prague-since-69-ends-violently/8dd19ace-d38f-46d8-b572-0b84c5a210f7/">18. 11.</a>, <a href="https://www.washingtonpost.com/archive/politics/1989/11/19/prague-student-dies-in-attack-by-police/536aaf20-e656-487a-9ff2-83348b6ca210/">19. 11.</a>, <a href="https://www.washingtonpost.com/archive/politics/1989/11/20/prague-government-denies-death-of-student/7a7717b5-bc03-428b-a344-2c1fdaa745b4/">20. 11. 1989</a>. <em>Článek z 19. 11. převzal fámu o mrtvém studentovi jako fakt; nejmenovaná svědectví z těch dnů je třeba brát opatrně.</em></li>
+<li>Depeše velvyslanectví USA v Praze: <a href="https://1989.rrchnm.org/items/show/491.html">18. 11.</a> (<span lang="en">Brutal Suppression of Czech Students’ Demonstration</span>), <a href="https://1989.rrchnm.org/items/show/494.html">20. 11.</a> (protest proti napadení novinářů), <a href="https://1989.rrchnm.org/items/show/498.html">20. 11.</a> (svědectví Američanky).</li>
+<li>Rudé právo 18. 11. 1989 a interní Denní situační zpráva FMV č. 177, citováno ČT24 (<a href="https://ct24.ceskatelevize.cz/clanek/domaci/17-11-1989-vb-jen-overovala-totoznost-psalo-rude-pravo-290807">RP</a>, <a href="https://ct24.ceskatelevize.cz/domaci/1064817-podzim-1989-perem-nacelniku-stb-dokonala-informatorska-sit">situační zprávy</a>).</li>
+<li><a href="https://taz.de/!1790504/">taz</a> podle AP/AFP; <a href="https://www.upi.com/Archives/1989/11/21/Czechoslovak-government-agrees-to-talks-with-opposition/7860627627600/">UPI 21. 11. 1989</a> (objektivní vyšetření zákroku žádalo i vedení SSM).</li>
+<li>Mladý svět č. 51/1989, svědectví zbitých, převzato na <a href="https://totalita.cz/1989/1989_1117_svedek.php">totalita.cz</a>; rozhovor Zdeňka Ondráčka pro Mladý svět z prosince 1989, citováno <a href="https://hradecky.denik.cz/zpravy_region/zastupitel-z-pohotovostniho-pluku-plnil-jsem-rozkaz-20121121.html">Hradeckým deníkem</a>.</li>
+</ul>
+
+  <h3>Orální historie</h3>
+<ul>
+<li>Paměť národa: <a href="https://www.pametnaroda.cz/cs/klima-martin-20191104-0">Klíma</a>, <a href="https://www.pametnaroda.cz/cs/mejstrik-martin-20211011-0">Mejstřík</a>, <a href="https://www.pametnaroda.cz/cs/magazin/specialy/sametova-revoluce">Pajerová</a>, <a href="https://www.pametnaroda.cz/cs/vesely-pavel-20250519-0">Veselý</a>, <a href="https://www.pametnaroda.cz/cs/mata-lubor-20240515-0">Maťa</a>, <a href="https://www.pametnaroda.cz/cs/smid-martin-20231003-0">Šmíd</a> (jedno ze dvou hesel téhož jména), <a href="https://www.pametnaroda.cz/cs/placak-petr-20091104-0">Placák</a>, <a href="https://www.pametnaroda.cz/cs/sidlo-jindrich-20221129-0">Šídlo</a>, <a href="https://www.pametnaroda.cz/cs/tupa-miroslava-20210629-0">Tupá</a>, <a href="https://www.pametnaroda.cz/cs/kolecek-michal-1966">Koleček</a>, <a href="https://www.pametnaroda.cz/en/pokorny-vojtech-1971">Pokorný</a> (anglicky), <a href="https://www.memoryofnations.eu/cs/marhoul-vaclav-20240301-0">Marhoul</a>, <a href="https://www.memoryofnations.eu/cs/chaun-igor-1963">Chaun</a>, <a href="https://www.pametnaroda.cz/cs/litvak-david-20250624-0">Litvák</a>, <a href="https://www.memoryofnations.eu/en/sicha-jan-1967">Šícha</a>, <a href="https://www.pametnaroda.cz/cs/slezak-jan-20190107-0">Slezák</a>, <a href="https://www.pametnaroda.cz/cs/danisovic-michal-20190531-0">Danišovič</a>. <em>Medailony jsou redakční texty; citované věty často nejsou přímá řeč pamětníka. Výběr pamětníků je vychýlený k lidem s pozdější veřejnou rolí.</em></li>
+<li>Ústav pro soudobé dějiny, 100 studentských revolucí: <a href="http://www.studenti89.usd.cas.cz/revoluce/">přehled</a>, <a href="https://www.studenti89.usd.cas.cz/studenti/dientsbier-jiri/">Dienstbier</a>, <a href="http://www.studenti89.usd.cas.cz/studenti/bubenik-jan/">Bubeník</a>.</li>
+<li>ÚSTR, Velké a malé příběhy moderních dějin: <a href="https://www.ustrcr.cz/data/pdf/vzdelavani/velke-male-pribehy/rok1989/budanka09.pdf">rozhovor gymnazistů s pamětníkem</a>.</li>
+</ul>
+
+  <h3>Odborné studie</h3>
+<ul>
+<li>Pavel Žáček: Operativní průzkum centrály Státní bezpečnosti. <a href="https://www.ustrcr.cz/data/pdf/pamet-dejiny/pad1403/070-081.pdf">Paměť a dějiny 3/2014</a>. <em>Autor byl podle podkladů v roce 1989 studentským aktérem, později ředitelem ÚSTR a poslancem ODS.</em></li>
+<li>Prokop Tomek: Vyšetřování případů násilí proti demonstrantům v listopadu 1989. <a href="https://www.ustrcr.cz/wp-content/uploads/2019/10/PD_3_19_s33-43.pdf">Paměť a dějiny 3/2019</a>, s. 33–43. <em>Autor byl 17. 11. zbit a ve vyšetřování svědčil.</em></li>
+<li>Josef Vávra: Demonstrace v roce 1989 z pohledu VB a polská inspirace Pohotovostního pluku VB ČSR. <a href="https://www.abscr.cz/data/pdf/sbornik/sbornik9-2011/kap09.pdf">Sborník ABS 9/2011</a>.</li>
+<li>Marie Muzikantová: Pohotovostní pluk VB ČSR (1969) 1970–1990. <a href="https://www.abscr.cz/data/pdf/sbornik/sbornik2-2004/pohotovostni_pluk.pdf">Sborník AMV 2/2004</a>.</li>
+<li>James Krapfl: <span lang="en">Revolution with a Human Face</span> (2013; česky 2016) – jen přes recenze: <a href="http://sreview.soc.cas.cz/pdfs/csr/2018/04/06.pdf">Sociologický časopis 4/2018</a> a <a href="https://www.academia.edu/21553765/Review_or_James_Krapfl_Revolution_with_a_Human_Face_Politics_Culture_and_Community_in_Czechoslovakia_1989_1992_New_York_Cornell_University_Press_2013_">anglická recenze</a>; přiřazení věty použité v páté části ke konkrétní recenzi je nejisté.</li>
+<li>Pavel Žáček (ed.): Vypovídat pravdu a nic nezamlčet. Protokoly parlamentní vyšetřovací komise (<a href="https://www.ustrcr.cz/publikace/pavel-zacek-vypovidat-pravdu-a-nic-nezamlcet-protokoly-parlamentni-vysetrovaci-komise-pro-objasneni-udalosti-17-listopadu-1989/">ÚSTR 2013</a>). <em>Nepřečteno; nejdůležitější nevytěžený pramen.</em></li>
+</ul>
+
+  <h3>Žurnalistika a kompilace</h3>
+<ul>
+<li>Český rozhlas, 17. listopad 1989 minutu po minutě <a href="https://www.rozhlas.cz/17-listopad-1989-minutu-po-minute-i-8170442">I</a>, <a href="https://www.rozhlas.cz/17-listopad-1989-minutu-po-minute-ii-8170440">II</a>; <a href="https://temata.rozhlas.cz/myty-kolem-17-listopadu-1989-8170424">Mýty kolem 17. listopadu 1989</a>; iRozhlas o <a href="https://www.irozhlas.cz/veda-technologie/historie/17-listopad-sametova-revoluce-myty-historie-narodni-trida-zasah-stb-komunismus_1711210630_ber">mýtech a realitě zásahu</a> a o <a href="https://www.irozhlas.cz/veda-technologie/historie/17-listopad-1989-vysetrovani-demonstrace-serial_2211201117_afo">vyšetřování</a>.</li>
+<li>totalita.cz: <a href="https://www.totalita.cz/1989/1989_1117_dem_02.php">příprava</a>, <a href="https://www.totalita.cz/1989/1989_1117_dem_03.php">průběh</a>, <a href="https://totalita.cz/1989/1989_1117_dem_05.php">zákrok</a>, <a href="http://www.totalita.cz/1989/1989_1117_dem_bezp.php">bezpečnostní složky</a>. <em>Kompilace bez poznámkového aparátu, z velké části převyprávěná zpráva komise; není nezávislým potvrzením.</em></li>
+<li>CNN Prima News: <a href="https://cnn.iprima.cz/rvali-ze-jsme-smoulove-a-mne-znicili-kocarek-jaky-byl-17-listopad-ocima-mlaticek-193300">vyjádření příslušníků z prosince 1989</a>, <a href="https://cnn.iprima.cz/dobre-jste-jim-to-nandali-soudruzi-nekteri-cesi-po-17-listopadu-dekovali-mlatickam-418052">děkovné dopisy</a>, <a href="https://cnn.iprima.cz/na-narodni-tride-byly-v-roce-1989-i-deti-musely-celit-policistum-13453">děti na Národní</a>.</li>
+<li>Echo24: <a href="https://www.echo24.cz/a/SqKUy/narodni-trida-jako-po-boji-kdo-a-jak-zasahoval-17-listopadu-1989">kdo a jak zasahoval</a>, <a href="https://www.echo24.cz/a/HcftS/zpravy-domov-pruvod-17-listopad-vedli-estebaci-vyzkum-novy-pohled-revoluce">vlajkonoši</a>, <a href="https://www.echo24.cz/a/Hxbxi/zpravy-domov-17-listopad-stal-krizovatka-hnal-dav-centrum-robert-simarek-rozhovor">Šimarek</a>, <a href="https://www.echo24.cz/a/Szfdm/nesmel-projit-nikdo-starej-mladej-tehotna-vzpomina-mlaticka-ondracek">Ondráček</a>.</li>
+<li>Aktuálně.cz: <a href="https://zpravy.aktualne.cz/domaci/proc-radily-cervene-barety-na-narodni/r~i:article:283616/">červené barety</a>, <a href="https://zpravy.aktualne.cz/domaci/omlouvat-se-ondracek-nemusi-ale-litost-projevit-mohl-rika-po/r~7c1d6712206a11e8a72bac1f6b220ee8/">Pinc</a>, <a href="https://zpravy.aktualne.cz/domaci/pajerova-listopad-1989/r~79334d40913e11ef95ee0cc47ab5f122/?lp=1">Pajerová o StB</a>, <a href="https://zpravy.aktualne.cz/domaci/sprava-sledovani/r~4553491287d411ef9af20cc47ab5f122/">Blažek o Správě sledování</a>.</li>
+<li>ČT24: <a href="https://ct24.ceskatelevize.cz/clanek/domaci/v-cele-pruvodu-ze-17-listopadu-sla-mozna-i-statni-bezpecnost-353762">Blaničtí rytíři</a>, <a href="https://ct24.ceskatelevize.cz/clanek/domaci/za-zasah-proti-demonstrantum-v-listopadu-1989-padlo-15-rozsudku-379691">rozsudky</a>, <a href="https://ct24.ceskatelevize.cz/archiv/1302027-sametove-spiknuti">Sametové spiknutí?</a></li>
+<li>Právo/Novinky: <a href="https://www.novinky.cz/clanek/specialy-dokumenty-rozbuska-vybuchla-na-narodni-40242078">Rozbuška vybuchla na Národní</a> (2009); Respekt: <a href="https://www.respekt.cz/tydenik/2009/47/listopad-nacelnika-danisovice">Listopad náčelníka Danišoviče</a> (2009); Studentské listy: <a href="https://slisty.cz/17-listopad-1989-co-mu-predchazelo-a-prima-svedectvi/">přímá svědectví</a>.</li>
+</ul>
+
+  <p class="note">Další odkazy jsou přímo v textu u jednotlivých tvrzení. Schéma Národní třídy je orientační; ověřena je jen poloha Kaňkova domu na nároží Mikulandské.</p>
+  <p class="colophon">Rešerše a text: Claude Code · 21. 11. 2026 · zdroje pouze přes vyhledávač, bez přímého čtení dokumentů</p>
+</aside>
+
+  </article>
+</div>
+
+<script>
+(function () {
+  var bar = document.querySelector('#progress i');
+  var links = [].slice.call(document.querySelectorAll('.toc a'));
+  var secs = links.map(function (a) { return document.getElementById(a.dataset.id); });
+  function onScroll() {
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? Math.min(100, h.scrollTop / max * 100) : 0) + '%';
+    var cur = -1, y = window.innerHeight * 0.3;
+    secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top <= y) cur = i; });
+    links.forEach(function (a, i) {
+      a.classList.toggle('on', i === cur);
+      if (i === cur) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+    });
+    var on = links[cur];
+    var ol = on && on.closest('ol');
+    if (ol && ol.scrollWidth > ol.clientWidth) {
+      ol.scrollLeft = on.offsetLeft - ol.clientWidth / 2 + on.offsetWidth / 2;
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
+})();
+(function () {
+  [].forEach.call(document.querySelectorAll('.fig .sc'), function (e) {
+    if (e.scrollWidth > e.clientWidth) e.scrollLeft = e.scrollWidth;
+  });
+})();
+</script>
+</body>
+</html>
